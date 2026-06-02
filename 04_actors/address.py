@@ -22,7 +22,6 @@ included below.  Note: Please ignore Exercise 3 (message.py) for
 this exercise.  This is addressing a separate concern.
 """
 
-# --- This code is copied directly from actors.py
 from dataclasses import dataclass
 
 
@@ -58,10 +57,13 @@ class Manager:
     def send(self, msg: Message):
         if msg.dest in self._actors:
             self._actors[msg.dest].handle_message(msg)
-
-    def spawn(self, address: str, actor: Actor):
+    
+    # Not work in exercise 04 preventing direct instantiation
+    def spawn(self,address: str, actor):
         self._actors[address] = actor
-        return address
+
+    def spawn(self, address: str, actorcls: type[Actor], *args):
+        actor = actorcls(*args)
 
 
 # An Example actor
@@ -124,7 +126,34 @@ How is that method going to get called?
 """
 
 def spawn_example():
-    pass
+    try:
+        p = Printer("Bob")
+        assert False,"FAIL: Should not be here"
+    except RuntimeError as err:
+        # Good
+        pass
+
+    m = Manager()
+    try:
+        m.spawn('alice',Print('Alice'))
+        assert False,"FAIL,Why am I here?!?"
+    except RuntimeError as err:
+        # Good
+        pass
+
+    address = m.spawn('alice',Print,'Alice')
+    assert isinstance(address, str),"spawn should return an address string"
+    m.send(Message(
+            source="spawn-example",
+            dest=address,
+            content="Alice"))
+
+    
+    
+
+
+
+
 
 #spawn_example()
 
