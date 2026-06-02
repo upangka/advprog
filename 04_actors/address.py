@@ -63,6 +63,7 @@ class Manager:
         self._actors[address] = actor
 
     def spawn(self, address: str, actorcls: type[Actor], *args):
+        # Similar to super() trick
         actor = object.__new__(actorcls)
         actor.__init__(*args)
         self._actors[address] = actor
@@ -155,6 +156,31 @@ spawn_example()
 
 
 
+"""Exercise 06 The Test
+
+Eva has pointed out that being able to write isolated unit tests on
+Actors might be a good thing.  For this, she would like to write
+simple tests that deliver a message and examine the internal state
+of an Actor afterwards.
+
+The following example shows what she wants to do, but it currently
+appears to be impossible.
+
+Given the modifications made in the last two exercises, how
+would you propose that she go about doing this?  Is it even a good
+idea?
+"""
+
+def test_example():
+    p = Printer("Alice")
+    p.handle_message(Message(
+        source="test-example",
+        dest="alice",
+        content="Hi Alice"))
+    assert p.count == 1
+    print("Good Test")
+
+test_example()
 
 
 
