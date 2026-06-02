@@ -1,3 +1,48 @@
+
+
+
+# --- This code is copied directly from actors.py
+
+from dataclasses import dataclass
+
+
+@dataclass
+class Message:
+    source: str
+    dest: str
+    content: str
+
+
+class Actor:
+    """
+    - Actors are objects that receive and respond to messages
+    """
+
+    def __del__(self):
+        print(f"{self} is going away")
+
+    def handle_message(self):
+        raise NotImplementedError('Actors must implement handle_message()')
+
+
+class Manager:
+    """
+    - The Manager provides a runtime enviroment for actors
+    - Everything goes way when the Manager goes away
+    """
+
+    def __init__(self):
+        self._actors = {}
+
+    def send(self, msg: Message):
+        if msg.dest in self._actors:
+            self._actors[msg.dest].handle_message(msg)
+
+    def spawn(self, address: str, actor: Actor):
+        self._actors[address] = actor
+        return address
+
+
 """
 A key part of the actor system is the concept of a message.  A
 message minimally contains information about the sender and
@@ -10,13 +55,6 @@ currently written, the content is encoded as a string.  Any
 interpretation is based on string processing.  The following code
 shows an example:
 """
-
-from actors import (
-    Message,
-    Actor,
-    Manager
-)
-
 
 
 class Player(Actor):
@@ -37,8 +75,6 @@ class Player(Actor):
         else:
             # Unrecognized message
             pass
-
-
 
 
 def example():
