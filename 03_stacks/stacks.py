@@ -54,24 +54,27 @@ class Calculator:
         return self._stack.pop()
 
 
+    def _pop2(self):
+        """Help method for math ops"""
+        if len(self._stack) < 2:
+            raise NotEnoughValues("Not enough values")
+
+        return (self.pop(),self.pop())
+    
     def add(self):
-        right = self.pop()
-        left = self.pop()
+        right,left = self._pop2()
         self.push(left + right)
 
     def sub(self):
-        right = self.pop()
-        left = self.pop()
+        right,left = self._pop2()
         self.push(left - right)
 
     def mul(self):
-        right = self.pop()
-        left = self.pop()
+        right,left = self._pop2()
         self.push(left * right)
 
     def div(self):
-        right = self.pop()
-        left = self.pop()
+        right,left = self._pop2()
         self.push(left // right)
 
 
@@ -97,7 +100,7 @@ def test_calculator(calc):
     calc.push(5)
     calc.div()
     assert calc.pop() == 2.0
-    print("Good calculator!")
+    print("Good Calculator ")
 
 
 calc = Calculator()
@@ -109,8 +112,7 @@ A central idea of object-oriented programming is that it is often focused
 on behavior and mutation.  You create an object.  You execute methods on the
 object.  Those methods tend to modify the state of the object.
 
-However, what happens when a method fails?  Consider the following test
-involving a calculator:
+However, what happens when a method fails?:
 
 Check this out: a tuple is immutable, but if you modify a list inside it, the tuple still updates to include the new items
 
@@ -123,15 +125,21 @@ Traceback (most recent call last):
 TypeError: 'tuple' object does not support item assignment
 >>> t
 (1, 2, [3, 4, 100, 101, 102])
+
+YOUR TASK: Modify the calculator class so that its methods either work entirely or fail entirely. Methods that fail should leave the calculator state unchanged.
 """
+def test_failure(calc):
+    calc.push(23)
 
+    try:
+        calc.add()
+    except Exception as err:
+        pass
+    
+    calc.push(45)
+    calc.add()
+    assert calc.pop() == 68
+    print("Good Calculator with failure")
 
-
-
-
-
-
-
-
-
+test_failure(Calculator())
 
