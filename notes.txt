@@ -1,0 +1,16 @@
+2. Day 2 - Objects
+    - Programming with classes
+    	1. **Code organization tool**. Put related things together in a common namespace
+	    2. Customization via inheritance
+        3. Attach to data (instances, __init__)
+    - Object-oriented programming (uses classes)
+        - World consist of objects (reality)
+        - Objects have state (data)
+        - Objects can be manipulated (via methods)
+          Manipulated => Mutation. (same object, different state)
+        - Composition => Big object made up of smaller objects 
+        - Substitution => Any component can be replaced by a compatible substitute. (Same interface, same purpose).
+
+
+todo
+1 代码mathops
