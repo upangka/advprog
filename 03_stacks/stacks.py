@@ -111,6 +111,18 @@ object.  Those methods tend to modify the state of the object.
 
 However, what happens when a method fails?  Consider the following test
 involving a calculator:
+
+Check this out: a tuple is immutable, but if you modify a list inside it, the tuple still updates to include the new items
+
+>>> t = (1,2,[3,4])
+>>> t[2] += [100,101,102]
+Traceback (most recent call last):
+  File "<python-input-6>", line 1, in <module>
+    t[2] += [100,101,102]
+    ~^^^
+TypeError: 'tuple' object does not support item assignment
+>>> t
+(1, 2, [3, 4, 100, 101, 102])
 """
 
 
