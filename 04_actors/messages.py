@@ -44,7 +44,7 @@ class Player(Actor):
 def example():
     m = Manager()
     m.spawn('bob', Player())
-    m.send(Message('example','bob',"move 5 10"))
+    m.send(Message('example','bob',"move 5 10"))  # <<<< I want more structure on this
     m.send(Message('example','bob',"move -3 5"))
     m.send(Message('example','bob','boost 25'))
     del m
@@ -100,6 +100,7 @@ measurements to justify your choices.
 
 
 
+# One Approach: Define Message variants via inheritance
 
 
 
