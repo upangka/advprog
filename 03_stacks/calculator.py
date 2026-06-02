@@ -68,28 +68,13 @@ class Calculator:
 
     # exercise 08
     def run(self, instructions):
-        for instruction in instructions:
-            cmd = instruction[0]
-            args = instruction[1:]
-
-            if cmd == 'push':
-                self.push(args[0])
-            elif cmd == 'add':
-                self.add()
-            elif cmd == 'sub':
-                self.sub()
-            elif cmd == 'mul':
-                self.mul()
-            elif cmd == 'div':
-                self.div()
-            elif cmd == 'pow':
-                self.pow()
-            elif cmd == 'sqrt':
-                self.sqrt()
-            elif cmd == 'swap':
-                self.swap()
-            else:
-                raise ValueError(f"Unknown instruction: {cmd}")
+        for op in instructions:
+            # Pattern of using getattr to dispatch to a method
+            # is somewhat common (as a trick)
+            method = getattr(self,op[0])  # <<< Python dynamic behavior
+            # Slicing returns empty sequence for
+            # out-of-range indices (no IndexError)
+            method(*op[1:])
 
 
 def test_calculator(calc):
@@ -166,3 +151,26 @@ operation, assuming that the values of "x" and "y" have already been
 entered.  Could you give the `Calculator` class a "run" method that
 executes the instructions one after the other?  That is your task.
 """
+
+hypot = [
+    ('push', 2),
+    ('pow',),
+    ('swap',),
+    ('push', 2),
+    ('pow',),
+    ('add',),
+    ('sqrt',)
+]
+
+
+def test_hypot():
+    calc = Calculator()
+    calc.push(3)
+    calc.push(4)
+
+    calc.run(hypot)
+    assert calc.pop() == 5.0
+    print("Good Script!")
+
+
+test_hypot()
