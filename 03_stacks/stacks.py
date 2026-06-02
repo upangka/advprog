@@ -1,4 +1,4 @@
-"""
+"""Exercise 01
 - Clarity interface
 - Don't expose the internal error
 """
@@ -33,15 +33,16 @@ def test_stack(s):
 test_stack(Stack())
    
 
-"""
+"""Exercise 02
 - How is this related to Stack?
     1. Composition: Calculator has a stack inside as a component
-    2. Inheritant code reuse (using functionality from Stack)
+    2. Inheritance code reuse (using functionality from Stack)
 """
 
 class Calculator:
     
     # Composition
+    # Generally prefer composition (most of the time)
     def __init__(self):
         self._stack = Stack()
 
@@ -103,7 +104,14 @@ calc = Calculator()
 test_calculator(calc)
 
 
+"""Exercise 03 The Mutable
+A central idea of object-oriented programming is that it is often focused
+on behavior and mutation.  You create an object.  You execute methods on the
+object.  Those methods tend to modify the state of the object.
 
+However, what happens when a method fails?  Consider the following test
+involving a calculator:
+"""
 
 
 
