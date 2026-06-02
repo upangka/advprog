@@ -63,8 +63,10 @@ class Manager:
         self._actors[address] = actor
 
     def spawn(self, address: str, actorcls: type[Actor], *args):
-        actor = actorcls(*args)
-
+        actor = object.__new__(actorcls)
+        actor.__init__(*args)
+        self._actors[address] = actor
+        return address
 
 # An Example actor
 
@@ -135,13 +137,13 @@ def spawn_example():
 
     m = Manager()
     try:
-        m.spawn('alice',Print('Alice'))
+        m.spawn('alice',Printer('Alice'))
         assert False,"FAIL,Why am I here?!?"
     except RuntimeError as err:
         # Good
         pass
 
-    address = m.spawn('alice',Print,'Alice')
+    address = m.spawn('alice',Printer,'Alice')
     assert isinstance(address, str),"spawn should return an address string"
     m.send(Message(
             source="spawn-example",
@@ -149,13 +151,7 @@ def spawn_example():
             content="Alice"))
 
     
-    
-
-
-
-
-
-#spawn_example()
+spawn_example()
 
 
 
