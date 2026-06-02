@@ -1,3 +1,7 @@
+"""
+- Clarity interface
+- Don't expose the internal error
+"""
 class Stack:
     def __init__(self):
         self._items = []
@@ -27,4 +31,87 @@ def test_stack(s):
     print("Good Luck")
 
 test_stack(Stack())
+   
+
+"""
+- How is this related to Stack?
+    1. Composition: Calculator has a stack inside as a component
+    2. Inheritant code reuse (using functionality from Stack)
+"""
+
+class Calculator:
     
+    # Composition
+    def __init__(self):
+        self._stack = Stack()
+
+
+    def push(self,value):
+        self._stack.push(value)
+
+    def pop(self):
+        return self._stack.pop()
+
+
+    def add(self):
+        right = self.pop()
+        left = self.pop()
+        self.push(left + right)
+
+    def sub(self):
+        right = self.pop()
+        left = self.pop()
+        self.push(left - right)
+
+    def mul(self):
+        right = self.pop()
+        left = self.pop()
+        self.push(left * right)
+
+    def div(self):
+        right = self.pop()
+        left = self.pop()
+        self.push(left // right)
+
+
+def test_calculator(calc):
+    calc.push(23)
+    calc.push(45)
+    calc.add()
+    assert calc.pop() == 68
+
+    calc.push(2)
+    calc.push(3)
+    calc.push(4)
+    calc.add()
+    calc.mul()
+    assert calc.pop() == 14
+
+    calc.push(10)
+    calc.push(3)
+    calc.sub()
+    assert calc.pop() == 7
+
+    calc.push(10)
+    calc.push(5)
+    calc.div()
+    assert calc.pop() == 2.0
+    print("Good calculator!")
+
+
+calc = Calculator()
+test_calculator(calc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
