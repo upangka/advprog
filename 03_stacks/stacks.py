@@ -28,7 +28,7 @@ def test_stack(s):
     assert s.pop() == 6
     assert s.pop() == 3
     assert len(s) == 0
-    print("Good Luck")
+    print(f"Good {type(s).__name__}")
 
 test_stack(Stack())
    
@@ -202,7 +202,14 @@ class NumericStack(Stack):
         super().push(value)
 
 
-# Approach 1: Direct modification of internals
+test_stack(DebugStack())
+test_stack(NumericStack())
 
+# Approach 1: Direct modification of internals
+# Monkeypatching 运行时动态修改或替换已有的代码
+
+calc = Calculator()
+calc._stack = DebugStack()
+test_calculator(calc)
 
 # Approach 2: Some kind of more cotrolled way of accomplishing the same thing.
