@@ -75,9 +75,8 @@ def printer_example():
                    content="Are you still there World?"))
 
 
-printer_example()
-
-print('-'*20)
+# printer_example()
+# print('-'*20)
 
 # Question: Actors are always referenced by an address which
 # is a string such as 'printer' in this example.  Is there
@@ -109,4 +108,4 @@ def manager_example():
     print("Manager deleted")
 
 
-manager_example()
+# manager_example()
