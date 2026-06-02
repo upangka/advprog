@@ -45,8 +45,10 @@ class Calculator:
     
     # Composition
     # Generally prefer composition (most of the time)
-    def __init__(self):
-        self._stack = Stack()
+    def __init__(self, stack = None):
+        if not stack:
+            stack = Stack()
+        self._stack = stack
 
 
     def push(self,value):
@@ -55,6 +57,12 @@ class Calculator:
     def pop(self):
         return self._stack.pop()
 
+    def _with_stack(self,stack):
+        """Helper to allow the internal stack to be replaced
+        General problem: Dependency Injection. (Calculators depends on Stack)
+        """
+        self._stack = stack
+        return self
 
     def _pop2(self):
         """Help method for math ops
@@ -213,3 +221,12 @@ calc._stack = DebugStack()
 test_calculator(calc)
 
 # Approach 2: Some kind of more cotrolled way of accomplishing the same thing.
+calc = Calculator()._with_stack(NumericStack())
+test_calculator(calc)
+
+# Approach 3: Would it make sense to make this part of the object
+# constructor instead?
+calc = Calculator()
+test_calculator(calc)
+
+
