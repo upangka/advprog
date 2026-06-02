@@ -2,23 +2,27 @@
 - Clarity interface
 - Don't expose the internal error
 """
+
+
 class Stack:
     def __init__(self):
         self._items = []
 
-    def push(self,item):
+    def push(self, item):
         self._items.append(item)
 
     def pop(self):
         if not self._items:
             raise StackEmptyError("Pop from an empty stack")
         return self._items.pop()
-    
+
     def __len__(self):
         return len(self._items)
 
 
-class StackEmptyError(Exception): pass
+class StackEmptyError(Exception):
+    pass
+
 
 def test_stack(s):
     s.push(3)
@@ -30,8 +34,9 @@ def test_stack(s):
     assert len(s) == 0
     print(f"Good {type(s).__name__}")
 
+
 test_stack(Stack())
-   
+
 
 """Exercise 02
 - How is this related to Stack?
@@ -39,25 +44,27 @@ test_stack(Stack())
     2. Inheritance code reuse (using functionality from Stack)
 """
 
-class NotEnoughValues(Exception): pass
+
+class NotEnoughValues(Exception):
+    pass
+
 
 class Calculator:
-    
+
     # Composition
     # Generally prefer composition (most of the time)
-    def __init__(self, stack = None):
+    def __init__(self, stack=None):
         if not stack:
             stack = Stack()
         self._stack = stack
 
-
-    def push(self,value):
+    def push(self, value):
         self._stack.push(value)
 
     def pop(self):
         return self._stack.pop()
 
-    def _with_stack(self,stack):
+    def _with_stack(self, stack):
         """Helper to allow the internal stack to be replaced
         General problem: Dependency Injection. (Calculators depends on Stack)
         """
@@ -66,29 +73,29 @@ class Calculator:
 
     def _pop2(self):
         """Help method for math ops
-        
+
         Returns:
             Pop 2 values from stack or error
         """
         if len(self._stack) < 2:
             raise NotEnoughValues("Not enough values")
 
-        return (self.pop(),self.pop())
-    
+        return (self.pop(), self.pop())
+
     def add(self):
-        right,left = self._pop2()
+        right, left = self._pop2()
         self.push(left + right)
 
     def sub(self):
-        right,left = self._pop2()
+        right, left = self._pop2()
         self.push(left - right)
 
     def mul(self):
-        right,left = self._pop2()
+        right, left = self._pop2()
         self.push(left * right)
 
     def div(self):
-        right,left = self._pop2()
+        right, left = self._pop2()
         self.push(left // right)
 
 
@@ -142,6 +149,8 @@ TypeError: 'tuple' object does not support item assignment
 
 YOUR TASK: Modify the calculator class so that its methods either work entirely or fail entirely. Methods that fail should leave the calculator state unchanged.
 """
+
+
 def test_failure(calc):
     """
     Don't just care about what methods are there.
@@ -153,14 +162,14 @@ def test_failure(calc):
         calc.add()
     except Exception as err:
         print(err)
-    
+
     calc.push(45)
     calc.add()
     assert calc.pop() == 68
     print("Good Calculator with failure")
 
-test_failure(Calculator())
 
+test_failure(Calculator())
 
 
 """Exercise 04 Debugged and the Defended
@@ -189,9 +198,11 @@ To help dedug it,he's written a customized Stack class with some print statement
 """
 
 # An implementation of a Stack with debugging
+
+
 class DebugStack(Stack):
 
-    def push(self,value):
+    def push(self, value):
         print(f"PUSHING: {value}")
         super().push(value)
 
@@ -204,8 +215,8 @@ class DebugStack(Stack):
 # An implementation of a "numeric" stack where items must be numbers
 class NumericStack(Stack):
 
-    def push(self,value):
-        if not isinstance(value,(int,float)):
+    def push(self, value):
+        if not isinstance(value, (int, float)):
             raise TypeError("A number is required")
         super().push(value)
 
@@ -247,27 +258,30 @@ the Stack or Calculator class to enable debugging and type checking
 at the same time.
 """
 
+
 class DebugStackOps:    # There is *NO* inheritance here
 
-    def push(self,value):
+    def push(self, value):
         print(f"PUSHING: {value}")
         super().push(value)
-
 
     def pop(self):
         value = super().pop()
         print(f"POPPED: {value}")
         return value
 
+
 class NumericPush:      # There is *NO* inheritance here
 
-    def push(self,value):
-        if not isinstance(value,(int,float)):
+    def push(self, value):
+        if not isinstance(value, (int, float)):
             raise TypeError("A number is required.")
         super().push(value)
 
 # Typical usage: Adding optional features to objects in frameworks
-class MyCalculator(DebugStackOps,NumericPush,Calculator):
+
+
+class MyCalculator(DebugStackOps, NumericPush, Calculator):
     pass
 
 
@@ -282,16 +296,18 @@ Note: These functions can be used as class decorators, but they don't
 necessarily have to be used exactly in that way.
 """
 
+
 def add_stack_debug(cls):
     orig_push = cls.push
 
-    def push(self,value):
+    def push(self, value):
         print(f"PUSHING: {value}")
-        orig_push(self,value)
+        orig_push(self, value)
 
     cls.push = push
 
     orig_pop = cls.pop
+
     def pop(self):
         value = orig_pop(self)
         print(f"POPPED: {value}")
@@ -305,10 +321,10 @@ def add_stack_debug(cls):
 def add_stack_checking(cls):
     orig_push = cls.push
 
-    def push(self,value):
-        if not isinstance(value,(int,float)):
+    def push(self, value):
+        if not isinstance(value, (int, float)):
             raise TypeError("A number is required")
-        orig_push(self,value)
+        orig_push(self, value)
 
     cls.push = push
     return cls
@@ -319,171 +335,6 @@ def add_stack_checking(cls):
 class MyCalculator(Calculator):
     pass
 
+
 calc = MyCalculator()
 test_calculator(calc)
-
-
-"""Exercise 07 Only a Calculator
-
-Define a Calculator class that has the same functionality as before,
-but which doesn't bother with all of the extra stack class code.
-While we're at it, we might as well give the calculator a few
-extra functions like square roots, powers, swapping stack items
-and so forth.  Your class should pass the tests below.
-"""
-
-
-import math
-
-class Calculator:
-
-    def __init__(self):
-        self._values = []
-
-    def push(self,item):
-        if not isinstance(item,(int,float)):
-            raise TypeError("Only accept number")
-
-        self._values.append(item)
-
-    def pop(self):
-        return self._values.pop()
-
-    def _pop2(self):
-        if len(self._values) < 2:
-            raise NotEnoughValues("Not enough values")
-
-        return (self.pop(),self.pop())
-
-    def add(self):
-        right,left = self._pop2()
-        self.push(right + left)
-
-    def sub(self):
-        right,left = self._pop2()
-        self.push(left - right)
-
-    def mul(self):
-        right,left = self._pop2()
-        self.push(right * left)
-
-    def div(self):
-        right,left = self._pop2()
-        self.push(left / right)
-
-    def pow(self):
-        exp,base = self._pop2()
-        self.push(base ** exp)
-
-    def sqrt(self):
-        if len(self._values) < 1:
-            raise NotEnoughValues()
-        self.push(math.sqrt(self.pop()))
-        
-    def swap(self):
-        right,left = self._pop2()
-        self.push(right)
-        self.push(left)
-
-
-    # exercise 08
-    def run(self,instructions):
-        pass
-
-
-def test_calculator(calc):
-
-    calc.push(23)
-    calc.push(45)
-    calc.add()
-    assert calc.pop() == 68
-
-    calc.push(2)
-    calc.push(3)
-    calc.push(4)
-    calc.add()
-    calc.mul()
-    assert calc.pop() == 14
-
-    calc.push(10)
-    calc.push(3)
-    calc.sub()
-    assert calc.pop() == 7
-
-    calc.push(10)
-    calc.push(5)
-    calc.div()
-    assert calc.pop() == 2.0
-
-    calc.push(10)
-    calc.push(2)
-    calc.pow()
-    assert calc.pop() == 100
-
-    calc.push(100)
-    calc.sqrt()
-    assert calc.pop() == 10.0
-
-    calc.push(2)
-    calc.push(3)
-    calc.swap()
-    assert calc.pop() == 2
-    assert calc.pop() == 3
-
-    # make sure that only numeric values can be pushed
-    try:
-        calc.push("two")
-    except TypeError as err:
-        pass
-    else:
-        assert False, "Bad Calculator!"
-    print("Good Calculator")
-
-test_calculator(Calculator())
-
-
-"""Exercise 08 The Script
-
-Mel wants to know if common calculations can be "scripted" or memorized in
-some way.  For example, a common task in math class is to compute
-the length of the hypotenuse of a triangle.
-
-      |\
-      | \
-      |  \
-      |   \
-  x   |    \   hypot = sqrt(x**2 + y**2)
-      |     \
-      |      \
-      |       \
-      |________\
-          y
-
-Mel has written out a list of "instructions" that carry out this
-operation, assuming that the values of "x" and "y" have already been
-entered.  Could you give the `Calculator` class a "run" method that
-executes the instructions one after the other?  That is your task.
-"""
-
-
-hypot = [
-    ('push',2),
-    ('pow',),
-    ('swap',),
-    ('push',2),
-    ('pow',),
-    ('add',),
-    ('sqrt',)
-]
-
-
-def test_hypot():
-    calc = Calculator()
-    calc.push(3)
-    calc.push(4)
-
-    calc.run(hypot)
-    assert calc.pop() == 5.0
-    print("Good Script!")
-
-
