@@ -34,9 +34,14 @@ class Message:
 
 
 class Actor:
-    """
-    - Actors are objects that receive and respond to messages
-    """
+    
+    # One thought: If I want to make it impossible to create Actors,
+    # I could break  `__new__`
+    
+    def __new__(cls, *args, **kwargs):
+        raise RuntimeError("Can't create instances")
+
+
 
     def __del__(self):
         print(f"{self} is going away")
@@ -46,10 +51,6 @@ class Actor:
 
 
 class Manager:
-    """
-    - The Manager provides a runtime enviroment for actors
-    - Everything goes way when the Manager goes away
-    """
 
     def __init__(self):
         self._actors = {}
@@ -100,3 +101,56 @@ def test_instantiation():
         assert False,"FAIL: Should not be here"
     except RuntimeError as err:
         print('Good Actor!')
+
+test_instantiation()
+
+"""Exercise 05  Enabling the Manager
+
+The manager is a critical part of the actor system.  Not only does
+it deliver messages to actors, it also provides a `spawn()` method
+for creating new actors.  Your task is to modify the Manager class
+so that it, and it alone, can create Actor instances (via spawn).
+References to these instances are held internally, but are never
+otherwise returned or exposed.
+
+The following example should work without errors!
+
+Note: This exercise presents a bit of puzzler in that the previous
+exercise made it an error to directly create instances!  Somehow you are
+going to have to reconcile THAT with this exercise.  Also,
+there is the problem of the Actor `__init__()` method which
+receives arguments and initializes the actor when it's created.
+How is that method going to get called?
+"""
+
+def spawn_example():
+    pass
+
+#spawn_example()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
