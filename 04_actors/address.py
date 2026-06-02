@@ -55,7 +55,7 @@ class Manager:
         self._actors = {}
 
     # for exercise 06
-    # Private method to get an actor instance for testing or debugging   
+    # Create actor via Manager, but provide an escape hatch for getting the instance for testing, debugging
     def _get_actor(self,address):
         return self._actors[address]
 
@@ -177,7 +177,10 @@ idea?
 """
 
 def test_example():
+
     # p = Printer("Alice")
+
+    # One approach: Create via manager, but expose via special method
     m = Manager()
     m.spawn('test',Printer,'Alice')
     p = m._get_actor('test')
