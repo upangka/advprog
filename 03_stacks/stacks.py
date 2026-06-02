@@ -230,3 +230,51 @@ calc = Calculator()
 test_calculator(calc)
 
 
+"""Exercise 05 The Conflict
+
+Both Peter and Arjoon have created alternative Stack implementations.
+However, a debate has now erupted about how to enable the functionality
+of *both* classes at the same time (that is, to have both type-checking
+and debugging turned on all at once).
+
+There seems to be no obviously "great" way to use two stacks at
+once. However, Mary observes that both of these features could be
+implemented as an "add-on" instead.
+
+To illustrate, she's written the following classes below. Your
+task: figure how theses classes are supposed to be used with either
+the Stack or Calculator class to enable debugging and type checking
+at the same time.
+"""
+
+class DebugStackOps:    # There is *NO* inheritance here
+
+    def push(self,value):
+        print(f"PUSHING: {value}")
+        super().push(value)
+
+
+    def pop(self):
+        value = super().pop()
+        print(f"POPPED: {value}")
+        return value
+
+class NumericPush:      # There is *NO* inheritance here
+
+    def push(self,value):
+        if not isinstance(value,(int,float)):
+            raise TypeError("A number is required.")
+        super().push(value)
+
+
+class MyCalculator(DebugStackOps,NumericPush,Calculator):
+    pass
+
+
+
+
+
+
+
+
+
