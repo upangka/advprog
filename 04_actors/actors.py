@@ -1,6 +1,17 @@
 
 from dataclasses import dataclass
 
+
+"""
+- Think of messages being similar to something like email.
+  There is a sender, recipient, and some kind of contents
+
+- Sending a message is a one-way operation. When a message is
+  sent, no response is returned. We don't even know if a message
+  got delivered.
+"""
+
+
 @dataclass
 class Message:
     source: str
@@ -12,6 +23,7 @@ class Actor:
     """
     - Actors are objects that receive and respond to messages
     """
+
     def __del__(self):
         print(f"{self} is going away")
 
@@ -24,16 +36,15 @@ class Manager:
     - The Manager provides a runtime enviroment for actors
     - Everything goes way when the Manager goes away
     """
+
     def __init__(self):
         self._actors = {}
 
-
-    def send(self,msg: Message):
+    def send(self, msg: Message):
         if msg.dest in self._actors:
             self._actors[msg.dest].handle_message(msg)
 
-
-    def spawn(self,address: str,actor: Actor):
+    def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
         return address
 
@@ -45,21 +56,24 @@ is an implementation of an actor that receives messages and simply
 prints them out.
 """
 
+
 class Printer(Actor):
-    def handle_message(self,msg: Message):
+    def handle_message(self, msg: Message):
         print(f'{msg.dest}: {msg.source} said: {msg.content}')
+
 
 def printer_example():
     import time
     m = Manager()
-    m.spawn('printer',Printer())
-    m.send(Message(source = "example",
-                   dest = "printer",
-                   content = "Hello World. From ShenZhen, China"))
+    m.spawn('printer', Printer())
+    m.send(Message(source="example",
+                   dest="printer",
+                   content="Hello World. From ShenZhen, China"))
     time.sleep(5)
-    m.send(Message(source = "example",
-                   dest = "printer",
-                   content = "Are you still there World?"))
+    m.send(Message(source="example",
+                   dest="printer",
+                   content="Are you still there World?"))
+
 
 printer_example()
 
@@ -86,53 +100,13 @@ def manager_example():
     m.spawn('广州', Printer())
     m.spawn('深圳', Printer())
     # send a few messages
-    m.send(Message(source="广州",dest="深圳",content="Hi 深圳"))
-    m.send(Message(source="深圳",dest="广州",content="Hi 广州"))
+    m.send(Message(source="广州", dest="深圳", content="Hi 深圳"))
+    m.send(Message(source="深圳", dest="广州", content="Hi 广州"))
     # delete the manager
     # this should produce two messages about Printer actor going away
     print("About to delete manager")
     del m
     print("Manager deleted")
 
+
 manager_example()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
