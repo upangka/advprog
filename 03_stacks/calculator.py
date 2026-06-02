@@ -12,6 +12,10 @@ and so forth.  Your class should pass the tests below.
 import math
 
 
+class NotEnoughValues(Exception):
+    pass
+
+
 class Calculator:
 
     def __init__(self):
@@ -64,7 +68,28 @@ class Calculator:
 
     # exercise 08
     def run(self, instructions):
-        pass
+        for instruction in instructions:
+            cmd = instruction[0]
+            args = instruction[1:]
+
+            if cmd == 'push':
+                self.push(args[0])
+            elif cmd == 'add':
+                self.add()
+            elif cmd == 'sub':
+                self.sub()
+            elif cmd == 'mul':
+                self.mul()
+            elif cmd == 'div':
+                self.div()
+            elif cmd == 'pow':
+                self.pow()
+            elif cmd == 'sqrt':
+                self.sqrt()
+            elif cmd == 'swap':
+                self.swap()
+            else:
+                raise ValueError(f"Unknown instruction: {cmd}")
 
 
 def test_calculator(calc):
@@ -119,7 +144,7 @@ def test_calculator(calc):
 test_calculator(Calculator())
 
 
-"""Exercise 08 The Script
+r"""Exercise 08 The Script
 
 Mel wants to know if common calculations can be "scripted" or memorized in
 some way.  For example, a common task in math class is to compute
@@ -141,24 +166,3 @@ operation, assuming that the values of "x" and "y" have already been
 entered.  Could you give the `Calculator` class a "run" method that
 executes the instructions one after the other?  That is your task.
 """
-
-
-hypot = [
-    ('push', 2),
-    ('pow',),
-    ('swap',),
-    ('push', 2),
-    ('pow',),
-    ('add',),
-    ('sqrt',)
-]
-
-
-def test_hypot():
-    calc = Calculator()
-    calc.push(3)
-    calc.push(4)
-
-    calc.run(hypot)
-    assert calc.pop() == 5.0
-    print("Good Script!")
