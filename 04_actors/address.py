@@ -54,6 +54,11 @@ class Manager:
     def __init__(self):
         self._actors = {}
 
+    # for exercise 06
+    # Private method to get an actor instance for testing or debugging   
+    def _get_actor(self,address):
+        return self._actors[address]
+
     def send(self, msg: Message):
         if msg.dest in self._actors:
             self._actors[msg.dest].handle_message(msg)
@@ -172,7 +177,10 @@ idea?
 """
 
 def test_example():
-    p = Printer("Alice")
+    # p = Printer("Alice")
+    m = Manager()
+    m.spawn('test',Printer,'Alice')
+    p = m._get_actor('test')
     p.handle_message(Message(
         source="test-example",
         dest="alice",
