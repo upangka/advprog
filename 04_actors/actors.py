@@ -9,6 +9,9 @@ class Message:
 
 
 class Actor:
+    """
+    - Actors are objects that receive and respond to messages
+    """
     def __del__(self):
         print(f"{self} is going away")
 
@@ -17,6 +20,10 @@ class Actor:
 
 
 class Manager:
+    """
+    - The Manager provides a runtime enviroment for actors
+    - Everything goes way when the Manager goes away
+    """
     def __init__(self):
         self._actors = {}
 
