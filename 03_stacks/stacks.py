@@ -39,6 +39,8 @@ test_stack(Stack())
     2. Inheritance code reuse (using functionality from Stack)
 """
 
+class NotEnoughValues(Exception): pass
+
 class Calculator:
     
     # Composition
@@ -55,7 +57,11 @@ class Calculator:
 
 
     def _pop2(self):
-        """Help method for math ops"""
+        """Help method for math ops
+        
+        Returns:
+            Pop 2 values from stack or error
+        """
         if len(self._stack) < 2:
             raise NotEnoughValues("Not enough values")
 
@@ -129,12 +135,16 @@ TypeError: 'tuple' object does not support item assignment
 YOUR TASK: Modify the calculator class so that its methods either work entirely or fail entirely. Methods that fail should leave the calculator state unchanged.
 """
 def test_failure(calc):
+    """
+    Don't just care about what methods are there.
+    Think about the whole object's behavior
+    """
     calc.push(23)
 
     try:
         calc.add()
     except Exception as err:
-        pass
+        print(err)
     
     calc.push(45)
     calc.add()
@@ -143,3 +153,56 @@ def test_failure(calc):
 
 test_failure(Calculator())
 
+
+
+"""Exercise 04 Debugged and the Defended
+
+Peter is working on some code that involves the Calculator class. However, it's broken and he is trying to figure out why. 
+
+To help dedug it,he's written a customized Stack class with some print statements added to it.
+
+  Similarly, Arjoon has decided that the calculator should do a better job
+  of type-checking.  "Why is this allowed?" he asks:
+ 
+      >>> s = Stack()
+      >>> s.push('hello')
+      >>> s.push(4)
+      >>> s.mul()
+      >>> s.pop()
+      'hellohellohellohello'
+ 
+  To address this, he's created a custom Stack with some type-checking
+  added to it.
+ 
+  Although Peter and Arjoon, have created custom Stack classes, they're
+  now both perplexed about how to use them with the Calculator class.
+  How would you modify the Calculator class to allow alternative
+  Stack implementations to be used?
+"""
+
+# An implementation of a Stack with debugging
+class DebugStack(Stack):
+
+    def push(self,value):
+        print(f"PUSHING: {item}")
+        super().push(value)
+
+    def pop(self):
+        item = super().pop()
+        print(f"POPPED: {item}")
+        return item
+
+
+# An implementation of a "numeric" stack where items must be numbers
+class NumericStack(Stack):
+
+    def push(self,value):
+        if not instance(value,(int,float)):
+            raise TypeError("A number is required")
+        super().push(value)
+
+
+# Approach 1: Direct modification of internals
+
+
+# Approach 2: Some kind of more cotrolled way of accomplishing the same thing.
