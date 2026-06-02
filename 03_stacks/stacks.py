@@ -1,19 +1,22 @@
 class Stack:
     def __init__(self):
-        self.items = []
+        self._items = []
 
     def push(self,item):
-        self.items.append(item)
+        self._items.append(item)
 
     def pop(self):
-        return self.items.pop()
+        if not self._items:
+            raise StackEmptyError("Pop from an empty stack")
+        return self._items.pop()
     
     def __len__(self):
-        return len(self.items)
+        return len(self._items)
 
 
-def test_stack():
-    s = Stack()
+class StackEmptyError(Exception): pass
+
+def test_stack(s):
     s.push(3)
     s.push(6)
 
@@ -23,5 +26,5 @@ def test_stack():
     assert len(s) == 0
     print("Good Luck")
 
-test_stack()
+test_stack(Stack())
     
