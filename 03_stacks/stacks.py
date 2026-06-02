@@ -184,7 +184,7 @@ To help dedug it,he's written a customized Stack class with some print statement
 class DebugStack(Stack):
 
     def push(self,value):
-        print(f"PUSHING: {item}")
+        print(f"PUSHING: {value}")
         super().push(value)
 
     def pop(self):
@@ -197,7 +197,7 @@ class DebugStack(Stack):
 class NumericStack(Stack):
 
     def push(self,value):
-        if not instance(value,(int,float)):
+        if not isinstance(value,(int,float)):
             raise TypeError("A number is required")
         super().push(value)
 
