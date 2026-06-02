@@ -63,17 +63,40 @@ class Manager:
         return address
 
 
+# An Example actor
 
-"""Exercise 04
+class Printer(Actor):
+    def __init__(self,name):
+        self.name = name
+        self.count = 0
 
+    def handle_message(self, msg: Message):
+        self.count += 1
+        print(f"{self.name}[{self.count}]: {msg.source} said: {msg.content}")
+
+
+
+"""Exercise 04  Preventing Direct Instantiation
+
+The only allowed way to refer to an Actor is by its address--a string.  One
+way to circumvent this would be to create an Actor instance
+directly in Python, outside of the manager.  Here is an example:
+
+    p = Printer('Bob')      # Direct reference      (NO!)
+    p.name = 'Bobby'        # Access to internals   (NO!)
+
+Your first task is to modify the Actor class to prevent this by
+raising a RuntimeError if an actor is ever created in this way.  If
+you can't even create an actor, then clearly you can't look inside
+or modify it!
+
+The following test verifies the correct behavior.
 """
 
-
-
-
-
-
-
-
-
-
+def test_instantiation():
+    # This should fail
+    try:
+        p = Printer("Bob")
+        assert False,"FAIL: Should not be here"
+    except RuntimeError as err:
+        print('Good Actor!')
