@@ -266,11 +266,65 @@ class NumericPush:      # There is *NO* inheritance here
             raise TypeError("A number is required.")
         super().push(value)
 
-
+# Typical usage: Adding optional features to objects in frameworks
 class MyCalculator(DebugStackOps,NumericPush,Calculator):
     pass
 
 
+"""Exercise 06 The Patch 
+
+Instead of defining debugging and type checking features as classes,
+Ben has proposed an approach involving code patching.  The functions below
+have been written.  Show how you could use these functions to add
+debugging and type-checking to the calculator at the same time.
+
+Note: These functions can be used as class decorators, but they don't
+necessarily have to be used exactly in that way.
+"""
+
+def add_stack_debug(cls):
+    orig_push = cls.push
+
+    def push(self,value):
+        print(f"PUSHING: {value}")
+        orig_push(self,value)
+
+    cls.push = push
+
+    orig_pop = cls.pop
+    def pop(self):
+        value = orig_pop(self)
+        print(f"POPPED: {value}")
+        return value
+
+    cls.pop = pop
+
+    return cls
+
+
+def add_stack_checking(cls):
+    orig_push = cls.push
+
+    def push(self,value):
+        if not isinstance(value,(int,float)):
+            raise TypeError("A number is required")
+        orig_push(self,value)
+
+    cls.push = push
+    return cls
+
+
+
+
+
+"""Exercise 07 Only a Calculator
+
+Define a Calculator class that has the same functionality as before,
+but which doesn't bother with all of the extra stack class code.
+While we're at it, we might as well give the calculator a few
+extra functions like square roots, powers, swapping stack items
+and so forth.  Your class should pass the tests below.
+"""
 
 
 

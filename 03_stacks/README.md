@@ -1,4 +1,4 @@
-# Introduction
+Introduction
 
 In an unusual shift in business strategy, management has decided
 that a full effort will be made to recreate the greatest handheld
@@ -11,3 +11,34 @@ architecture is based on a stack.
 
 Thus, you've been tasked with the problem of making stacks. How
 hard could it be?
+
+# Patching
+
+Just modified the Stack class directly. Metaclass programming
+
+```python
+>>> s = Stack()
+>>> s.push(3)
+>>> s.pop()
+3
+>>> add_stack_debug(Stack)  # Just modify the Stack class, the instance will be influenced
+>>> s.push(3)
+PUSHING: 3
+>>> s.pop()
+POPPED: 3
+3
+```
+
+> One difference: decorator version may run faster (don't use super, which is kind of expensive)
+
+```python
+>>> @add_stack_debug        # Decorator version
+... class MyStack1(Stack):
+...     pass
+...
+>>>
+>>> # Mixin version
+>>> class MyStack2(DebugStackOps,Stack):
+...     pass
+...
+```
