@@ -136,7 +136,7 @@ def send_example():
     del m
     print("You should have seen three 'going away' messages above.")
 
-
+send_example()
 
 """Exercise 08 The self-send
 
