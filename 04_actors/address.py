@@ -55,7 +55,7 @@ class Manager:
         self._actors = {}
 
     # for exercise 06
-    # Create actor via Manager, but provide an escape hatch for getting the instance for testing, debugging
+    # Create actor via Manager, but provide an escape hatch(逃生出口) for getting the instance for testing, debugging
     def _get_actor(self,address):
         return self._actors[address]
 
