@@ -23,6 +23,10 @@ class Message:
     dest: str
     content: str
 
+@dataclass
+class ActorCancel(Message):
+    """Special cancellation message"""
+    pass
 
 class Actor:
 
@@ -42,8 +46,10 @@ class Manager:
         if msg.dest in self._actors:
             try:
                 self._actors[msg.dest].handle_message(msg)
+                if isinstance(msg,ActorCancel):
+                    raise ActorExit()
             except ActorExit as err:
-                pass
+                del self._actors[msg.dest]
 
     def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
@@ -51,7 +57,16 @@ class Manager:
 
     # You're going to implement this (and may change other parts of the code)
     def cancel(self,address: str):
-        pass
+        """
+        We need to have some way to clearly indicate to the 
+        actor that they're being cancelled. Maybe a special
+        message type? None? Also, are actors allowed to 
+        ignore cancel? 
+        """
+        self.send(ActorCancel(
+                source='',
+                dest=address,
+                content=''))
 
 """Exercise 09 
 
@@ -76,11 +91,11 @@ class SelfCancel(Actor):
         self.n = n
 
     def handle_message(self,msg: Message):
-        if self.n == 0:
+        if self.n <= 0:
             # Cancel self. Somehow. Raising a exception is hard to 
             # ignore. Manager could look for it. Also, exceptions
             # work well if you have a deeply nested chain of function
-            # calls
+            # calls -- exception will propagate all the way out
             raise ActorExit()
             # assert False,"TODO"
         else:
@@ -89,7 +104,7 @@ class SelfCancel(Actor):
 
 class OtherCancel(Actor):
     def handle_message(self,msg: Message):
-        if cancelled:
+        if isinstance(msg,ActorCancel):
             print('I was cancelled')
         else:
             print("Received: ",msg)
