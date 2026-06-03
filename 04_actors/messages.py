@@ -77,7 +77,7 @@ class Player(Actor):
             pass
 
 
-def example():
+def old_example():
     m = Manager()
     m.spawn('bob', Player())
     m.send(Message('example','bob',"move 5 10"))  # <<<< I want more structure on this
@@ -86,7 +86,7 @@ def example():
     del m
 
 
-example()
+#old_example()
 """Exercise 03
 
 It has been argued that this particular design for messages is
@@ -137,6 +137,63 @@ measurements to justify your choices.
 
 
 # One Approach: Define Message variants via inheritance
+
+@dataclass
+class Message:
+    source: str
+    dest: str
+
+@dataclass
+class Move(Message):
+    dx: int
+    dy: int
+
+@dataclass
+class Boost(Message):
+    amount: int
+
+
+class Player(Actor):
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.energy = 100
+
+    def handle_message(self,msg: Message):
+        if isinstance(msg,Move):
+            self.x += msg.dx
+            self.y += msg.dy
+            print(f"Move to: ({self.x},{self.y})")
+        elif isinstance(msg,Boost):
+            self.energy += msg.amount
+            print(f"Boosted to: {self.energy}")
+        else:
+            # Unrecognized message
+            pass
+
+def example():
+    m = Manager()
+    m.spawn('bob', Player())
+    m.send(Move(
+        source='example',
+        dest='bob',
+        dx=5,
+        dy=10)) 
+
+    m.send(Move(
+        source='example',
+        dest='bob',
+        dx=-3,
+        dy=5))
+
+    m.send(Boost(
+        source='example',
+        dest='bob',
+        amount=25))
+    del m
+
+example()
+
 
 
 
