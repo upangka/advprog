@@ -46,4 +46,39 @@ class Manager:
         self._actors[address] = actor
         return address
 
+    # You're going to implement this (and may change other parts of the code)
+    def cancel(self,address: str):
+        pass
 
+"""Exercise 09 
+
+Your task is to implement an approach to actor cancellation.  There are
+a few requirements:
+
+- Actors must be able to self-cancel.
+- There must be a way to request cancellation from outside.
+- Actors must be able to detect if they are being cancelled.
+
+In implementing these requirements, you are *NOT* allowed to modify
+the `Actor` class.  You may modify parts of the Manager.
+
+The following example and test illustrates the requirements.
+"""
+
+class SelfCancel(Actor):
+    def __init__(self,n):
+        self.n = n
+
+    def handle_message(self,msg: Message):
+        if self.n == 0:
+            assert False,"TODO"
+        else:
+            self.n -= 1
+            print("Received: ",msg)
+
+class OtherCancel(Actor):
+    def handle_message(self,msg: Message):
+        if cancelled:
+            print('I was cancelled')
+        else:
+            print("Received: ",msg)

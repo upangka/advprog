@@ -194,28 +194,3 @@ def count_to_example():
 # count_to_example()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
