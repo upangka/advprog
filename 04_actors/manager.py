@@ -28,7 +28,8 @@ class Actor:
     def __del__(self):
         print(f"{self} is going away")
 
-    def handle_message(self):
+    # One thought: pass the manager as an extra argument to the method
+    def handle_message(self,manager: 'Manager'):
         raise NotImplementedError('Actors must implement handle_message()')
 
 
@@ -39,7 +40,7 @@ class Manager:
 
     def send(self, msg: Message):
         if msg.dest in self._actors:
-            self._actors[msg.dest].handle_message(msg)
+            self._actors[msg.dest].handle_message(msg,self)
 
     def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
@@ -57,9 +58,13 @@ for an Actor to send messages and spawn new actors.  Then, modify his
 example code so that it works as desired.
 """
 
+# A CONCERN: if you store a reference to the Manager on the Actor itself,
+# You will create a [Manager <-> Actor] reference-cycle and interfere with python garbage
+# collection.
+
 # An Actor that prints
 class Printer(Actor):
-    def handle_message(self,msg: Message):
+    def handle_message(self,msg: Message,manager: 'Manager'):
         print(f"{msg.dest}: {msg.source} said: {msg.content}")
 
 # An actor that counts up/down
@@ -68,14 +73,14 @@ class Counter(Actor):
     def __init__(self):
         self.count = 0
 
-    def handle_message(self,msg: Message):
+    def handle_message(self,msg: Message,manager: 'Manager'):
         if msg.content == 'up':
             self.count += 1
         elif msg.content == 'down':
             self.count -= 1
         elif msg.content == 'display':
             # Stuck. How do I make this work?
-            send(Message(
+            manager.send(Message(
                     dest="printer",
                     source=msg.source,
                     content=str(self.count)
@@ -84,9 +89,9 @@ class Counter(Actor):
 
 # An actor that creates Counter Actor
 class CounterFactory(Actor):
-    def handle_message(self,msg: Message):
+    def handle_message(self,msg: Message,manager: 'Manager'):
         # Create a new Counter. But how???
-        spawn(msg.content,Counter())
+        manager.spawn(msg.content,Counter())
 
 def send_example():
     m = Manager()
@@ -133,7 +138,18 @@ def send_example():
 
 
 
+"""Exercise 08 The self-send
 
+Eva ponders... is an Actor allowed to send a message to itself?  If so,
+when and how is that message processed?  She presents the following
+example and claims that it should work.
+
+Your task: Fix the handle_message() method on this actor to send
+messages in the same way you coded for exercise 7.  Then, see if the
+example works or not.  If not, can you modify the code to make it
+work?  (Note: this is allowed to include changes to the Manager
+class).
+"""
 
 
 
