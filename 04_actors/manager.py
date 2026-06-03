@@ -90,7 +90,7 @@ class Counter(Actor):
 # An actor that creates Counter Actor
 class CounterFactory(Actor):
     def handle_message(self,msg: Message,manager: 'Manager'):
-        # Create a new Counter. But how???
+        # Create a new Counter. 
         manager.spawn(msg.content,Counter())
 
 def send_example():
@@ -152,8 +152,46 @@ class).
 """
 
 
+class CountToN(Actor):
+    def __init__(self,n: int):
+        self.n = n
+
+    def handle_message(self,msg: Message,manager: Manager):
+        if msg.content == 'start':
+            manager.send(Message(
+                    source=msg.source,
+                    dest=msg.dest,
+                    content='0'))
+        else:
+            if int(msg.content) <= self.n:
+                manager.send(Message(
+                        source=msg.source,
+                        dest="printer",
+                        content=msg.content))
+
+                manager.send(Message(
+                        source=msg.source,
+                        dest=msg.dest,
+                        content=str(int(msg.content) + 1)))
+    
 
 
+def count_to_example():
+    m = Manager()
+    m.spawn('printer',Printer())
+    m.spawn('count',CountToN(10000))
+    m.send(Message(
+            source='example',
+            dest="count",
+            content="start"
+        ))
+    print("Should have seen counting up to 10000")
+    print("Manager being deleted")
+    del m
+    print("Should have see two 'going away' messages above")
+
+# cause maximum recursion error
+# count_to_example()
 
 
 
