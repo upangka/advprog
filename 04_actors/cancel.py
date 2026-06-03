@@ -68,7 +68,7 @@ class Manager:
                 dest=address,
                 content=''))
 
-"""Exercise 09 
+"""Exercise 09 Cancel Actor 
 
 Your task is to implement an approach to actor cancellation.  There are
 a few requirements:
@@ -78,7 +78,7 @@ a few requirements:
 - Actors must be able to detect if they are being cancelled.
 
 In implementing these requirements, you are *NOT* allowed to modify
-the `Actor` class.  You may modify parts of the Manager.
+the `Actor` class.  You may modify parts of the Manager.(全权委托给了Manager进行处理)
 
 The following example and test illustrates the requirements.
 """
