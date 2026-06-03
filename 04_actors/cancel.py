@@ -40,7 +40,10 @@ class Manager:
 
     def send(self, msg: Message):
         if msg.dest in self._actors:
-            self._actors[msg.dest].handle_message(msg)
+            try:
+                self._actors[msg.dest].handle_message(msg)
+            except ActorExit as err:
+                pass
 
     def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
@@ -65,13 +68,21 @@ the `Actor` class.  You may modify parts of the Manager.
 The following example and test illustrates the requirements.
 """
 
+class ActorExit(Exception):
+    pass
+
 class SelfCancel(Actor):
     def __init__(self,n):
         self.n = n
 
     def handle_message(self,msg: Message):
         if self.n == 0:
-            assert False,"TODO"
+            # Cancel self. Somehow. Raising a exception is hard to 
+            # ignore. Manager could look for it. Also, exceptions
+            # work well if you have a deeply nested chain of function
+            # calls
+            raise ActorExit()
+            # assert False,"TODO"
         else:
             self.n -= 1
             print("Received: ",msg)
@@ -82,3 +93,50 @@ class OtherCancel(Actor):
             print('I was cancelled')
         else:
             print("Received: ",msg)
+
+
+def test_cancel():
+    m = Manager()
+    m.spawn('self',SelfCancel(2))
+    m.spawn('other',OtherCancel())
+    m.send(Message(
+            source="example",
+            dest="self",
+            content="T-minus 2"))
+
+    m.send(Message(
+            source="example",
+            dest="self",
+            content="T-minus 1"))
+
+    print('self should cancel')
+    m.send(Message(
+            source="example",
+            dest="self",
+            content="T-minus 0"))
+    print('Should have seen a message about SelfCancel "going away"')
+    # This message should not be delivered to anything
+    m.send(Message(
+            source="example",
+            dest="self",
+            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!"))
+
+    print("Testing other-cancel")
+    m.send(Message(
+            source="example",
+            dest="other",
+            content="Hello"))
+
+    print("Other should cancel")
+    m.cancel('other')
+    print("Should haven seen a message about OtherCancel 'going away'")
+    # This message should not be delivered to anything.
+    m.send(Message(
+            source="example",
+            dest="other",
+            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!"))
+    print('Manager going away')
+    del m
+
+test_cancel()
+
