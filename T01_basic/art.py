@@ -1,5 +1,6 @@
 """
 Print the ASCII art 
+Just two nested loops, but I think the output is really interesting
 
 https://github.com/dabeaz-course/python-mastery/blob/main/Exercises/ex1_1.md
 """
