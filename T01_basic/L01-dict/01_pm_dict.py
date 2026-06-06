@@ -21,7 +21,7 @@ def get_creators(record: dict) -> list[str]:
     """
     match record:
         case {'type':'book','api':2,'authors':[*names] }: # dict literal
-            # here names is a lisit
+            # Here the type of name is a list
             assert type(names) is list
             return names
         case {'type':'book','api':1,'author':name }:
@@ -33,7 +33,7 @@ def get_creators(record: dict) -> list[str]:
         case {'type':'book'}:
             raise ValueError(f"Invalid 'book' record, {record=!r}")
         case _:
-            # also raise an error
+            # Also raise an error
             raise ValueError("Invalid record")
 
 
@@ -63,22 +63,3 @@ def test_example():
     print("Good Example")
 
 test_example()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
