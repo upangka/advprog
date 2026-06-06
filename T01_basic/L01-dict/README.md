@@ -1,6 +1,6 @@
  
 
- # Merging Dicts
+ # Merging Dicts with symbol `|`
 
  ```python
  >>> d1 = {'a':1,'b':2}
@@ -22,3 +22,37 @@
 >>> dump(**{'x': 1},y=2,**{'z':3})   #pass dict also need unpacking
 <class 'dict'>, kwargs={'x': 1, 'y': 2, 'z': 3}
 ```
+
+# Pattern Matching 
+
+
+> List Matching
+
+```sh
+>>> match exp:
+...     case ['lambda',[*params],*body]:
+...         print(f"{params=} \n{body=}")
+...     case _:
+...         raise ValueError()
+...
+params=['a', 'b']
+body=[['*', ['a', 'b'], 100]]
+
+# Note:diff between [*body] with *body
+
+>>> match exp:
+...     case ['lambda',[*params],[*body]]:  
+...         print(f"{params=} \n{body=}")
+...     case _:
+...         raise ValueError()
+...
+params=['a', 'b']
+body=['*', ['a', 'b'], 100]
+```
+
+[01_pm_dict.py](./01_pm_dict.py)
+
+
+
+
+
