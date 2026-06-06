@@ -38,7 +38,7 @@ def get_creators(record: dict) -> list[str]:
 
 
 def test_example():
-    # Here add an anthor key 'topic',but still match the case 
+    # Here the key 'topic' dose not appear in any pattern,yet they match 
     r1 = dict(api=1,author='鲨鱼のJavthon',type='book',topic='Love Python')
     assert get_creators(r1) == ['鲨鱼のJavthon']
 
