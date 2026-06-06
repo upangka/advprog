@@ -21,7 +21,6 @@ exit f
 # ExitStack
 
 `ExitStack` solves the problem of **dynamic resource management**.For example:
-就像Java里面的reentrantlock
 - You don't know in advance how many files you need to open, or which resources you need to open.
 - You want to add resources inside a loop, but you want all of them to be released together at the end.
 - You want to split the resource management logic across different functions, but still clean everything up in one unified place.
