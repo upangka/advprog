@@ -1,5 +1,6 @@
 """
-print the ASCII art 
+Print the ASCII art 
+
 https://github.com/dabeaz-course/python-mastery/blob/main/Exercises/ex1_1.md
 """
 import sys
@@ -20,7 +21,7 @@ def draw(row,columns):
 
 if __name__ == "__main__":
     # handle input
-    if len(sys.argv) < 3:
+    if len(sys.argv) != 3:
         raise SystemExit("Usage: uv run art.py 10 20")
     draw(int(sys.argv[1]),int(sys.argv[2]))
 
