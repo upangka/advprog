@@ -1,9 +1,7 @@
- 
+# Merging Dicts with symbol `|`
 
- # Merging Dicts with symbol `|`
-
- ```python
- >>> d1 = {'a':1,'b':2}
+```python
+>>> d1 = {'a':1,'b':2}
 >>> d2 = {'b':3,'c':5}
 >>> d1 | d2
 {'a': 1, 'b': 3, 'c': 5}
@@ -23,8 +21,9 @@
 <class 'dict'>, kwargs={'x': 1, 'y': 2, 'z': 3}
 ```
 
-# Pattern Matching 
+# Pattern Matching
 
+[01_pm_dict.py](./01_pm_dict.py)
 
 > List Matching
 
@@ -41,7 +40,7 @@ body=[['*', ['a', 'b'], 100]]
 # Note:diff between [*body] with *body
 
 >>> match exp:
-...     case ['lambda',[*params],[*body]]:  
+...     case ['lambda',[*params],[*body]]:
 ...         print(f"{params=} \n{body=}")
 ...     case _:
 ...         raise ValueError()
@@ -49,10 +48,3 @@ body=[['*', ['a', 'b'], 100]]
 params=['a', 'b']
 body=['*', ['a', 'b'], 100]
 ```
-
-[01_pm_dict.py](./01_pm_dict.py)
-
-
-
-
-
