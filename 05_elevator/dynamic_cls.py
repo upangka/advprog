@@ -1,15 +1,15 @@
-
-
 class Example:
     def yow(self):
         print(f"yow...{self.x}")
 
+
 class Blah:
-    def __init__(self,x):
+    def __init__(self, x):
         self.x = x
 
     def blah(self):
         print(f"blah...{self.x}")
+
 
 b = Blah(6)
 b.blah()

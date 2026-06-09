@@ -16,6 +16,7 @@ concern.
 
 from dataclasses import dataclass
 
+
 @dataclass
 class Message:
     source: str
@@ -29,8 +30,8 @@ class Actor:
         print(f"{self} is going away")
 
     # One thought: pass the manager as an extra argument to the method
-    def handle_message(self,manager: 'Manager'):
-        raise NotImplementedError('Actors must implement handle_message()')
+    def handle_message(self, manager: "Manager"):
+        raise NotImplementedError("Actors must implement handle_message()")
 
 
 class Manager:
@@ -40,7 +41,7 @@ class Manager:
 
     def send(self, msg: Message):
         if msg.dest in self._actors:
-            self._actors[msg.dest].handle_message(msg,self)
+            self._actors[msg.dest].handle_message(msg, self)
 
     def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
@@ -62,10 +63,12 @@ example code so that it works as desired.
 # You will create a [Manager <-> Actor] reference-cycle and interfere with python garbage
 # collection.
 
+
 # An Actor that prints
 class Printer(Actor):
-    def handle_message(self,msg: Message,manager: 'Manager'):
+    def handle_message(self, msg: Message, manager: "Manager"):
         print(f"{msg.dest}: {msg.source} said: {msg.content}")
+
 
 # An actor that counts up/down
 class Counter(Actor):
@@ -73,68 +76,48 @@ class Counter(Actor):
     def __init__(self):
         self.count = 0
 
-    def handle_message(self,msg: Message,manager: 'Manager'):
-        if msg.content == 'up':
+    def handle_message(self, msg: Message, manager: "Manager"):
+        if msg.content == "up":
             self.count += 1
-        elif msg.content == 'down':
+        elif msg.content == "down":
             self.count -= 1
-        elif msg.content == 'display':
+        elif msg.content == "display":
             # Stuck. How do I make this work?
-            manager.send(Message(
-                    dest="printer",
-                    source=msg.source,
-                    content=str(self.count)
-                ))
+            manager.send(
+                Message(dest="printer", source=msg.source, content=str(self.count))
+            )
 
 
 # An actor that creates Counter Actor
 class CounterFactory(Actor):
-    def handle_message(self,msg: Message,manager: 'Manager'):
-        # Create a new Counter. 
-        manager.spawn(msg.content,Counter())
+    def handle_message(self, msg: Message, manager: "Manager"):
+        # Create a new Counter.
+        manager.spawn(msg.content, Counter())
+
 
 def send_example():
     m = Manager()
 
     # Create two actors
-    m.spawn("printer",Printer())
-    m.spawn("factory",CounterFactory())
+    m.spawn("printer", Printer())
+    m.spawn("factory", CounterFactory())
 
     # Create a counter c1 via the factory
-    m.send(Message(
-            source="example",
-            dest="factory",
-            content="c1"
-        ))
+    m.send(Message(source="example", dest="factory", content="c1"))
 
     # Send the newly created counter c1 some messages
-    m.send(Message(
-            source="example",
-            dest="c1",
-            content="up"
-        ))
-    m.send(Message(
-            source="example",
-            dest="c1",
-            content="up"
-        ))
+    m.send(Message(source="example", dest="c1", content="up"))
+    m.send(Message(source="example", dest="c1", content="up"))
 
-    m.send(Message(
-            source="example",
-            dest="c1",
-            content="down"
-        ))
-    
+    m.send(Message(source="example", dest="c1", content="down"))
+
     print("You should see the printer produce an output of '1' below.")
-    m.send(Message(
-            source="example",
-            dest="c1",
-            content="display"
-        ))
+    m.send(Message(source="example", dest="c1", content="display"))
 
     print("Deleting the manager. All of the actors should go away now")
     del m
     print("You should have seen three 'going away' messages above.")
+
 
 send_example()
 
@@ -153,44 +136,37 @@ class).
 
 
 class CountToN(Actor):
-    def __init__(self,n: int):
+    def __init__(self, n: int):
         self.n = n
 
-    def handle_message(self,msg: Message,manager: Manager):
-        if msg.content == 'start':
-            manager.send(Message(
-                    source=msg.source,
-                    dest=msg.dest,
-                    content='0'))
+    def handle_message(self, msg: Message, manager: Manager):
+        if msg.content == "start":
+            manager.send(Message(source=msg.source, dest=msg.dest, content="0"))
         else:
             if int(msg.content) <= self.n:
-                manager.send(Message(
-                        source=msg.source,
-                        dest="printer",
-                        content=msg.content))
+                manager.send(
+                    Message(source=msg.source, dest="printer", content=msg.content)
+                )
 
-                manager.send(Message(
+                manager.send(
+                    Message(
                         source=msg.source,
                         dest=msg.dest,
-                        content=str(int(msg.content) + 1)))
-    
+                        content=str(int(msg.content) + 1),
+                    )
+                )
 
 
 def count_to_example():
     m = Manager()
-    m.spawn('printer',Printer())
-    m.spawn('count',CountToN(10000))
-    m.send(Message(
-            source='example',
-            dest="count",
-            content="start"
-        ))
+    m.spawn("printer", Printer())
+    m.spawn("count", CountToN(10000))
+    m.send(Message(source="example", dest="count", content="start"))
     print("Should have seen counting up to 10000")
     print("Manager being deleted")
     del m
     print("Should have see two 'going away' messages above")
 
+
 # cause maximum recursion error
 # count_to_example()
-
-

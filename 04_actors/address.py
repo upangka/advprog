@@ -33,20 +33,18 @@ class Message:
 
 
 class Actor:
-    
+
     # One thought: If I want to make it impossible to create Actors,
     # I could break  `__new__`
-    
+
     def __new__(cls, *args, **kwargs):
         raise RuntimeError("Can't create instances")
-
-
 
     def __del__(self):
         print(f"{self} is going away")
 
     def handle_message(self):
-        raise NotImplementedError('Actors must implement handle_message()')
+        raise NotImplementedError("Actors must implement handle_message()")
 
 
 class Manager:
@@ -56,15 +54,15 @@ class Manager:
 
     # for exercise 06
     # Create actor via Manager, but provide an escape hatch(逃生出口) for getting the instance for testing, debugging
-    def _get_actor(self,address):
+    def _get_actor(self, address):
         return self._actors[address]
 
     def send(self, msg: Message):
         if msg.dest in self._actors:
             self._actors[msg.dest].handle_message(msg)
-    
+
     # Not work in exercise 04 preventing direct instantiation
-    def spawn(self,address: str, actor):
+    def spawn(self, address: str, actor):
         self._actors[address] = actor
 
     def spawn(self, address: str, actorcls: type[Actor], *args):
@@ -74,17 +72,18 @@ class Manager:
         self._actors[address] = actor
         return address
 
+
 # An Example actor
 
+
 class Printer(Actor):
-    def __init__(self,name):
+    def __init__(self, name):
         self.name = name
         self.count = 0
 
     def handle_message(self, msg: Message):
         self.count += 1
         print(f"{self.name}[{self.count}]: {msg.source} said: {msg.content}")
-
 
 
 """Exercise 04  Preventing Direct Instantiation
@@ -104,13 +103,15 @@ or modify it!
 The following test verifies the correct behavior.
 """
 
+
 def test_instantiation():
     # This should fail
     try:
         p = Printer("Bob")
-        assert False,"FAIL: Should not be here"
+        assert False, "FAIL: Should not be here"
     except RuntimeError as err:
-        print('Good Actor!')
+        print("Good Actor!")
+
 
 test_instantiation()
 
@@ -133,32 +134,29 @@ receives arguments and initializes the actor when it's created.
 How is that method going to get called?
 """
 
+
 def spawn_example():
     try:
         p = Printer("Bob")
-        assert False,"FAIL: Should not be here"
+        assert False, "FAIL: Should not be here"
     except RuntimeError as err:
         # Good
         pass
 
     m = Manager()
     try:
-        m.spawn('alice',Printer('Alice'))
-        assert False,"FAIL,Why am I here?!?"
+        m.spawn("alice", Printer("Alice"))
+        assert False, "FAIL,Why am I here?!?"
     except RuntimeError as err:
         # Good
         pass
 
-    address = m.spawn('alice',Printer,'Alice')
-    assert isinstance(address, str),"spawn should return an address string"
-    m.send(Message(
-            source="spawn-example",
-            dest=address,
-            content="Alice"))
+    address = m.spawn("alice", Printer, "Alice")
+    assert isinstance(address, str), "spawn should return an address string"
+    m.send(Message(source="spawn-example", dest=address, content="Alice"))
 
-    
+
 spawn_example()
-
 
 
 """Exercise 06 The Test
@@ -176,43 +174,18 @@ would you propose that she go about doing this?  Is it even a good
 idea?
 """
 
+
 def test_example():
 
     # p = Printer("Alice")
 
     # One approach: Create via manager, but expose via special method
     m = Manager()
-    m.spawn('test',Printer,'Alice')
-    p = m._get_actor('test')
-    p.handle_message(Message(
-        source="test-example",
-        dest="alice",
-        content="Hi Alice"))
+    m.spawn("test", Printer, "Alice")
+    p = m._get_actor("test")
+    p.handle_message(Message(source="test-example", dest="alice", content="Hi Alice"))
     assert p.count == 1
     print("Good Test")
 
+
 test_example()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

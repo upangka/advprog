@@ -259,7 +259,7 @@ at the same time.
 """
 
 
-class DebugStackOps:    # There is *NO* inheritance here
+class DebugStackOps:  # There is *NO* inheritance here
 
     def push(self, value):
         print(f"PUSHING: {value}")
@@ -271,12 +271,13 @@ class DebugStackOps:    # There is *NO* inheritance here
         return value
 
 
-class NumericPush:      # There is *NO* inheritance here
+class NumericPush:  # There is *NO* inheritance here
 
     def push(self, value):
         if not isinstance(value, (int, float)):
             raise TypeError("A number is required.")
         super().push(value)
+
 
 # Typical usage: Adding optional features to objects in frameworks
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Throughout this project, we've experimented with different
 implementation issues and made various code modifications to address
@@ -21,7 +22,7 @@ Just to recall, this includes:
    from the outside must also be honored.
 """
 
-from dataclasses import dataclass,field
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -30,6 +31,7 @@ class Message:
     dest: str
     source: str = field(default="")
     content: str = field(default="")
+
 
 @dataclass
 class Move(Message):
@@ -40,18 +42,19 @@ class Move(Message):
 class ActorExit(Exception):
     pass
 
+
 class Actor:
 
-    def __new__(self,*args,**kwargs):
+    def __new__(self, *args, **kwargs):
         raise RuntimeError("Don't allow to instance")
-    
-    def __init__(self,name: Optional[str]=None):
+
+    def __init__(self, name: Optional[str] = None):
         self.name = name
 
     def __del__(self):
         print(f"{type(self).__name__}[{self.name}] going away")
 
-    def handle_message(self,msg: Message,manager: Manager):
+    def handle_message(self, msg: Message, manager: Manager):
         raise NotImplementedError("Require to implement")
 
 
@@ -59,99 +62,94 @@ class Manager:
     def __init__(self):
         self._actors = {}
 
-    def send(self,msg: Message):
+    def send(self, msg: Message):
         if msg.dest in self._actors:
             try:
-                self._actors[msg.dest].handle_message(msg,self)
-                if isinstance(msg,ActorCancel):
+                self._actors[msg.dest].handle_message(msg, self)
+                if isinstance(msg, ActorCancel):
                     raise ActorExit()
             except ActorExit as err:
                 del self._actors[msg.dest]
 
-    def spawn(self,address: str,actorcls: type[Actor],*args):
+    def spawn(self, address: str, actorcls: type[Actor], *args):
         actor = object.__new__(actorcls)
         actor.__init__(*args)
         self._actors[address] = actor
         return address
 
-    def cancel(self,address: str):
+    def cancel(self, address: str):
         del self._actors[address]
 
+
 # ---------------------------------------------------------------
+
 
 class ActorCancel(Message):
     pass
 
+
 class DisplayActor(Message):
     pass
 
+
 class Printer(Actor):
-    def handle_message(self,msg: Message,manager: Manager):
+    def handle_message(self, msg: Message, manager: Manager):
         print(f"[{self.name}] show: {msg.content}")
 
+
 class PlayerFactory(Actor):
-    def handle_message(self,msg: Message,manager: Manager):
-        manager.spawn(msg.content,Player,'Pkmer')
+    def handle_message(self, msg: Message, manager: Manager):
+        manager.spawn(msg.content, Player, "Pkmer")
+
 
 class Player(Actor):
 
-    def __init__(self,name):
+    def __init__(self, name):
         self.x = 0
         self.y = 0
         super().__init__(name)
 
-    def handle_message(self,msg: Message,manager: Manager):
-        if isinstance(msg,Move):
+    def handle_message(self, msg: Message, manager: Manager):
+        if isinstance(msg, Move):
             self.x += msg.dx
             self.y += msg.dy
-        elif isinstance(msg,ActorCancel):
+        elif isinstance(msg, ActorCancel):
             print(f"{self.name} will to exit")
             raise ActorExit()
-        elif isinstance(msg,DisplayActor):
-            manager.send(Message(
-                source=self.name,
-                dest=msg.content,
-                content=f"Player[{self.name}]({self.x},{self.y})"))
+        elif isinstance(msg, DisplayActor):
+            manager.send(
+                Message(
+                    source=self.name,
+                    dest=msg.content,
+                    content=f"Player[{self.name}]({self.x},{self.y})",
+                )
+            )
         else:
             # Ignore other messages
             pass
-        
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     m = Manager()
-    m.spawn('player-factory',PlayerFactory)
-    m.spawn('printer',Printer,"win-printer")
+    m.spawn("player-factory", PlayerFactory)
+    m.spawn("printer", Printer, "win-printer")
 
     # create player actor
-    m.send(Message(
-        source="example",
-        dest="player-factory",
-        content="p1"))
+    m.send(Message(source="example", dest="player-factory", content="p1"))
 
     # test player actor
-    m.send(Move(
-        source="example",
-        dest="p1",
-        dx = 3,
-        dy = 10))
-    
-    m.send(Move(
-        source="example",
-        dest="p1",
-        dx = 2,
-        dy = 15))
+    m.send(Move(source="example", dest="p1", dx=3, dy=10))
 
-    m.send(DisplayActor(dest="p1",content="printer"))
-    m.cancel('printer')
+    m.send(Move(source="example", dest="p1", dx=2, dy=15))
+
+    m.send(DisplayActor(dest="p1", content="printer"))
+    m.cancel("printer")
     # should not see the printer show player information
-    m.send(DisplayActor(dest="p1",content="printer"))
-    
-    # create another new printer
-    m.spawn('new-printer',Printer,'mac-printer')
-    m.send(Message(
-        source="",
-        dest="new-printer",
-        content="Love From ShenZhen, China :)"))
-    del m
+    m.send(DisplayActor(dest="p1", content="printer"))
 
-    
+    # create another new printer
+    m.spawn("new-printer", Printer, "mac-printer")
+    m.send(
+        Message(source="", dest="new-printer", content="Love From ShenZhen, China :)")
+    )
+    del m

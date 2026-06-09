@@ -1,4 +1,3 @@
-
 """Exercise 07 Only a Calculator
 
 Define a Calculator class that has the same functionality as before,
@@ -7,7 +6,6 @@ While we're at it, we might as well give the calculator a few
 extra functions like square roots, powers, swapping stack items
 and so forth.  Your class should pass the tests below.
 """
-
 
 import math
 
@@ -54,7 +52,7 @@ class Calculator:
 
     def pow(self):
         exp, base = self._pop2()
-        self.push(base ** exp)
+        self.push(base**exp)
 
     def sqrt(self):
         if len(self._values) < 1:
@@ -71,7 +69,7 @@ class Calculator:
         for op in instructions:
             # Pattern of using getattr to dispatch to a method
             # is somewhat common (as a trick)
-            method = getattr(self,op[0])  # <<< Python dynamic behavior
+            method = getattr(self, op[0])  # <<< Python dynamic behavior
             # Slicing returns empty sequence for
             # out-of-range indices (no IndexError)
             method(*op[1:])
@@ -152,15 +150,7 @@ entered.  Could you give the `Calculator` class a "run" method that
 executes the instructions one after the other?  That is your task.
 """
 
-hypot = [
-    ('push', 2),
-    ('pow',),
-    ('swap',),
-    ('push', 2),
-    ('pow',),
-    ('add',),
-    ('sqrt',)
-]
+hypot = [("push", 2), ("pow",), ("swap",), ("push", 2), ("pow",), ("add",), ("sqrt",)]
 
 
 def test_hypot():

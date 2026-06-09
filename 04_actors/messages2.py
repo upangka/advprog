@@ -1,6 +1,3 @@
-
-
-
 # --- This code is copied directly from actors.py
 
 from dataclasses import dataclass
@@ -22,7 +19,7 @@ class Actor:
         print(f"{self} is going away")
 
     def handle_message(self):
-        raise NotImplementedError('Actors must implement handle_message()')
+        raise NotImplementedError("Actors must implement handle_message()")
 
 
 class Manager:
@@ -63,13 +60,13 @@ class Player(Actor):
         self.y = 0
         self.energy = 100
 
-    def handle_message(self,msg: Message):
+    def handle_message(self, msg: Message):
         parts = msg.content.split()
-        if parts[0] == 'move':
+        if parts[0] == "move":
             self.x += int(parts[1])
             self.y += int(parts[2])
             print(f"Move to: ({self.x},{self.y})")
-        elif parts[0] == 'boost':
+        elif parts[0] == "boost":
             self.energy += int(parts[1])
             print(f"Boosted to: {self.energy}")
         else:
@@ -79,14 +76,14 @@ class Player(Actor):
 
 def old_example():
     m = Manager()
-    m.spawn('bob', Player())
-    m.send(Message('example','bob',"move 5 10"))  # <<<< I want more structure on this
-    m.send(Message('example','bob',"move -3 5"))
-    m.send(Message('example','bob','boost 25'))
+    m.spawn("bob", Player())
+    m.send(Message("example", "bob", "move 5 10"))  # <<<< I want more structure on this
+    m.send(Message("example", "bob", "move -3 5"))
+    m.send(Message("example", "bob", "boost 25"))
     del m
 
 
-#old_example()
+# old_example()
 """Exercise 03
 
 It has been argued that this particular design for messages is
@@ -135,11 +132,12 @@ measurements to justify your choices.
 """
 
 
-
 # Alternative approach: Message variants encoded off of content,not message itself.
+
 
 class Content:
     pass
+
 
 @dataclass
 class Message:
@@ -147,16 +145,16 @@ class Message:
     dest: str
     content: Content
 
+
 @dataclass
 class Move(Content):
     dx: int
     dy: int
 
+
 @dataclass
 class Boost(Content):
     amount: int
-
-
 
 
 class Player(Actor):
@@ -165,12 +163,12 @@ class Player(Actor):
         self.y = 0
         self.energy = 100
 
-    def handle_message(self,msg: Message):
-        if isinstance(msg.content,Move):
+    def handle_message(self, msg: Message):
+        if isinstance(msg.content, Move):
             self.x += msg.content.dx
             self.y += msg.content.dy
             print(f"Move to: ({self.x},{self.y})")
-        elif isinstance(msg.content,Boost):
+        elif isinstance(msg.content, Boost):
             self.energy += msg.content.amount
             print(f"Boosted to: {self.energy}")
         else:
@@ -178,52 +176,15 @@ class Player(Actor):
             pass
 
 
-
 def example():
     m = Manager()
-    m.spawn('bob', Player())
-    m.send(Message(
-        source='example',
-        dest='bob',
-        content=Move(
-            dx=5,
-            dy=10)
-        ))
+    m.spawn("bob", Player())
+    m.send(Message(source="example", dest="bob", content=Move(dx=5, dy=10)))
 
-    m.send(Message(
-        source='example',
-        dest='bob',
-        content=Move(dx=-3,dy=5)
-        ))
+    m.send(Message(source="example", dest="bob", content=Move(dx=-3, dy=5)))
 
-    m.send(Message(
-        source='example',
-        dest='bob',
-        content=Boost(amount=25)
-        ))
+    m.send(Message(source="example", dest="bob", content=Boost(amount=25)))
     del m
 
+
 example()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

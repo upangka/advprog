@@ -1,5 +1,3 @@
-
-
 """
 - Think of messages being similar to something like email.
   There is a sender, recipient, and some kind of contents
@@ -28,7 +26,7 @@ class Actor:
         print(f"{self} is going away")
 
     def handle_message(self):
-        raise NotImplementedError('Actors must implement handle_message()')
+        raise NotImplementedError("Actors must implement handle_message()")
 
 
 class Manager:
@@ -59,24 +57,29 @@ prints them out.
 
 class Printer(Actor):
     def handle_message(self, msg: Message):
-        print(f'{msg.dest}: {msg.source} said: {msg.content}')
+        print(f"{msg.dest}: {msg.source} said: {msg.content}")
 
 
 def printer_example():
     import time
+
     m = Manager()
-    m.spawn('printer', Printer())
-    m.send(Message(source="example",
-                   dest="printer",
-                   content="Hello World. From ShenZhen, China"))
+    m.spawn("printer", Printer())
+    m.send(
+        Message(
+            source="example",
+            dest="printer",
+            content="Hello World. From ShenZhen, China",
+        )
+    )
     time.sleep(5)
-    m.send(Message(source="example",
-                   dest="printer",
-                   content="Are you still there World?"))
+    m.send(
+        Message(source="example", dest="printer", content="Are you still there World?")
+    )
 
 
 printer_example()
-print('-'*20)
+print("-" * 20)
 
 # Question: Actors are always referenced by an address which
 # is a string such as 'printer' in this example.  Is there
@@ -96,8 +99,8 @@ trying this example:
 def manager_example():
     m = Manager()
     # create a few actors
-    m.spawn('广州', Printer())
-    m.spawn('深圳', Printer())
+    m.spawn("广州", Printer())
+    m.spawn("深圳", Printer())
     # send a few messages
     m.send(Message(source="广州", dest="深圳", content="Hi 深圳"))
     m.send(Message(source="深圳", dest="广州", content="Hi 广州"))

@@ -1,6 +1,3 @@
-
-
-
 # --- This code is copied directly from actors.py
 
 from dataclasses import dataclass
@@ -21,14 +18,13 @@ class Actor:
     def __del__(self):
         print(f"{self} is going away")
 
-    def handle_message(self,msg: Message):
+    def handle_message(self, msg: Message):
         # getattr hack trick
         methodname = f"handle_{type(msg).__name__}"
-        print("Calling...",methodname)
-        method = getattr(self,methodname,None)
+        print("Calling...", methodname)
+        method = getattr(self, methodname, None)
         if method:
             method(msg)
-
 
 
 class Manager:
@@ -111,18 +107,20 @@ measurements to justify your choices.
 """
 
 
-
 # One Approach: Define Message variants via inheritance
+
 
 @dataclass
 class Message:
     source: str
     dest: str
 
+
 @dataclass
 class Move(Message):
     dx: int
     dy: int
+
 
 @dataclass
 class Boost(Message):
@@ -134,68 +132,26 @@ class Player(Actor):
         self.x = 0
         self.y = 0
         self.energy = 100
-    
-    def handle_Move(self,msg: Message):
+
+    def handle_Move(self, msg: Message):
         self.x += msg.dx
         self.y += msg.dy
         print(f"Move to: ({self.x},{self.y})")
- 
-    def handle_Boost(self,msg: Message):
+
+    def handle_Boost(self, msg: Message):
         self.energy += msg.amount
         print(f"Boosted to: {self.energy}")
- 
+
 
 def example():
     m = Manager()
-    m.spawn('bob', Player())
-    m.send(Move(
-        source='example',
-        dest='bob',
-        dx=5,
-        dy=10)) 
+    m.spawn("bob", Player())
+    m.send(Move(source="example", dest="bob", dx=5, dy=10))
 
-    m.send(Move(
-        source='example',
-        dest='bob',
-        dx=-3,
-        dy=5))
+    m.send(Move(source="example", dest="bob", dx=-3, dy=5))
 
-    m.send(Boost(
-        source='example',
-        dest='bob',
-        amount=25))
+    m.send(Boost(source="example", dest="bob", amount=25))
     del m
 
+
 example()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

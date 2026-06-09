@@ -23,10 +23,13 @@ class Message:
     dest: str
     content: str
 
+
 @dataclass
 class ActorCancel(Message):
     """Special cancellation message"""
+
     pass
+
 
 class Actor:
 
@@ -34,7 +37,7 @@ class Actor:
         print(f"{self} is going away")
 
     def handle_message(self):
-        raise NotImplementedError('Actors must implement handle_message()')
+        raise NotImplementedError("Actors must implement handle_message()")
 
 
 class Manager:
@@ -46,7 +49,7 @@ class Manager:
         if msg.dest in self._actors:
             try:
                 self._actors[msg.dest].handle_message(msg)
-                if isinstance(msg,ActorCancel):
+                if isinstance(msg, ActorCancel):
                     raise ActorExit()
             except ActorExit as err:
                 del self._actors[msg.dest]
@@ -56,17 +59,15 @@ class Manager:
         return address
 
     # You're going to implement this (and may change other parts of the code)
-    def cancel(self,address: str):
+    def cancel(self, address: str):
         """
-        We need to have some way to clearly indicate to the 
+        We need to have some way to clearly indicate to the
         actor that they're being cancelled. Maybe a special
-        message type? None? Also, are actors allowed to 
-        ignore cancel? 
+        message type? None? Also, are actors allowed to
+        ignore cancel?
         """
-        self.send(ActorCancel(
-                source='',
-                dest=address,
-                content=''))
+        self.send(ActorCancel(source="", dest=address, content=""))
+
 
 """Exercise 09 Cancel Actor 
 
@@ -83,16 +84,18 @@ the `Actor` class.  You may modify parts of the Manager.(全权委托给了Manag
 The following example and test illustrates the requirements.
 """
 
+
 class ActorExit(Exception):
     pass
 
+
 class SelfCancel(Actor):
-    def __init__(self,n):
+    def __init__(self, n):
         self.n = n
 
-    def handle_message(self,msg: Message):
+    def handle_message(self, msg: Message):
         if self.n <= 0:
-            # Cancel self. Somehow. Raising a exception is hard to 
+            # Cancel self. Somehow. Raising a exception is hard to
             # ignore. Manager could look for it. Also, exceptions
             # work well if you have a deeply nested chain of function
             # calls -- exception will propagate all the way out
@@ -100,58 +103,53 @@ class SelfCancel(Actor):
             # assert False,"TODO"
         else:
             self.n -= 1
-            print("Received: ",msg)
+            print("Received: ", msg)
+
 
 class OtherCancel(Actor):
-    def handle_message(self,msg: Message):
-        if isinstance(msg,ActorCancel):
-            print('I was cancelled')
+    def handle_message(self, msg: Message):
+        if isinstance(msg, ActorCancel):
+            print("I was cancelled")
         else:
-            print("Received: ",msg)
+            print("Received: ", msg)
 
 
 def test_cancel():
     m = Manager()
-    m.spawn('self',SelfCancel(2))
-    m.spawn('other',OtherCancel())
-    m.send(Message(
-            source="example",
-            dest="self",
-            content="T-minus 2"))
+    m.spawn("self", SelfCancel(2))
+    m.spawn("other", OtherCancel())
+    m.send(Message(source="example", dest="self", content="T-minus 2"))
 
-    m.send(Message(
-            source="example",
-            dest="self",
-            content="T-minus 1"))
+    m.send(Message(source="example", dest="self", content="T-minus 1"))
 
-    print('self should cancel')
-    m.send(Message(
-            source="example",
-            dest="self",
-            content="T-minus 0"))
+    print("self should cancel")
+    m.send(Message(source="example", dest="self", content="T-minus 0"))
     print('Should have seen a message about SelfCancel "going away"')
     # This message should not be delivered to anything
-    m.send(Message(
+    m.send(
+        Message(
             source="example",
             dest="self",
-            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!"))
+            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!",
+        )
+    )
 
     print("Testing other-cancel")
-    m.send(Message(
-            source="example",
-            dest="other",
-            content="Hello"))
+    m.send(Message(source="example", dest="other", content="Hello"))
 
     print("Other should cancel")
-    m.cancel('other')
+    m.cancel("other")
     print("Should haven seen a message about OtherCancel 'going away'")
     # This message should not be delivered to anything.
-    m.send(Message(
+    m.send(
+        Message(
             source="example",
             dest="other",
-            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!"))
-    print('Manager going away')
+            content="WHY AM I STILL ALIVE??? THIS IS A BUG!!!",
+        )
+    )
+    print("Manager going away")
     del m
 
-test_cancel()
 
+test_cancel()
