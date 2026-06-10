@@ -1,7 +1,7 @@
 from collections.abc import Iterable
-# type FromTo = tuple[str, str]
 from typing import TypeAlias
 
+# type FromTo = tuple[str, str]
 FromTo: TypeAlias = tuple[str, str]
 
 
