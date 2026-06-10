@@ -4,7 +4,7 @@ from collections.abc import Callable
 # from typing import Callable
 
 
-def update(probe: Callable[[], float], display: Callable[[float], None]):
+def update(probe: Callable[[], float], display: Callable[..., None]):
     temperature = probe()
     # ...something else ...
     display(temperature)
@@ -26,6 +26,6 @@ def display_ok(temperature: complex):
 
 
 # cotravariant 逆变 一个float -> 传递给接受的int，不能处理
-# update(probe_ok, display_error)  # type error
+update(probe_ok, display_error)  # type error
 # cotravariant 逆变 float consistent with 兼容complex,complex能够接受float
 update(probe_ok, display_ok)

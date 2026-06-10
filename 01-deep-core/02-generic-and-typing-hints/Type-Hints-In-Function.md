@@ -185,11 +185,25 @@ def top(series: Iterable[LT], n: int) -> list[LT]:
 
 # Callable
 
+```python
+# python 3.9 已经废弃
+from typing import Callable
+# 现代用法
+from collections.abc import Callable
+# 一般的写法
+Callable[[Arg1, Arg2], ReturnType]
+
+# 省略全部参数
+Callable[..., ReturnType]
+```
+
 Callable 对返回类型是**协变(Covariance)**的——返回类型的子类型关系会正向传递到 Callable 自身。但注意：Callable 对参数类型是逆变(contravariant)的——参数类型的子类型关系会反向传递。
 
 - contravariant /ˌkɑːntrəˈveriənt/ 逆变的。指子类型关系反转——如果 A 是 B 的子类型，那么 Container[B] 反而是 Container[A] 的子类型。
 
 - 协变 (Covariance /koʊˈveriəns/) 描述的是：如果一个泛型容器在某个类型参数上是协变的，那么类型参数的子类型关系会保持同向传递到泛型容器自身
+
+[07_callable_covariant.py](./code/07_callable_covariant.py)
 
 ```python
 from collections.abc import Callable
