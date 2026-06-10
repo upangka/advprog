@@ -88,6 +88,7 @@ T = TypeVar('T')
 ```
 
 [04_param_generic.py](./code/04_param_generic.py)
+
 ![](./attachments/04_type_var.png)
 
 使得参数的类型能够被映射到返回值类型上
