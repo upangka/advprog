@@ -145,6 +145,44 @@ b = mode([[1, 2], [3, 4], [1, 2]])
 不满足上界的条件
 ![](./attachments/06_bound_error.png)
 
+# Protocol-Static Duck Typing
+
+**Protocol: Structural subtyping (Static Duck Typing)**
+
+`A protocol type` is defined by specifying one or more methods, and the type checker verifies that those methods are implemented where that `protocol type is required`.
+
+[06_Protocol_duck_typing.py](./code/06_Protocol_duck_typing.py)
+
+```python
+from collections.abc import Iterable
+from typing import Protocol, TypeVar
+
+class SupportLessThan(Protocol):
+    # / 前面的参数只能按位置传入
+    def __lt__(self, other, /) -> bool: ...
+
+LT = TypeVar("LT", bound=SupportLessThan)
+
+def top(series: Iterable[LT], n: int) -> list[LT]:
+    ordered = sorted(series, reverse=True)
+    return ordered[:n]
+```
+
+> A type `T` is **consistent-with** a protocol `P` if T implements all the methods defined in `P`, with matching type signatures.
+
+只要满足实现了`__lt__`方法，就可以作为参数传入
+
+```sh
+>>> top([4,1,5],2)
+[5, 4]
+>>> fruits = "mango pear apple kiwi banana".split()
+>>> fruits_with_len = [(len(fruit), fruit) for fruit in fruits]
+>>> fruits_with_len
+[(5, 'mango'), (4, 'pear'), (5, 'apple'), (4, 'kiwi'), (6, 'banana')]
+>>> top(fruits_with_len,2)
+[(6, 'banana'), (5, 'mango')]
+```
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints in Functions》
