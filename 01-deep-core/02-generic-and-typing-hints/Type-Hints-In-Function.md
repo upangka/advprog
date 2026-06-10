@@ -38,3 +38,7 @@ False
 | `frozenset`                | `typing.FrozenSet`                |
 | `collections.deque`        | `typing.Deque`                    |
 | `collections.abc.Sequence` | `typing.Sequence`                 |
+
+# 参考
+
+- 《Fluent Python: Chapter 8: Type Hints in Functions》
