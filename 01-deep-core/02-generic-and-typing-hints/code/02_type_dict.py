@@ -1,5 +1,3 @@
-
-
 """
 给定一个类型别名，表示一个字典，键为字符串，值为字符串或整数。
 缺点：无法限制字典必须包含特定的键，例如"name"和"age"
@@ -41,6 +39,8 @@ total 控制字典是否必须包含所有键
 
 
 from typing import TypedDict, Required
+
+
 class Person(TypedDict, total=False):
     name: Required[str]
     age: Required[int]
