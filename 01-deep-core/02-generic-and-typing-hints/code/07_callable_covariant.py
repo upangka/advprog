@@ -1,4 +1,5 @@
 from collections.abc import Callable
+
 # 从 Python 3.9 开始，typing.Callable 被标记为已弃用
 # from typing import Callable
 
@@ -7,6 +8,7 @@ def update(probe: Callable[[], float], display: Callable[[float], None]):
     temperature = probe()
     # ...something else ...
     display(temperature)
+
 
 # covariant 协变 int 可以传递给 float
 
