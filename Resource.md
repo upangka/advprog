@@ -1,6 +1,7 @@
 # Tutorial Repo
 
 - [Fluent Python](https://github.com/fluentpython/example-code-2e)
+- [jackfrued/Python-100-Days](https://github.com/jackfrued/Python-100-Days)
 
 # Videos
 
