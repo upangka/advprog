@@ -8,9 +8,9 @@ class SupportLessThan(Protocol):
 
 
 LT = TypeVar("LT", bound=SupportLessThan)
-
-
 # def top(series: Iterable[SupportLessThan], n: int) -> list[SupportLessThan]:
+
+
 def top(series: Iterable[LT], n: int) -> list[LT]:
     ordered = sorted(series, reverse=True)
     return ordered[:n]

@@ -183,6 +183,44 @@ def top(series: Iterable[LT], n: int) -> list[LT]:
 [(6, 'banana'), (5, 'mango')]
 ```
 
+# Callable
+
+Callable 对返回类型是**协变(Covariance)**的——返回类型的子类型关系会正向传递到 Callable 自身。但注意：Callable 对参数类型是逆变(contravariant)的——参数类型的子类型关系会反向传递。
+
+- contravariant /ˌkɑːntrəˈveriənt/ 逆变的。指子类型关系反转——如果 A 是 B 的子类型，那么 Container[B] 反而是 Container[A] 的子类型。
+
+- 协变 (Covariance /koʊˈveriəns/) 描述的是：如果一个泛型容器在某个类型参数上是协变的，那么类型参数的子类型关系会保持同向传递到泛型容器自身
+
+```python
+from collections.abc import Callable
+# 从 Python 3.9 开始，typing.Callable 被标记为已弃用
+# from typing import Callable
+
+def update(probe: Callable[[], float], display: Callable[[float], None]):
+    temperature = probe()
+    # ...something else ...
+    display(temperature)
+
+# covariant 协变 int 可以传递给 float
+def probe_ok() -> int:
+    return 42
+
+def display_error(temperature: int):
+    print(hex(temperature))
+
+
+def display_ok(temperature: complex):
+    print(temperature)
+
+
+# cotravariant 逆变 一个float -> 传递给接受的int，不能处理
+update(probe_ok, display_error)  # type error
+# cotravariant 逆变 float consistent with 兼容complex,complex能够接受float
+update(probe_ok, display_ok)
+```
+
+![](./attachments/07_contravariant.png)
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints in Functions》
