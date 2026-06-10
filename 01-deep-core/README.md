@@ -4,3 +4,5 @@
 
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/docs/TypeDict.md)
+  - [Tuple Type](./04-tuple/tuple.md)
+  - [Type Hints In Function](./02-generic-and-typing-hints/Type-Hints-In-Function.md)
