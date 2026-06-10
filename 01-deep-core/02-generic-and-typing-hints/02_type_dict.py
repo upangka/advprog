@@ -27,10 +27,23 @@
 total 控制字典是否必须包含所有键
 """
 
-from typing import TypedDict
-class Person(TypedDict, total=True):
-    name: str
-    age: int
+# from typing import TypedDict
+# class Person(TypedDict, total=False):
+#     name: str
+#     age: int
+#     city: str
+
+
+# bob: Person = {"name": "Bob", "age": 25}
+
+"""
+"""
+
+
+from typing import TypedDict, Required
+class Person(TypedDict, total=False):
+    name: Required[str]
+    age: Required[int]
     city: str
 
 
