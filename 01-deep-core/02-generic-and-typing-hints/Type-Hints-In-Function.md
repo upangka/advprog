@@ -39,6 +39,42 @@ False
 | `collections.deque`        | `typing.Deque`                    |
 | `collections.abc.Sequence` | `typing.Sequence`                 |
 
+# TypeAlias
+
+[Python Doc: aliases](https://typing.python.org/en/latest/spec/aliases.html)类型别名
+
+[03_typealias.py](./code/03_typealias.py)
+
+```python
+FromTo = tuple[str,str]
+
+# 显示声明TypeAlias in Python 3.10
+from typing import TypeAlias
+FromTo: TypeAlias = tuple[str,str]
+
+# 使用type in python 3.12
+type FromTo = tuple[str,str]
+```
+
+```python
+from collections.abc import Iterable
+from typing import TypeAlias
+
+# type FromTo = tuple[str, str]
+FromTo: TypeAlias = tuple[str, str]
+
+
+def zip_replace(text: str, changes: Iterable[FromTo]) -> str:
+    for from_, to in changes:
+        text = text.replace(from_, to)
+    return text
+
+
+l33t = [("a", "4"), ("e", "3"), ("l", "1"), ("o", "0"), ("s", "5"), ("t", "7")]
+print(zip_replace("hello world", l33t))
+```
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints in Functions》
+- [Python Doc: aliases](https://typing.python.org/en/latest/spec/aliases.html)

@@ -38,7 +38,7 @@ total 控制字典是否必须包含所有键
 """
 
 
-from typing import TypedDict, Required
+from typing import Required, TypedDict
 
 
 class Person(TypedDict, total=False):

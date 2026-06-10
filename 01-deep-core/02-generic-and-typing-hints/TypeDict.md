@@ -1,4 +1,4 @@
-# 类型提示
+# `dict` Geneic Mapping
 
 ```python
 from typing import TypeAlias
