@@ -1,5 +1,6 @@
+from typing import Optional
 from collections.abc import Sequence
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
 
 def display1(lat_lon: tuple[float, float]) -> str:
@@ -40,9 +41,7 @@ Tuple as immutable sequence
 fruits = "苹果 香蕉 葡萄 橘子 樱桃 柠檬 石榴 椰子 榴莲 甘蔗 山楂 蓝莓".split()
 
 
-def columnize(
-    sequence: Sequence[str], columns: Optional[int] = None
-) -> list[tuple[str, ...]]:
+def columnize(sequence: Sequence[str], columns: Optional[int] = None) -> list[tuple[str, ...]]:
     if columns is None or columns < 1:
         columns = round(len(sequence) ** 0.5)
     rows, reminder = divmod(len(sequence), columns)
