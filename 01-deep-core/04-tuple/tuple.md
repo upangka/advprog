@@ -86,6 +86,20 @@ def columnize(sequence: Sequence[str], columns: Optional[int] = None) -> list[tu
 橘子        椰子        蓝莓
 ```
 
+# collections.namedtuple
+
+这是旧的用法，现在使用`from typing import NamedTuple`,但是还是简单介绍一下。
+
+```python
+>>> import collections
+>>> Card = collections.namedtuple("Card","rank suit")
+>>> Card = collections.namedtuple("Card",["rank","suit"]) # The same
+>>> Card('Q','diamonds')
+Card(rank='Q', suit='diamonds')
+>>> Card('Q','diamonds')._asdict() # to dict
+{'rank': 'Q', 'suit': 'diamonds'}
+```
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints In Functions》
