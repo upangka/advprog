@@ -1,0 +1,4 @@
+- Static typing
+- Static Duck typing
+- Duck typing
+- Goose typing
