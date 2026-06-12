@@ -1,5 +1,5 @@
 # Trick
-
+ 
 ## Fake Immutable
 
 ```python
