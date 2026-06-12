@@ -1,4 +1,6 @@
-对象协议(object protocol)说白了就是一套方法清单：你想让对象扮演某个角色，它就得提供这些方法
+abc名义子类型 (Nominal Subtyping) vs protocol结构化子类型 (Structural Subtyping)
+
+
 
 # abc模块
 
@@ -6,6 +8,43 @@
 
 1. 这个模块`collections.abc`里存放的是 Python 官方已经定义好的、各种容器类型的抽象基类，比如 Sequence、MutableMapping、Iterable、Set、Callable 等。这些 ABC 都使用 abc 模块的机制来构建，但它们本身是一套"类型分类标签"。
 2. 这个模块`abc`用来创建抽象基类的底层工具模块。它提供了 `ABC` 基类和 `@abstractmethod` 装饰器
+
+
+> Pyright 对 collections.abc的类有硬编码规则：按名义子类型（nominal）检查，不走结构化匹配（structural）
+
+```python
+from collections.abc import Sequence
+from typing import TypeVar, overload
+
+class Vowels(Sequence[str]):
+    @overload
+    def __getitem__(self, index: int, /) -> str: ...
+    @overload
+    def __getitem__(self, index: slice, /) -> Sequence[str]: ...
+    def __getitem__(self, index, /) -> Sequence[str] | str:
+        return "aeiou"[index]
+
+    def __len__(self):
+        return 5
+
+# 名义结构化要求必须是继承关系
+S = TypeVar("S")
+def check_sequence1(s: Sequence[S]):
+    # 迭代器支持 __iter__
+    for item in s:
+        print(item, end="", flush=True)
+    print()
+    # __contains__ 支持
+    print("a" in s)
+    import random
+
+    return s[0] if random.random() > 0.3 else s[0:2]
+
+
+a = check_sequence1(Vowels())  # a: str | Sequence[str]
+```
+
+![alt text](./attachments/static_abc_typing.png)
 
 ## virtual subclasss
 
@@ -18,6 +57,17 @@
 强迫所有用户在使用 TombolaList 时写一个包装类，手动继承 Tombola 并转发所有方法——繁琐。
 
 直接告诉 Python："虽然 TombolaList 没有继承 Tombola，但它行为上完全满足要求，请把它当成 Tombola 的子类来对待。"
+
+
+# Protocol
+
+对象协议(object protocol)说白了就是一套方法清单：你想让对象扮演某个角色，它就得提供这些方法,
+
+
+
+## Static Protocol
+Static Structural subtyping(static duck typing)
+
 
 # Protocol设计规范
 
