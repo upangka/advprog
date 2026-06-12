@@ -2,6 +2,7 @@
 
 - [Fluent Python](https://github.com/fluentpython/example-code-2e)
 - [jackfrued/Python-100-Days](https://github.com/jackfrued/Python-100-Days)
+- [ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch)
 
 # Videos
 

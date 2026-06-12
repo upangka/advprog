@@ -1,6 +1,6 @@
 对象协议(object protocol)说白了就是一套方法清单：你想让对象扮演某个角色，它就得提供这些方法
 
-# abc
+# abc模块
 
 `abc` 是"怎么造 ABC"的工具，`collections.abc` 是"已经造好的 ABC"。你写框架时用 `abc` 定义自己的抽象基类，做类型检查时用 `collections.abc` 引用现成的类型标准。
 
