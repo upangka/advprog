@@ -12,6 +12,9 @@ abc名义子类型 (Nominal Subtyping) vs protocol结构化子类型 (Structural
 
 > Pyright 对 collections.abc的类有硬编码规则：按名义子类型（nominal）检查，不走结构化匹配（structural）
 
+
+[code/01_static_duck.py](./code/01_static_duck.py)
+
 ```python
 from collections.abc import Sequence
 from typing import TypeVar, overload
@@ -46,6 +49,70 @@ a = check_sequence1(Vowels())  # a: str | Sequence[str]
 
 ![alt text](./attachments/static_abc_typing.png)
 
+
+
+
+# Protocol
+
+对象协议(object protocol)说白了就是一套方法清单：你想让对象扮演某个角色，它就得提供这些方法,
+
+> `__getitem__`就能够代替`__contains__`,`__iter__`,是因为python底层基于`__getitem__`实现了这个两个方法，所以默认支持。
+
+
+
+## Static Protocol
+Static Structural subtyping(static duck typing)
+
+Protocol的类，不要求子类显示继承，静态检查器会根据传进来的参数进行结构比较。`Vowels`结构符合，有`__getitem__`方法，通过。但是`A`没有这个方法，结构不通过，报错。
+
+```python
+from typing import Protocol,Any
+
+# Protocol 要求结构一样，静态检查器比如vscode的插件Pylance会检测到
+class SupportGetItem(Protocol):
+    def __getitem__(self, index: int, /) -> Any: ...
+
+
+# Structural typing(Static duck typing)
+def handle_something(s: SupportGetItem):
+    for item in s:
+        print(item, end=" ", flush=True)
+    return "Yes,a in 's' " if "a" in s else "not include a" 
+
+
+class Vowels:
+    def __getitem__(self, index: int,/):
+        return "aeiou"[index]
+
+class A: pass
+
+handle_something(Vowels())
+handle_something(A()) # type error
+```
+
+![](./attachments/static_protocol.png)
+
+
+## 动态类型
+
+Runtime 的时候才进行检测，这也是python动态灵活的原因。
+
+```python
+>>> vs = iter(Vowels())
+>>> list(vs)
+['a', 'e', 'i', 'o', 'u']
+>>> 'a' in Vowels()
+True
+>>> iter(A())
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    iter(A())
+    ~~~~^^^^^
+TypeError: 'A' object is not iterable
+```
+
+---
+
 ## virtual subclasss
 
 > virtual subclass 的核心作用：**让一个类在不继承某个 ABC 的情况下，被 isinstance 和 issubclass 认可为该 ABC 的子类**。
@@ -58,15 +125,6 @@ a = check_sequence1(Vowels())  # a: str | Sequence[str]
 
 直接告诉 Python："虽然 TombolaList 没有继承 Tombola，但它行为上完全满足要求，请把它当成 Tombola 的子类来对待。"
 
-
-# Protocol
-
-对象协议(object protocol)说白了就是一套方法清单：你想让对象扮演某个角色，它就得提供这些方法,
-
-
-
-## Static Protocol
-Static Structural subtyping(static duck typing)
 
 
 # Protocol设计规范

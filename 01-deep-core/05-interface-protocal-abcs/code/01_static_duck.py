@@ -1,6 +1,7 @@
 from collections.abc import Sequence
 from typing import TypeVar, overload
 
+
 class Vowels(Sequence[str]):
     @overload
     def __getitem__(self, index: int, /) -> str: ...
@@ -31,8 +32,10 @@ def check_sequence1(s: Sequence[S]):
 
 a = check_sequence1(Vowels())  # a: str | Sequence[str]
 
+
 class Ano:
-    def __getitem__(self,i):
+    def __getitem__(self, i):
         return "aeiou"[i]
-    
+
+
 # b = check_sequence1(Ano())
