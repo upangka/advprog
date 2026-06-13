@@ -290,6 +290,29 @@ class LottoBlower(Tombola):
         return tuple(self._balls)
 ```
 
+虚拟子类,满足`isinstance`和`issubclass`方法，返回`True`
+
+```python
+@Tombola.register
+class TomboList(list):
+    # 这个方法复用这是优秀
+    load = list.extend
+
+    def pick(self):
+        if self:
+            pos = random.randrange(len(self))
+            return self.pop(pos)
+        else:
+            raise LookupError("Pop from empty TomboList")
+
+    def loaded(self):
+        return bool(self)
+
+    def inspect(self):
+        return tuple(self)
+```
+
+
 # Virtual Subclass
 
 > virtual subclass 的核心作用：
@@ -314,10 +337,14 @@ class LottoBlower(Tombola):
 1. `issubclass(TomboList, Tombola)` 在运行时也确实返回 True
 2. 但**静态类型检查器（如 Pylance/Pyright）无法识别这种动态注册关系**。
 
+
+[03_abc_define_and_use.py](./code/03_abc_define_and_use.py)
+
 ```python
 @Tombola.register
 class TomboList(list):
-    def load(self, iterable):...
+    # def load(self, iterable):...
+    load = list.extend
     def pick(self): ...
 
 
