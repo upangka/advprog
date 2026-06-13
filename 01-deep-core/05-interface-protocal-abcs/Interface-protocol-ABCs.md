@@ -308,6 +308,8 @@ class LottoBlower(Tombola):
 
 ![](./attachments/register.png)
 
+### 装饰器的方式
+
 用 @Tombola.register 将 TomboList 注册为了 Tombola 的虚拟子类，
 1. `issubclass(TomboList, Tombola)` 在运行时也确实返回 True
 2. 但**静态类型检查器（如 Pylance/Pyright）无法识别这种动态注册关系**。
@@ -326,6 +328,43 @@ static_checker(TomboList())
 ```
 
 ![](./attachments/virtual_class.png)
+
+上面通过`@Tombola.register`动态的将`TomboList`注册为`Tombola`的子类。同时`Tombola`因为继承了`list`,也是`MutableSequence`的子类。因为`MutableSequence`动态注册了`list`
+
+源码`_collections_abc.py`
+
+```python
+MutableSequence.register(list)
+```
+
+验证
+
+```python
+>>> issubclass(TomboList,Tombola)
+True
+>>> issubclass(TomboList,list)
+True
+>>> from collections import abc
+>>> issubclass(list,abc.MutableSequence)
+True
+>>> issubclass(TomboList,abc.MutableSequence)
+True
+```
+
+
+### 方法调用
+
+```sh
+>>> class B:
+...     pass
+... 
+>>> issubclass(B,Tombola)
+False
+>>> Tombola.register(B)
+<class '__main__.B'>
+>>> issubclass(B,Tombola)
+True
+```
 
 # Todo
 
