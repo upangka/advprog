@@ -504,6 +504,8 @@ True
 
 借助`__mro__`遍历各个类的`__dict__`
 
+[04_structural_typing_with_abc.py](./code/04_structural_typing_with_abc.py)
+
 ```python
 import abc
 class MySized(abc.ABC):
@@ -526,9 +528,36 @@ True
 True
 ```
 
+动态检查`isinstance`和`issubclass`都没有问题，接下来看看静态的检查，仍然报错。使用接下来的[runtime_check 静态Protocol](#runtime_check-静态protocol) 进行替换
+
+![](./attachments/_subclasshook.png)
 
 
-# Todo
+## runtime_check 静态Protocol
 
-1. 总结random
-2. 总结pyi与源码的关系
+`runtime_checkable`既能够支持静态检查，又能够支持动态的`isinstance`和`issubclass`
+
+[04_structural_typing_with_abc.py](./code/04_structural_typing_with_abc.py)
+
+```python
+from typing import Protocol, runtime_checkable
+
+class Struggle:
+    def __len__(self):
+        return 9
+
+@runtime_checkable
+class MySized2(Protocol):
+    def __len__(self) -> int: ...
+
+def handle_mysized2(s: MySized2):
+    print(issubclass(Struggle, MySized2))  # True
+    print(isinstance(Struggle(), MySized2))  # True
+
+handle_mysized2(Struggle()) # 静态检查通过，vscode的Pylance无报错
+```
+
+
+# 参考
+
+- [Fluent Python: Chapter 13: Interfaces,Protocols,ABCs](https://github.com/fluentpython/example-code-2e/tree/master/13-protocol-abc)
