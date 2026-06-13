@@ -235,7 +235,7 @@ class Tombola(abc.ABC):
         return tuple(items)
 ```
 
-在这个子类中除了实现父类的抽象方法之外，还实现了自定义的方法
+在这个子类中除了实现父类的抽象方法之外，还实现了自定义的方法,这里我实现了`__getitem__`来迭代器的方式(python内部会自己创建`__iter__`,主要根据`__getitem__`)
 
 ```python
 import random
@@ -274,6 +274,31 @@ class BingoCage(Tombola):
             return self()
         except LookupError:
             raise StopIteration
+```
+
+覆盖父类的方法
+
+```python
+class LottoBlower(Tombola):
+    def __init__(self,iterable) -> None:
+        self._balls = list(iterable)
+        
+    def load(self, iterable):
+        self._balls.extend(iterable)
+        
+    def pick(self):
+        try:
+            pos = random.randrange(len(self._balls))
+        except ValueError:
+            raise LookupError("Pick from empty LottoBlower")
+        return self._balls[pos]
+    
+    def loaded(self):
+        """覆盖父类笨重的方法"""
+        return bool(self._balls)
+
+    def inspect(self):
+        return tuple(self._balls)
 ```
 
 

@@ -31,26 +31,29 @@ class Tombola(abc.ABC):
         self.load(items)  # 恢复数据
         return tuple(items)
 
+
 import random
+
+
 class BingoCage(Tombola):
-    def __init__(self,items):
-        self._randomizer = random.SystemRandom() 
+    def __init__(self, items):
+        self._randomizer = random.SystemRandom()
         self._items = []
         self.load(items)
-        
+
     def load(self, iterable):
         self._items.extend(iterable)
         self._randomizer.shuffle(self._items)
-        
+
     def pick(self):
         try:
             return self._items.pop()
         except IndexError:
-            raise LookupError('Pick from empty BingoCage')
-    
+            raise LookupError("Pick from empty BingoCage")
+
     def __call__(self):
         return self.pick()
-    
+
     def __getitem__(self, key):
         """
         迭代器测试
@@ -65,3 +68,32 @@ class BingoCage(Tombola):
             return self()
         except LookupError:
             raise StopIteration
+
+
+class LottoBlower(Tombola):
+    def __init__(self, iterable) -> None:
+        self._balls = list(iterable)
+
+    def load(self, iterable):
+        self._balls.extend(iterable)
+
+    def pick(self):
+        try:
+            pos = random.randrange(len(self._balls))
+        except ValueError:
+            raise LookupError("Pick from empty LottoBlower")
+        return self._balls[pos]
+
+    def loaded(self):
+        """覆盖父类笨重的方法"""
+        return bool(self._balls)
+
+    def inspect(self):
+        return tuple(self._balls)
+
+
+def static_checker(t: Tombola): ...
+
+
+static_checker(BingoCage("123"))
+static_checker(LottoBlower("123"))
