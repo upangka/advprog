@@ -165,3 +165,37 @@ class Iterable(metaclass=ABCMeta):
 >>> issubclass(A,Iterable)
 True
 ```
+
+
+# 定义和使用ABC
+
+## 定义
+
+@abstractmethod 只是标记，ABCMeta 才是执法者
+
+```sh
+>>> import abc
+>>> class A:
+...     @abc.abstractmethod
+...     def xxx(): ...
+...
+>>> A()
+<__main__.A object at 0x7f2989d9da90>
+>> class B(abc.ABC):
+...     @abc.abstractmethod
+...     def xxx(): ...
+...
+>>> B()
+Traceback (most recent call last):
+  File "<python-input-5>", line 1, in <module>
+    B()
+    ~^^
+TypeError: Can't instantiate abstract class B without an implementation for abstract method 'xxx'
+```
+- A 是一个普通类，没有继承 abc.ABC，它的元类是默认的 type。type 在实例化时不检查任何方法的 __isabstractmethod__ 标记——它根本不知道 @abstractmethod 是什么，也不关心。所以 A() 顺利通过，返回一个实例。@abstractmethod 在这里完全是个装饰器，只是给 xxx 方法挂了一个 __isabstractmethod__ = True 的属性标签，没有任何执行效果。
+
+- B 继承了 abc.ABC，元类被设为 ABCMeta。当 B() 被调用时，ABCMeta.__call__ 会扫描类中所有标记为 __isabstractmethod__ 的方法，发现 xxx 是抽象方法且没有被具体实现覆盖，于是抛出 TypeError，阻止实例化。
+
+## 实现
+
+![](./attachments/abc_three_subclass.png)

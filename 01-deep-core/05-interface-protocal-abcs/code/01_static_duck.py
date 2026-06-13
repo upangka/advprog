@@ -4,10 +4,12 @@ from typing import TypeVar, overload
 
 class Vowels(Sequence[str]):
     @overload
-    def __getitem__(self, index: int, /) -> str: ...
+    def __getitem__(self, index: int) -> str: ...
+
     @overload
-    def __getitem__(self, index: slice, /) -> Sequence[str]: ...
-    def __getitem__(self, index, /) -> Sequence[str] | str:
+    def __getitem__(self, index: slice) -> Sequence[str]: ...
+
+    def __getitem__(self, index) -> str | Sequence[str]:
         return "aeiou"[index]
 
     def __len__(self):
