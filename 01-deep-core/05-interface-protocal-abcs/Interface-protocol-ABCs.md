@@ -439,6 +439,7 @@ class Sized(metaclass=ABCMeta):
             return _check_methods(C, "__len__")
         return NotImplemented
 
+# 源码写的这个for循环我也是没想到，else这么用
 def _check_methods(C, *methods):
     mro = C.__mro__
     for method in methods:
