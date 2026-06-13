@@ -118,4 +118,4 @@ def static_checker(t: Tombola):
 static_checker(BingoCage("123"))  # <class '__main__.BingoCage'> True
 static_checker(LottoBlower("123"))  # <class '__main__.LottoBlower'> True
 
-static_checker(TomboList())
+# static_checker(TomboList())

@@ -61,7 +61,7 @@ a = check_sequence1(Vowels())  # a: str | Sequence[str]
 
 
 ## Static Protocol
-Static Structural subtyping(static duck typing)
+Static **Structural subtyping**(static duck typing)
 
 Protocol的类，不要求子类显示继承，静态检查器会根据传进来的参数进行结构比较。`Vowels`结构符合，有`__getitem__`方法，通过。但是`A`没有这个方法，结构不通过，报错。
 
@@ -358,7 +358,7 @@ static_checker(TomboList())
 
 上面通过`@Tombola.register`动态的将`TomboList`注册为`Tombola`的子类。同时`Tombola`因为继承了`list`,也是`MutableSequence`的子类。因为`MutableSequence`动态注册了`list`
 
-源码`_collections_abc.py`
+[CPython: _collections_abc.py](https://github.com/python/cpython/blob/f4f102027a9b0edc72a048f17b696aa92d2e6893/Lib/_collections_abc.py#L1105)
 
 ```python
 MutableSequence.register(list)
@@ -392,6 +392,140 @@ False
 >>> issubclass(B,Tombola)
 True
 ```
+
+# Structural Typing(结构化类型)
+
+> **Structural typing** is about **looking at the structure of an object's public interface to determine its type**: an object is consistent-with a type if it implements the methods defined in the type.
+>
+> **Dynamic and static duck** typing are two approaches to structural typing.
+>
+> It turns out that **some ABCs also support structural typing**.
+
+## ABC结构化类型
+
+`issubclass`,`isinstance`成立的，关键方法： `__subclasshook__(cls, C)`
+
+[04_structural_typing_with_abc.py](./code/04_structural_typing_with_abc.py)
+
+```python
+from collections import abc
+class Struggle:
+    def __len__(self):
+        return 9
+
+>>> from collections import abc
+>>> issubclass(Struggle,abc.Sized)
+True
+>>> isinstance(Struggle(),abc.Sized)
+True
+```
+
+- 动态检测Struggle：issubclass为true,是因为abc.Sized实现了一个特殊的方法`__subclasshook__`
+
+[CPython: _collections_abc.py](https://github.com/python/cpython/blob/f4f102027a9b0edc72a048f17b696aa92d2e6893/Lib/_collections_abc.py#L403)
+
+```python
+class Sized(metaclass=ABCMeta):
+
+    __slots__ = ()
+
+    @abstractmethod
+    def __len__(self):
+        return 0
+
+    @classmethod
+    def __subclasshook__(cls, C):
+        if cls is Sized:
+            return _check_methods(C, "__len__")
+        return NotImplemented
+
+def _check_methods(C, *methods):
+    mro = C.__mro__
+    for method in methods:
+        for B in mro:
+            if method in B.__dict__:
+                if B.__dict__[method] is None:
+                    return NotImplemented
+                break
+        else:
+            return NotImplemented
+    return True
+```
+
+- 静态没报错的原因是存根使用了Protocol（static ducking typing）结构上匹配
+
+```python
+@runtime_checkable
+class Sized(Protocol, metaclass=ABCMeta):
+    @abstractmethod
+    def __len__(self) -> int: ...
+```
+
+## `__subclasshook__`实验
+
+在这个实验中`__subclasshook__`我们总是返回True,让任何类都是其B的子类。
+
+要让钩子`__subclasshook__`生效，需要满足两个条件：
+1. 类继承`abc.ABC`
+2. 方法标记为`@classmethod`
+
+```sh
+>>> class A: ...
+...
+>>> from collections import abc
+>>> # 要想使用__subclasshook__ 需要父类是abc
+>>> class B(abc.ABC):
+...     # 需要声明为类方法
+...     @classmethod
+...     def __subclasshook__(cls,C):
+...         print(f"{cls=} {C=}")
+...         # 总是返回True
+...         return True
+...
+>>> issubclass(A,B)
+cls=<class '__main__.B'> C=<class '__main__.A'>
+True
+>>> # 确认过一次,__subclasshook__不再进行调用，所以接下来
+>>> # 都没有看到过print的方法被调用输出
+>>> isinstance(A(),B) 
+True
+>>> issubclass(A,B)
+True
+>>> # 但是换成其他类，又会进行输出
+>>> issubclass(list,B)
+cls=<class '__main__.B'> C=<class 'list'>
+True
+>>> issubclass(list,B)
+True
+```
+
+## 实现自己的MySized
+
+借助`__mro__`遍历各个类的`__dict__`
+
+```python
+import abc
+class MySized(abc.ABC):
+    @classmethod
+    def __subclasshook__(cls,C):
+        print(C.__mro__)
+        if cls is MySized:
+            if any("__len__" in B.__dict__ for B in C.__mro__):
+                print(f"检测到 `__len__` 存在 f{C}")
+                return True
+        return NotImplemented
+```
+
+```python
+>>> issubclass(Struggle,MySized)
+(<class '__main__.Struggle'>, <class 'object'>)
+检测到 `__len__` 存在 f<class '__main__.Struggle'>
+True
+>>> isinstance(Struggle(),MySized)
+True
+```
+
+
 
 # Todo
 
