@@ -113,19 +113,6 @@ TypeError: 'A' object is not iterable
 
 ---
 
-## virtual subclasss
-
-> virtual subclass 的核心作用：**让一个类在不继承某个 ABC 的情况下，被 isinstance 和 issubclass 认可为该 ABC 的子类**。
-
-假设你写了一个框架，定义了一个抽象基类 Tombola。现在你发现标准库或第三方库里的某个类（比如 TombolaList）在行为上完全满足 Tombola 的接口——它有 pick()、load() 这些方法——但它的作者根本没听说过你的 Tombola，自然也不可能写 class TombolaList(Tombola) 来继承你。
-
-这时候你有两个选择：
-
-强迫所有用户在使用 TombolaList 时写一个包装类，手动继承 Tombola 并转发所有方法——繁琐。
-
-直接告诉 Python："虽然 TombolaList 没有继承 Tombola，但它行为上完全满足要求，请把它当成 Tombola 的子类来对待。"
-
-
 
 # Protocol设计规范
 
@@ -197,6 +184,8 @@ TypeError: Can't instantiate abstract class B without an implementation for abst
 - B 继承了 abc.ABC，元类被设为 ABCMeta。当 B() 被调用时，ABCMeta.__call__ 会扫描类中所有标记为 __isabstractmethod__ 的方法，发现 xxx 是抽象方法且没有被具体实现覆盖，于是抛出 TypeError，阻止实例化。
 
 ## 实现
+
+[03_abc_define_and_use.py](./code/03_abc_define_and_use.py)
 
 ![](./attachments/abc_three_subclass.png)
 
@@ -301,11 +290,27 @@ class LottoBlower(Tombola):
         return tuple(self._balls)
 ```
 
-## Virtual Subclass
+# Virtual Subclass
+
+> virtual subclass 的核心作用：
+> 
+>**让一个类在不继承某个 ABC 的情况下，被 isinstance 和 issubclass 认可为该 ABC 的子类**。
+
+假设你写了一个框架，定义了一个抽象基类 Tombola。现在你发现标准库或第三方库里的某个类（比如 TombolaList）在行为上完全满足 Tombola 的接口——它有 pick()、load() 这些方法——但它的作者根本没听说过你的 Tombola，自然也不可能写 class TombolaList(Tombola) 来继承你。
+
+这时候你有两个选择：
+
+强迫所有用户在使用 TombolaList 时写一个包装类，手动继承 Tombola 并转发所有方法——繁琐。
+
+直接告诉 Python："虽然 TombolaList 没有继承 Tombola，但它行为上完全满足要求，请把它当成 Tombola 的子类来对待。"
+
+## register
+
+![](./attachments/register.png)
 
 用 @Tombola.register 将 TomboList 注册为了 Tombola 的虚拟子类，
 1. `issubclass(TomboList, Tombola)` 在运行时也确实返回 True
-2. 但静态类型检查器（如 Pylance/Pyright）无法识别这种动态注册关系。
+2. 但**静态类型检查器（如 Pylance/Pyright）无法识别这种动态注册关系**。
 
 ```python
 @Tombola.register
