@@ -1,6 +1,5 @@
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * 测试 MySum 类的所有方法
@@ -123,9 +122,9 @@ public class TestMySum {
                 new Person("Alice", 25),
                 new Person("Bob", 30),
                 new Person("Charlie", 20));
-        Person oldest = mySum.mymax(people, Person::getAge);
+        Person oldest = mySum.mymax(people, Person::age);
         assertNotNull("最年长的人不应为空", oldest);
-        assertEquals("最年长的人年龄", 30, oldest.getAge());
+        assertEquals("最年长的人年龄", 30, oldest.age());
     }
 
     // 测试 mymax(Iterable<T> iterable, DT defaultValue)
@@ -164,7 +163,7 @@ public class TestMySum {
         // 自定义对象和默认值
         List<Person> emptyPeople = Arrays.asList();
         Person defaultPerson = new Person("Default", 0);
-        Object result3 = mySum.mymax(emptyPeople, Person::getAge, defaultPerson);
+        Object result3 = mySum.mymax(emptyPeople, Person::age, defaultPerson);
         assertEquals("自定义空集合返回默认对象", defaultPerson, (Person) result3);
     }
 
@@ -246,22 +245,9 @@ public class TestMySum {
     }
 
     // 测试用的Person类
-    static class Person {
-        private String name;
-        private int age;
-
-        public Person(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public String getName() {
-            return name;
-        }
+    static record Person(
+            String name,
+            int age) {
     }
 
     // 测试用的Student类，实现Comparable接口

@@ -62,7 +62,10 @@ public class MySum {
      * @overload
      * def mymax(_iterable: Iterable[T], /, *, key: Callable[[T], LT]) -> T: ...
      */
-    public <T, R extends Comparable<? super R>> T mymax(Iterable<T> iterable, Function<? super T, ? extends R> key) {
+    public <T, R extends Comparable<? super R>> T mymax(
+            Iterable<T> iterable,
+            Function<? super T, ? extends R> key) {
+
         var iter = iterable.iterator();
         if (!iter.hasNext()) {
             throw new IllegalArgumentException(MSG);
