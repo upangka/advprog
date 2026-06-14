@@ -6,7 +6,7 @@
  在 Python的类型提示里有`@overload`,但是不要把 Python 的 @overload 理解为像Java那样“定义多个方法”，而要理解为**给同一个方法贴多个类型标签**。
  值得一提的是Java有个注解`@Override`这是重写，而`@overload`是重载。
 
-
+[mysum.py](./code/override/mysum.py)
 
 
 # Java
@@ -16,6 +16,9 @@
 - [oracle free course](https://mylearn.oracle.com/ou/course/overview/79727)
 
 vscode Java: Configure Java Runtime
+
+
+[MySum.java](./code/override/MySum.java)
 
 
 关键认知
