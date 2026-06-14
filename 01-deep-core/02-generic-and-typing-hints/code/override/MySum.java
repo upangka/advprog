@@ -6,7 +6,7 @@ import java.util.function.Function;
  */
 public class MySum {
     private static final Object MISSING = new Object();
-    private static final String MSG = "max() arg is en empty sequence";
+    public static final String MSG = "max() arg is en empty sequence";
 
     /*
      * 等价

@@ -142,8 +142,8 @@ public class TestMySum {
         assertEquals("空集合返回默认值", -1, (Integer) result2);
 
         // 字符串默认值
-        Object result3 = mySum.mymax(emptyList, "EMPTY");
-        assertEquals("空集合返回字符串默认值", "EMPTY", (String) result3);
+        Object result3 = mySum.mymax(emptyList, MySum.MSG);
+        assertEquals("空集合返回字符串默认值", MySum.MSG, (String) result3);
     }
 
     // 测试 mymax(Iterable<T> iterable, Function key, DT defaultValue)
