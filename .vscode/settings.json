@@ -1,3 +1,9 @@
 {
-    "java.project.referencedLibraries": []
+    "java.project.referencedLibraries": [],
+    "python.testing.pytestArgs": [
+        ".",
+        "-s"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
 }
