@@ -1,7 +1,39 @@
 MISSING = object()
 MSG = "max() arg is an empty sequence"
 
+from typing import overload, Protocol, TypeVar, Union
+from collections.abc import Iterable, Callable
 
+
+class SupportLessThan(Protocol):
+    def __lt__(self, other, /) -> bool: ...
+
+
+T = TypeVar("T")
+LT = TypeVar("LT", bound=SupportLessThan)
+DT = TypeVar("DT")
+
+
+# 支持__lt__,但是没有key和default,注意这里是怎么禁用传入key的
+@overload
+def mymax(_arg1: LT,/, *args: LT, key: None = ...) -> LT: ...
+# 等价
+@overload
+def mymax(first: LT, *args: LT, key: None = ...) -> LT: ...
+@overload
+def mymax(_iterable: Iterable[LT], /, *, key: None = ...) -> LT: ...
+@overload
+def mymax(_iterable: Iterable[T], /, *, key: Callable[[T], LT]) -> T: ...
+@overload
+def mymax(_arg1: T,/, *args: T, key: Callable[[T], LT]) -> T: ...
+@overload
+def mymax(
+    _iterable: Iterable[LT], /, *, key: None = ..., default: DT
+) -> Union[LT, DT]: ...  # 有默认值但是没有key
+@overload
+def mymax(
+    _iterable: Iterable[T], /, *, key: Callable[[T], LT], default: DT
+) -> Union[T, DT]: ...  # 有默认值也有key
 def mymax(first, *args, key=None, default=MISSING):
     if args:
         series = args
@@ -30,4 +62,5 @@ def mymax(first, *args, key=None, default=MISSING):
     return candidate
 
 
-# mymax([2,3,5,-100],2)
+mymax([2, 3, 5, -100], key=abs)
+mymax(1, 2, 3, 4, 5, 6, -7, key=abs)
