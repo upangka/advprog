@@ -34,12 +34,15 @@ def handle_mysized(s: MySized): ...
 
 from typing import Protocol, runtime_checkable
 
+
 @runtime_checkable
 class MySized2(Protocol):
     def __len__(self) -> int: ...
 
+
 def handle_mysized2(s: MySized2):
     print(issubclass(Struggle, MySized2))  # True
     print(isinstance(Struggle(), MySized2))  # True
+
 
 handle_mysized2(Struggle())
