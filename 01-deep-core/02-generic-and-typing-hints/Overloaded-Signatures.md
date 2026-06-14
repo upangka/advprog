@@ -16,3 +16,23 @@
 - [oracle free course](https://mylearn.oracle.com/ou/course/overview/79727)
 
 vscode Java: Configure Java Runtime
+
+
+关键认知
+
+`? extends R` 和 `? super R` 是“通配符”
+它们不是“类型”，而是类型约束。它们描述的是：某个地方可以接受什么范围的实际类型。
+
+```java
+public static <T, R extends Comparable<? super R>> T max(
+    T first, T second, T... rest,
+    Function<? super T, ? extends R> key)
+```
+
+`R extends Comparable<? super R>` 保证 R 自己能比较（这是整个比较机制的基础）
+
+| 写法 | 含义 | 可接受的实际类型 |
+|------|------|------------------|
+| `R` | 精确匹配 | 只能是 `R` 本身 |
+| `? extends R` | 上界通配符 | `R` 或 `R` 的任何子类 |
+| `? super R` | 下界通配符 | `R` 或 `R` 的任何父类 |

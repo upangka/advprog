@@ -15,17 +15,19 @@ DT = TypeVar("DT")
 
 
 # 支持__lt__,但是没有key和default,注意这里是怎么禁用传入key的
+# @overload
+# def mymax(_arg1: LT,/, *args: LT, key: None = ...) -> LT: ...
+# # 等价
+# @overload
+# def mymax(first: LT, *args: LT, key: None = ...) -> LT: ...
 @overload
-def mymax(_arg1: LT,/, *args: LT, key: None = ...) -> LT: ...
-# 等价
-@overload
-def mymax(first: LT, *args: LT, key: None = ...) -> LT: ...
+def mymax(_arg1: LT, _arg2: LT, /, *args: LT, key: None = ...) -> LT: ...
 @overload
 def mymax(_iterable: Iterable[LT], /, *, key: None = ...) -> LT: ...
 @overload
 def mymax(_iterable: Iterable[T], /, *, key: Callable[[T], LT]) -> T: ...
 @overload
-def mymax(_arg1: T,/, *args: T, key: Callable[[T], LT]) -> T: ...
+def mymax(_arg1: T, /, *args: T, key: Callable[[T], LT]) -> T: ...
 @overload
 def mymax(
     _iterable: Iterable[LT], /, *, key: None = ..., default: DT
@@ -45,7 +47,7 @@ def mymax(first, *args, key=None, default=MISSING):
         except StopIteration:
             if default is not MISSING:
                 return default
-            raise ValueError
+            raise ValueError(MSG) from None
 
     if key:
         # assert callable(key),"Not callable"
@@ -62,5 +64,10 @@ def mymax(first, *args, key=None, default=MISSING):
     return candidate
 
 
-mymax([2, 3, 5, -100], key=abs)
+fruits = "banana kiwi mango apple".split()
+mymax(1, 2, 3, 4, 5)
+mymax([2, 3, 5, -100])
+mymax([2, 3, 5, -100])
+mymax(fruits)
+mymax(fruits, key=len)
 mymax(1, 2, 3, 4, 5, 6, -7, key=abs)
