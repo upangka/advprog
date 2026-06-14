@@ -179,12 +179,12 @@ public class TestMySum {
 
         Student topStudent = new MySum().mymax(students);
         assertNotNull("成绩最好的学生不应为空", topStudent);
-        assertEquals("成绩最好的学生", "Bob", topStudent.getName());
-        assertEquals("最高分", 92, topStudent.getScore());
+        assertEquals("成绩最好的学生", "Bob", topStudent.name());
+        assertEquals("最高分", 92, topStudent.score());
 
         // 按姓名长度找
-        Student longestName = new MySum().<Student, Integer>mymax(students, s -> s.getName().length());
-        assertEquals("名字最长的学生", "Charlie", longestName.getName());
+        Student longestName = new MySum().<Student, Integer>mymax(students, s -> s.name().length());
+        assertEquals("名字最长的学生", "Charlie", longestName.name());
     }
 
     // 测试空集合异常
@@ -251,31 +251,13 @@ public class TestMySum {
     }
 
     // 测试用的Student类，实现Comparable接口
-    static class Student implements Comparable<Student> {
-        private String name;
-        private int score;
-
-        public Student(String name, int score) {
-            this.name = name;
-            this.score = score;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
+    static record Student(
+            String name,
+            int score) implements Comparable<Student> {
         @Override
         public int compareTo(Student other) {
             return Integer.compare(this.score, other.score);
         }
 
-        @Override
-        public String toString() {
-            return name + "(" + score + ")";
-        }
     }
 }
