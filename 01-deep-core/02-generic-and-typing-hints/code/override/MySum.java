@@ -25,6 +25,10 @@ public class MySum {
         return this.mymax(first, rest, t -> t);
     }
 
+    /*
+     * 等价
+     * def mymax(_arg1: T, /, *args: T, key: Callable[[T], LT]) -> T: ...
+     */
     public <T, R extends Comparable<? super R>> T mymax(
             T first, T[] rest,
             Function<? super T, ? extends R> key) {
@@ -48,7 +52,8 @@ public class MySum {
      * def mymax(_iterable: Iterable[LT], /, *, key: None = ...) -> LT: ...
      */
     public <T extends Comparable<? super T>> T mymax(Iterable<T> iterable) {
-        return this.mymax(iterable, t -> t);
+        // <T, T> 是 显式类型实参（explicit type argument）避免泛型擦除
+        return this.<T, T>mymax(iterable, Function.identity());
     }
 
     /*
@@ -74,6 +79,42 @@ public class MySum {
             }
         }
         return candidate;
+    }
+
+    /*
+     * 等价
+     * 
+     * @overload
+     * def mymax(
+     * _iterable: Iterable[LT], /, *, key: None = ..., default: DT
+     * ) -> Union[LT, DT]: ...
+     * 
+     */
+    public <T extends Comparable<? super T>, DT> Object mymax(
+            Iterable<T> iterable,
+            DT defaultValue) {
+        return this.mymax(iterable, t -> t, defaultValue);
+    }
+
+    /*
+     * 等价
+     * 
+     * @overload
+     * def mymax(
+     * _iterable: Iterable[T], /, *, key: Callable[[T], LT], default: DT
+     * ) -> Union[T, DT]: ...
+     * 
+     */
+    public <T, R extends Comparable<? super R>, DT> Object mymax(
+            Iterable<T> iterable,
+            Function<? super T, ? extends R> key,
+            DT defaultValue) {
+        var iter = iterable.iterator();
+        if (!iter.hasNext()) {
+            return defaultValue;
+        }
+
+        return this.mymax(iterable, key);
     }
 
 }
