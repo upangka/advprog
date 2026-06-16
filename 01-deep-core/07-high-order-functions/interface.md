@@ -258,6 +258,8 @@ after_3(1, add, 2, 3)
 after_3(1, add, x=2, y=3)
 ```
 
+- Commentary /ˈkɑːmənteri/ n. 评论；注解；解说（指对某个主题、事件或文本的评述和解释。）
+
 --- 
 
 > **Part 2**:
