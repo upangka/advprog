@@ -130,12 +130,22 @@ operation after 5 seconds?
 Before you begin, what is this operation even doing? What
 behavior do you expect to see?
 
+**注意**: `5s`之后统一执行，不会提前计算`add(1,2)`等参数
 ```python
 >>> after(5, lambda: add(add(1,2),add(3,5)))
-Adding 1 + 2 -> 3
+Adding 1 + 2 -> 3   # 等待5s后才输出
 Adding 3 + 5 -> 8
 Adding 3 + 8 -> 11
 11
 ```
 
-**注意**: `5s`之后统一执行，不会提前计算`add(1,2)`等参数
+
+**注意**: 两个参数会先立即执行， `5s`之后输出最后的结果
+
+```python
+>>> after(5,functools.partial(add,add(1,2),add(3,5)))
+Adding 1 + 2 -> 3  # 立即输出
+Adding 3 + 5 -> 8
+Adding 3 + 8 -> 11  # 等待5s之后输出
+11
+```
