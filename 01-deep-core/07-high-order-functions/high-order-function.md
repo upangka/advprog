@@ -205,6 +205,8 @@ def parse_name(text, index):
 
 ## Exercise 4 - The (Code) Generator
 
+[exercise_04.py](./code/exercise_04.py)
+
 Looking at [Exercise 3](#exercise-3---the-repetitive-code), it all still feels a bit clunky. Yes,
 there's the more general `parse_matching_predicate()` function, but
 there are now these tiny functions such as `parse_integer()` that
@@ -243,3 +245,18 @@ parse_name = matching_predicate(str.isalpha)
 ```
 对比[exercise-3](#exercise-3---the-repetitive-code),`parse_integer`和`parse_name`定义的变化
 
+---
+
+## Exercise 5 - The Literal
+
+Let's revisit the `parse_setting()` function. In that function, there should be calls to `parse_name()` and `parse_integer()`.
+However, there should also be a check for the `literal` `=` and `;` characters. You may have coded these checks directly, but maybe they too could be generalized by a function as well.
+
+Write a function `match_literal(literal)` that *creates* a function that matches an exact sequence of supplied text:
+
+```python
+def match_literal(literal):
+    def parse(text, index):
+        ... # You define
+    return parse
+```
