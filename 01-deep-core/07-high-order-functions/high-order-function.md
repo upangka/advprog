@@ -530,6 +530,8 @@ test_parse_setting()    # Uncomment
 
 ## Exercise 9 - Repetition
 
+[exercise_09.py](./code/exercise_09.py)
+
 Ben wants to parse a sequence of settings. For example:
 
 ```python
@@ -576,4 +578,77 @@ def test_parse_settings_dict():
     assert parse_settings_dict("", 0) == ({}, 0)
 
 test_parse_settings_dict()    # Uncomment
+```
+
+## Exercise 10 - The Whitespace
+
+One problem with everything that's been written so far is that it has no accommodation for whitespace. For example, what if there are spaces around the parts of a setting? What if there are newlines?
+
+```
+speed = 42 ;
+size = 9.5 ;
+maxspeed = 1000 ;
+```
+
+Whitespace should be ignored--it should have no impact on the final result. However, it's also weird in that it can appear almost anywhere.
+
+CHALLENGE: How would you go about incorporating whitespace into all of the machinery that has been created so far?
+
+
+There are a few subtle complications in solving this problem.
+
+1. How do you go about matching optional whitespace? Can it
+   be done using existing functions such as matching_predicate()?
+
+```python
+whitespace = ...  # You define
+
+def test_whitespace():
+    assert whitespace(" ", 0) == (" ", 1)
+    assert whitespace("abc", 0) == ("", 0)  # Not an error. Just no whitespace.
+    assert whitespace("   ", 0) == ("   ", 3)
+
+test_whitespace()
+```
+
+
+2. How do you ignore whitespace that's present?
+   One way to approach this is to write a function called
+   token() that accepts a parser as input, but wraps it
+   in a way so that it ignores any leading whitespace.
+
+Can you implement this entirely using functions such as
+choice(), sequence(), and reduce()?
+
+```python
+def token(parser):
+    ... # You define
+
+def test_token():
+    assert token(parse_integer)("123", 0) == ('123', 3)
+    assert token(parse_integer)("   123", 0) == ('123', 7)  # Leading whitespace ignored
+
+test_token()    # Uncomment.
+```
+
+3. Can whitespace handling be merged with an existing function
+like sequence() in some way? Can you do this in a way
+where it's still convenient to define the parse_setting()
+function?
+
+One thought is to write a higher-level function tokenize()
+that works like sequence(), but which wraps each parser
+with the token operation above.
+
+```python
+def tokenize(*parsers):
+    ... # You define
+
+parse_settings = ... # You define
+
+def test_parse_settings_final():
+    text = "speed = 42 ;\nsize = 9.5 ;\nmaxspeed = 1000;"
+    assert parse_settings(text, 0) == ({"speed":42, 'size':9.5, 'maxspeed':1000}, 62)
+
+test_parse_settings_final()   
 ```
