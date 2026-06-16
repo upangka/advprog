@@ -544,7 +544,13 @@ that repeatedly invokes a parser and collects the results into a list.
 ```python
 def zero_or_more(parser):
     def parse(text, index):
-        ... # You define
+        results = []
+
+        while m := parser(text, index):
+            value, index = m
+            results.append(value)
+        return (results, index)
+
     return parse
 
 parse_settings = zero_or_more(parse_setting)
@@ -560,7 +566,10 @@ test_parse_settings()    # Uncomment
 Show how you could use `reduce()` to convert the settings into a dictionary instead
 
 ```python
-parse_settings_dict = ...
+parse_settings_dict = reduce(
+    parse_settings,
+    dict
+)
 
 def test_parse_settings_dict():
     assert parse_settings_dict("speed=42;size=9.5;maxspeed=1000;", 0) == ({"speed":42, "size":9.5, "maxspeed":1000}, 32)
