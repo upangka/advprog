@@ -347,8 +347,17 @@ information such as the `=` and `;` characters. Finally, it
 doesn't properly convert the string value '42' into a Python
 integer. We will fix this in the next exercise. Proceed to ex7.
 
+也可以玩的更花里花哨
+
+```python
+>>> match_setting = sequence(sequence(parse_name, parse_equal), sequence(parse_integer, parse_semi))
+>>> match_setting("x=42;", 0)
+([['x', '='], ['42', ';']], 5)
+```
 
 ## Exercise 7 - The Reduction
+
+[exercise_07.py](./code/exercise_07.py)
 
 In exercise 6, the `match_setting()` function *almost* does what you need
 to replace the functionality of `parse_setting()`. However, the return value
@@ -407,4 +416,18 @@ assert parse_setting("name=42;", 0) == (("name", 42), 8)
 assert parse_setting("x", 0) == None
 assert parse_setting("xyz 2", 0) == None  # Missing '='
 assert parse_setting("a=42", 0) == None  # Missing ';' at end
+```
+
+非常灵活的函数组合: 归功于统一的接口
+
+```python
+>>> parse_setting = reduce(
+...     sequence(
+...         sequence(parse_name,parse_equal),
+...         sequence(reduce(parse_integer,int),parse_semi)
+...     ),
+...     lambda r: (r[0][0],r[1][0])
+... )
+>>> parse_setting("name=42;", 0)
+(('name', 42), 8)
 ```
