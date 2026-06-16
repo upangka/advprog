@@ -81,6 +81,8 @@ This doesn't work. Why? Can you modify it to make it work?
 result = after(10, add(2, 3))
 ```
 
+需要做一些适配Adapter工作
+
 > Approach 1: A helper function
 
 ```python
@@ -129,5 +131,11 @@ Before you begin, what is this operation even doing? What
 behavior do you expect to see?
 
 ```python
-result = after(5, add(add(1,2), add(3,4)))    # Must modify!
+>>> after(5, lambda: add(add(1,2),add(3,5)))
+Adding 1 + 2 -> 3
+Adding 3 + 5 -> 8
+Adding 3 + 8 -> 11
+11
 ```
+
+**注意**: `5s`之后统一执行，不会提前计算`add(1,2)`等参数
