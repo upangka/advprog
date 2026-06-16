@@ -1,13 +1,16 @@
 def matching_predicate(predicate):
-    def parse(text,index):
+    def parse(text, index):
         n = index
         while n < len(text) and predicate(text[n]):
             n += 1
         return (text[index:n], n) if n > index else None
+
     return parse
+
 
 parse_integer = matching_predicate(str.isdigit)
 parse_name = matching_predicate(str.isalpha)
+
 
 def test_parse_integer():
     assert parse_integer("1234 567", 0) == ("1234", 4)
@@ -15,7 +18,6 @@ def test_parse_integer():
     assert parse_integer("abc", 0) == None  # No match
     assert parse_integer("", 0) == None
     print("Good tests for test_parse_integer")
-
 
 
 def test_parse_name():
