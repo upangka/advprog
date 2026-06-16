@@ -28,6 +28,22 @@ def test_token():
     print("Good tests fro test_token")
 
 
+def tokenize(*parsers):
+    ... # You define
+
+parse_settings = ... # You define
+
+def test_parse_settings_final():
+    text = """
+    speed = 42 ;
+    size = 9.5 ;
+    maxspeed = 1000;
+    """
+    # assert parse_settings(text, 0) == ({"speed":42, 'size':9.5, 'maxspeed':1000}, 62)
+
+
+
 if __name__ == "__main__":
     test_whitespace()
     test_token()
+    # test_parse_settings_final() 
