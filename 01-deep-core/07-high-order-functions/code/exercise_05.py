@@ -13,38 +13,40 @@ parse_name = matching_predicate(str.isalpha)
 
 
 def match_literal(literal):
-    def parse(text,index):
-        n = index
-        if n < len(text) and text[n] == literal:
-            return (text[n],n + 1)
+    def parse(text, index):
+        if index < len(text) and text[index] == literal:
+            return (text[index], index + 1)
         return None
+
     return parse
 
-parse_equal = match_literal('=')
-parse_semi = match_literal(';')
+
+parse_equal = match_literal("=")
+parse_semi = match_literal(";")
+
 
 def test_parse_literal():
-    assert parse_equal('123', 0) == None    # Doesn't start with '='
-    assert parse_equal('=', 0) == ('=', 1)
-    assert parse_equal('', 0) == None    # Doesn't start with '='
-    assert parse_semi(';', 0) == (';', 1)
+    assert parse_equal("123", 0) == None  # Doesn't start with '='
+    assert parse_equal("=", 0) == ("=", 1)
+    assert parse_equal("", 0) == None  # Doesn't start with '='
+    assert parse_semi(";", 0) == (";", 1)
     print("Good tests for test_parse_literal")
 
+
 def parse_setting(text, index):
-    m = parse_name(text, index)
-    if m is None:
+    if not (m := parse_name(text, index)):
         return None
     name, index = m
-    if index >= len(text) or text[index] != "=":
+    if (m := parse_equal(text, index)) is None:
         return None
-    index += 1
-    m = parse_integer(text, index)
-    if m is None:
+    _, index = m
+    if not (m := parse_integer(text, index)):
         return None
     value, index = m
-    if index >= len(text) or text[index] != ";":
+    if not (m := parse_semi(text, index)):
         return None
-    return ((name, int(value)), index + 1)
+    _, index = m
+    return ((name, int(value)), index)
 
 
 def test_parse_setting():
@@ -78,5 +80,5 @@ def test_parse_settings():
 
 if __name__ == "__main__":
     test_parse_literal()
-    # test_parse_setting()
-    # test_parse_settings()
+    test_parse_setting()
+    test_parse_settings()
