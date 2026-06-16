@@ -176,6 +176,8 @@ def test_parse_settings():
 
 ## Exercise 3 - The Repetitive (Code)
 
+[exercise_03.py](./code/exercise_03.py)
+
 Ben shows his code to Arjoon who notices that the `parse_integer()` and `parse_name()` functions are basically identical.
 
 "There's just one tiny difference in both of the functions", he remarks.
@@ -183,3 +185,20 @@ Ben shows his code to Arjoon who notices that the `parse_integer()` and `parse_n
 Perhaps the core functionality could be implemented in a single function that accepts some kind of extra predicate function for testing characters. For example:
 
 Generic parsing function
+
+```python
+def parse_matching_predicate(text, index, predicate):
+    n = index
+    while n < len(text) and predicate(text[n]):
+        n += 1
+    return (text[index:n], n) if n > index else None
+
+
+def parse_integer(text, index):
+    return parse_matching_predicate(text, index, str.isdigit)
+
+def parse_name(text, index):
+    return parse_matching_predicate(text, index, str.isalpha)
+```
+
+相比通用的代码，之前的代码[#parse-setting](#parse-setting)
