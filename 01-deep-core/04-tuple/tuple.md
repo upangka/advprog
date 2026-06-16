@@ -106,6 +106,8 @@ Card(rank='Q', suit='diamonds')
 >>> lt = [('a',123), ('b', 42), ('size', 99)]
 >>> dict(lt)
 {'a': 123, 'b': 42, 'size': 99}
+>>> dict([])
+{}
 ```
 
 
