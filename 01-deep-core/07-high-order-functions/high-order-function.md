@@ -292,3 +292,16 @@ def parse_setting(text, index):
     return ((name, int(value)), index)
 ```
 
+## Exercise 6 - The Sequence
+
+If you look more closely at Exercise 5, you'll find that the
+`parse_setting()` function is stepping through a sequence of
+individual parsing steps, but the code looks almost identical at
+each step. Maybe this sequencing is something that could be
+generalized in some way.
+
+Create a function `sequence(*parsers)` that accepts any number of
+parser functions and combines them into a single function that
+invokes each parser in order. If any parser fails, return None. If
+all parsers work, return a list of the matching parts and an ending
+index.
