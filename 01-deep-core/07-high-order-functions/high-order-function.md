@@ -584,6 +584,8 @@ test_parse_settings_dict()    # Uncomment
 
 One problem with everything that's been written so far is that it has no accommodation for whitespace. For example, what if there are spaces around the parts of a setting? What if there are newlines?
 
+- accommodation /əˌkɑː.məˈdeɪ.ʃən/ n. 适应；调节；容纳（指对某种需求、情况或变化做出的调整或安排，使其能够兼容或适应
+
 ```
 speed = 42 ;
 size = 9.5 ;
@@ -601,7 +603,7 @@ There are a few subtle complications in solving this problem.
    be done using existing functions such as matching_predicate()?
 
 ```python
-whitespace = ...  # You define
+whitespace = reduce(zero_or_more(matching_predicate(str.isspace)), "".join)
 
 def test_whitespace():
     assert whitespace(" ", 0) == (" ", 1)
