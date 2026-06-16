@@ -202,3 +202,44 @@ def parse_name(text, index):
 ```
 
 相比通用的代码，之前的代码[#parse-setting](#parse-setting)
+
+## Exercise 4 - The (Code) Generator
+
+Looking at [Exercise 3](#exercise-3---the-repetitive-code), it all still feels a bit clunky. Yes,
+there's the more general `parse_matching_predicate()` function, but
+there are now these tiny functions such as `parse_integer()` that
+merely provide some kind of wrapper around it.
+
+All of this might be simplified if the `parse_matching_predicate()`
+function was re-envisioned. Instead of directly parsing the
+supplied text, what if it created a parsing function instead?
+
+```python
+def matching_predicate(predicate):
+    def parse(text, index):
+        n = index
+        while n < len(text) and predicate(text[n]):
+            n += 1
+        return (text[index:n], n) if n > index else None
+    return parse
+```
+
+Using this code generator, show how you could define `parse_integer`
+
+- clunky /klʌŋki/ adj. 笨重的；笨拙的；
+- re-envisioned /ˌriː.ɪnˈvɪʒ.ənd/ v. 重新构想；重新设想
+
+```python
+def matching_predicate(predicate):
+    def parse(text,index):
+        n = index
+        while n < len(text) and predicate(text[n]):
+            n += 1
+        return (text[index:n], n) if n > index else None
+    return parse
+
+parse_integer = matching_predicate(str.isdigit)
+parse_name = matching_predicate(str.isalpha)
+```
+对比[exercise-3](#exercise-3---the-repetitive-code),`parse_integer`和`parse_name`定义的变化
+
