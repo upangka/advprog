@@ -51,6 +51,7 @@ def test_parse_settings_final():
     size     = 9.5 ;
     maxspeed = 1000;
     """
+    # print(f"len = {len(text)}")
     assert parse_settings(text, 0) == ({"speed": 42, "size": 9.5, "maxspeed": 1000}, 62)
     print("Good tests for test_parse_settings_final")
 

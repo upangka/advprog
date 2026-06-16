@@ -673,6 +673,6 @@ def test_parse_settings_final():
     maxspeed = 1000;
     """
     assert parse_settings(text, 0) == ({"speed": 42, "size": 9.5, "maxspeed": 1000}, 62)
-    
+
 test_parse_settings_final()   
 ```
