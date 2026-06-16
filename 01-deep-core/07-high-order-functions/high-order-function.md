@@ -339,3 +339,10 @@ def test_match_setting():
     assert match_setting("x_42", 0) == None  # Missing =
     print("Good tests for test_match_setting")
 ```
+
+Commentary: The `match_setting()` function is not quite the same
+as the previous `parse_setting()` function. For one, it doesn't
+return the answer in the right form. It also includes extra
+information such as the `=` and `;` characters. Finally, it
+doesn't properly convert the string value '42' into a Python
+integer. We will fix this in the next exercise. Proceed to ex7.
