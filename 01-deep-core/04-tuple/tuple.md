@@ -100,6 +100,15 @@ Card(rank='Q', suit='diamonds')
 {'rank': 'Q', 'suit': 'diamonds'}
 ```
 
+# List tuple to dict
+
+```python
+>>> lt = [('a',123), ('b', 42), ('size', 99)]
+>>> dict(lt)
+{'a': 123, 'b': 42, 'size': 99}
+```
+
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints In Functions》
