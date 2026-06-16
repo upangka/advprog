@@ -56,7 +56,7 @@ Note: This interface may look a little weird, but Ben is thinking about the prob
 - lamenting /ləˈmen.tɪŋ/ v. 哀叹；悲叹；抱怨（指对某种困难、不公或糟糕的状况表达悲痛、不满或失望，语气比 complain 更重，带有一种无可奈何的悲愤感）
 - weird /wɪrd/ adj. 奇怪的；怪异的；不寻常的（指某事物与通常的预期或习惯不同，让人感到困惑或意外。在上下文中并非贬义，更多是 Ben 对自己接口设计的一种自嘲式评价，暗示这种设计不符合直觉，但有合理的性能考量）
 
-[config.py](./code/config.py)
+[config.py](./code/funn/config.py)
 
 ```python
 def parse_integer(text, index):
@@ -88,7 +88,7 @@ assert parse_name("", 0) == None  # No match (must be at least one letter)
 
 ## Exercise 1 - The Parser
 
-[exercise_01.py](./code/exercise_01.py)
+[exercise_01.py](./code/funn/exercise_01.py)
 
 As part of Ben's configuration file format, configuration settings are
 written in the following form:
@@ -134,7 +134,7 @@ def test_parse_setting():
 
 ## Exercise 2 - The Repetitive
 
-[exercise_02.py](./code/exercise_02.py)
+[exercise_02.py](./code/funn/exercise_02.py)
 
 The `parse_setting()` function in exercise 1 is only a small part of a larger parser. Ben actually wants to parse multiple settings into a Python dictionary. For example, input like this:
 
@@ -176,7 +176,7 @@ def test_parse_settings():
 
 ## Exercise 3 - The Repetitive (Code)
 
-[exercise_03.py](./code/exercise_03.py)
+[exercise_03.py](./code/funn/exercise_03.py)
 
 Ben shows his code to Arjoon who notices that the `parse_integer()` and `parse_name()` functions are basically identical.
 
@@ -205,7 +205,7 @@ def parse_name(text, index):
 
 ## Exercise 4 - The (Code) Generator
 
-[exercise_04.py](./code/exercise_04.py)
+[exercise_04.py](./code/funn/exercise_04.py)
 
 Looking at [Exercise 3](#exercise-3---the-repetitive-code), it all still feels a bit clunky. Yes,
 there's the more general `parse_matching_predicate()` function, but
@@ -249,7 +249,7 @@ parse_name = matching_predicate(str.isalpha)
 
 ## Exercise 5 - The Literal
 
-[exercise_05.py](./code/exercise_05.py)
+[exercise_05.py](./code/funn/exercise_05.py)
 
 Let's revisit the `parse_setting()` function. In that function, there should be calls to `parse_name()` and `parse_integer()`.
 However, there should also be a check for the `literal` `=` and `;` characters. You may have coded these checks directly, but maybe they too could be generalized by a function as well.
@@ -302,7 +302,7 @@ assert parse_setting("a=42", 0) == None  # Missing ';' at end
 
 ## Exercise 6 - The Sequence
 
-[exercise_06.py](./code/exercise_06.py)
+[exercise_06.py](./code/funn/exercise_06.py)
 
 If you look more closely at Exercise 5, you'll find that the
 `parse_setting()` function is stepping through a sequence of
@@ -357,7 +357,7 @@ integer. We will fix this in the next exercise. Proceed to ex7.
 
 ## Exercise 7 - The Reduction
 
-[exercise_07.py](./code/exercise_07.py)
+[exercise_07.py](./code/funn/exercise_07.py)
 
 In exercise 6, the `match_setting()` function *almost* does what you need
 to replace the functionality of `parse_setting()`. However, the return value
@@ -452,7 +452,7 @@ assert parse_decimal("123", 0) == None
 
 ## Exercise 8 - The Choice
 
-[exercise_08.py](./code/exercise_08.py)
+[exercise_08.py](./code/funn/exercise_08.py)
 
 The `sequence()` function you wrote works by applying parsers in
 order, requiring all to match. A different kind of strategy is to
@@ -530,7 +530,7 @@ test_parse_setting()    # Uncomment
 
 ## Exercise 9 - Repetition
 
-[exercise_09.py](./code/exercise_09.py)
+[exercise_09.py](./code/funn/exercise_09.py)
 
 Ben wants to parse a sequence of settings. For example:
 
@@ -582,7 +582,7 @@ test_parse_settings_dict()    # Uncomment
 
 ## Exercise 10 - The Whitespace
 
-- [exercise_10.py](./code/exercise_10.py)
+- [exercise_10.py](./code/funn/exercise_10.py)
 
 One problem with everything that's been written so far is that it has no accommodation for whitespace. For example, what if there are spaces around the parts of a setting? What if there are newlines?
 
