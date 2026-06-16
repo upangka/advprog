@@ -245,14 +245,17 @@ def add(x, y):    # You are NOT allowed to change this function
 You must fix each of these to work correctly. Uncomment each line.
 
 ```python
-after_1(1, add(2,3))    # FIX
-after_1(1, add(x=2, y=3))  # FIX. Must keep kwargs
+after_1(1, lambda: add(2, 3))
+after_1(1, lambda: add(x=2, y=3))
 
-after_2(1, add(2,3))    # FIX
-after_2(1, add(x=2, y=3))  # FIX. Must keep kwargs
+after_2(1, add, (2, 3))
+after_2(1, add, kwargs={'x':2, 'y':3})
+# Commentary: I might be inclined to write it like this so I could
+# keep the syntax of kwargs.
+after_2(1, add, kwargs=dict(x=2, y=3))
 
-after_3(1, add(2,3))    # FIX
-after_3(1, add(x=2, y=3))  # FIX. Must keep kwargs
+after_3(1, add, 2, 3)
+after_3(1, add, x=2, y=3)
 ```
 
 --- 
