@@ -249,6 +249,8 @@ parse_name = matching_predicate(str.isalpha)
 
 ## Exercise 5 - The Literal
 
+[exercise_05.py](./code/exercise_05.py)
+
 Let's revisit the `parse_setting()` function. In that function, there should be calls to `parse_name()` and `parse_integer()`.
 However, there should also be a check for the `literal` `=` and `;` characters. You may have coded these checks directly, but maybe they too could be generalized by a function as well.
 
@@ -257,7 +259,36 @@ Write a function `match_literal(literal)` that *creates* a function that matches
 ```python
 def match_literal(literal):
     def parse(text, index):
-        ... # You define
+        if index < len(text) and text[index] == literal:
+            return (text[index], index + 1)
+        return None
+
     return parse
+```
+
+Examples
+
+```python
+parse_equal = match_literal("=")
+parse_semi = match_literal(";")
+```
+
+对比[exercise-1---the-parser](#exercise-1---the-parser),重新设计`parse_setting`
+
+```python
+def parse_setting(text, index):
+    if not (m := parse_name(text, index)):
+        return None
+    name, index = m
+    if (m := parse_equal(text, index)) is None:
+        return None
+    _, index = m
+    if not (m := parse_integer(text, index)):
+        return None
+    value, index = m
+    if not (m := parse_semi(text, index)):
+        return None
+    _, index = m
+    return ((name, int(value)), index)
 ```
 
