@@ -56,6 +56,8 @@ That is, have the after() function call greeting() after 10 seconds.
 
 ## Exercise 2
 
+[exercise_02.py](./code/interfacee/exercise_02.py)
+
 It seems that the `after()` function only works if you give it a
 function taking no arguments. Is there any way to make it work with
 a function that takes any set of arguments? Can you do this without
@@ -77,4 +79,55 @@ This doesn't work. Why? Can you modify it to make it work?
 
 ```python
 result = after(10, add(2, 3))
+```
+
+> Approach 1: A helper function
+
+```python
+def help():
+    return add(2, 3)
+
+after(3, help)
+```
+
+> Approach 2: Lambda. (Same idea)
+
+```python
+after(3, lambda: add(2, 3))
+```
+
+> Aprroach 3: functools.parital
+
+```python
+import functools
+
+p = functools.partial(add, 2, 3)
+print(f"查看已经绑定的参数: f={p.func} args={p.args} kwargs={p.keywords}")
+
+"""
+属性	        类型	    内容
+p.func	        function   被包装的原始函数
+p.args	        tuple	   已绑定的位置参数（按顺序）
+p.keywords	    dict	   已绑定的关键字参数
+"""
+
+after(3, p)
+```
+
+
+**Thought Experiment**:
+
+How would you use the after() function to carry out the following
+
+operation after 5 seconds?
+
+```python
+   add(add(1,2), add(3,4))
+```
+
+Before you begin, what is this operation even doing? What
+behavior do you expect to see?
+
+```python
+result = after(5, add(add(1,2), add(3,4)))    # Must modify!
 ```
