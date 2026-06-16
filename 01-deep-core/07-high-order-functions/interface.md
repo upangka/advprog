@@ -92,13 +92,13 @@ def help():
 after(3, help)
 ```
 
-> Approach 2: Lambda. (Same idea)
+> Approach 2: `Lambda`. (Same idea)
 
 ```python
 after(3, lambda: add(2, 3))
 ```
 
-> Aprroach 3: functools.parital
+> Aprroach 3: Freezing Arguments with `functools.parital` 
 
 ```python
 import functools
@@ -130,7 +130,7 @@ operation after 5 seconds?
 Before you begin, what is this operation even doing? What
 behavior do you expect to see?
 
-**注意**: `5s`之后统一执行，不会提前计算`add(1,2)`等参数
+**注意**: `5s`之后统一执行，不会提前计算`add(1,2)`等参数，换另外一个角度，由于Mary是要上传到云端执行的函数，所有的运算都将在云端进行执行。
 ```python
 >>> after(5, lambda: add(add(1,2),add(3,5)))
 Adding 1 + 2 -> 3   # 等待5s后才输出
@@ -139,8 +139,9 @@ Adding 3 + 8 -> 11
 11
 ```
 
+---
 
-**注意**: 两个参数会先立即执行， `5s`之后输出最后的结果
+**注意**: 两个参数会先立即执行， `5s`之后输出最后的结果, 换另外一个角度，由于Mary是上传到云端执行的，那么现在这个函数，参数的计算会在客户端进行完成，之后最终的结果是在云端进行完成
 
 ```python
 >>> after(5,functools.partial(add,add(1,2),add(3,5)))
@@ -148,4 +149,153 @@ Adding 1 + 2 -> 3  # 立即输出
 Adding 3 + 5 -> 8
 Adding 3 + 8 -> 11  # 等待5s之后输出
 11
+```
+
+## Exercise 3
+
+Mary has been further pondering the usage of the `after()` function. Should she make it easier for users to supply arguments to the provided function? For example, to simplify the problem addressed in Exercise 2.
+
+This is a surprisingly nuanced problem because Python functions can be called in many different ways. For example:
+
+```python
+def func(x, y, z):
+    ...
+    func(1, 2, 3)    # Positional arguments
+    func(x=1, y=2, z=3)  # Keyword arguments
+    func(1, z=3, y=2)  # Position/keyword argument mix
+
+    args = (1, 2, 3)
+    func(*args)    # Passing a tuple as positional arguments
+
+    kwargs = {'x': 1, 'y': 2, 'z': 3}
+    func(**kwargs)  # Passing a dict as keyword arguments
+```
+
+To make matters even more complicated, a function can force the
+use of **keyword arguments**:
+
+```python
+def func(x, *, y):
+    ...
+func(1, 2)    # Error. y not supplied by keyword
+func(1, y=2)    # Ok!
+```
+
+Plus, there are functions that accept any number of **positional
+or keyword arguments**:
+
+```python
+def func(*args, **kwargs):
+    ...
+```
+
+And in more recent versions of Python, **positional-only functions**:
+
+```python
+def func(x, y, /, z):
+    ...
+func(1, 2, 3)    # OK
+func(1, 2, z=3)  # OK
+func(1, y=2, z=3) # ERROR.
+```
+
+
+To explore all of the above options, Mary has written 3 variants of
+the `after()` function.
+
+**Option 1**: Original implementation. No arguments.
+
+```python
+def after_1(seconds, func):
+    time.sleep(seconds)
+    return func()
+```
+
+**Option 2**: Extra arguments are passed as explicit tuple/dict
+
+```python
+def after_2(seconds, func, args=(), kwargs={}):
+    time.sleep(seconds)
+    return func(*args, **kwargs)
+```
+
+
+**Option 3**: Extra arguments provided via *args and **kwargs
+
+```python
+def after_3(seconds, func, *args, **kwargs):
+    time.sleep(seconds)
+    return func(*args, **kwargs)
+```
+
+---
+
+> **Part 1**:
+
+You first task is to show how you would go about using the above
+functions with the `add()` function from before--using both positional
+and keyword arguments.
+
+```python
+def add(x, y):    # You are NOT allowed to change this function
+    print(f'Adding {x} + {y} -> {x + y}')
+    return x + y
+```
+
+You must fix each of these to work correctly. Uncomment each line.
+
+```python
+after_1(1, add(2,3))    # FIX
+after_1(1, add(x=2, y=3))  # FIX. Must keep kwargs
+
+after_2(1, add(2,3))    # FIX
+after_2(1, add(x=2, y=3))  # FIX. Must keep kwargs
+
+after_3(1, add(2,3))    # FIX
+after_3(1, add(x=2, y=3))  # FIX. Must keep kwargs
+```
+
+--- 
+
+> **Part 2**:
+
+Ben looks at the code and perversely asks what happens if you try to
+use `after()` to call itself?
+
+"What kind of question is that?!?", exclaims Mary.
+
+"Well, if your goal is to make the function general purpose, then
+surely it should be capable of calling itself", explained Ben.
+"For example, something like this."
+
+```python
+after_1(1, lambda: after_1(1, lambda: add(2,3)))
+after_1(1, lambda: after_1(seconds=1, func=lambda: add(2, 3)))
+```
+
+Make these work. Note: Our focus here is on the "after_" function,
+not on the `add()` function.
+
+```python
+after_2(1, after_2(1, add(2,3)))    # FIX
+after_2(1, after_2(seconds=1, func=add(2,3)))  # FIX. Must use kwargs for seconds/func
+
+after_3(1, after_3(1, add(2, 3)))    # FIX
+after_3(1, after_3(seconds=1, func=add(2,3)))  # FIX. Must use kwargs for seconds/func
+```
+
+---
+
+> **Part 3**:
+
+Your task is as follows. Decide which approach Mary should use going
+forward and code it into a final after() function below. If you
+think Mary should do something different than any of the proposed
+solutions, code that instead. In all cases, be prepared to explain
+your reasoning when you unleash this code on your coworkers...
+
+```python
+def after(seconds, func):
+    # Final implementation. You decide what it is.
+    ...
 ```
