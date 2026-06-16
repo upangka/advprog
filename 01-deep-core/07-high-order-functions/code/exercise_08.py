@@ -42,6 +42,23 @@ def test_parse_converted_number():
     print("Good tests for test_parse_converted_number")
 
 
+parse_setting = reduce(
+    sequence(parse_name, parse_equal, parse_converted_number, parse_semi),
+    lambda r: (r[0], r[2]),
+)
+
+
+# New test, with different numeric types and conversion
+def test_parse_setting():
+    assert parse_setting("x=123;", 0) == (("x", 123), 6)
+    assert parse_setting("y=1.3;", 0) == (("y", 1.3), 6)
+    assert parse_setting("x 42", 0) == None  # Missing =
+    assert parse_setting("x=42", 0) == None  # Missing ;
+    assert parse_setting("x=y;", 0) == None  # y is not a number
+    print("Good test for test_parse_setting")
+
+
 if __name__ == "__main__":
     test_parse_number()
     test_parse_converted_number()
+    test_parse_setting()

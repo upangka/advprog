@@ -465,7 +465,11 @@ different alternatives--picking the first one that matches.
 ```python
 def choice(*parsers):
     def parse(text, index):
-        ... # You define
+        for parser in parsers:
+            if m := parser(text, index):
+                return m
+        return None
+
     return parse
 ```
 
@@ -474,6 +478,7 @@ decimal or an integer number using the previously written
 `parse_integer()` and `parse_decimal()` functions.
 
 ```python
+# 注意顺序，先解析decimal
 parse_number = choice(parse_decimal, parse_integer)
 
 def test_parse_number():
@@ -489,7 +494,10 @@ and parse_decimal() functions to convert numeric values into an appropriate
 Python type while parsing.
 
 ```python
-parse_converted_number = ... # You define
+parse_converted_number = choice(
+    reduce(parse_decimal, float), 
+    reduce(parse_integer, int)
+)
 
 def test_parse_converted_number():
     assert parse_converted_number("1234", 0) == (1234, 4)    # Note: int
@@ -503,7 +511,10 @@ Define a more powerful version of `parse_setting()` that handles both
 kinds of numbers.
 
 ```python
-parse_setting = ... # You define
+parse_setting = reduce(
+    sequence(parse_name, parse_equal, parse_converted_number, parse_semi), 
+    lambda r: (r[0], r[2])
+)
 
 # New test, with different numeric types and conversion
 def test_parse_setting():
