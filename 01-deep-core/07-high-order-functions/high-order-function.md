@@ -628,7 +628,7 @@ def token(parser):
 
 def test_token():
     assert token(parse_integer)("123", 0) == ('123', 3)
-    assert token(parse_integer)("   123", 0) == ('123', 7)  # Leading whitespace ignored
+    assert token(parse_integer)("    123", 0) == ('123', 7)  # Leading whitespace ignored
 
 test_token()    # Uncomment.
 ```
