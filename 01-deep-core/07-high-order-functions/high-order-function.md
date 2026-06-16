@@ -378,7 +378,11 @@ data.
 ```python
 def reduce(parser, func):
     def parse(text, index):
-        ... # You define
+        if (m := parser(text, index)) is None:
+            return None
+        val, index = m
+        return (func(val), index)
+
     return parse
 ```
 
@@ -392,3 +396,15 @@ assert reduce(parse_integer, int)('123', 0) == (123, 3)
 Show how you could define `parse_setting()` in terms of `reduce()` and
 `sequence()`. Show that it passes all of the earlier tests.
 Hint: Use of a lambda function might be useful here.
+
+```python
+parse_setting = reduce(
+    sequence(parse_name, parse_equal, reduce(parse_integer, int), parse_semi),
+    lambda r: (r[0], r[2]),
+)
+
+assert parse_setting("name=42;", 0) == (("name", 42), 8)
+assert parse_setting("x", 0) == None
+assert parse_setting("xyz 2", 0) == None  # Missing '='
+assert parse_setting("a=42", 0) == None  # Missing ';' at end
+```
