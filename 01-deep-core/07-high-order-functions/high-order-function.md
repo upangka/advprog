@@ -294,6 +294,8 @@ def parse_setting(text, index):
 
 ## Exercise 6 - The Sequence
 
+[exercise_06.py](./code/exercise_06.py)
+
 If you look more closely at Exercise 5, you'll find that the
 `parse_setting()` function is stepping through a sequence of
 individual parsing steps, but the code looks almost identical at
@@ -305,3 +307,25 @@ parser functions and combines them into a single function that
 invokes each parser in order. If any parser fails, return None. If
 all parsers work, return a list of the matching parts and an ending
 index.
+
+```python
+def sequence(*parsers):
+    def parse(text, index):
+        results = []
+        for f in parsers:
+            if (m := f(text, index)) is None:
+                return None
+            val, index = m
+            results.append(val)
+        return (results, index)
+
+    return parse
+
+match_setting = sequence(parse_name, parse_equal, parse_integer, parse_semi)
+
+def test_match_setting():
+    assert match_setting("x=42;", 0) == (["x", "=", "42", ";"], 5)
+    assert match_setting("x=42", 0) == None  # Missing ;
+    assert match_setting("x_42", 0) == None  # Missing =
+    print("Good tests for test_match_setting")
+```
