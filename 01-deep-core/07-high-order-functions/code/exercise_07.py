@@ -1,4 +1,10 @@
-from exercise_05 import parse_equal, parse_integer, parse_name, parse_semi
+from exercise_05 import (
+    parse_equal,
+    parse_integer,
+    parse_name,
+    parse_semi,
+    match_literal,
+)
 from exercise_06 import sequence
 
 
@@ -30,5 +36,16 @@ def test_parse_setting():
     print("Good Test parse_setting")
 
 
+parse_decimal = reduce(
+    sequence(parse_integer, match_literal("."), parse_integer), "".join
+)
+
+
+def test_parse_decimal():
+    assert parse_decimal("123.45", 0) == ("123.45", 6)
+    assert parse_decimal("123", 0) == None
+
+
 if __name__ == "__main__":
     test_parse_setting()
+    test_parse_decimal()

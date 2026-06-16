@@ -431,3 +431,20 @@ assert parse_setting("a=42", 0) == None  # Missing ';' at end
 >>> parse_setting("name=42;", 0)
 (('name', 42), 8)
 ```
+
+Challenge: Show how you can use a combination of reduce,
+parse_integer(), and sequence to parse a decimal number. A decimal
+number consists of a series of digits, decimal point (.) and more
+digits.
+
+> 非常巧妙，通过组装函数得到新的函数
+
+```python
+parse_decimal = reduce(
+    sequence(parse_integer, match_literal("."), parse_integer),
+    ''.join
+)
+
+assert parse_decimal("123.45", 0) == ("123.45", 6)
+assert parse_decimal("123", 0) == None
+```
