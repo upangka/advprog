@@ -13,16 +13,18 @@ def test_whitespace():
 
 
 def token(parser):
-    t = reduce(
+    return reduce(
         sequence(whitespace, parser),
         lambda r: r[1],
     )
-    return t
 
 
 def test_token():
     assert token(parse_integer)("123", 0) == ("123", 3)
-    assert token(parse_integer)("    123", 0) == ("123", 7)  # Leading whitespace ignored
+    assert token(parse_integer)("    123", 0) == (
+        "123",
+        7,
+    )  # Leading whitespace ignored
     print("Good tests fro test_token")
 
 

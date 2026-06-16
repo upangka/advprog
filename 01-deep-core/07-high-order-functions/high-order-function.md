@@ -624,11 +624,18 @@ choice(), sequence(), and reduce()?
 
 ```python
 def token(parser):
-    ... # You define
+    return reduce(
+        sequence(whitespace, parser),
+        lambda r: r[1],
+    )
 
 def test_token():
-    assert token(parse_integer)("123", 0) == ('123', 3)
-    assert token(parse_integer)("    123", 0) == ('123', 7)  # Leading whitespace ignored
+    assert token(parse_integer)("123", 0) == ("123", 3)
+    assert token(parse_integer)("    123", 0) == (
+        "123",
+        7,
+    )  # Leading whitespace ignored
+    print("Good tests fro test_token")
 
 test_token()    # Uncomment.
 ```
