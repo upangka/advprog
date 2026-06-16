@@ -172,3 +172,14 @@ def test_parse_settings():
     print("Good Test parse_settings")
 
 ```
+
+
+## Exercise 3 - The Repetitive (Code)
+
+Ben shows his code to Arjoon who notices that the `parse_integer()` and `parse_name()` functions are basically identical.
+
+"There's just one tiny difference in both of the functions", he remarks.
+
+Perhaps the core functionality could be implemented in a single function that accepts some kind of extra predicate function for testing characters. For example:
+
+Generic parsing function
