@@ -1,8 +1,8 @@
 from exercise_04 import matching_predicate, parse_integer, parse_name
 from exercise_06 import parse_equal, parse_semi
-from exercise_09 import zero_or_more
 from exercise_07 import reduce, sequence
 from exercise_08 import parse_converted_number
+from exercise_09 import zero_or_more
 
 whitespace = reduce(zero_or_more(matching_predicate(str.isspace)), "".join)
 

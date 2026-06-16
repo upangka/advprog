@@ -36,6 +36,24 @@ def after(seconds, func):
 Proceed to exercise 1 in ex1.py
 
 
+## Exercise 1
+
+[exercise_01.py](./code/interfacee/exercise_01.py)
+
+Your first exercise is to make sure you know how to use the function with
+a simple "Hello World" example.
+
+```python
+def greeting():
+    print("Hello World, From ShenZhen, China :)".center(60, "."))
+
+after(3, greeting)
+```
+
+How do you use the `greeting()` function with the `after()` function?
+That is, have the after() function call greeting() after 10 seconds.
+
+
 ## Exercise 2
 
 It seems that the `after()` function only works if you give it a
