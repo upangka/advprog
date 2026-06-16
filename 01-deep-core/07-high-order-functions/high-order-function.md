@@ -88,6 +88,8 @@ assert parse_name("", 0) == None  # No match (must be at least one letter)
 
 ## Exercise 1 - The Parser
 
+[exercise_01.py](./code/exercise_01.py)
+
 As part of Ben's configuration file format, configuration settings are
 written in the following form:
 
@@ -129,3 +131,19 @@ def test_parse_setting():
     assert parse_setting("a=42", 0) == None  # Missing ';' at end
     print("Good Test parse_setting")
 ```
+
+## Exercise 2 - The Repetitive
+
+The `parse_setting()` function in exercise 1 is only a small part of a larger parser. Ben actually wants to parse multiple settings into a Python dictionary. For example, input like this:
+
+`a=123;b=42;size=99;`
+
+Should turn into the following:
+
+`{'a': 123, 'b': 42, 'size': 99 }`
+
+Like the other functions, the ending index will also be returned. If no settings can be parsed, an empty dictionary is returned.
+
+You task: implement a `parse_settings()` function that repeatedly calls `parse_setting()` to parse each setting one at a time and returns a dictionary when no more settings can be found.
+
+Note: You can turn a list of tuples [('a',123), ('b', 42), ('size', 99)] into a dict using the dict([('a',123), ('b', 42), ...]).
