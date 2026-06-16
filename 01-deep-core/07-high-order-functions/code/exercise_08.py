@@ -19,6 +19,7 @@ def choice(*parsers):
     return parse
 
 
+# 注意顺序，先解析decimal
 parse_number = choice(parse_decimal, parse_integer)
 
 
@@ -29,4 +30,18 @@ def test_parse_number():
     print("Good tests for test_parse_number")
 
 
-test_parse_number()
+parse_converted_number = choice(
+    reduce(parse_decimal, float), reduce(parse_integer, int)
+)
+
+
+def test_parse_converted_number():
+    assert parse_converted_number("1234", 0) == (1234, 4)  # Note: int
+    assert parse_converted_number("12.34", 0) == (12.34, 5)  # Note: float
+    assert parse_converted_number("abc", 0) == None
+    print("Good tests for test_parse_converted_number")
+
+
+if __name__ == "__main__":
+    test_parse_number()
+    test_parse_converted_number()
