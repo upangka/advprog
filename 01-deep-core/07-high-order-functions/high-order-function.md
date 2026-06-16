@@ -1,8 +1,10 @@
 
+
+# Tech
+
 1. Functions are data
 2. Functions can create functions
 
-# Tech
 ## Functions are data
 
 ```python
@@ -32,7 +34,7 @@
 180
 ```
 
-# config.py
+# Parse Setting
 
 Objective: Explore an application of higher-order functions and composition of functions.
 
@@ -53,3 +55,51 @@ Note: This interface may look a little weird, but Ben is thinking about the prob
 
 - lamenting /ləˈmen.tɪŋ/ v. 哀叹；悲叹；抱怨（指对某种困难、不公或糟糕的状况表达悲痛、不满或失望，语气比 complain 更重，带有一种无可奈何的悲愤感）
 - weird /wɪrd/ adj. 奇怪的；怪异的；不寻常的（指某事物与通常的预期或习惯不同，让人感到困惑或意外。在上下文中并非贬义，更多是 Ben 对自己接口设计的一种自嘲式评价，暗示这种设计不符合直觉，但有合理的性能考量）
+
+[config.py](./code/config.py)
+
+```python
+def parse_integer(text, index):
+    n = index
+    while n < len(text) and text[n].isdigit():
+       n += 1
+    return (text[index:n], n) if n > index else None
+
+
+assert parse_integer("1234 567", 0) == ("1234", 4)
+assert parse_integer("1234 567", 5) == ("567", 8)
+assert parse_integer("abc", 0) == None  # No match
+assert parse_integer("", 0) == None  # No match (must be at least one digit)
+```
+
+```python
+def parse_name(text, index):
+    n = index
+    while n < len(text) and text[n].isalpha():
+        n += 1
+    return (text[index:n], n) if n > index else None
+
+
+assert parse_name("abc def", 0) == ("abc", 3)
+assert parse_name("abc def", 4) == ("def", 7)
+assert parse_name("123", 0) == None  # No match
+assert parse_name("", 0) == None  # No match (must be at least one letter)
+```
+
+## Exercise 1 - The Parser
+
+As part of Ben's configuration file format, configuration settings are
+written in the following form:
+
+`name=value;`
+
+For example:
+
+`x=42;`
+
+Your task, use the functions above to write a `parse_setting()`
+function that converts text such as 'x=42;' into a tuple ('x', 42).
+Integer values should be converted to a Python integer. Like the
+`parse_integer()` and `parse_name()` functions, the ending index
+will also be returned. If there is any error in the format (such as
+a missing semicolon), the function should return None.
