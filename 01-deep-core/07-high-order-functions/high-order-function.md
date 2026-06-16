@@ -292,6 +292,14 @@ def parse_setting(text, index):
     return ((name, int(value)), index)
 ```
 
+```python
+assert parse_setting("name=42;", 0) == (("name", 42), 8)
+assert parse_setting("x", 0) == None
+assert parse_setting("xyz 2", 0) == None  # Missing '='
+assert parse_setting("a=42", 0) == None  # Missing ';' at end
+```
+
+
 ## Exercise 6 - The Sequence
 
 [exercise_06.py](./code/exercise_06.py)
@@ -307,6 +315,8 @@ parser functions and combines them into a single function that
 invokes each parser in order. If any parser fails, return None. If
 all parsers work, return a list of the matching parts and an ending
 index.
+
+> 因为有相同的接口与返回值，这里直接构建成`sequence`来取代[exercise 5](#exercise-5---the-literal)的 `parse_setting`
 
 ```python
 def sequence(*parsers):
