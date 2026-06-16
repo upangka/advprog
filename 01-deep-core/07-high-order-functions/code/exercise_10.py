@@ -1,6 +1,8 @@
 from exercise_04 import matching_predicate, parse_integer, parse_name
+from exercise_06 import parse_equal, parse_semi
 from exercise_09 import zero_or_more
 from exercise_07 import reduce, sequence
+from exercise_08 import parse_converted_number
 
 whitespace = reduce(zero_or_more(matching_predicate(str.isspace)), "".join)
 
@@ -29,21 +31,31 @@ def test_token():
 
 
 def tokenize(*parsers):
-    ... # You define
+    return sequence(*[token(f) for f in parsers])
 
-parse_settings = ... # You define
+
+parse_setting = reduce(
+    tokenize(parse_name, parse_equal, parse_converted_number, parse_semi),
+    lambda r: (r[0], r[2]),
+)
+
+parse_settings = reduce(
+    zero_or_more(parse_setting),
+    dict,
+)
+
 
 def test_parse_settings_final():
     text = """
-    speed = 42 ;
-    size = 9.5 ;
+    speed    = 42 ;
+    size     = 9.5 ;
     maxspeed = 1000;
     """
-    # assert parse_settings(text, 0) == ({"speed":42, 'size':9.5, 'maxspeed':1000}, 62)
-
+    assert parse_settings(text, 0) == ({"speed": 42, "size": 9.5, "maxspeed": 1000}, 62)
+    print("Good tests for test_parse_settings_final")
 
 
 if __name__ == "__main__":
     test_whitespace()
     test_token()
-    # test_parse_settings_final() 
+    test_parse_settings_final()

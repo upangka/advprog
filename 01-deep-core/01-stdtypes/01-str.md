@@ -2,6 +2,16 @@
 
 # 常用API
 
+
+##  str.center
+
+[str.center](https://docs.python.org/3/library/stdtypes.html#str.center)
+
+```python
+>>> '鲨鱼のJavthon'.center(30, '-')
+'----------鲨鱼のJavthon----------'
+```
+
 ##  str.isspace
 
 [str.isspace](https://docs.python.org/3/library/stdtypes.html#str.isspace)

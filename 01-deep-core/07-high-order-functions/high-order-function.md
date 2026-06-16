@@ -582,6 +582,8 @@ test_parse_settings_dict()    # Uncomment
 
 ## Exercise 10 - The Whitespace
 
+- [exercise_10.py](./code/exercise_10.py)
+
 One problem with everything that's been written so far is that it has no accommodation for whitespace. For example, what if there are spaces around the parts of a setting? What if there are newlines?
 
 - accommodation /əˌkɑː.məˈdeɪ.ʃən/ n. 适应；调节；容纳（指对某种需求、情况或变化做出的调整或安排，使其能够兼容或适应
@@ -651,17 +653,26 @@ with the token operation above.
 
 ```python
 def tokenize(*parsers):
-    ... # You define
+    return sequence(*[token(f) for f in parsers])
 
-parse_settings = ... # You define
+
+parse_setting = reduce(
+    tokenize(parse_name, parse_equal, parse_converted_number, parse_semi),
+    lambda r: (r[0], r[2]),
+)
+
+parse_settings = reduce(
+    zero_or_more(parse_setting),
+    dict,
+)
 
 def test_parse_settings_final():
     text = """
-    speed = 42 ;
-    size = 9.5 ;
+    speed    = 42 ;
+    size     = 9.5 ;
     maxspeed = 1000;
     """
-    assert parse_settings(text, 0) == ({"speed":42, 'size':9.5, 'maxspeed':1000}, 62)
-
+    assert parse_settings(text, 0) == ({"speed": 42, "size": 9.5, "maxspeed": 1000}, 62)
+    
 test_parse_settings_final()   
 ```
