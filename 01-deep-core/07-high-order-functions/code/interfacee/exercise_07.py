@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import time
+
+
 def A(x: int) -> int:
     print("running A...")
     return x + 10
@@ -69,9 +72,9 @@ class Error(Result):
     def unwrap(self):
         raise self._value
 
-    def __rshift__(self, func):
+    def __rshift__(self, func) -> Result:
         # self >> func
-        return self   # I'm an error. I stay an error.
+        return self  # I'm an error. I stay an error.
 
 
 def test_chain_operator(x):
@@ -93,3 +96,17 @@ def test_chain_operator(x):
         case Error(e):
             print(isinstance(e, TypeError))
             assert isinstance(e, TypeError)
+
+
+def after(seconds, func):
+    def run(*args, **kwargs):
+        time.sleep(seconds)
+        return func(*args, **kwargs)
+
+    return run
+
+
+def test_after():
+    r = Ok(2) >> after(1, A) >> B >> after(3, C)
+    print(r)
+    assert r._value == 576

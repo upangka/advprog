@@ -930,3 +930,17 @@ r = Ok(2) >> after(1, A) >> B >> after(3, C)
 ```
 
 Note: The above code does NOT work as written. Why? Can it be fixed?
+
+```python
+def after(seconds, func):
+    def run(*args, **kwargs):
+        time.sleep(seconds)
+        return func(*args, **kwargs)
+
+    return run
+```
+
+## 小结-链式的核心
+
+1. 首先定义魔术方法确定要接受的参数类型
+2. 返回通用的类型，确保继续处理下一个参数
