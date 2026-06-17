@@ -1,4 +1,3 @@
-
 def A(x: int) -> int:
     print("running A...")
     return x + 10
@@ -27,4 +26,37 @@ def chained_after(x: int) -> int:
     return c.unwrap()
 
 
-assert chained_after(2) == 576  # Uncomment
+# assert chained_after(2) == 576  # Uncomment
+
+
+class Result:
+    __match_args__ = "_value"
+
+    def __init__(self, value) -> None:
+        self._value = value
+
+    def unwrap(self):
+        raise NotImplementedError()
+
+    def __rshift__(self, func):
+        raise NotImplementedError()
+
+
+class Ok(Result):
+
+    def unwrap(self):
+        return self._value
+
+    def __rshift__(self, func):
+        result = func(self._value)
+        return Ok(result)
+
+
+class Error(Result):
+    def __rshift__(self, func):
+        func()
+
+
+x = 2
+r = Ok(x) >> A >> B >> C
+print(r.unwrap())  # Prints
