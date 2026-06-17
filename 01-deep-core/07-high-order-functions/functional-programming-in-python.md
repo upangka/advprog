@@ -954,3 +954,144 @@ def after(seconds, func):
 ## Monadic Bind
 
 `Monadic Bind（>>）`是一种模式：它允许你用"普通函数"去操作"带上下文的值"，由 Bind 负责上下文的自动传递、切换和短路。在 Python 里用 `__rshift__` 完整实现了它，并且用在了 `Ok(x) >> A >> B >> C` 的链式调用中。这就是函数式编程中 Monad 的全部秘密。
+
+
+# Exercise 8 - Changing The Future
+
+[exercise_08.py](./code/interfacee/exercise_08.py)
+
+In reality, Mary wants the `after()` function to return immediately, but run the supplied function in the background using a thread. To coordinate this, she has implemented a programming device known as a "Future." A future represents the outcome of a computation that has yet to be performed. The final result gets set at a later time.
+
+In many ways, a Future is almost identical to the Result object we created in earlier exercises except for the fact that we don't know its final value at the time of creation. That only becomes known later.
+
+Here is code that implements a Future.
+
+```python
+import threading
+import time
+
+class Future:
+    def __init__(self):
+        self._value = None
+        self._exc = None
+        self._evt = threading.Event()
+
+    def set_value(self, value):
+        self._value = value
+        self._evt.set()
+
+    def set_exception(self, exc):
+        self._exc = exc
+        self._evt.set()
+
+    def result(self):
+        self._evt.wait()
+        if self._exc is None:
+            return self._value
+        else:
+            raise self._exc
+```
+
+And here is Mary's modified `after()` function that uses a `Future`
+
+```python
+def after(seconds, func, name=None):
+    fut = Future()
+    id = name if name else str(uuid.uuid4())
+
+    def run():
+        time.sleep(seconds)
+        try:
+            fut.set_value(func())
+        except Exception as err:
+            fut.set_exception(err)
+        finally:
+            logger.info(f"{id[:8]} finished".center(50, "."))
+
+    threading.Thread(target=run).start()
+    return fut
+```
+
+**Part 1**
+
+Your first task is to make sure you understand what's happening by
+trying an example. A critical feature of `after()` is that allows
+multiple functions to be launched at once. Another critical feature
+is that if `result()` is called before a result is known, the code
+waits (blocks) until the result is set (this is the purpose of the
+threading.Event used in the implementation).
+
+Try this example and study the result:
+
+```python
+def add(x, y):
+    return x + y
+
+def example():
+    logger.info("Launching functions".center(50, "."))
+    f1 = after(20, lambda: add(2, 3), "f1")
+    f2 = after(10, lambda: add(100, 200), "f2")
+    f3 = after(5, lambda: add("two", 3), "f3")
+    logger.info("Now waiting for results".center(50, "."))
+    print(f"f1 -> {f1.result()}")
+    print(f"f2 -> {f2.result()}")
+    try:
+        f3.result()
+    except TypeError as err:
+        logger.error(f"f3 -> {err}")
+
+example()    # Uncomment
+```
+
+输出:
+
+```sh
+20:55:20 - INFO - ...............Launching functions................
+20:55:20 - INFO - .............Now waiting for results..............
+20:55:25 - INFO - ...................f3 finished....................
+20:55:30 - INFO - ...................f2 finished....................
+20:55:40 - INFO - ...................f1 finished....................
+f1 -> 5
+f2 -> 300
+20:55:40 - ERROR - f3 -> can only concatenate str (not "int") to str
+```
+
+**Part 2**
+
+In the last few exercises, we spent a lot of time thinking about the `Result`
+class and how we might refactor it to support things such as type checking
+and structural pattern matching. Can we do something similar for the
+above `Future` class and if so, what would it look like?
+
+This is a very open-ended question and I'm not sure there is a right answer.
+However, the gist of the code below is what to think about:
+
+```python
+class ModernFuture:
+    ...  # ????
+
+class Success:
+    ...  # ????
+
+class Fail:
+    ...  # ????
+
+def after(seconds, func) -> ModernFuture:
+    fut = ModernFuture()
+    def run():
+        time.sleep(seconds)
+        ...  # Run func() and set the result of fut
+    threading.Thread(target=run).start()
+    return fut
+
+def modern_example():
+    # This code is incomplete. You need to modify/fix as you see fit.
+    fut = after(10, lambda: add(2, 3))
+    match ...:  # ????
+        case Success(value):
+            print("It worked:", value)
+        case Fail(err):
+            print("It failed:", err)
+
+modern_example()
+```
