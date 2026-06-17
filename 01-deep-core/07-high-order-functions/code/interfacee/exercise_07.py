@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 def A(x: int) -> int:
     print("running A...")
     return x + 10
@@ -38,7 +40,7 @@ class Result:
     def unwrap(self):
         raise NotImplementedError()
 
-    def __rshift__(self, func):
+    def __rshift__(self, func) -> Result:
         raise NotImplementedError()
 
     def __repr__(self) -> str:
@@ -50,7 +52,7 @@ class Ok(Result):
     def unwrap(self):
         return self._value
 
-    def __rshift__(self, func):
+    def __rshift__(self, func) -> Result:
         """
         self >> func
         Since we are an 'Ok' instance, it means that we hold a good value.
@@ -68,7 +70,8 @@ class Error(Result):
         raise self._value
 
     def __rshift__(self, func):
-        return self
+        # self >> func
+        return self   # I'm an error. I stay an error.
 
 
 def test_chain_operator(x):
