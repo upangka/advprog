@@ -747,4 +747,6 @@ Try the above code with these examples:
 >>> h(1, -1)
 >>> h(1, "one")
 >>> h(-1, 1)
+>>> del math
+>>> h(1, 1)
 ```
