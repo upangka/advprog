@@ -1,6 +1,7 @@
-from after import after
 import math
 import time
+
+from after import after
 
 
 def f(delay, value):

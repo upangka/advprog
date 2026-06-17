@@ -636,6 +636,8 @@ class Error(Result):
 
 **Part 1**:
 
+[exercise_06.py](./code/interfacee/exercise_06.py)
+
 Fill in the missing details of the following `after()` function. It
 returns a `Result` as before, but it should refine the outcome so
 that either `Ok()` or `Error()` is returned. An attached test illustrates.
@@ -645,9 +647,11 @@ import time
 
 def after(seconds: float, func) -> Result:
     time.sleep(seconds)
-    # You implement this
-    ...
-    return Ok(...) or Error(...)
+    # return Ok(...) or Error(...)
+    try:
+        return Ok(func())
+    except Exception as err:
+        return Error(err)
 
 def test_after():
     def add(x, y):
@@ -665,7 +669,7 @@ test_after()    # Uncomment
 
 Splitting the result into two classes refines the result, but also
 opens up the possibility of case-analysis. Consider the following
-revised version of a function from Exercise 4.
+revised version of a function from [Exercise 4](#exercise-4).
 
 ```python
 import math
