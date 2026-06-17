@@ -287,7 +287,9 @@ not on the `add()` function.
 
 ```python
 after_2(1, after_2, args=(1, add, (2, 3)))
+# 直接用字段全部代替
 after_2(1, after_2, kwargs=dict(seconds=1, func=add, args=(2, 3)))
+# kwargs需要多处理一层
 after_2(1, after_2, args=(1, add), kwargs={"kwargs": dict(x=2, y=3)})
 
 after_3(1, after_3, 1, add, 2, 3)
