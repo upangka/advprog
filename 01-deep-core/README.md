@@ -4,6 +4,7 @@
 
 - [内置标准类型](./01-stdtypes/README.md)
   - [01 str](./01-stdtypes/01-str.md)
+  - [match case](./01-stdtypes/02-match-case.md)
 
 - [函数](./07-high-order-functions/README.md)
   - [高阶函数](./07-high-order-functions/high-order-function.md)
