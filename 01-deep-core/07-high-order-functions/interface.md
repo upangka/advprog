@@ -554,10 +554,10 @@ test()
 In the previous exercise, we were concerned with the behavior of various
 error cases. Your job here is to revisit some of those tests.
 
+Try the following failure scenarios with your new `after()` function
+
 ```python
 import math
-
-Try the following failure scenarios with your new after() function
 
 r = after(1, lambda: math.sqrt(-1))
 r = after(-1, lambda: math.sqrt(1))
@@ -579,7 +579,7 @@ proper way.
 
 A coding style debate has erupted in the office. Ben argues that
 the following is an appropriate and convenient way to use the
-after() function:
+`after()` function:
 
 ```python
 try:
