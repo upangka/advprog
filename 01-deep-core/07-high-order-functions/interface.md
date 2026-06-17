@@ -767,10 +767,12 @@ def k(delay, value):
     match after(delay, lambda: math.sqrt(value)):
         case Ok(value):
             print("It worked:", value)
+        case Error(AfterError() as e):
+            print(f"anthor formatter: {e!r}")
         case Error(TypeError() as e):
-            print("It failed:", e)  # ??? where to get e? (the exception)
+            print(f"It failed: {e!r}")
         case Error(ValueError() as e):
-            print("It failed:", e)  # ??? where to get e? (there exception)
+            print(f"It failed: {e!r}")
         case Error(e):
             raise e
 ```

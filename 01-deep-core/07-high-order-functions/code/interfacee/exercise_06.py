@@ -81,6 +81,20 @@ def h(delay, value):
             raise e
 
 
+def k(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(AfterError() as e):
+            print(f"anthor formatter: {e!r}")
+        case Error(TypeError() as e):
+            print(f"It failed: {e!r}")
+        case Error(ValueError() as e):
+            print(f"It failed: {e!r}")
+        case Error(e):
+            raise e
+
+
 if __name__ == "__main__":
     # test_after()
     # g(1,-1)
