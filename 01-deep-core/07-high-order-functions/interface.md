@@ -512,11 +512,12 @@ that it uses `Result`. Then, verify that the supplied test works.
 ```python
 import time
 
-def after(seconds: float, func) -> Result:
+def after(seconds, func):
     time.sleep(seconds)
-    # You implement this
-    ...
-    return Result(...)
+    try:
+        return Result(func())
+    except Exception as err:
+        return Result(exc=err)
 ```
 
 Example
