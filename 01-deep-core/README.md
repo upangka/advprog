@@ -8,7 +8,7 @@
 
 - [函数](./07-high-order-functions/README.md)
   - [高阶函数](./07-high-order-functions/high-order-function.md)
-  - [interface](./07-high-order-functions/interface.md)
+  - [函数式编程](./07-high-order-functions/functional-programming-in-python.md)
 
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/TypeDict.md)

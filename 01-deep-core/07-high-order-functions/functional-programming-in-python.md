@@ -615,6 +615,12 @@ What is your opinion on this debate?
 
 After some discussion, Mary realizes that the approach taken in exercise 5 is a bit weird and muddled. Part of the problem is the Result instance is being used to represent two completely different things--a normal result and an error result. Perhaps it would be better to split these into two different classes--each representing a different outcome.
 
+## Either Monad
+
+`Either Monad` 是 `Monad` 的一个具体实现，专门用来表示"两种可能的结果"——要么成功，要么失败。`Result、Ok、Error` 三个类组合起来，就是 Python 版本的 `Either Monad`。
+
+Ok 是成功分支，里面包裹着函数正常返回的值。Error 是失败分支，里面包裹着异常对象。
+
 For example:
 
 ```python
@@ -944,3 +950,7 @@ def after(seconds, func):
 
 1. 首先定义魔术方法确定要接受的参数类型
 2. 返回通用的类型，确保继续处理下一个参数
+
+## Monadic Bind
+
+`Monadic Bind（>>）`是一种模式：它允许你用"普通函数"去操作"带上下文的值"，由 Bind 负责上下文的自动传递、切换和短路。在 Python 里用 `__rshift__` 完整实现了它，并且用在了 `Ok(x) >> A >> B >> C` 的链式调用中。这就是函数式编程中 Monad 的全部秘密。
