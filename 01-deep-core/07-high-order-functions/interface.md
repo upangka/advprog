@@ -273,6 +273,8 @@ use `after()` to call itself?
 surely it should be capable of calling itself", explained Ben.
 "For example, something like this."
 
+- perversely /pərˈvɜːrsli/ adv. 执拗地；反常地；故意作对地（指行为或想法与常理相悖，带有一种固执、爱钻牛角尖或故意唱反调的意味。
+
 ```python
 after_1(1, lambda: after_1(1, lambda: add(2,3)))
 after_1(1, lambda: after_1(seconds=1, func=lambda: add(2, 3)))
@@ -282,11 +284,15 @@ Make these work. Note: Our focus here is on the "after_" function,
 not on the `add()` function.
 
 ```python
-after_2(1, after_2(1, add(2,3)))    # FIX
-after_2(1, after_2(seconds=1, func=add(2,3)))  # FIX. Must use kwargs for seconds/func
+after_1(1, lambda: after_1(1, lambda: add(2, 3)))
+after_1(1, lambda: after_1(seconds=1, func=lambda: add(2, 3)))
 
-after_3(1, after_3(1, add(2, 3)))    # FIX
-after_3(1, after_3(seconds=1, func=add(2,3)))  # FIX. Must use kwargs for seconds/func
+after_2(1, lambda: after_2(1, add, args=(2, 3)))
+after_2(1, lambda: after_2(seconds=1, func=add, kwargs=dict(x=2, y=3)))
+
+after_3(1, lambda: after_3(1, add, 2, 3))
+after_3(1, lambda: after_3(seconds=1, func=add, **dict(x=2, y=3)))
+after_3(1, lambda: after_3(seconds=1, func=add, x=2, y=3))
 ```
 
 ---
