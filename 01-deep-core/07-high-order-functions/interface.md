@@ -506,8 +506,8 @@ except Exception as e:
 
 **Part 1**:
 
-Fill in the missing details of the following after() function so
-that it uses Result. Then, verify that the supplied test works.
+Fill in the missing details of the following `after()` function so
+that it uses `Result`. Then, verify that the supplied test works.
 
 ```python
 import time
@@ -531,15 +531,15 @@ The following test shows the desired behavior
 
 ```python
 def test():
-    r = after(5, lambda: add(2, 3))
+    r = after(2, lambda: add(2, 3))
     assert r.unwrap() == 5
 
-    r = after(5, lambda: add('2', 3))
+    r = after(2, lambda: add("2", 3))
     try:
         a = r.unwrap()
-        print('Bad! Why did this work?')
+        print("Bad! Why did this work?")
     except TypeError as err:
-        print('Good!')
+        print("Good!")
 ```
 
 Uncomment to test
