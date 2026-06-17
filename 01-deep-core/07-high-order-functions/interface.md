@@ -319,6 +319,8 @@ def after(seconds, func):
 
 # Exercise 4
 
+[exercise_04.py](./code/interfacee/exercise_04.py)
+
 "Oh my, it's full of fail."
 In experimenting with the `after()` function, Mary has noticed some odd quirks with respect to error handling. Consider this function that internally uses `after()`.
 
@@ -374,7 +376,7 @@ class AfterError(Exception):
 
 def after_1(seconds, func):
     if seconds < 0:
-        raise AfterError("seconds must be non-negative")
+        raise AfterError("Seconds must be non-negative")
     time.sleep(seconds)
     return func()
 
@@ -413,11 +415,11 @@ following examples and observe the behavior
 >>> after_2(1, math.sqrt(-1))
 ```
 
-Do you have a preferred version?
+Do you have a preferred version? Yes: the `after_1`
 
 ---
 
-Part 3:
+**Part 3**:
 
 Your task is to take everything you've learned above and write your
 preferred version of the `after()` function below. If you are inclined,
@@ -429,12 +431,34 @@ able to explain your reasoning in some way.
 I'm not looking for a specific "correct" answer here. This is a tricky
 edge case and there are many ways one might think about it.
 
+
+> DaBeaz:   
+> My gut sense... if someone were wrapping this with try: ... except:,
+they would probably be most focused on the execution of func().
+Therefore, I'm inclined to use AfterError for issues related to
+the `after` function itself.
+
 ```python
 def after(seconds, func):
-    # Modify to handle errors in the your most preferred way.
+    if seconds < 0:
+        raise AfterError("Seconds must be non-negative")
+    if not callable(func):
+        raise AfterError("func must be a callable")
     time.sleep(seconds)
     return func()
 ```
+
+设计哲学
+
+| 问题类型 | 处理方式 | 谁负责 |
+|----------|----------|--------|
+| `seconds < 0`（用户用错了 after） | 抛出 `AfterError` | `after` 函数负责 |
+| `func` 不可调用（用户用错了 after） | 抛出 `AfterError` | `after` 函数负责 |
+| `func()` 内部出错（用户的代码写错了） | 让原始异常直接向上抛出 | 调用者（用户）负责 |
+
+换句话说，Beazley 的观点是：
+
+`after` 只负责报告"你自己的锅"（你调用 `after` 时传错了参数）。至于你传入的 `func()` 自己报错——那是你的事，你自己用 `try...except` 去处理，我不帮你包一层。
 
 ASIDE: Unexpected issues with exception handling are a frequent source
 of very surprising program failures--sometimes at great cost. Clarity
