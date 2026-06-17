@@ -1,3 +1,6 @@
+from exercise_04 import AfterError
+
+
 class Result:
     __match_args__ = ("_value",)
 
@@ -22,6 +25,8 @@ import time
 
 
 def after(seconds: float, func) -> Result:
+    if seconds < 0:
+        return Error(AfterError("Seconds must be non-negative"))
     time.sleep(seconds)
     # return Ok(...) or Error(...)
     try:
@@ -57,8 +62,24 @@ def g(delay, value):
         case Ok(value):
             print("It worked:", value)
         case Error(exc):
-            print("It failed:", exc)
+            print(f"It failed: {exc!r}")
+
+
+def h(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(AfterError()) as e:  # 注意这行
+            print(f"{e._value!r}")
+        case Error(TypeError()):
+            print("It failed: type error")
+        case Error(ValueError()):
+            print("It failed: bad value")
+        case Error(e):
+            raise e
 
 
 if __name__ == "__main__":
-    test_after()
+    # test_after()
+    # g(1,-1)
+    ...

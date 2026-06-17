@@ -27,7 +27,9 @@ class Error(Result):
         raise self._value
 ```
 
-使用：
+下面的两种使用：
+1. 映射具体值
+2. 映射具体类型`Error(SomeType())`
 
 ```python
 def g(delay, value):
@@ -36,4 +38,19 @@ def g(delay, value):
             print("It worked:", value)
         case Error(exc):
             print("It failed:", exc)
+```
+
+```python
+def h(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(AfterError()) as e:  # 注意这行
+            print(f"{e._value!r}")
+        case Error(TypeError()):
+            print("It failed: type error")
+        case Error(ValueError()):
+            print("It failed: bad value")
+        case Error(e):
+            raise e
 ```

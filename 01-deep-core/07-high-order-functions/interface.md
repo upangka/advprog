@@ -701,7 +701,7 @@ def g(delay, value):
         case Ok(value):
             print("It worked:", value)
         case Error(exc):
-            print("It failed:", exc)
+            print(f"It failed: {exc!r}")
 ```
 
 Try the above function to see what happens
@@ -719,4 +719,32 @@ class Result:
     __match_args__ = ('_value',)
     def __init__(self, value):
         self._value = value
+```
+
+
+**Part 4**:
+
+The refinement. Can pattern matching further refine exceptions? For
+example, as shown in this code?
+
+```python
+def h(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(TypeError()):
+            print("It failed: type error")
+        case Error(ValueError()):
+            print("It failed: bad value")
+        case Error(e):
+            raise e
+```
+
+Try the above code with these examples:
+
+```sh
+>>> h(1, 1)
+>>> h(1, -1)
+>>> h(1, "one")
+>>> h(-1, 1)
 ```

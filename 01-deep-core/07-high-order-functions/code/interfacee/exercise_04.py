@@ -6,7 +6,7 @@ from after import after
 
 def f(delay, value):
     try:
-        value = after(delay, lambda: math.sqrt(value))
+        value = after(delay, lambda: math.sqrt(value))  # type: ignore
         print("It worked:", value)
     except ValueError as err:
         print("It failed")
