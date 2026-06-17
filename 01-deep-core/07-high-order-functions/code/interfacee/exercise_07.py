@@ -30,7 +30,7 @@ def chained_after(x: int) -> int:
 
 
 class Result:
-    __match_args__ = "_value"
+    __match_args__ = ("_value",)
 
     def __init__(self, value) -> None:
         self._value = value
@@ -60,3 +60,10 @@ class Error(Result):
 x = 2
 r = Ok(x) >> A >> B >> C
 print(r.unwrap())  # Prints
+
+
+match Ok(x) >> A >> B >> C:
+    case Ok(value):
+        print("It worked:", value)
+    case Error(e):
+        print("It failed:", e)

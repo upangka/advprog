@@ -783,6 +783,8 @@ Hint: How do you get the exception value with `try-except`?
 
 # Exercise 7 - "The Chain"
 
+[exercise_07.py](./code/interfacee/exercise_07.py)
+
 Although it's maybe a bit unusual in terms of Python style, one
 possibly nice thing about the last few exercises is that the `after()`
 function is fairly easy to reason about. You give it a function as
@@ -862,8 +864,9 @@ express a computation chain in an elegant way like this?
 For example:
 
 ```python
+x = 2
 r = Ok(x) >> A >> B >> C
-print(r.unwrap())    # Prints
+print(r.unwrap())  # Prints
 ```
 
 Or alternatively:
@@ -883,24 +886,26 @@ the `Result/Ok/Error` classes.
 
 ```python
 class Result:
-    __match_args__ = ('_value',)
-    def __init__(self, value):
+    __match_args__ = ("_value",)
+
+    def __init__(self, value) -> None:
         self._value = value
 
     def unwrap(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
-    def __rshift__(self, func) -> 'Result':
-        # self >> func
-        raise NotImplemented()
+    def __rshift__(self, func):
+        raise NotImplementedError()
+
 
 class Ok(Result):
+
     def unwrap(self):
         return self._value
 
-    def __rshift__(self, func) -> Result:
-        # self >> func
-        ...  # You implement
+    def __rshift__(self, func):
+        result = func(self._value)
+        return Ok(result)
 
 match Ok("two") >> A >> B >> C:
     case Ok(value):
