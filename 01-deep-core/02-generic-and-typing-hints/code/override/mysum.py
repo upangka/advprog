@@ -1,8 +1,8 @@
 MISSING = object()
 MSG = "max() arg is an empty sequence"
 
-from typing import overload, Protocol, TypeVar, Union
-from collections.abc import Iterable, Callable
+from collections.abc import Callable, Iterable
+from typing import Protocol, TypeVar, Union, overload
 
 
 class SupportLessThan(Protocol):

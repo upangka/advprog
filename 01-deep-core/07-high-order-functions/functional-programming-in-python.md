@@ -958,13 +958,15 @@ def after(seconds, func):
 
 # Exercise 8 - Changing The Future
 
-[exercise_08.py](./code/interfacee/exercise_08.py)
+
 
 In reality, Mary wants the `after()` function to return immediately, but run the supplied function in the background using a thread. To coordinate this, she has implemented a programming device known as a "Future." A future represents the outcome of a computation that has yet to be performed. The final result gets set at a later time.
 
 In many ways, a Future is almost identical to the Result object we created in earlier exercises except for the fact that we don't know its final value at the time of creation. That only becomes known later.
 
 Here is code that implements a Future.
+
+[exercise_0801.py](./code/interfacee/exercise_0801.py)
 
 ```python
 import threading
@@ -1094,4 +1096,99 @@ def modern_example():
             print("It failed:", err)
 
 modern_example()
+```
+
+完成Dabeaz老师的作业
+
+[exercise_0802.py](./code/interfacee/exercise_0802.py)
+
+```python
+class Result(abc.ABC):
+    __match_args__ = ("_value",)
+
+    def __init__(self, value):
+        self._value = value
+
+    @abc.abstractmethod
+    def unwrap(self):
+        raise NotImplementedError()
+
+
+class Success(Result):
+    def unwrap(self):
+        return super()._value
+
+
+class Fail(Result):
+    def unwrap(self):
+        raise super()._value
+
+
+class ModernFuture:
+    def __init__(self):
+        self._result: Result = Success(None)
+        self._evt = threading.Event()
+
+    def set_success(self, value):
+        assert not self._evt.is_set()
+        self._result = Success(value)
+        self._evt.set()
+
+    def set_fail(self, exc):
+        assert not self._evt.is_set()
+        self._result = Fail(exc)
+        self._evt.set()
+
+    def get(self) -> Result:
+        self._evt.wait()
+        return self._result
+
+
+def after(seconds, func, name=None) -> ModernFuture:
+    fut = ModernFuture()
+
+    id = name if name else str(uuid.uuid4())
+
+    def run():
+        time.sleep(seconds)
+        try:
+            fut.set_success(func())
+        except Exception as err:
+            fut.set_fail(err)
+        finally:
+            logger.info(f"{id[:8]} finished".center(50, "."))
+
+    threading.Thread(target=run).start()
+    return fut
+
+
+def add(x, y):
+    return x + y
+
+
+def modern_example():
+    logger.info("Launching functions".center(50, "."))
+    f1 = after(20, lambda: add(2, 3), "f1")
+    f2 = after(10, lambda: add(100, 200), "f2")
+    f3 = after(5, lambda: add("two", 3), "f3")
+    logger.info("Now waiting for results".center(50, "."))
+
+    for fut, name in [(f1, "f1"), (f2, "f2"), (f3, "f3")]:
+        match fut.get():
+            case Success(val):
+                print(f"{name} -> {val}")
+            case Fail(exr):
+                print(f"{name} -> {exr!r}")
+```
+
+
+```sh
+2026-06-17 21:54:30 - INFO - ...............Launching functions................
+2026-06-17 21:54:30 - INFO - .............Now waiting for results..............
+2026-06-17 21:54:35 - INFO - ...................f3 finished....................
+2026-06-17 21:54:40 - INFO - ...................f2 finished....................
+2026-06-17 21:54:50 - INFO - ...................f1 finished....................
+f1 -> 5
+f2 -> 300
+f3 -> TypeError('can only concatenate str (not "int") to str')
 ```

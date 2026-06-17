@@ -11,6 +11,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+"""
+Part-1
+"""
+
+
 class Future:
     def __init__(self):
         self._value = None
@@ -68,5 +73,6 @@ def example():
     except TypeError as err:
         logger.error(f"f3 -> {err}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     example()

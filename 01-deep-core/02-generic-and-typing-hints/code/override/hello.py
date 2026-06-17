@@ -4,7 +4,7 @@ I've been learning Python for a few days.
 Today I learned about @overload.
 """
 
-from typing import overload, Iterable
+from typing import Iterable, overload
 
 
 @overload
