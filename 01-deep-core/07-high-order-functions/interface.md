@@ -306,8 +306,139 @@ think Mary should do something different than any of the proposed
 solutions, code that instead. In all cases, be prepared to explain
 your reasoning when you unleash this code on your coworkers...
 
+- unleash /ʌnˈliːʃ/ v. 释放；解除束缚；放任（指把某种力量、行动或事物从限制中解放出来，让其自由发挥作用，常带有"一旦放出去就不可控"的意味。在上下文中，"be prepared to explain your reasoning when you unleash this code on your coworkers..." 的意思是：当你把这段代码释放到同事们的面前时（即提交给团队使用），要准备好解释你的理由。这个词带有幽默夸张的色彩，暗示你设计的 after() 函数一旦被投入使用，可能会引起团队讨论甚至争议，所以你必须在"放出"它之前想清楚自己的设计决策）
+
 ```python
 def after(seconds, func):
     # Final implementation. You decide what it is.
-    ...
+    time.sleep(seconds)
+    return func()
 ```
+
+
+
+# Exercise 4
+
+"Oh my, it's full of fail."
+In experimenting with the `after()` function, Mary has noticed some odd quirks with respect to error handling. Consider this function that internally uses `after()`.
+
+- odd quirks /ɑd kwɜːrks/ n. 奇怪的怪癖；古怪的特性（指某事物表现出不寻常、难以预料或违反直觉的行为特征。odd 意为"奇怪的、异常的"，quirks 意为"怪癖、特性、意想不到的细节"。
+
+```python
+import math
+def f(delay, value):
+    try:
+        value = after(delay, lambda: math.sqrt(value))
+        print("It worked:", value)
+    except ValueError as err:
+        print("It failed")
+```
+
+What happens when you try this function with these two inputs?
+
+```python
+f(1, -1)    # Uncomment
+f(-1, 1)    # Uncomment
+```
+
+Confused, Mary now tries these operations using `after()` at the
+interactive REPL.
+
+```python
+>>> after(1, lambda: math.sqrt(-1))
+>>> after(-1, lambda: math.sqrt(1))
+```
+
+"Oh, I see!"
+
+Your first task: Try all of the above experiments and contemplate
+the nature of exception handling that's occurring. Then proceed
+to Part 1 below.
+
+- contemplate /ˈkɑːn.təm.pleɪt/ v. 沉思；仔细考虑；深入思考（指对某个问题或现象进行认真、深入的审视和思考，通常是花时间去理解其中的含义或原理。仔细思考正在发生的异常处理的本质
+
+---
+
+**Part 1**:
+
+Mary has written two versions of the `after()` function that refine
+the reporting of exceptions. The purpose of this refinement is to
+more clearly separate exceptions originating from the supplied `func()`
+from exceptions related to bad usage of the `after()` function.
+
+- refine /rɪˈfaɪn/ v. 改进；完善；精炼（指通过去除缺陷、调整细节或优化设计，使某事物变得更好、更精确或更清晰。
+
+```python
+class AfterError(Exception):
+    pass
+
+def after_1(seconds, func):
+    if seconds < 0:
+        raise AfterError("seconds must be non-negative")
+    time.sleep(seconds)
+    return func()
+
+def after_2(seconds, func):
+    time.sleep(seconds)
+    try:
+        return func()
+    except Exception as err:
+        raise AfterError("function failed") from err
+```
+
+Your task is to try the two examples from earlier with these
+functions and observe the results. Do you have a preferred
+version?
+
+```python
+>>> after_1(1, lambda: math.sqrt(-1))
+>>> after_1(-1, lambda: math.sqrt(1))
+
+>>> after_2(1, lambda: math.sqrt(-1))
+>>> after_2(-1, lambda: math.sqrt(1))
+```
+
+---
+
+**Part 2**:
+
+A common programming mistake is to forget the lambda. Try the
+following examples and observe the behavior
+
+```python
+>>> after_1(1, math.sqrt(1))
+>>> after_1(1, math.sqrt(-1))
+
+>>> after_2(1, math.sqrt(1))
+>>> after_2(1, math.sqrt(-1))
+```
+
+Do you have a preferred version?
+
+---
+
+Part 3:
+
+Your task is to take everything you've learned above and write your
+preferred version of the `after()` function below. If you are inclined,
+you can do something completely different. However, you should be
+able to explain your reasoning in some way.
+
+- inclined /ɪnˈklaɪnd/ adj. 倾向于；有意于；有……的倾向（指某人对某事物有偏好、意向或心理上的倾向，通常用于表达个人的喜好、选择或倾向性。
+
+I'm not looking for a specific "correct" answer here. This is a tricky
+edge case and there are many ways one might think about it.
+
+```python
+def after(seconds, func):
+    # Modify to handle errors in the your most preferred way.
+    time.sleep(seconds)
+    return func()
+```
+
+ASIDE: Unexpected issues with exception handling are a frequent source
+of very surprising program failures--sometimes at great cost. Clarity
+around error handling is often a good idea in terms of code readability
+and debugging.
+
+- Clarity /ˈkler.ə.t̬i/ n. 清晰；明确；清楚（指事物表达得清楚、易懂，没有模糊或歧义。
