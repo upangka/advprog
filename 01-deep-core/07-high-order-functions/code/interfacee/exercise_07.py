@@ -41,6 +41,9 @@ class Result:
     def __rshift__(self, func):
         raise NotImplementedError()
 
+    def __repr__(self) -> str:
+        return f"{self._value!r}"
+
 
 class Ok(Result):
 
@@ -48,22 +51,42 @@ class Ok(Result):
         return self._value
 
     def __rshift__(self, func):
-        result = func(self._value)
-        return Ok(result)
+        """
+        self >> func
+        Since we are an 'Ok' instance, it means that we hold a good value.
+        We will pass it into the function. But we have to be mindful
+        that it might fail
+        """
+        try:
+            return Ok(func(self._value))
+        except Exception as err:
+            return Error(err)
 
 
 class Error(Result):
+    def unwrap(self):
+        raise self._value
+
     def __rshift__(self, func):
-        func()
+        return self
 
 
-x = 2
-r = Ok(x) >> A >> B >> C
-print(r.unwrap())  # Prints
+def test_chain_operator(x):
+    x = 2
+    r = Ok(x) >> A >> B >> C
+    print(r.unwrap())  # Prints
+    assert r.unwrap() == 576
 
+    match Ok(x) >> A >> B >> C:
+        case Ok(value):
+            print("It worked:", value)
+            assert value == 576
+        case Error(e):
+            print(f"It failed: {e!r}")
 
-match Ok(x) >> A >> B >> C:
-    case Ok(value):
-        print("It worked:", value)
-    case Error(e):
-        print("It failed:", e)
+    match Ok("two") >> A >> B >> C:
+        case Ok(value):
+            raise AssertionError("Why am I here?")
+        case Error(e):
+            print(isinstance(e, TypeError))
+            assert isinstance(e, TypeError)
