@@ -827,11 +827,16 @@ work with the `after()` function in Exercise 6.
 
 ```python
 def chained_after(x: int) -> int:
-    from ex6 import after, Result, Ok, Error
-    a = after(1, A(x))    # Call a = A(x) after 1 second    (must modify)
-    b = after(2, B(a))    # Call b = B(a), 2 seconds after that (must modify)
-    c = after(3, C(b))    # Call c = C(b), 3 seconds after that (must modify)
-    return c
+    from exercise_06 import Error, Ok, Result, after
+
+    a = after(1, lambda: A(x))  # Call a = A(x) after 1 second    (must modify)
+    b = after(
+        2, lambda: B(a.unwrap())
+    )  # Call b = B(a), 2 seconds after that (must modify)
+    c = after(
+        3, lambda: C(b.unwrap())
+    )  # Call c = C(b), 3 seconds after that (must modify)
+    return c.unwrap()
 
 assert chained_after(2) == 576    # Uncomment
 ```
@@ -849,6 +854,8 @@ a calculation like this:
 `x -> A -> B -> C -> result`
 
 (The output of each function serves as the input to the next).
+
+
 
 Idea: Can we abuse Python's syntax to make it possible to
 express a computation chain in an elegant way like this?
@@ -871,6 +878,8 @@ match Ok(x) >> A >> B >> C:
 
 To do this, you're going to need to add an operator `(>>)` to
 the `Result/Ok/Error` classes.
+
+`__rshift__` 是 Python 中右移运算符 `>>` 的底层实现方法。当你写 `a >> b` 时，Python 实际上会调用 `a.__rshift__(b)`
 
 ```python
 class Result:

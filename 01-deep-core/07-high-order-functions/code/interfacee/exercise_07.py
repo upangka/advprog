@@ -1,3 +1,4 @@
+
 def A(x: int) -> int:
     print("running A...")
     return x + 10
