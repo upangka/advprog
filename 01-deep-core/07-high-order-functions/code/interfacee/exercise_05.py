@@ -18,7 +18,11 @@ class Result:
 
 
 def after(seconds, func):
+    # Note: This time sleep call is unguarded. If someone passes a
+    # bad value, it will crash with a ValueError exception. We don't
+    # worry about that.
     time.sleep(seconds)
+    # You implement this. No matter what happens, we return Result.
     try:
         return Result(func())
     except Exception as err:
