@@ -17,7 +17,7 @@ class Result:
             return self._value
 
 
-def after(seconds, func):
+def after(seconds: float, func) -> Result:
     # Note: This time sleep call is unguarded. If someone passes a
     # bad value, it will crash with a ValueError exception. We don't
     # worry about that.

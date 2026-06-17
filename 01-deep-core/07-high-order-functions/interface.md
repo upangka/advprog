@@ -470,6 +470,8 @@ and debugging.
 
 # Exercise 5
 
+[exercise_05.py](./code/interfacee/exercise_05.py)
+
 One challenge in returning results is that there are actually two kinds of results from any Python function--a value returned by the "return" statement or an exception raised by the "raise" statement. One possible design for code that wants to communicate the "result" of a computation is to place both possible outcomes inside a combined Result object like this:
 
 ```python
@@ -512,7 +514,7 @@ that it uses `Result`. Then, verify that the supplied test works.
 ```python
 import time
 
-def after(seconds, func):
+def after(seconds: float, func) -> Result:
     # Note: This time sleep call is unguarded. If someone passes a
     # bad value, it will crash with a ValueError exception. We don't
     # worry about that.
@@ -605,3 +607,112 @@ except ValueError:
     print("It didn't work")
 ```
 What is your opinion on this debate?
+
+
+# Exercise 6 - "The Split"
+
+[exercise_06.py](./code/interfacee/exercise_06.py)
+
+After some discussion, Mary realizes that the approach taken in exercise 5 is a bit weird and muddled. Part of the problem is the Result instance is being used to represent two completely different things--a normal result and an error result. Perhaps it would be better to split these into two different classes--each representing a different outcome.
+
+For example:
+
+```python
+class Result:
+    def __init__(self, value):
+        self._value = value
+
+    def unwrap(self):
+        raise NotImplementedError()
+
+class Ok(Result):
+    def unwrap(self):
+        return self._value
+
+class Error(Result):
+    def unwrap(self):
+        raise self._value
+```
+
+**Part 1**:
+
+Fill in the missing details of the following `after()` function. It
+returns a `Result` as before, but it should refine the outcome so
+that either `Ok()` or `Error()` is returned. An attached test illustrates.
+
+```python
+import time
+
+def after(seconds: float, func) -> Result:
+    time.sleep(seconds)
+    # You implement this
+    ...
+    return Ok(...) or Error(...)
+
+def test_after():
+    def add(x, y):
+        return x + y
+
+    r = after(1, lambda: add(2, 3))
+    assert isinstance(r, Ok), "Should have returned Ok"
+    r = after(1, lambda: add(2, "three"))
+    assert isinstance(r, Error), "Should have returned Error"
+
+test_after()    # Uncomment
+```
+
+**Part 2**:
+
+Splitting the result into two classes refines the result, but also
+opens up the possibility of case-analysis. Consider the following
+revised version of a function from Exercise 4.
+
+```python
+import math
+def f(delay, value):
+    r = after(delay, lambda: math.sqrt(value))
+    if isinstance(r, Ok):
+        print("It worked:", r.unwrap())
+    elif isinstance(r, Error):
+        print("It failed!")
+```
+
+Try these examples:
+
+```sh
+>>> f(1, 1)
+>>> f(1, -1)
+>>> f(-1, 1)
+```
+
+**Part 3**:
+
+Upon seeing the code in part 2, Mary's mind wanders to structural
+pattern matching--a feature added to Python 3.10. Could the function
+in Part 2 be rewritten like this instead?
+
+```python
+def g(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(exc):
+            print("It failed:", exc)
+```
+
+Try the above function to see what happens
+
+```python
+>>> g(1, 1)
+>>> g(1, -1)
+```
+
+Okay, it doesn't quite work. However, it can be made to work if
+you add a `__match_args__` attribute to the `Result` class like this:
+
+```python
+class Result:
+    __match_args__ = ('_value',)
+    def __init__(self, value):
+        self._value = value
+```
