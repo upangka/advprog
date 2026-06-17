@@ -1,4 +1,6 @@
 class Result:
+    __match_args__ = ("_value",)
+
     def __init__(self, value):
         self._value = value
 
@@ -48,6 +50,14 @@ def f(delay, value):
         print("It worked:", r.unwrap())
     elif isinstance(r, Error):
         print("It failed!")
+
+
+def g(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(exc):
+            print("It failed:", exc)
 
 
 if __name__ == "__main__":
