@@ -40,17 +40,26 @@ def g(delay, value):
             print("It failed:", exc)
 ```
 
+
 ```python
 def h(delay, value):
     match after(delay, lambda: math.sqrt(value)):
         case Ok(value):
             print("It worked:", value)
-        case Error(AfterError()) as e:  # 注意这行
-            print(f"{e._value!r}")
+        # case Error(AfterError()) as e:  # 注意这行
+        #     print(f"{e._value!r}")
+        case Error(AfterError() as e):
+            print(f"anthor formatter: {e!r}")
         case Error(TypeError()):
             print("It failed: type error")
         case Error(ValueError()):
             print("It failed: bad value")
         case Error(e):
             raise e
+```
+
+映射具体的值，作为别名
+```python
+case Error(AfterError()) as e:
+case Error(AfterError() as e):
 ```

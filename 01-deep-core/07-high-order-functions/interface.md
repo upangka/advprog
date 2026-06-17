@@ -732,6 +732,10 @@ def h(delay, value):
     match after(delay, lambda: math.sqrt(value)):
         case Ok(value):
             print("It worked:", value)
+        # case Error(AfterError()) as e:  # 注意这行
+        #     print(f"{e._value!r}")
+        case Error(AfterError() as e):
+            print(f"anthor formatter: {e!r}")
         case Error(TypeError()):
             print("It failed: type error")
         case Error(ValueError()):
@@ -750,3 +754,25 @@ Try the above code with these examples:
 >>> del math
 >>> h(1, 1)
 ```
+
+**Challenge**:
+
+In the above code for `h()`, the `case Error(e)` binds the exception to the
+variable `e`. Is there any way to similarly bind the exception to a
+variable in the `case Error(TypeError)` and `case Error(ValueError)`
+cases? For example:
+
+```python
+def k(delay, value):
+    match after(delay, lambda: math.sqrt(value)):
+        case Ok(value):
+            print("It worked:", value)
+        case Error(TypeError() as e):
+            print("It failed:", e)  # ??? where to get e? (the exception)
+        case Error(ValueError() as e):
+            print("It failed:", e)  # ??? where to get e? (there exception)
+        case Error(e):
+            raise e
+```
+
+Hint: How do you get the exception value with `try-except`?
