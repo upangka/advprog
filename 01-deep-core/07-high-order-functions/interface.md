@@ -784,7 +784,7 @@ Hint: How do you get the exception value with `try-except`?
 # Exercise 7 - "The Chain"
 
 Although it's maybe a bit unusual in terms of Python style, one
-possibly nice thing about the last few exercises is that the after()
+possibly nice thing about the last few exercises is that the `after()`
 function is fairly easy to reason about. You give it a function as
 input, and it always returns a Result regardless of what the supplied
 function does.
@@ -820,10 +820,10 @@ assert chained(2) == 576
 
 
 How would this kind of chaining work if you also incorporated the
-use of the after() function? For example, if you wanted to do the
+use of the `after()` function? For example, if you wanted to do the
 same calculation, but with time delays. Note: This is expressed as
 pseudocode--it doesn't work as shown. You'll need to modify it to
-work with the after() function in Exercise 6.
+work with the `after()` function in Exercise 6.
 
 ```python
 def chained_after(x: int) -> int:
@@ -869,8 +869,8 @@ match Ok(x) >> A >> B >> C:
         print("It failed:", e)
 ```
 
-To do this, you're going to need to add an operator (>>) to
-the Result/Ok/Error classes.
+To do this, you're going to need to add an operator `(>>)` to
+the `Result/Ok/Error` classes.
 
 ```python
 class Result:
