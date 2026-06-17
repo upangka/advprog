@@ -36,12 +36,19 @@ def part_1():
 
 
 def part_2():
-    after_1(1, lambda: after_1(1, lambda: add(2, 3)))
-    after_1(1, lambda: after_1(seconds=1, func=lambda: add(2, 3)))
+    # after_1(1, lambda: after_1(1, lambda: add(2, 3)))
+    # after_1(1, lambda: after_1(seconds=1, func=lambda: add(2, 3)))
 
-    after_2(1, lambda: after_2(1, add, args=(2, 3)))
-    after_2(1, lambda: after_2(seconds=1, func=add, kwargs=dict(x=2, y=3)))
+    # after_3(1, lambda: after_3(1, add, 2, 3))
+    # after_3(1, lambda: after_3(seconds=1, func=add, **dict(x=2, y=3)))
+    # after_3(1, lambda: after_3(seconds=1, func=add, x=2, y=3))
 
-    after_3(1, lambda: after_3(1, add, 2, 3))
-    after_3(1, lambda: after_3(seconds=1, func=add, **dict(x=2, y=3)))
-    after_3(1, lambda: after_3(seconds=1, func=add, x=2, y=3))
+    # after_2(1, lambda: after_2(1, add, args=(2, 3)))
+    # after_2(1, lambda: after_2(seconds=1, func=add, kwargs=dict(x=2, y=3)))
+
+    after_2(1, after_2, args=(1, add, (2, 3)))
+    after_2(1, after_2, kwargs=dict(seconds=1, func=add, args=(2, 3)))
+    after_2(1, after_2, args=(1, add), kwargs={"kwargs": dict(x=2, y=3)})
+
+    after_3(1, after_3, 1, add, 2, 3)
+    after_3(1, after_3, 1, add, x=2, y=3)
