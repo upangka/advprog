@@ -1,0 +1,207 @@
+Introduction:
+
+Arjoon is implementing a distributed messaging system for a game.
+The game has a large collection of different game messages that are represented by different classes. When messages are sent over the network, they must be serialized into bytes and deserialized on the receiver. To do this, he has decided that each message will be encoded according to the following protocol:
+
+1. The message type will be encoded as a UTF-8 string, terminated by a newline (`\r\n`).
+
+2. The message size (an integer) follows and will be encoded as a UTF-8 string terminated by a newline (`\r\n`).
+
+3. This is followed by the message contents, encoded as a UTF-8 JSON string.
+
+To illustrate, suppose that the following classes represent a few different kinds of messages:
+
+```python
+import json
+
+class Message:
+    def __eq__(self, other):
+        return type(self) == type(other) and vars(self) == vars(other)
+
+    def __repr__(self):
+        return f'{type(self).__name__}<{repr(vars(self))}>'
+
+class ChatMessage(Message):
+    def __init__(self, playerid: str, text: str):
+        self.playerid = playerid
+        self.text = text
+
+class PlayerUpdate(Message):
+    def __init__(self, playerid: str, x: int, y: int):
+        self.playerid = playerid
+        self.x = x
+        self.y = y
+```
+
+Here's a function that encodes a message according to the above protocol.
+
+```python
+def encode_message(msg: Message) -> bytes:
+    msgtype = type(msg).__name__.encode('utf-8') + b'\r\n'
+    payload = json.dumps(msg.__dict__).encode('utf-8')
+    size = str(len(payload)).encode('utf-8') + b'\r\n'
+    return msgtype + size + payload
+```
+
+
+An example that shows the encoding for a few messages
+
+```python
+def example():
+    msg1 = ChatMessage('Dave', 'Hello World')
+    msg2 = PlayerUpdate('Paula', 23, 41)
+    print(encode_message(msg1))
+    print(encode_message(msg2))
+
+example()
+```
+
+# Exercise 1 - The recreator
+
+Taking a message and turning it into bytes is straightforward. However, how do you actually get a message back from bytes on the receiver?
+
+Your first task is to write a message creation function that takes the name of message type as a string and the JSON-encoded payload (as text) and turns it back into a proper Python object. The function should raise an exception if the specified message type doesn't correspond a valid message definition.
+
+Recreating a message from data received over the network involves a potentially hostile actor. How do you do it in a way that doesn't introduce weird security holes? How do you test it?
+
+Note: You can use `json.loads()` to convert JSON data into a Python dict.
+
+```python
+def recreate_message(msgtype: str, payload: str) -> Message:
+    ...  # You implement
+
+def test_recreator():
+    msg1 = recreate_message('ChatMessage', '{"playerid": "Dave", "text": "Hello World"}')
+    assert msg1 == ChatMessage('Dave', 'Hello World')
+
+    msg2 = recreate_message('PlayerUpdate', '{"playerid": "Paula", "x": 23, "y": 41}')
+    assert msg2 == PlayerUpdate('Paula', 23, 41)
+    print("Ok creator.")
+
+    # A message of invalid type
+    try:
+        msg3 = recreate_message('HackerMsg', '{"x": 666}')
+        assert False, "Why did this work?!?! Bad creator!"
+    except Exception as e:
+        print("Good creator!")
+
+    # Message with incomplete arguments
+    try:
+        msg4 = recreate_message('PlayerUpdate', '{"playerid": "Paula"}')
+    except Exception as e:
+        # Above message is missing fields for x/y. Could this be caught?
+        print("Very good creator!")
+
+    # Message with wrong argument types
+    try:
+        msg5 = recreate_message('PlayerUpdate', '{"playerid": "Paula", "x": "two", "y": 123.45}')
+    except Exception as e:
+        # The x and y values violate Python type-hints. Could this be caught?
+        print("Excellent creator!")
+```
+
+
+# Exercise 2 - The Receiver
+
+To receive a message on a network connection, you've got to write
+code that receives fragments of bytes and reassembles them back into
+message objects.
+
+A common object used for network communication is a "socket". A
+socket has a method recv(maxsize) that receives bytes (up to a
+requested maximum size). It returns any data that is available
+(which might be less than the given maximum). An empty byte-string
+is returned when a connection is closed (meaning no more data will
+arrive).
+
+The issue with sockets is that they present data as an endless
+stream, but are somewhat unpredictable in behavior. For example,
+there's no guarantee that the `maxsize` number of bytes will be
+returned. So, if you say `sock.recv(100)`, you might get 100 bytes
+of data, but you might get less than that. If you were expecting 100
+bytes, then you might have to call `sock.recv()` again to get more
+data. A second problem is that there is no `unreceive`. You can't
+shove already received data back into a socket. So, if you receive
+too much data, you'll need to keep the extra data around somewhere.
+Alternatively, you can try to write your code in a way where you
+carefully work to not "over-receive."
+
+With this in mind, your task is to write functionality that reads
+bytes off of a socket and produces a fully formed Message instance
+using the recreate_message() function you just wrote. If the
+function is called repeatedly on the same socket, it should return a
+new message each time unless there is no more data or some other
+problem occurs.
+
+A few helper functions have been written to try and make it easier.
+However, there are many "issues" with this code as we'll see.
+
+```python
+def receive_line(sock) -> bytes:
+    # Receive a single line of data. Or return b'' if the connection
+    # is closed before a complete line is read.
+    line = b''
+    while (c := sock.recv(1)):
+        line += c
+        if c == b'\n':
+            break
+    else:
+        return b''
+    return line
+
+def receive_exactly(sock, nbytes: int) -> bytes:
+    # Receive an exact number of bytes. Or return b'' if the
+    # connection is closed prematurely.
+    data = b''
+    while (chunk := sock.recv(nbytes)):
+        data += chunk
+        nbytes -= len(chunk)
+    return data if nbytes == 0 else b''
+
+def receive_message(sock) -> Message:
+    # Receive a message on a socket or return None if no message is found.
+    # --- YOU IMPLEMENT
+    # Use receive_line() and receive_exactly() to read a message.
+    ...
+    # Create the result message
+    return recreate_message(msgtype, payload)
+```
+
+To test the above function with an actual socket, Arjoon has written
+a separate program `testsmg.py` which you can find in this same
+directory. This program must be running in a separate Python
+process. Thus, Arjoon has launched it as subprocess. Once running,
+the test connects to it to receive sample network messages back.
+
+```python```
+def test_receiver():
+    print("Testing receiver")
+    print("Launching helper program (testsmg.py)")
+    import sys, subprocess, time
+    p = subprocess.Popen([sys.executable, "testsmg.py"])
+
+    try:
+        # Wait for it to start up
+        time.sleep(0.5)
+
+        # Establish a socket connection
+        import socket
+        sock = socket.create_connection(('localhost', 19000))
+        messages = []
+        while (msg := receive_message(sock)):
+            messages.append(msg)
+
+        assert messages == [
+            ChatMessage('Dave', 'Hello World'),
+            PlayerUpdate('Paula', 23, 41)
+        ]
+        sock.close()
+        print('Good receiver!')
+    finally:
+        p.terminate()
+```
+
+```python
+# Uncomment when ready
+# test_receiver()
+```

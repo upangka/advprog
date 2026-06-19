@@ -1,3 +1,25 @@
+```
+普通函数
+    ↓
+after() 延迟执行（高阶函数）
+    ↓
+lambda / partial 适配参数
+    ↓
+try/except 捕获异常
+    ↓
+Result 包装返回值 + 异常
+    ↓
+Ok / Error 分支（Either Monad）
+    ↓
+match 模式匹配解构
+    ↓
+__rshift__ 链式组合（Monadic Bind）
+    ↓
+threading + Future 异步化
+    ↓
+ModernFuture + Success / Fail
+```
+
 
 
 [after.py](./code/interfacee/after.py)
