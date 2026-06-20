@@ -144,12 +144,14 @@ To receive a message on a network connection, you've got to write
 code that receives fragments of bytes and reassembles them back into
 message objects.
 
+- reassembles /ˌriː.əˈsem.bəlz/ v. 重新组装；重新拼合（指将拆散或分散的碎片、部分重新组合成一个完整的整体。
+
 A common object used for network communication is a "socket". A
-socket has a method recv(maxsize) that receives bytes (up to a
+socket has a method `recv(maxsize)` that receives bytes (up to a
 requested maximum size). It returns any data that is available
-(which might be less than the given maximum). An empty byte-string
+(which might be less than the given maximum). <span style="color: #08a6db ">An empty byte-string
 is returned when a connection is closed (meaning no more data will
-arrive).
+arrive)</span>.
 
 The issue with sockets is that they present data as an endless
 stream, but are somewhat unpredictable in behavior. For example,
@@ -162,6 +164,8 @@ shove already received data back into a socket. So, if you receive
 too much data, you'll need to keep the extra data around somewhere.
 Alternatively, you can try to write your code in a way where you
 carefully work to not "over-receive."
+
+- shove /ʃʌv/ v. 推；塞；硬塞（指用力把某物推入或塞进某个空间，带有一种"强行"的意味
 
 With this in mind, your task is to write functionality that reads
 bytes off of a socket and produces a fully formed Message instance
