@@ -13,6 +13,9 @@ def recreate_message(msgtype: str, payload: str) -> Message:
     # else:
     #     raise RuntimeError(f"Not support {msgtype}")
 
+    # 防御性编程
+    if len(payload) > 1000:
+        raise RuntimeError("Message payload exceeds maximum allowed size (1000 bytes)")
     kwargs = json.loads(payload)
     # for key,cls in msgcls.__init__.__annotations__.items():
     #     if not isinstance(kwargs[key],cls):

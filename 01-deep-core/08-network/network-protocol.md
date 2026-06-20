@@ -23,11 +23,23 @@ class Message:
         print(f"Initing {cls.__name__}")
         Message._registry[cls.__name__] = cls
 
+        # @classmethod
+        # def from_untrust(cls, **kwargs):
+        #     for key, msgcls in cls.__init__.__annotations__.items():
+        #         if not isinstance(kwargs[key], msgcls):
+        #             raise TypeError(
+        #                 f"{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}"
+        #             )
+        #     return cls(**kwargs)
+
+        # 下面的方式会好一些
+        annotations = cls.__init__.__annotations__
+
         # monkey pathging
         @classmethod
         def from_untrust(cls, **kwargs):
-            for key, msgcls in cls.__init__.__annotations__.items():
-                if not isinstance(kwargs[key], msgcls):
+            for key, value in kwargs.items():
+                if not isinstance(value, annotations[key]):
                     raise TypeError(
                         f"{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}"
                     )
@@ -90,7 +102,7 @@ Note: You can use `json.loads()` to convert JSON data into a Python dict.
 
 ```python
 def recreate_message(msgtype: str, payload: str) -> Message:
-    # 优化多分支if-elif...
+
     msgcls = Message._registry[msgtype]
     # if msgtype == "ChatMessage":
     #     msgcls = ChatMessage
@@ -99,12 +111,14 @@ def recreate_message(msgtype: str, payload: str) -> Message:
     # else:
     #     raise RuntimeError(f"Not support {msgtype}")
 
+    # 防御性编程
+    if len(payload) > 1000:
+        raise RuntimeError("Message payload exceeds maximum allowed size (1000 bytes)")
     kwargs = json.loads(payload)
     # for key,cls in msgcls.__init__.__annotations__.items():
     #     if not isinstance(kwargs[key],cls):
     #         raise TypeError(f'{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}')
 
-    # 使用__init_subclass__进行优化
     return msgcls.from_untrust(**kwargs)
 
 def test_recreator():
@@ -202,17 +216,25 @@ def receive_exactly(sock, nbytes: int) -> bytes:
         nbytes -= len(chunk)
     return data if nbytes == 0 else b''
 
-def receive_message(sock) -> Message:
+def receive_message(sock) -> Message | None:
     # Receive a message on a socket or return None if no message is found.
     # --- YOU IMPLEMENT
     # Use receive_line() and receive_exactly() to read a message.
-    ...
+
+    if not (msgtype := read_line(sock)):
+        return None
+    if not (size := read_line(sock)):
+        return None
+    if not (payload := receive_exactly(sock, int(size))):
+        return None
     # Create the result message
-    return recreate_message(msgtype, payload)
+    return recreate_message(
+        msgtype.decode("utf-8").strip(), payload.decode("utf-8").strip()
+    )
 ```
 
 To test the above function with an actual socket, Arjoon has written
-a separate program `testsmg.py` which you can find in this same
+a separate program [testmsg.py](./code/protocol/testmsg.py) which you can find in this same
 directory. This program must be running in a separate Python
 process. Thus, Arjoon has launched it as subprocess. Once running,
 the test connects to it to receive sample network messages back.
@@ -220,27 +242,31 @@ the test connects to it to receive sample network messages back.
 ```python
 def test_receiver():
     print("Testing receiver")
-    print("Launching helper program (testsmg.py)")
-    import sys, subprocess, time
-    p = subprocess.Popen([sys.executable, "testsmg.py"])
+    print("Launching helper program(testmsg.py)")
+    import subprocess
+    import sys
+    import time
+    from pathlib import Path
 
     try:
-        # Wait for it to start up
-        time.sleep(0.5)
+        script_path = Path(__file__).parent / "testmsg.py"
+        p = subprocess.Popen([sys.executable, str(script_path)])
+        # wait for it to start up
+        time.sleep(1)
 
         # Establish a socket connection
         import socket
-        sock = socket.create_connection(('localhost', 19000))
-        messages = []
-        while (msg := receive_message(sock)):
-            messages.append(msg)
 
+        sock = socket.create_connection(("localhost", 19000))
+        messages = []
+        while msg := receive_message(sock):
+            messages.append(msg)
         assert messages == [
-            ChatMessage('Dave', 'Hello World'),
-            PlayerUpdate('Paula', 23, 41)
+            ChatMessage("Dave", "Hello World"),
+            PlayerUpdate("Paula", 23, 41),
         ]
         sock.close()
-        print('Good receiver!')
+        print("Good receiver!")
     finally:
         p.terminate()
 ```

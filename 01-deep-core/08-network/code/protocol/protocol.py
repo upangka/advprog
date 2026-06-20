@@ -8,6 +8,16 @@ class Message:
         print(f"Initing {cls.__name__}")
         Message._registry[cls.__name__] = cls
 
+        # @classmethod
+        # def from_untrust(cls, **kwargs):
+        #     for key, msgcls in cls.__init__.__annotations__.items():
+        #         if not isinstance(kwargs[key], msgcls):
+        #             raise TypeError(
+        #                 f"{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}"
+        #             )
+        #     return cls(**kwargs)
+
+        # 下面的方式会好一些
         annotations = cls.__init__.__annotations__
 
         # monkey pathging
