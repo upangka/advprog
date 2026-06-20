@@ -1,5 +1,10 @@
-from exercise_05 import (match_literal, parse_equal, parse_integer, parse_name,
-                         parse_semi)
+from exercise_05 import (
+    match_literal,
+    parse_equal,
+    parse_integer,
+    parse_name,
+    parse_semi,
+)
 from exercise_06 import sequence
 from exercise_07 import parse_decimal, reduce
 
