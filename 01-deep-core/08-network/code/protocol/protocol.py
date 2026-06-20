@@ -21,8 +21,20 @@ class PlayerUpdate(Message):
         self.x = x
         self.y = y
 
+
 def encode_message(msg: Message) -> bytes:
-    msgtype = type(msg).__name__.encode('utf-8') + b'\r\n'
+    msgtype = type(msg).__name__.encode("utf-8") + b"\r\n"
     payload = json.dumps(msg.__dict__).encode("utf-8")
-    size = str(len(payload)).encode('utf-8') + b'\r\n'
+    size = str(len(payload)).encode("utf-8") + b"\r\n"
     return msgtype + size + payload
+
+
+def example():
+    msg1 = ChatMessage("鲨鱼のJavthon", "Live in ShenZhen, China")
+    msg2 = PlayerUpdate("Pkmer", 23, 56)
+    print(encode_message(msg1))
+    print(encode_message(msg2))
+
+
+if __name__ == "__main__":
+    example()
