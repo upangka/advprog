@@ -4,12 +4,14 @@ from protocol import ChatMessage, Message, PlayerUpdate
 
 
 def recreate_message(msgtype: str, payload: str) -> Message:
-    if msgtype == "ChatMessage":
-        msgcls = ChatMessage
-    elif msgtype == "PlayerUpdate":
-        msgcls = PlayerUpdate
-    else:
-        raise RuntimeError(f"Not support {msgtype}")
+
+    msgcls = Message._registry[msgtype]
+    # if msgtype == "ChatMessage":
+    #     msgcls = ChatMessage
+    # elif msgtype == "PlayerUpdate":
+    #     msgcls = PlayerUpdate
+    # else:
+    #     raise RuntimeError(f"Not support {msgtype}")
 
     kwargs = json.loads(payload)
     return msgcls(**kwargs)

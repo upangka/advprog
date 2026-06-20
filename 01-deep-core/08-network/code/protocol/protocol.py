@@ -2,6 +2,12 @@ import json
 
 
 class Message:
+    _registry = {}
+
+    def __init_subclass__(cls) -> None:
+        print(f"Initing {cls.__name__}")
+        Message._registry[cls.__name__] = cls
+
     def __eq__(self, other) -> bool:
         return type(self) == type(other) and vars(self) == vars(other)
 
