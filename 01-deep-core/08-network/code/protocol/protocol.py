@@ -16,8 +16,8 @@ class ChatMessage(Message):
 
 
 class PlayerUpdate(Message):
-    def __init__(self, playid: str, x: int, y: int):
-        self.playid = playid
+    def __init__(self, playerid: str, x: int, y: int):
+        self.playerid = playerid
         self.x = x
         self.y = y
 

@@ -11,6 +11,8 @@ The game has a large collection of different game messages that are represented 
 
 To illustrate, suppose that the following classes represent a few different kinds of messages:
 
+[protocol.py](./code/protocol/protocol.py)
+
 ```python
 import json
 
