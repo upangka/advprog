@@ -1,6 +1,8 @@
 
 # 统计程序运行的时长
 
+[Network protocol exercise 04 performance](../08-network/network-protocol.md#exercise-4---performance)
+
 `time.time()`与`time.perf_counter()`都是以`S`秒为单位
 
 

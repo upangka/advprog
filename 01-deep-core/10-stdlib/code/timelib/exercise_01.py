@@ -7,4 +7,4 @@ import time
 start = time.time()
 time.sleep(3.5)
 end = time.time()
-print(f"{end - start = :.1f}") # end - start = 3.5
+print(f"{end - start = :.1f}")  # end - start = 3.5

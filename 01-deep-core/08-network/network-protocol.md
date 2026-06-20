@@ -329,17 +329,22 @@ def test_receive_message():
 
 # Exercise 4 - Performance
 
+[time模块](../10-stdlib/01-time.md)
+
 It has been determined that the messaging system must be minimally able to receive and decode 100000 messages per second.
 
 How would you write a test to ensure this and does the `receive_message()` function satisfy the requirement?
 
 ```python
-def perf_test():
-    # YOU IMPLEMENT
-    ...
-
-# Uncomment:
-# perf_test()
+def per_test():
+    messages = [ChatMessage("Dave", "Hello World"), PlayerUpdate("Paula", 23, 41)]
+    raw_data = b"".join([encode_message(m) for m in messages]) * 50000
+    sock = FakeReceiver(raw_data)
+    start = time.perf_counter()
+    while msg := receive_message(sock):
+        pass
+    end = time.perf_counter()
+    print(f"{100000 / (end - start):.0f} messages per second") # 148082 messages per second
 ```
 
 
