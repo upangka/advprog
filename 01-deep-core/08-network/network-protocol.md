@@ -169,13 +169,16 @@ carefully work to not "over-receive."
 
 With this in mind, your task is to write functionality that reads
 bytes off of a socket and produces a fully formed Message instance
-using the recreate_message() function you just wrote. If the
+using the `recreate_message()` function you just wrote. If the
 function is called repeatedly on the same socket, it should return a
 new message each time unless there is no more data or some other
 problem occurs.
 
 A few helper functions have been written to try and make it easier.
 However, there are many "issues" with this code as we'll see.
+
+
+[exercise_02.py](./code/protocol/exercise_02.py)
 
 ```python
 def receive_line(sock) -> bytes:

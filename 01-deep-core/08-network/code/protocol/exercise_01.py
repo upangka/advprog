@@ -23,7 +23,7 @@ def recreate_message(msgtype: str, payload: str) -> Message:
 
 def test_recreator():
     msg1 = recreate_message(
-        "ChatMessage", '{"playerid": "Pkmer", "text": "Hello World"}'
+        "ChatMessage", '{"playid": "Pkmer", "text": "Hello World"}'
     )
     assert msg1 == ChatMessage("Pkmer", "Hello World")
 
@@ -56,3 +56,6 @@ def test_recreator():
         # The x and y values violate Python type-hints. Could this be caught?
         print(e)
         print("Excellent creator!")
+
+if __name__ == '__main__':
+    test_recreator()

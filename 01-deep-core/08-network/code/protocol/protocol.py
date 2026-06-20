@@ -8,11 +8,12 @@ class Message:
         print(f"Initing {cls.__name__}")
         Message._registry[cls.__name__] = cls
 
+        annotations = cls.__init__.__annotations__
         # monkey pathging
         @classmethod
         def from_untrust(cls, **kwargs):
-            for key, msgcls in cls.__init__.__annotations__.items():
-                if not isinstance(kwargs[key], msgcls):
+            for key, value in kwargs.items():
+                if not isinstance(value, annotations[key]):
                     raise TypeError(
                         f"{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}"
                     )
@@ -28,8 +29,8 @@ class Message:
 
 
 class ChatMessage(Message):
-    def __init__(self, playerid: str, text: str):
-        self.playid = playerid
+    def __init__(self, playid: str, text: str):
+        self.playid = playid
         self.text = text
 
 
