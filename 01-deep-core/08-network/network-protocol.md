@@ -283,12 +283,42 @@ Think about the testing strategy in Exercise 2 for a moment. It involves a test,
 
 Your challenge. Can you devise some better way to test this code than launching a separate program and using an actual socket? Perhaps it's possible to create a "fake" or "mock" socket object to use in testing.
 
+> Discussion:
+> 1. an actual socket is a fairly complicated object with more than 40 methods defined on it. Do I need to fake all of that?
+> 2. Earlier code (i.e., receive_line) has been coded directly to the socket API. Is there any kind of type-checking being applied to that? If so, hwo does our FakeSocket fit into all of that?  
+ 
+
+
 ```python
+class FakeReceiver:
+    def __init__(self, data):
+        self.data = data
+        self.n = 0
+
+    def recv(self, maxsize: int):
+        chunk = self.data[self.n : self.n + maxsize]
+        self.n += len(chunk)
+        return chunk
+
+
 def test_receive_message():
     # YOU IMPLEMENT.
     #
-    # Can you write a test for receive_message() that doesn't involve an actual socket connection? Note: You may need to write some additional support code.
-    ...
+    # Can you write a test for receive_message() that doesn't involve an actual socket connection?
+    # Note: You may need to write some additional support code.
+
+    # Concept: A "round-trip" test(往返测试). Messages get encoded into raw
+    # data. Read from a fake socket. Received messages should be same.
+
+    messages = [ChatMessage("Dave", "Hello World"), PlayerUpdate("Paula", 23, 41)]
+
+    raw_data = b"".join([encode_message(m) for m in messages])
+    sock = FakeReceiver(raw_data)
+    received_messages = []
+    while msg := receive_message(sock):
+        received_messages.append(msg)
+
+    assert received_messages == messages
 ```
 
 ```python
@@ -301,7 +331,7 @@ def test_receive_message():
 
 It has been determined that the messaging system must be minimally able to receive and decode 100000 messages per second.
 
-How would you write a test to ensure this and does the receive_message() function satisfy the requirement?
+How would you write a test to ensure this and does the `receive_message()` function satisfy the requirement?
 
 ```python
 def perf_test():
