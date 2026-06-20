@@ -17,11 +17,29 @@ To illustrate, suppose that the following classes represent a few different kind
 import json
 
 class Message:
-    def __eq__(self, other):
+    _registry = {}
+
+    def __init_subclass__(cls) -> None:
+        print(f"Initing {cls.__name__}")
+        Message._registry[cls.__name__] = cls
+
+        # monkey pathging
+        @classmethod
+        def from_untrust(cls, **kwargs):
+            for key, msgcls in cls.__init__.__annotations__.items():
+                if not isinstance(kwargs[key], msgcls):
+                    raise TypeError(
+                        f"{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}"
+                    )
+            return cls(**kwargs)
+
+        cls.from_untrust = from_untrust
+
+    def __eq__(self, other) -> bool:
         return type(self) == type(other) and vars(self) == vars(other)
 
-    def __repr__(self):
-        return f'{type(self).__name__}<{repr(vars(self))}>'
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}<{repr(vars(self))}>"
 
 class ChatMessage(Message):
     def __init__(self, playerid: str, text: str):
@@ -50,8 +68,8 @@ An example that shows the encoding for a few messages
 
 ```python
 def example():
-    msg1 = ChatMessage('Dave', 'Hello World')
-    msg2 = PlayerUpdate('Paula', 23, 41)
+    msg1 = ChatMessage("鲨鱼のJavthon", "Hello World")
+    msg2 = PlayerUpdate("Pkmer", 23, 56)
     print(encode_message(msg1))
     print(encode_message(msg2))
 
@@ -68,9 +86,26 @@ Recreating a message from data received over the network involves a potentially 
 
 Note: You can use `json.loads()` to convert JSON data into a Python dict.
 
+[exercise_01.py](./code/protocol/exercise_01.py)
+
 ```python
 def recreate_message(msgtype: str, payload: str) -> Message:
-    ...  # You implement
+    # 优化多分支if-elif...
+    msgcls = Message._registry[msgtype]
+    # if msgtype == "ChatMessage":
+    #     msgcls = ChatMessage
+    # elif msgtype == "PlayerUpdate":
+    #     msgcls = PlayerUpdate
+    # else:
+    #     raise RuntimeError(f"Not support {msgtype}")
+
+    kwargs = json.loads(payload)
+    # for key,cls in msgcls.__init__.__annotations__.items():
+    #     if not isinstance(kwargs[key],cls):
+    #         raise TypeError(f'{kwargs[key]} is {type(kwargs[key]).__name__} expect {cls.__name__}')
+
+    # 使用__init_subclass__进行优化
+    return msgcls.from_untrust(**kwargs)
 
 def test_recreator():
     msg1 = recreate_message('ChatMessage', '{"playerid": "Dave", "text": "Hello World"}')

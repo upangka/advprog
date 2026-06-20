@@ -48,7 +48,7 @@ def encode_message(msg: Message) -> bytes:
 
 
 def example():
-    msg1 = ChatMessage("鲨鱼のJavthon", "Live in ShenZhen, China")
+    msg1 = ChatMessage("鲨鱼のJavthon", "Hello World")
     msg2 = PlayerUpdate("Pkmer", 23, 56)
     print(encode_message(msg1))
     print(encode_message(msg2))
