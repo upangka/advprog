@@ -335,6 +335,10 @@ It has been determined that the messaging system must be minimally able to recei
 
 How would you write a test to ensure this and does the `receive_message()` function satisfy the requirement?
 
+> One idea: Create a Fake socket with 100000 messages in it and test that. If we can't decode 100000 messages off of a fake socket in the required time, it's almost certainly not going to work on a real socket.
+
+[exercise_04.py](./code/protocol/exercise_04.py)
+
 ```python
 def per_test():
     messages = [ChatMessage("Dave", "Hello World"), PlayerUpdate("Paula", 23, 41)]
@@ -357,6 +361,13 @@ it might be the waiting for data to arrive. You have to receive from a
 socket, make sure you don't receive *too much* data, and then put everything
 back together. How might you write the code if you *already* had all
 of the data?
+
+> 这种"反转"思维的英文术语叫 "Inversion of Control"（控制反转） 或 "Sans I/O"（无 I/O），核心思想是：
+> 
+> **不要让 I/O 驱动你的代码，让你的代码驱动 I/O**
+
+- 原来：从 socket 读数据 → 判断是否完整 → 拼装消息（以 I/O 为核心）
+- 反转后：把数据塞进一个容器 → 容器自动解析出消息（以数据解析为核心，I/O 被剥离出去）
 
 Peter has proposed the following `MessageReceiver` class
 
