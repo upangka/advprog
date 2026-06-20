@@ -173,7 +173,7 @@ directory. This program must be running in a separate Python
 process. Thus, Arjoon has launched it as subprocess. Once running,
 the test connects to it to receive sample network messages back.
 
-```python```
+```python
 def test_receiver():
     print("Testing receiver")
     print("Launching helper program (testsmg.py)")
@@ -204,4 +204,40 @@ def test_receiver():
 ```python
 # Uncomment when ready
 # test_receiver()
+```
+
+
+# Exercise 3 - Is it testable?
+
+Think about the testing strategy in Exercise 2 for a moment. It involves a test, but that test involves sockets. In fact, a separate program has to be running to complete the test! One might ask the question if the code is actually testable in any kind of easy way. Maybe not.
+
+Your challenge. Can you devise some better way to test this code than launching a separate program and using an actual socket? Perhaps it's possible to create a "fake" or "mock" socket object to use in testing.
+
+```python
+def test_receive_message():
+    # YOU IMPLEMENT.
+    #
+    # Can you write a test for receive_message() that doesn't involve an actual socket connection? Note: You may need to write some additional support code.
+    ...
+```
+
+```python
+# Uncomment:
+# test_receive_message()
+```
+
+
+# Exercise 4 - Performance
+
+It has been determined that the messaging system must be minimally able to receive and decode 100000 messages per second.
+
+How would you write a test to ensure this and does the receive_message() function satisfy the requirement?
+
+```python
+def perf_test():
+    # YOU IMPLEMENT
+    ...
+
+# Uncomment:
+# perf_test()
 ```
