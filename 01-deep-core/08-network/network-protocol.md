@@ -371,6 +371,8 @@ of the data?
 
 Peter has proposed the following `MessageReceiver` class
 
+[exercise_05.py](./code/protocol/exercise_05.py)
+
 ```python
 class MessageReceiver:
     def __init__(self):
@@ -429,8 +431,13 @@ as indicated.
 def test_new_receiver():
     print("Testing receiver")
     print("Launching helper program (testsmg.py)")
-    import sys, subprocess, time
-    p = subprocess.Popen([sys.executable, "testsmg.py"])
+    import subprocess
+    import sys
+    import time
+    from pathlib import Path
+
+    script_path = Path(__file__).parent / "testmsg.py"
+    p = subprocess.Popen([sys.executable, str(script_path)])
 
     try:
         # Wait for it to start up
@@ -438,12 +445,17 @@ def test_new_receiver():
 
         # Establish a socket connection
         import socket
-        sock = socket.create_connection(('localhost', 19000))
+
+        sock = socket.create_connection(("localhost", 19000))
         messages = []
 
         # --- YOU IMPLEMENT THIS PART
         receiver = MessageReceiver()
-        ...
+
+        # Concept: Read data in large chunks off of the sock and feed
+        # into the receiver to reconstruct messages
+        while chunk := sock.recv(1000):
+            messages.extend(receiver.send(chunk))
 
         # Receive all data on `sock` and use `receiver` to add fully
         # formed messages to the `messages` list.
@@ -451,12 +463,12 @@ def test_new_receiver():
 
         # Verify that the received messages are correct
         assert messages == [
-            ChatMessage('Dave', 'Hello World'),
-            PlayerUpdate('Paula', 23, 41)
+            ChatMessage("Dave", "Hello World"),
+            PlayerUpdate("Paula", 23, 41),
         ]
 
         sock.close()
-        print('Good new receiver!')
+        print("Good new receiver!")
 
     finally:
         p.terminate()
