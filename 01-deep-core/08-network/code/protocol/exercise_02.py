@@ -34,12 +34,12 @@ def receive_message(sock) -> Message | None:
     # Receive a message on a socket or return None if no message is found.
     # --- YOU IMPLEMENT
     # Use receive_line() and receive_exactly() to read a message.
-    
+
     if not (msgtype := read_line(sock)):
         return None
     if not (size := read_line(sock)):
         return None
-    if not (payload := receive_exactly(sock,int(size))):
+    if not (payload := receive_exactly(sock, int(size))):
         return None
     # Create the result message
     return recreate_message(
@@ -77,5 +77,6 @@ def test_receiver():
     finally:
         p.terminate()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_receiver()

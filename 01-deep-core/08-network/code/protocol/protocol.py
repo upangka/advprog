@@ -9,6 +9,7 @@ class Message:
         Message._registry[cls.__name__] = cls
 
         annotations = cls.__init__.__annotations__
+
         # monkey pathging
         @classmethod
         def from_untrust(cls, **kwargs):

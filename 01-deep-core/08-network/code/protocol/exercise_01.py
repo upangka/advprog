@@ -22,9 +22,7 @@ def recreate_message(msgtype: str, payload: str) -> Message:
 
 
 def test_recreator():
-    msg1 = recreate_message(
-        "ChatMessage", '{"playid": "Pkmer", "text": "Hello World"}'
-    )
+    msg1 = recreate_message("ChatMessage", '{"playid": "Pkmer", "text": "Hello World"}')
     assert msg1 == ChatMessage("Pkmer", "Hello World")
 
     mgs2 = recreate_message(
@@ -57,5 +55,6 @@ def test_recreator():
         print(e)
         print("Excellent creator!")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_recreator()
