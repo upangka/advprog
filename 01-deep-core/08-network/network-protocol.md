@@ -341,3 +341,159 @@ def perf_test():
 # Uncomment:
 # perf_test()
 ```
+
+
+
+# Exercise 5 - Inversion of I/O
+
+Sometimes when faced with a problem, it is useful to "invert" the problem.
+What is the central problem with receiving messages? In the above code,
+it might be the waiting for data to arrive. You have to receive from a
+socket, make sure you don't receive *too much* data, and then put everything
+back together. How might you write the code if you *already* had all
+of the data?
+
+Peter has proposed the following `MessageReceiver` class
+
+```python
+class MessageReceiver:
+    def __init__(self):
+        self.data = b''    # Accumulated data
+
+    def send(self, data):
+        self.data += data
+        messages = []
+        index = 0
+        while (m := parse_message(self.data, index)):
+            msg, index = m
+            messages.append(msg)
+        self.data = self.data[index:]
+        return messages
+```
+
+Instead of waiting for data, this class works by having you "send" data into
+it. The `send()` method saves the data and then returns a list of all
+message objects that it can find. The central work is performed by a
+parse_message() function that is completely independent of any I/O. It
+only works on raw data. Here is the parsing code. These functions
+are similar to the parsing in Project 6 (config).
+
+```python
+def parse_line(data, index):
+    # Parse a line of data or return None if no match.
+    if index < len(data):
+        end = data.find(b'\n', index)
+        if end < 0:
+            return None
+        return (data[index:end+1], end+1)
+
+def parse_message(data, index):
+    # Parse a complete message or return None if no match.
+    if not (m := parse_line(data, index)):
+        return None
+    msgtype, index = m
+    if not (m := parse_line(data, index)):
+        return None
+    msgsize, index = m
+    msgsize = int(msgsize)
+    if msgsize > (len(data) - index):
+        return None
+    payload = data[index:index+msgsize]
+    index += msgsize
+    return (recreate_message(msgtype.strip().decode('utf-8'),
+                             payload.decode('utf-8')), index)
+```
+
+YOUR TASK: Your first task is to show how you would use the
+`MessageReceiver()` class with an actual socket by recreating
+the earlier test code. You need to fill in part of this code
+as indicated.
+
+```python
+def test_new_receiver():
+    print("Testing receiver")
+    print("Launching helper program (testsmg.py)")
+    import sys, subprocess, time
+    p = subprocess.Popen([sys.executable, "testsmg.py"])
+
+    try:
+        # Wait for it to start up
+        time.sleep(0.5)
+
+        # Establish a socket connection
+        import socket
+        sock = socket.create_connection(('localhost', 19000))
+        messages = []
+
+        # --- YOU IMPLEMENT THIS PART
+        receiver = MessageReceiver()
+        ...
+
+        # Receive all data on `sock` and use `receiver` to add fully
+        # formed messages to the `messages` list.
+        # --- YOU IMPLEMENT ABOVE
+
+        # Verify that the received messages are correct
+        assert messages == [
+            ChatMessage('Dave', 'Hello World'),
+            PlayerUpdate('Paula', 23, 41)
+        ]
+
+        sock.close()
+        print('Good new receiver!')
+
+    finally:
+        p.terminate()
+
+# Uncomment when ready
+# test_new_receiver()
+```
+
+
+# Exercise 6 - Sans I/O
+
+Can you devise a test similar to Exercise 5 that doesn't involve any sockets
+at all? Can you expand the test to cover different different corner cases
+related to data sizes and fragmentation? (i.e., faking the unpredictable nature
+of sockets).
+
+```python
+def test_sans_io():
+    print('Testing Sans I/O')
+    messages = []
+
+    # --- YOU IMPLEMENT THIS PART
+    receiver = MessageReceiver()
+    ...
+    # Fake the behavior of the `testmsg.py` program by feeding data fragments to
+    # `receiver` to create messages. Messages should be added to `messages`
+    # as before.
+
+    # --- YOU IMPLEMENT ABOVE
+
+    # Verify that the answer worked
+    assert messages == [
+        ChatMessage('Dave', 'Hello World'),
+        PlayerUpdate('Paula', 23, 41)
+    ]
+    print('Good Sans I/O')
+
+# Uncomment when ready
+# test_sans_io()
+```
+
+
+
+# Exercise 7 - Performance (redux)
+
+Recreate your performance test from Exercise 4 here using the new
+`MessageReceiver` class. Is it faster or slower?
+
+```python
+def perf_test_sans_io():
+    # You implement
+    ...
+
+# Uncomment
+# perf_test_sans_io()
+```
