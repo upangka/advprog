@@ -20,3 +20,9 @@ class PlayerUpdate(Message):
         self.playid = playid
         self.x = x
         self.y = y
+
+def encode_message(msg: Message) -> bytes:
+    msgtype = type(msg).__name__.encode('utf-8') + b'\r\n'
+    payload = json.dumps(msg.__dict__).encode("utf-8")
+    size = str(len(payload)).encode('utf-8') + b'\r\n'
+    return msgtype + size + payload
