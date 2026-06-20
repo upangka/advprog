@@ -28,3 +28,10 @@ def test_recreator():
     )
     assert mgs2 == PlayerUpdate("鲨鱼のJavthon", 23, 56)
     print("Good creator!")
+
+    # A message of invalid type
+    try:
+        msg3 = recreate_message("HackerMsg", '{"x": 666}')
+        assert False, "Why did this work?!?! Bad creator"
+    except Exception as e:
+        print("Very Good Creator!")
