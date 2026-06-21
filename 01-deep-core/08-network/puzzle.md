@@ -112,3 +112,75 @@ Hint: `require()` and `forbid()` are supposed to abandon the current search and 
 
 - abandon /əˈbæn.dən/ v. 放弃；抛弃；中止
 - stick /stɪk/ v. 粘贴；放置；塞入
+
+
+---
+
+# Exercise 3 - Separation of Details
+
+In the above problem, there are high-level details that we actually care about. For example, the specification of problem variables and the logical constraints:
+
+Variables:
+
+```python
+baker = {1, 2, 3, 4, 5}
+cooper = {1, 2, 3, 4, 5}
+fletcher = {1, 2, 3, 4, 5}
+miller = {1, 2, 3, 4, 5}
+smith = {1, 2, 3, 4, 5}
+```
+
+Constraints:
+```python
+require(distinct(baker, cooper, fletcher, miller, smith))
+require(baker != 5)
+require(cooper != 1)
+forbid(fletcher == 1 or fletcher == 5)
+require(miller > cooper)
+forbid(adjacent(smith, fletcher))
+forbid(adjacent(fletcher, cooper))
+```
+
+However, there are also low-level implementation details that we don't care about. For example, the outer for-loop driving the search, details related to control flow (e.g., exception handling), etc.
+
+Is there any way to more elegantly separate these details from each other? That is, can you make it easy for someone to specify the problem at a high level without getting bogged down in implementation details of the search?
+
+This is a somewhat open-ended problem, but as one possible idea, perhaps the code that generates the test candidates and could be moved into its own function. Perhaps it could generate possible solutions using a generator or iterator of some kind.
+
+Invariants (rules)
+```python
+def apartment(baker, cooper, fletcher, miller, smith):
+    require(distinct(baker, cooper, fletcher, miller, smith))
+    require(baker != 5)
+    require(cooper != 1)
+    forbid(fletcher == 1 or fletcher == 5)
+    require(miller > cooper)
+    forbid(adjacent(smith, fletcher))
+    forbid(adjacent(fletcher, cooper))
+```
+
+Domain (possible values)
+```python
+domain = {
+    'baker': range(1, 6),
+    'cooper': range(1, 6),
+    'fletcher': range(1, 6),
+    'miller': range(1, 6),
+    'smith': range(1, 6)
+}
+```
+Find solutions
+```python
+solutions = find_solutions(apartment, domain)
+for soln in solutions:
+    print(soln)
+```
+Hints: You can iterate over all possible values of `domain` using `itertools.product()` like this:
+
+```python
+for values in itertools.product(*domain.values()):
+    ... # values is a tuple
+```
+
+You can create a dictionary from values using
+`dict(zip(domain.keys(), values))`
