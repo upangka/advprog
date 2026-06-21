@@ -22,7 +22,7 @@ def brute_force():
                         if len({baker, cooper, fletcher, miller, smith}) != 5:
                             continue
                         # ... more constraints ...
-                        
+
                         # Baker not on top floor
                         if baker == 5:
                             continue
