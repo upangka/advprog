@@ -9,9 +9,25 @@
 8. Fletcher(弗莱彻): 住的楼层不挨着 Cooper(即两人的楼层号之差的绝对值 ≠ 1).
 """
 
+import operator
+
+
+def print_apartment(baker, cooper, fletcher, miller, smith):
+    results = [
+        (baker, "Baker"),
+        (cooper, "Cooper"),
+        (fletcher, "Fletcher"),
+        (miller, "Miller"),
+        (smith, "Smith"),
+    ]
+    # Print a solution
+    [
+        print(f"<{floor}>-{name}")
+        for floor, name in sorted(results, key=operator.itemgetter(0), reverse=True)
+    ]
+
 
 def brute_force():
-    import operator
 
     for baker in range(1, 6):
         for cooper in range(1, 6):
@@ -42,20 +58,8 @@ def brute_force():
                         if abs(cooper - fletcher) == 1:
                             continue
 
-                        results = [
-                            (baker, "Baker"),
-                            (cooper, "Cooper"),
-                            (fletcher, "Fletcher"),
-                            (miller, "Miller"),
-                            (smith, "Smith"),
-                        ]
                         # Print a solution
-                        [
-                            print(f"<{floor}>-{name}")
-                            for floor, name in sorted(
-                                results, key=operator.itemgetter(0), reverse=True
-                            )
-                        ]
+                        print_apartment(baker, cooper, fletcher, miller, smith)
 
 
 if __name__ == "__main__":

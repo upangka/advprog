@@ -1,56 +1,44 @@
+from exercise_01 import print_apartment
+
+
 class Fail(Exception):
     pass
 
 
+def require(test):
+    if not test:
+        raise Fail()
+
+
+def forbid(test):
+    require(not test)
+
+
+def distinct(*args):
+    return len(args) == len(set(args))
+
+
+def adjacent(x, y):
+    return abs(x - y) == 1
+
+
 def better_force():
-    import operator
+    import itertools
 
-    for baker in range(1, 6):
-        for cooper in range(1, 6):
-            for fletcher in range(1, 6):
-                for miller in range(1, 6):
-                    for smith in range(1, 6):
-                        try:
-                            # All must live on different floors.
-                            if len({baker, cooper, fletcher, miller, smith}) != 5:
-                                continue
-                            # ... more constraints ...
-
-                            # Baker not on top floor
-                            if baker == 5:
-                                continue
-                            # Cooper not on bottom floor
-                            if cooper == 1:
-                                continue
-                            # Fletcher not on top or bottom
-                            if fletcher in {1, 5}:
-                                continue
-                            # Miller lives on higher floor than cooper
-                            if miller < cooper:
-                                continue
-                            # Smith not adjacent to Fletcher
-                            if abs(smith - fletcher) == 1:
-                                continue
-                            # Fletcher not adjacent to Cooper
-                            if abs(cooper - fletcher) == 1:
-                                continue
-
-                            results = [
-                                (baker, "Baker"),
-                                (cooper, "Cooper"),
-                                (fletcher, "Fletcher"),
-                                (miller, "Miller"),
-                                (smith, "Smith"),
-                            ]
-                            # Print a solution
-                            [
-                                print(f"<{floor}>-{name}")
-                                for floor, name in sorted(
-                                    results, key=operator.itemgetter(0), reverse=True
-                                )
-                            ]
-                        except Fail as e:
-                            ...
+    for baker, cooper, fletcher, miller, smith in itertools.product(
+        range(1, 6), repeat=5
+    ):
+        try:
+            require(distinct(baker, cooper, fletcher, miller, smith))
+            require(baker != 5)
+            require(cooper != 1)
+            forbid(fletcher == 1 or fletcher == 5)
+            require(miller > cooper)
+            forbid(adjacent(smith, fletcher))
+            forbid(adjacent(fletcher, cooper))
+            print_apartment(baker, cooper, fletcher, miller, smith)
+        except Fail:
+            pass
 
 
 if __name__ == "__main__":

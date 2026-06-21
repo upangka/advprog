@@ -88,6 +88,8 @@ if baker == 5:
 
 Maybe the code could be simplified if you **developed a better vocabulary for expressing the problem**. For example, maybe the above `block of if-continue combinations` could be rewritten as follows:
 
+准备使用`Exception`来平替`continue`的方法
+
 ```python
 require(distinct(baker, cooper, fletcher, miller, smith))
 forbid(baker == 5)
@@ -115,6 +117,44 @@ Hint: `require()` and `forbid()` are supposed to abandon the current search and 
 - abandon /əˈbæn.dən/ v. 放弃；抛弃；中止
 - stick /stɪk/ v. 粘贴；放置；塞入
 
+
+[exercise_02.py](./code/puzzle/exercise_02.py)
+
+```python
+class Fail(Exception):
+    pass
+
+def require(test):
+    if not test:
+        raise Fail()
+
+def forbid(test):
+    require(not test)
+
+def distinct(*args):
+    return len(args) == len(set(args))
+
+def adjacent(x, y):
+    return abs(x - y) == 1
+
+def better_force():
+    import itertools
+
+    for baker, cooper, fletcher, miller, smith in itertools.product(
+        range(1, 6), repeat=5
+    ):
+        try:
+            require(distinct(baker, cooper, fletcher, miller, smith))
+            require(baker != 5)
+            require(cooper != 1)
+            forbid(fletcher == 1 or fletcher == 5)
+            require(miller > cooper)
+            forbid(adjacent(smith, fletcher))
+            forbid(adjacent(fletcher, cooper))
+            print_apartment(baker, cooper, fletcher, miller, smith)
+        except Fail:
+            pass
+```
 
 ---
 
