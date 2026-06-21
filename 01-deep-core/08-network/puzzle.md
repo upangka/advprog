@@ -76,3 +76,39 @@ def brute_force():
 <2>-Cooper
 <1>-Smith
 ```
+
+# Exercise 2 - Developing a better vocabulary
+
+One of the problems in the brute force solution is that the code is messy. For example, there is the outer nesting of for-loops and there are the repeated clauses such as this:
+
+```python
+if baker == 5:
+    continue
+```
+
+Maybe the code could be simplified if you developed a better vocabulary for expressing the problem. For example, maybe the above block of if-continue combinations could be rewritten as follows:
+
+```python
+require(distinct(baker, cooper, fletcher, miller, smith))
+forbid(baker == 5)
+forbid(cooper == 1)
+forbid(fletcher == 1 or fletcher == 5)
+require(miller > cooper)
+forbid(adjacent(smith, fletcher))
+forbid(adjacent(fletcher, cooper))
+```
+
+where `require()` and `forbid()` are some functions that you define. Similarly, perhaps complex expressions such as `len({baker, cooper, fletcher, miller, smith}) != 5` could be expressed in a more descriptive form such as:
+
+```python
+require(distinct(baker, cooper, fletcher, miller, smith))
+```
+
+Lastly, library functions such as `itertools.product()` might be able to replace the outer group of nested for-loops with something less verbose.
+
+YOUR TASK: Create some helper functions such as `require()`, `forbid()`, `distinct()`, and `adjacent()` that help simplify the problem specification and rewrite the brute force solution to use these functions.
+
+Hint: `require()` and `forbid()` are supposed to abandon the current search and skip to the next iteration. However, there seems to be no obvious way to stick an isolated `continue` statement inside a function. However, you might be able to emulate the behavior of `continue` with an exception.
+
+- abandon /əˈbæn.dən/ v. 放弃；抛弃；中止
+- stick /stɪk/ v. 粘贴；放置；塞入

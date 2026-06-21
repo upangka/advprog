@@ -22,16 +22,23 @@ def brute_force():
                         if len({baker, cooper, fletcher, miller, smith}) != 5:
                             continue
                         # ... more constraints ...
+                        
+                        # Baker not on top floor
                         if baker == 5:
                             continue
+                        # Cooper not on bottom floor
                         if cooper == 1:
                             continue
+                        # Fletcher not on top or bottom
                         if fletcher in {1, 5}:
                             continue
+                        # Miller lives on higher floor than cooper
                         if miller < cooper:
                             continue
+                        # Smith not adjacent to Fletcher
                         if abs(smith - fletcher) == 1:
                             continue
+                        # Fletcher not adjacent to Cooper
                         if abs(cooper - fletcher) == 1:
                             continue
 
