@@ -66,3 +66,13 @@ def brute_force():
                             )
                         ]
 ```
+
+输出：
+
+```sh
+<5>-Miller
+<4>-Fletcher
+<3>-Baker
+<2>-Cooper
+<1>-Smith
+```
