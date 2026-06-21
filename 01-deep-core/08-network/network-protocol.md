@@ -485,26 +485,34 @@ at all? Can you expand the test to cover different different corner cases
 related to data sizes and fragmentation? (i.e., faking the unpredictable nature
 of sockets).
 
+[exercise_06.py](./code/protocol/exercise_06.py)
+
 ```python
 def test_sans_io():
-    print('Testing Sans I/O')
-    messages = []
-
+    print("Testing Sans I/O")
+    messages = [
+        ChatMessage("Dave", "Hello World"),
+        PlayerUpdate("Paula", 23, 41),
+    ]
     # --- YOU IMPLEMENT THIS PART
     receiver = MessageReceiver()
-    ...
     # Fake the behavior of the `testmsg.py` program by feeding data fragments to
-    # `receiver` to create messages. Messages should be added to `messages`
+    # `receiver` to create messages. Messages should be added to `received_messages`
     # as before.
 
     # --- YOU IMPLEMENT ABOVE
-
+    received_messages = []
+    encode_data = b"".join(encode_message(msg) for msg in messages)
+    n = 0
+    while chunk := encode_data[n : n + random.randint(1, 10)]:
+        received_messages.extend(receiver.send(chunk))
+        n += len(chunk)
     # Verify that the answer worked
-    assert messages == [
-        ChatMessage('Dave', 'Hello World'),
-        PlayerUpdate('Paula', 23, 41)
+    assert received_messages == [
+        ChatMessage("Dave", "Hello World"),
+        PlayerUpdate("Paula", 23, 41),
     ]
-    print('Good Sans I/O')
+    print("Good Sans I/O")
 
 # Uncomment when ready
 # test_sans_io()
