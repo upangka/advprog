@@ -1,3 +1,4 @@
+import random
 import time
 
 from exercise_06 import MessageReceiver
@@ -13,7 +14,7 @@ def perf_test_sans_io():
     n = 0
 
     start = time.perf_counter()
-    while chunk := raw_data[n : n + 100]:
+    while chunk := raw_data[n : n + random.randint(1,100)]:
         receiver.send(chunk)
         n += len(chunk)
     end = time.perf_counter()
