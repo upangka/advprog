@@ -1,6 +1,7 @@
-from exercise_01 import recreate_message
-from exercise_02 import read_line, receive_exactly, receive_message
-from protocol import ChatMessage, Message, PlayerUpdate, encode_message
+import random
+
+from exercise_02 import receive_message
+from protocol import ChatMessage, PlayerUpdate, encode_message
 
 
 class FakeReceiver:
@@ -9,6 +10,9 @@ class FakeReceiver:
         self.n = 0
 
     def recv(self, maxsize: int):
+        # Could introduce randomness to emulate an actual socket
+        if maxsize > 1:
+            maxsize = random.randint(1, maxsize)
         chunk = self.data[self.n : self.n + maxsize]
         self.n += len(chunk)
         return chunk

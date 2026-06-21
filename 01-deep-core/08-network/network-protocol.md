@@ -287,7 +287,7 @@ Your challenge. Can you devise some better way to test this code than launching 
 > 1. an actual socket is a fairly complicated object with more than 40 methods defined on it. Do I need to fake all of that?
 > 2. Earlier code (i.e., receive_line) has been coded directly to the socket API. Is there any kind of type-checking being applied to that? If so, hwo does our FakeSocket fit into all of that?  
  
-
+[exercise_03.py](./code/protocol/exercise_03.py)
 
 ```python
 class FakeReceiver:
@@ -296,6 +296,9 @@ class FakeReceiver:
         self.n = 0
 
     def recv(self, maxsize: int):
+        # Could introduce randomness to emulate an actual socket
+        if maxsize > 1:
+            maxsize = random.randint(1, maxsize)
         chunk = self.data[self.n : self.n + maxsize]
         self.n += len(chunk)
         return chunk
