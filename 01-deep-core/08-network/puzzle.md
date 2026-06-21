@@ -149,6 +149,11 @@ Is there any way to more elegantly separate these details from each other? That 
 
 This is a somewhat open-ended problem, but as one possible idea, perhaps the code that generates the test candidates and could be moved into its own function. Perhaps it could generate possible solutions using a generator or iterator of some kind.
 
+
+1. `apartment` 是规则本身（specification），
+2. `domain` 是取值范围，
+3. `find_solutions` 是搜索引擎。
+
 Invariants (rules)
 ```python
 def apartment(baker, cooper, fletcher, miller, smith):
