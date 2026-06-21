@@ -246,3 +246,136 @@ def find_solutions(apartment, domain):
         except Fail:
             pass
 ```
+
+# Exercise 4 - The Elevator Puzzle
+
+While riding on the elevator, Graydon starts to think--"just how
+hard could it be to code an elevator anyways?"
+
+How many valid operational states does an elevator have? Let's try
+to find out.
+
+Suppose the elevator operates in 6 basic modes:
+
+- `IDLE`: The elevator is just sitting there with the doors closed. There are no pending requests of any kind. It is not moving in any direction.
+
+- `MOVINGUP`: Elevator is currently moving up.
+
+- `MOVINGDOWN`: Elevator is currently moving down.
+
+- `LOADINGUP`: Elevator is loading passengers and will continue to move up afterwards (shows an illuminated "up" arrow)
+
+- `LOADINGDOWN`: Elevator is loading passengers and will continue to move down afterwards (shows an illuminated "down" arrow)
+
+- `UNLOADING`: Elevator is unloading a passenger, but no future requests are pending. If no buttons get pressed, the elevator will return to IDLE when the doors close. (no arrow is illuminated).
+
+In addition to a "mode", you need to know the following information:
+
+1. The current floor (1-5)
+2. Destinations (1-5). The *set* of buttons pressed inside the elevator car.
+3. Up requests (1-4). The *set* of "up" buttons pressed in the hallway.
+4. Down requests (2-5). The *set* of "down" buttons pressed in the hallway.
+
+Your challenge: write a solver specification that precisely defines all *valid* elevator operational states. In doing this, there are a few general requirements:
+
+1. The elevator should never move up on the top floor or move down on the bottom floor. This includes telling the passengers that it's going to continue going up when loading passengers on the top floor.
+
+2. If the elevator is moving, there should be a reason for it to be moving. For example, if the mode is MOVINGUP, there must be some kind of pending request on a higher floor.
+
+3. The elevator should never be IDLE if there are pending requests.
+
+4. Others???? The above constraints are probably the "big" requirements. However, there could be a lot of minor-level features concerning buttons. For example, if the elevator is LOADINGUP on floor 3, the "up" button on floor 3 should be turned off (because the elevator is right there).
+
+The button panels present a special challenge in this exercise because they capture the entire state of all buttons pressed.
+For example, possible values for destinations could be:
+set(), `{1}, {2}, {3}, {4}, {5}, {1, 2}, {1, 3}, ... {1, 2, 3, 4, 5}`.
+
+To create this list of possible values, you might find the following function to be useful:
+
+```python
+def all_combinations(values):
+    import itertools
+    result = []
+    for n in range(len(values)+1):
+        result.extend(set(x) for x in itertools.combinations(values, n))
+    return result
+
+def elevator_spec(mode, floor, destinations, up_requests, down_requests):
+    # Write logic rules here
+    require(1 <= floor <= 5)
+    ...
+
+elevator_domain = {
+    'mode': {'IDLE', 'MOVINGUP', 'MOVINGDOWN', 'LOADINGUP', 'LOADINGDOWN', 'UNLOADING'},
+    'floor': range(1, 6),
+    'destinations': all_combinations(range(1, 6)),
+    'up_requests': all_combinations(range(1, 5)),
+    'down_requests': all_combinations(range(2, 6))
+}
+```
+How many solutions are there? Uncomment
+```python
+elevators = list(find_solutions(elevator_spec, elevator_domain))
+print(len(elevators), "elevators")
+```
+
+
+
+#  Exercise 5 - The Elevator Testing Challenge
+
+Graydon thoughts wandered to the frequently crashed elevator in his own building. "It's ridiculous," he thought, "that we computer people couldn't even make an elevator that works without crashing!" Thinking about this a bit longer, surely there must be a solution.
+
+As luck would have it, Graydon found an open-source elevator package on GitHub. This code can be found in the file [elevator.py](./code/puzzle/elevator.py).
+
+The code defines an `Elevator` class that can be instantiated for any given elevator state. For example:
+
+```python
+elev = Elevator(mode="MOVINGUP", destinations={4,5})
+```
+
+The elevator has a single public method that handles an input event of some kind. For example:
+
+```python
+elev.handle_event('destination', 2)    # "2" button pressed inside car
+elev.handle_event('up_request', 3)     # "Up" button pressed on 3
+elev.handle_event('down_request', 4)   # "Down" button pressed on 4
+elev.handle_event('floor_sensor', 5)   # Arrived at floor 5
+elev.handle_event('doors_close', 5)    # Doors close (boarding complete)
+```
+
+There are only 5 possible input events as shown. Each event takes place on a given floor. The "floor_sensor" event only occurs if the elevator is moving and only occurs for an adjacent floor (e.g., if the elevator is on floor 3 and moving up, then a ('floor_sensor', 4) event can occur). The "doors_close" event only occurs if the elevator is loading or unloading passengers on that floor.
+
+Naturally, there are no unit tests or invariants in the code. However, the author is "pretty sure" that it works because just look at it.
+
+Your task: Devise a "testing" strategy based on the idea of a solver and decide if you'd actually ride on this elevator.
+
+To do this, you're going to combine a few ideas. First, in exercise 4, you wrote a logic specification function that defined "valid" elevator states.
+
+Second, you wrote a `find_solutions()` function that can generate all possible solutions to a logic specification. Perhaps this can be used to create all valid `Elevator` instances.
+
+Third, can you do anything to make a good elevator go bad? If so, it would probably involve events. So, maybe that suggests a possible testing strategy as outlined in the pseudocode below. Can you make this work?
+
+```python
+def test_elevator():
+    from elevator import Elevator
+    # Iterate over all good elevators
+    for state in find_solutions(elevator_spec,elevator_domain): 
+        # This is pseudo-code. You have to fill in details.
+        # Try all possible events on the elevator that can occur in this state
+        for event, floor in all_possible_events(state):
+            # Create an elevator instance
+            elev = Elevator(**state)
+            # Try the event
+            elev.handle_event(event, floor)
+            # Verify that it's still a good elevator using the
+            # spec. If this fails, then there's a bug in the elevator
+            # software.
+            try:
+                elevator_spec(**vars(elev))
+            except Fail:
+                print(f"BAD! {state} : {{event},{floor}} -> {elev}")
+```
+
+Hint: Make sure you only generate 'floor_sensor' events if the elevator is moving and only for an adjacent floor (i.e., if MOVINGUP on floor 3, you can trigger the floor sensor for floor 4). Also, make sure you only generate 'doors_close' events if the elevator is loading or unloading passengers.
+
+Hint: There is an even more clever implementation of this idea that uses `find_solutions()` twice.

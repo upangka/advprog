@@ -1,9 +1,9 @@
-IDLE = "IDLE"
-MOVINGUP = "MOVINGUP"
-MOVINGDOWN = "MOVINGDOWN"
-LOADINGUP = "LOADINGUP"
-LOADINGDOWN = "LOADINGDOWN"
-UNLOADING = "UNLOADING"
+IDLE = "IDLE"  # 空闲：电梯门关着，没有任何请求，不移动
+MOVINGUP = "MOVINGUP"  # 向上移动：电梯正在向上运行
+MOVINGDOWN = "MOVINGDOWN"  # 向下移动：电梯正在向下运行
+LOADINGUP = "LOADINGUP"  # 上客（向上）：电梯门开着，乘客进入，之后将继续向上
+LOADINGDOWN = "LOADINGDOWN"  # 上客（向下）：电梯门开着，乘客进入，之后将继续向下
+UNLOADING = "UNLOADING"  # 下客：电梯门开着，乘客离开，无后续请求，之后将返回 IDLE
 
 
 class Elevator:
