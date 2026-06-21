@@ -86,7 +86,7 @@ if baker == 5:
     continue
 ```
 
-Maybe the code could be simplified if you developed a better vocabulary for expressing the problem. For example, maybe the above block of if-continue combinations could be rewritten as follows:
+Maybe the code could be simplified if you **developed a better vocabulary for expressing the problem**. For example, maybe the above `block of if-continue combinations` could be rewritten as follows:
 
 ```python
 require(distinct(baker, cooper, fletcher, miller, smith))
@@ -107,6 +107,8 @@ require(distinct(baker, cooper, fletcher, miller, smith))
 Lastly, library functions such as `itertools.product()` might be able to replace the outer group of nested for-loops with something less verbose.
 
 YOUR TASK: Create some helper functions such as `require()`, `forbid()`, `distinct()`, and `adjacent()` that help simplify the problem specification and rewrite the brute force solution to use these functions.
+
+- problem specification /ˈprɑː.bləm ˌspes.ə.fɪˈkeɪ.ʃən/ n. 问题规格说明；问题定义（指对一个问题所做的完整、清晰、结构化的描述，包括有哪些变量、它们的取值范围、以及必须满足的约束条件。它只描述“问题是什么”，而不描述“怎么解决”）
 
 Hint: `require()` and `forbid()` are supposed to abandon the current search and skip to the next iteration. However, there seems to be no obvious way to stick an isolated `continue` statement inside a function. However, you might be able to emulate the behavior of `continue` with an exception.
 
