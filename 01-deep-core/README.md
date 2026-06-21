@@ -14,6 +14,8 @@
 - [函数](./07-high-order-functions/README.md)
   - [高阶函数](./07-high-order-functions/high-order-function.md)
   - [函数式编程](./07-high-order-functions/functional-programming-in-python.md)
+  - [生成器](./11-coroutine/01-generator.md)
+  - [动态分派Dynamic-dispatch](./07-high-order-functions/dynamic-dispatch-getattr.md)
 
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/TypeDict.md)
