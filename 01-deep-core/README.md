@@ -9,6 +9,7 @@
 
 - [内置标准库]()
   - [time](./10-stdlib/01-time.md)
+  - [itertools](./10-stdlib/02-itertools.md)
 
 - [函数](./07-high-order-functions/README.md)
   - [高阶函数](./07-high-order-functions/high-order-function.md)
