@@ -23,6 +23,7 @@
 
 - 网络与协议
   - [Socket Basic](./08-network/socket-basic.md)
-  - [Network Protocol](./08-network/network-protocol.md)
+  - [Message Network Protocol](./08-network/network-protocol.md)
+  - [Puzzle](./08-network/puzzle.md)
 - 测试
   - [pytest](./06-python-test/README.md)
