@@ -24,21 +24,20 @@ domain = {
 
 
 def find_solutions(apartment, domain):
-    solutions = []
     for values in itertools.product(*domain.values()):
         try:
-            kwargs = dict(zip(domain.keys(), values))
-            apartment(**kwargs)
-            solutions.append(values)
+            candidates = dict(zip(domain.keys(), values))
+            apartment(**candidates)
+            # 利用生成器的方式很巧妙
+            yield candidates
         except Fail:
             pass
-    return solutions
 
 
 def main():
     solutions = find_solutions(apartment, domain)
     for soln in solutions:
-        print_apartment(*soln)
+        print_apartment(**soln)
 
 
 if __name__ == "__main__":

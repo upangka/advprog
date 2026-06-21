@@ -231,3 +231,18 @@ for values in itertools.product(*domain.values()):
 
 You can create a dictionary from values using
 `dict(zip(domain.keys(), values))`
+
+
+[exercise_03.py](./code/puzzle/exercise_03.py)
+
+```python
+def find_solutions(apartment, domain):
+    for values in itertools.product(*domain.values()):
+        try:
+            candidates = dict(zip(domain.keys(), values))
+            apartment(**candidates)
+            # 利用生成器的方式很巧妙
+            yield candidates
+        except Fail:
+            pass
+```
