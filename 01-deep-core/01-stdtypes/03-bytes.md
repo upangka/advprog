@@ -33,3 +33,14 @@ b'hi'
 >>> int(b'123\n')
 123
 ```
+
+计算
+
+```python
+>>> b'hi' + b' world'
+b'hi world'
+>>> b'.'.join([b'hi' for _ in range(6)])
+b'hi.hi.hi.hi.hi.hi'
+>>> b'hi~' * 6
+b'hi~hi~hi~hi~hi~hi~'
+```

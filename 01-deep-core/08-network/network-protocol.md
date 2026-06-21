@@ -528,10 +528,25 @@ def test_sans_io():
 Recreate your performance test from Exercise 4 here using the new
 `MessageReceiver` class. Is it faster or slower?
 
+[exercise_07.py](./code/protocol/exercise_07.py)
+
 ```python
 def perf_test_sans_io():
-    # You implement
-    ...
+
+    messages = [ChatMessage("Dave", "Hello World"), PlayerUpdate("Paula", 23, 41)]
+
+    receiver = MessageReceiver()
+    raw_data = b"".join(encode_message(msg) for msg in messages) * 50000
+    n = 0
+
+    start = time.perf_counter()
+    while chunk := raw_data[n : n + random.randint(1,100)]:
+        receiver.send(chunk)
+        n += len(chunk)
+    end = time.perf_counter()
+
+    print(f"{100000 / (end -start):.0f} messages per second")
+
 
 # Uncomment
 # perf_test_sans_io()
