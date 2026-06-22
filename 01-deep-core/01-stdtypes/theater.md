@@ -203,6 +203,7 @@ Decimal('6.3')
 ```
 
 只需要处理浮点数即可
+
 ```python
 # 如
 LOW_PRICE = 1.0
@@ -260,3 +261,9 @@ Output
 The best profit for the theater is: 2.90
 The best profit for the theater is: 2.90
 ```
+
+## 思考
+
+Why did that work? Only change `float` to `Decimal`,other code unchanged???
+
+Because `Decimals` have same **programming interface**, such as `+ , -`
