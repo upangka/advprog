@@ -276,6 +276,8 @@ In addition to a "mode", you need to know the following information:
 3. Up requests (1-4). The *set* of "up" buttons pressed in the hallway.
 4. Down requests (2-5). The *set* of "down" buttons pressed in the hallway.
 
+- hallway /ˈhɔːl.weɪ/ n. 走廊；门厅（指建筑物内部的通道，连接各个房间或区域。在上下文中，"up requests in the hallway" 指的是安装在走廊/门厅里的电梯呼梯按钮
+
 Your challenge: write a solver specification that precisely defines all *valid* elevator operational states. In doing this, there are a few general requirements:
 
 1. The elevator should never move up on the top floor or move down on the bottom floor. This includes telling the passengers that it's going to continue going up when loading passengers on the top floor.
