@@ -176,3 +176,87 @@ Decimal('5.3')
 >>> print(a+b)
 5.3
 ```
+
+```python
+>>> from decimal import Decimal
+>>> a = Decimal('1')
+>>> b = Decimal('3')
+>>> a/b
+Decimal('0.3333333333333333333333333333')
+>>> round(a/b)
+0
+>>> round(a/b,2)
+Decimal('0.33')
+```
+
+# 使用Decimal处理浮点数
+
+**核心**
+
+```python
+>>> 3.1 + 2.2 + 1
+6.300000000000001
+>>> a = Decimal('3.1')
+>>> b = Decimal('2.2')
+>>> a + b + 1
+Decimal('6.3')
+```
+
+只需要处理浮点数即可
+```python
+# 如
+LOW_PRICE = 1.0
+HIGH_PRICE = 9.0
+INCREMENT = 0.10
+# 变成
+LOW_PRICE = Decimal("1.0")
+HIGH_PRICE = Decimal("9.0")
+INCREMENT = Decimal("0.10")
+```
+
+[theater_with_decimal.py](./code/theater/theater_with_decimal.py)
+
+```python
+from decimal import Decimal
+
+
+class Theater:
+
+    def __init__(
+        self,
+        # Put the variables in class
+        base_price: Decimal = Decimal("5.0"),  # Dollars
+        base_attendees: int = 120,  # Number of attendees at base price
+        attendees_per_dollar: int = 150,  # 150 people per dollar (15 people per 0.10 dollar)
+        fixed_cost: Decimal = Decimal("180.0"),  # Dollars
+        cost_per_attendee: Decimal = Decimal("0.04"),  # Dollars
+    ):
+        ...
+
+    ...其他不变...
+
+
+# Global variables
+LOW_PRICE = Decimal("1.0")
+HIGH_PRICE = Decimal("9.0")
+INCREMENT = Decimal("0.10")
+
+
+def find_ticket_price():  # "Wishful thinking" (top-down approach)
+    ...
+
+
+if __name__ == "__main__":
+    best_profit = find_ticket_price()
+    print(f"The best profit for the theater is: {best_profit}")
+    # round(number,ndigits) ndigits 控制精度到小数后两位
+    print(f"The best profit for the theater is: {round(best_profit,2):.2f}")
+```
+
+
+Output
+
+```sh
+The best profit for the theater is: 2.90
+The best profit for the theater is: 2.90
+```
