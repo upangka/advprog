@@ -1,3 +1,10 @@
+"""
+注意: 这个程序本身就存在bug
+在exercise_05.py中我们写程序来测试这个程序, 从而找到elevator.py
+程序中潜在的bug
+"""
+
+
 IDLE = "IDLE"  # 空闲：电梯门关着，没有任何请求，不移动
 MOVINGUP = "MOVINGUP"  # 向上移动：电梯正在向上运行
 MOVINGDOWN = "MOVINGDOWN"  # 向下移动：电梯正在向下运行
