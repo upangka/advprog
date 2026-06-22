@@ -43,7 +43,8 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
         mode in {"LOADINGUP", "LOADINGDOWN"}
         and len(destinations + up_requests + down_requests) == 0
     )
-    forbid(mode == "UNLOADING" and (destinations and up_requests and down_requests))
+    # 禁止电梯在 UNLOADING 模式时，当前楼层不在 destinations 中（没人要在这个楼层下电梯）
+    forbid(mode == "UNLOADING" and (floor not in destinations))
     forbid(mode == "LOADINGUP" and floor in up_requests)
     forbid(mode == "LOADINGDOWN" and floor in down_requests)
     forbid(mode in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"} and floor in destinations)
