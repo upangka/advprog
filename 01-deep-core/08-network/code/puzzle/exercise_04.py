@@ -21,6 +21,10 @@ elevator_domain = {
 
 
 def elevator_spec(mode, floor, destinations, up_requests, down_requests):
+    destinations = set(destinations) or set()
+    up_requests = set(up_requests) or set()
+    down_requests = set(down_requests) or set()
+     
     require(1 <= floor <= 5)
     forbid(mode == "MOVINGDOWN" and floor == 1)
     forbid(mode == "MOVINGUP" and floor == 5)
@@ -31,20 +35,20 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
     # in that direction
     forbid(
         mode in {"MOVINGUP", "MOVINGDOWN"}
-        and len(destinations + up_requests + down_requests) == 0
+        and len(destinations | up_requests | down_requests) == 0
     )
     forbid(
-        mode == "MOVINGUP" and max(destinations + up_requests + down_requests) <= floor
+        mode == "MOVINGUP" and max(destinations | up_requests | down_requests) <= floor
     )
     forbid(
         mode == "MOVINGDOWN"
-        and min(destinations + up_requests + down_requests) >= floor
+        and min(destinations | up_requests | down_requests) >= floor
     )
 
-    forbid(
-        mode in {"LOADINGUP", "LOADINGDOWN"}
-        and len(destinations + up_requests + down_requests) == 0
-    )
+    # forbid(
+    #     mode in {"LOADINGUP", "LOADINGDOWN"}
+    #     and len(destinations | up_requests | down_requests) == 0
+    # )
     # There are quite a few constraints involving buttons
     # For example,certain buttons should be illuminated if the elevator
     # is already at that floor while loading, etc
@@ -56,13 +60,13 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
     forbid(mode == "UNLOADING" and floor in up_requests)
     forbid(mode == "UNLOADING" and floor in down_requests)
 
-    forbid(
-        mode == "LOADINGUP" and max(destinations + up_requests + down_requests) <= floor
-    )
-    forbid(
-        mode == "LOADINGDOWN"
-        and min(destinations + up_requests + down_requests) >= floor
-    )
+    # forbid(
+    #     mode == "LOADINGUP" and max(destinations | up_requests | down_requests) <= floor
+    # )
+    # forbid(
+    #     mode == "LOADINGDOWN"
+    #     and min(destinations | up_requests | down_requests) >= floor
+    # )
 
     forbid(mode == "IDLE" and (destinations or up_requests or down_requests))
 
