@@ -81,7 +81,7 @@ def main():
     count = 0
     while count < 10:
         r = elevators[random.randint(0,size-1)]
-        if r['mode'] == "UNLOADING":
+        if r['mode'] == "MOVINGDOWN":
             print(r)
             count += 1
 
