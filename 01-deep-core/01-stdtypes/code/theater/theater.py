@@ -1,6 +1,8 @@
 class Theater:
+
     def __init__(
         self,
+        # Put the variables in class
         base_price: float = 5.0,  # Dollars
         base_attendees: int = 120,  # Number of attendees at base price
         attendees_per_dollar: int = 150,  # 150 people per dollar (15 people per 0.10 dollar)
@@ -13,22 +15,23 @@ class Theater:
         self._fixed_cost = fixed_cost
         self._cost_per_attendee = cost_per_attendee
 
-    def compute_attendees(self, price):
+    def _compute_attendees(self, price):
         return (
             self._base_attendees
             - (price - self._base_price) * self._attendees_per_dollar
         )
 
-    def compute_cost(self, attendees):
+    def _compute_cost(self, attendees):
         return self._fixed_cost + self._cost_per_attendee * attendees
 
     def compute_profit(self, price):
-        num_attendees = self.compute_attendees(price)
+        num_attendees = self._compute_attendees(price)
         revenue = price * num_attendees
-        cost = self.compute_cost(num_attendees)
+        cost = self._compute_cost(num_attendees)
         return revenue - cost
 
 
+# Global variables
 LOW_PRICE = 1.0
 HIGH_PRICE = 9.0
 INCREMENT = 0.10
