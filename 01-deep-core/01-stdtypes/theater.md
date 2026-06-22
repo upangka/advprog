@@ -143,4 +143,36 @@ def find_ticket_price():  # "Wishful thinking" (top-down approach)
 if __name__ == "__main__":
     best_profit = find_ticket_price()
     print(f"The best profit for the theater is: {best_profit}")
+    # round(number,ndigits) ndigits 控制精度到小数后两位
+    print(f"The best profit for the theater is: {round(best_profit,2):.2f}")
+```
+
+Ouput
+```sh
+The best profit for the theater is: 2.9000000000000017
+The best profit for the theater is: 2.90
+```
+
+# 浮点数精度问题
+
+Is accuracy a problem of calculation or in presentation?
+
+```python
+>>> # 展示四舍五入
+>>> round(2.9000000000000017,2)
+2.9
+>>> round(2.9000000000000017,2)
+```
+
+```python
+>>> 3.1 + 2.2
+5.300000000000001
+>>> # 使用decimal
+>>> from decimal import Decimal
+>>> a = Decimal('3.1')
+>>> b = Decimal('2.2')
+>>> a + b
+Decimal('5.3')
+>>> print(a+b)
+5.3
 ```

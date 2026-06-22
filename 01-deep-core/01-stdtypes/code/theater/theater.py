@@ -55,3 +55,5 @@ def find_ticket_price():  # "Wishful thinking" (top-down approach)
 if __name__ == "__main__":
     best_profit = find_ticket_price()
     print(f"The best profit for the theater is: {best_profit}")
+    # round(number,ndigits) ndigits 控制精度到小数后两位
+    print(f"The best profit for the theater is: {round(best_profit,2):.2f}")
