@@ -75,11 +75,13 @@ def find_ticket_price():    # "Wishful thinking" (top-down approach)
     ...
 ```
 
-- I want to approach this as a software problem, not an algebra problem. Yes, you could solve this specific problem using algebra, but programs are a bit different. For example, programs can be expanded with new features. Maybe you want to be able to customize the problem. Maybe your code is to be incorporated into a larger program of some kind.
-
-- The code should be broken into reasonable parts that can be tested and/or debugged.
-
-- Readability counts. Could I give this code to others and have them understand it? Could they modify it?
+> Some Comments:
+>
+> - I want to approach this as a software problem, not an algebra problem. Yes, you could solve this specific problem using algebra, but programs are a bit different. For example, programs can be expanded with new features. Maybe you want to be able to customize the problem. Maybe your code is to be incorporated into a larger program of some kind.
+>
+> - The code should be broken into reasonable parts that can be >tested and/or debugged.
+>
+> - Readability counts. Could I give this code to others and >have them understand it? Could they modify it?
 
 [theater.py](./code/theater/theater.py)
 
