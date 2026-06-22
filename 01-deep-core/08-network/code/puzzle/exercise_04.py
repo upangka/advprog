@@ -24,7 +24,7 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
     destinations = set(destinations) or set()
     up_requests = set(up_requests) or set()
     down_requests = set(down_requests) or set()
-     
+
     require(1 <= floor <= 5)
     forbid(mode == "MOVINGDOWN" and floor == 1)
     forbid(mode == "MOVINGUP" and floor == 5)

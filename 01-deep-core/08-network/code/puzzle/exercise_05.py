@@ -41,5 +41,6 @@ def test_elevator():
             except Fail:
                 print(f"BAD! {state} : ({event} ,{floor}) -> {elevator}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_elevator()
