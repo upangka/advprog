@@ -22,4 +22,33 @@ class Theater:
     def compute_cost(self, attendees):
         return self._fixed_cost + self._cost_per_attendee * attendees
 
-    def compute_profit(self, price): ...
+    def compute_profit(self, price):
+        num_attendees = self.compute_attendees(price)
+        revenue = price * num_attendees
+        cost = self.compute_cost(num_attendees)
+        return revenue - cost
+
+
+LOW_PRICE = 1.0
+HIGH_PRICE = 9.0
+INCREMENT = 0.10
+
+
+def find_ticket_price():  # "Wishful thinking" (top-down approach)
+    theater = Theater()
+    price = LOW_PRICE
+    best_price = price
+    best_profit = theater.compute_profit(best_price)
+
+    while price <= HIGH_PRICE:
+        price += INCREMENT
+        profit = theater.compute_profit(price)
+        if profit >= best_profit:
+            best_profit = profit
+            best_price = price
+    return best_price
+
+
+if __name__ == "__main__":
+    best_profit = find_ticket_price()
+    print(f"The best profit for the theater is: {best_profit}")

@@ -54,7 +54,28 @@ Write a program to figure out the best ticket price (to the nearest
 
 Credit: This problem comes from "How to Design Programs", 2nd Ed.
 
-Credit /ˈkred.ɪt/ n. 荣誉；致谢；来源（指对某作品、想法或问题的原作者/来源的承认和感谢）
+- Credit /ˈkred.ɪt/ n. 荣誉；致谢；来源（指对某作品、想法或问题的原作者/来源的承认和感谢）
+
+Nothing is said about how one might go about finding the
+best ticket price. Do we use a library? Is there a range
+of prices to check? Does the theater have a maximum capacity?
+Nothing is known about this.
+
+
+
+```python
+# Search parameters (which I'm making up on my own)
+LOW_PRICE = 1.0
+HIGH_PRICE = 9.0
+INCREMENT = 0.10
+
+def find_ticket_price():    # "Wishful thinking" (top-down approach)
+    ...
+    # But now what???
+    ...
+```
+
+
 
 
 - I want to approach this as a software problem, not an algebra problem. Yes, you could solve this specific problem using algebra, but programs are a bit different. For example, programs can be expanded with new features. Maybe you want to be able to customize the problem. Maybe your code is to be incorporated into a larger program of some kind.
@@ -63,4 +84,4 @@ Credit /ˈkred.ɪt/ n. 荣誉；致谢；来源（指对某作品、想法或问
 
 - Readability counts. Could I give this code to others and have them understand it? Could they modify it?
 
-[theater](./code/theater/theater.py)
+[theater.py](./code/theater/theater.py)
