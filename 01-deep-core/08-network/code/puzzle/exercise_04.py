@@ -27,6 +27,8 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
     forbid(mode == "LOADINGDOWN" and floor == 1)
     forbid(mode == "LOADINGUP" and floor == 5)
 
+    # If moving up or down, there must be a reason why we're moving
+    # in that direction
     forbid(
         mode in {"MOVINGUP", "MOVINGDOWN"}
         and len(destinations + up_requests + down_requests) == 0
@@ -43,7 +45,10 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
         mode in {"LOADINGUP", "LOADINGDOWN"}
         and len(destinations + up_requests + down_requests) == 0
     )
-    # 禁止电梯在 UNLOADING 模式时，当前楼层不在 destinations 中（没人要在这个楼层下电梯）
+    # There are quite a few constraints involving buttons
+    # For example,certain buttons should be illuminated if the elevator
+    # is already at that floor while loading, etc
+    # - illuminated /ɪˈluː.mɪ.neɪ.tɪd/ adj. 发亮的；被照亮的（指按钮上的指示灯亮起，表示该按钮已被按下或该请求处于激活状态。
     forbid(mode == "UNLOADING" and destinations)
     forbid(mode == "LOADINGUP" and floor in up_requests)
     forbid(mode == "LOADINGDOWN" and floor in down_requests)
@@ -74,14 +79,14 @@ def main():
     size = len(elevators)
     print(size, "elevators")
     import random
-    
+
     # print([item for item in elevators if item['mode']=="UNLOADING"])
-    
+
     # 随机查看电梯随机数据
     count = 0
     while count < 10:
-        r = elevators[random.randint(0,size-1)]
-        if r['mode'] == "MOVINGDOWN":
+        r = elevators[random.randint(0, size - 1)]
+        if r["mode"] == "MOVINGDOWN":
             print(r)
             count += 1
 
