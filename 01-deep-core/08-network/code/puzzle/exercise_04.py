@@ -44,7 +44,7 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
         and len(destinations + up_requests + down_requests) == 0
     )
     # 禁止电梯在 UNLOADING 模式时，当前楼层不在 destinations 中（没人要在这个楼层下电梯）
-    forbid(mode == "UNLOADING" and (floor not in destinations))
+    forbid(mode == "UNLOADING" and destinations)
     forbid(mode == "LOADINGUP" and floor in up_requests)
     forbid(mode == "LOADINGDOWN" and floor in down_requests)
     forbid(mode in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"} and floor in destinations)
@@ -74,10 +74,20 @@ def main():
     size = len(elevators)
     print(size, "elevators")
     import random
+    
+    # print([item for item in elevators if item['mode']=="UNLOADING"])
+    
+    # 随机查看电梯随机数据
+    count = 0
+    while count < 10:
+        r = elevators[random.randint(0,size-1)]
+        if r['mode'] == "UNLOADING":
+            print(r)
+            count += 1
 
-    for _ in range(10):
-        idx = random.randint(0, size)
-        print(elevators[idx])
+    # for _ in range(10):
+    #     idx = random.randint(0, size-1)
+    #     print(elevators[idx])
 
 
 if __name__ == "__main__":
