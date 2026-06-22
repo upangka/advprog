@@ -49,10 +49,13 @@ def elevator_spec(mode, floor, destinations, up_requests, down_requests):
     # For example,certain buttons should be illuminated if the elevator
     # is already at that floor while loading, etc
     # - illuminated /ɪˈluː.mɪ.neɪ.tɪd/ adj. 发亮的；被照亮的（指按钮上的指示灯亮起，表示该按钮已被按下或该请求处于激活状态。
-    forbid(mode == "UNLOADING" and destinations)
     forbid(mode == "LOADINGUP" and floor in up_requests)
     forbid(mode == "LOADINGDOWN" and floor in down_requests)
     forbid(mode in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"} and floor in destinations)
+    forbid(mode == "UNLOADING" and destinations)
+    forbid(mode == "UNLOADING" and floor in up_requests)
+    forbid(mode == "UNLOADING" and floor in down_requests)
+
     forbid(
         mode == "LOADINGUP" and max(destinations + up_requests + down_requests) <= floor
     )
