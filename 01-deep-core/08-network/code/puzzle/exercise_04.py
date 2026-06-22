@@ -1,5 +1,6 @@
 import itertools
-from exercise_03 import Fail, require, forbid
+
+from exercise_03 import Fail, forbid, require
 
 
 def all_combinations(values):
@@ -20,8 +21,41 @@ elevator_domain = {
 
 
 def elevator_spec(mode, floor, destinations, up_requests, down_requests):
-    # 245760 -> 245760
     require(1 <= floor <= 5)
+    forbid(mode == "MOVINGDOWN" and floor == 1)
+    forbid(mode == "MOVINGUP" and floor == 5)
+    forbid(mode == "LOADINGDOWN" and floor == 1)
+    forbid(mode == "LOADINGUP" and floor == 5)
+
+    forbid(
+        mode in {"MOVINGUP", "MOVINGDOWN"}
+        and len(destinations + up_requests + down_requests) == 0
+    )
+    forbid(
+        mode == "MOVINGUP" and max(destinations + up_requests + down_requests) <= floor
+    )
+    forbid(
+        mode == "MOVINGDOWN"
+        and min(destinations + up_requests + down_requests) >= floor
+    )
+
+    forbid(
+        mode in {"LOADINGUP", "LOADINGDOWN"}
+        and len(destinations + up_requests + down_requests) == 0
+    )
+    forbid(mode == "UNLOADING" and (destinations and up_requests and down_requests))
+    forbid(mode == "LOADINGUP" and floor in up_requests)
+    forbid(mode == "LOADINGDOWN" and floor in down_requests)
+    forbid(mode in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"} and floor in destinations)
+    forbid(
+        mode == "LOADINGUP" and max(destinations + up_requests + down_requests) <= floor
+    )
+    forbid(
+        mode == "LOADINGDOWN"
+        and min(destinations + up_requests + down_requests) >= floor
+    )
+
+    forbid(mode == "IDLE" and (destinations or up_requests or down_requests))
 
 
 def find_solutions(spec, domain):
@@ -36,8 +70,13 @@ def find_solutions(spec, domain):
 
 def main():
     elevators = list(find_solutions(elevator_spec, elevator_domain))
-    print(len(elevators), "elevators")
-    print(elevators[5760])
+    size = len(elevators)
+    print(size, "elevators")
+    import random
+
+    for _ in range(10):
+        idx = random.randint(0, size)
+        print(elevators[idx])
 
 
 if __name__ == "__main__":
@@ -46,4 +85,6 @@ if __name__ == "__main__":
 
 """invalid elevator status
 {'mode': 'MOVINGDOWN', 'floor': 1, 'destinations': (2, 3, 4), 'up_requests': (2, 3), 'down_requests': ()}
+{'mode': 'LOADINGDOWN', 'floor': 2, 'destinations': (), 'up_requests': (3,), 'down_requests': (2, 3, 5)}
+{'mode': 'UNLOADING', 'floor': 1, 'destinations': (), 'up_requests': (3,), 'down_requests': (2, 3, 5)}
 """
