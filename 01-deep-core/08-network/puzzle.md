@@ -321,6 +321,48 @@ elevators = list(find_solutions(elevator_spec, elevator_domain))
 print(len(elevators), "elevators")
 ```
 
+[exercise_04.py](./code/puzzle/exercise_04.py)
+
+```python
+def elevator_spec(mode, floor, destinations, up_requests, down_requests):
+    destinations = set(destinations) or set()
+    up_requests = set(up_requests) or set()
+    down_requests = set(down_requests) or set()
+     
+    require(1 <= floor <= 5)
+    forbid(mode == "MOVINGDOWN" and floor == 1)
+    forbid(mode == "MOVINGUP" and floor == 5)
+    forbid(mode == "LOADINGDOWN" and floor == 1)
+    forbid(mode == "LOADINGUP" and floor == 5)
+
+    # If moving up or down, there must be a reason why we're moving
+    # in that direction
+    forbid(
+        mode in {"MOVINGUP", "MOVINGDOWN"}
+        and len(destinations | up_requests | down_requests) == 0
+    )
+    forbid(
+        mode == "MOVINGUP" and max(destinations | up_requests | down_requests) <= floor
+    )
+    forbid(
+        mode == "MOVINGDOWN"
+        and min(destinations | up_requests | down_requests) >= floor
+    )
+
+    # There are quite a few constraints involving buttons
+    # For example,certain buttons should be illuminated if the elevator
+    # is already at that floor while loading, etc
+    # - illuminated /ɪˈluː.mɪ.neɪ.tɪd/ adj. 发亮的；被照亮的（指按钮上的指示灯亮起，表示该按钮已被按下或该请求处于激活状态。
+    forbid(mode == "LOADINGUP" and floor in up_requests)
+    forbid(mode == "LOADINGDOWN" and floor in down_requests)
+    forbid(mode in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"} and floor in destinations)
+    forbid(mode == "UNLOADING" and destinations)
+    forbid(mode == "UNLOADING" and floor in up_requests)
+    forbid(mode == "UNLOADING" and floor in down_requests)
+
+    forbid(mode == "IDLE" and (destinations or up_requests or down_requests))
+```
+
 
 
 #  Exercise 5 - The Elevator Testing Challenge
@@ -381,3 +423,106 @@ def test_elevator():
 Hint: Make sure you only generate 'floor_sensor' events if the elevator is moving and only for an adjacent floor (i.e., if MOVINGUP on floor 3, you can trigger the floor sensor for floor 4). Also, make sure you only generate 'doors_close' events if the elevator is loading or unloading passengers.
 
 Hint: There is an even more clever implementation of this idea that uses `find_solutions()` twice.
+
+[exercise_05.py](./code/puzzle/exercise_05.py)
+
+```python
+def all_possiable_events(state):
+    if state["mode"] == "MOVINGUP":
+        yield ("floor_sensor", state["floor"] + 1)
+    elif state["mode"] == "MOVINGDOWN":
+        yield ("floor_sensor", state["floor"] - 1)
+    elif state["mode"] in {"LOADINGUP", "LOADINGDOWN", "UNLOADING"}:
+        yield ("doors_close", state["floor"])
+
+    # Any button in car could be pressed
+    for floor in range(1, 6):
+        yield ("destination", floor)
+
+    # Any up button
+    for floor in range(1, 5):
+        yield ("up_request", floor)
+
+    # Any down button
+    for floor in range(2, 6):
+        yield ("down_request", floor)
+
+
+def test_elevator():
+    # Iterate over all good elevators
+    for state in find_solutions(elevator_spec, elevator_domain):
+        # Try all possiable events on the elevator that can occur in this state
+        for event, floor in all_possiable_events(state):
+            # Create an elevator instance
+            elevator = Elevator(**state)
+            # Try the event
+            elevator.handle_event(event, floor)
+            # Verify that it's still a good elevator using the
+            # spec. If this fails,then there's a bug in the elevator
+            # software
+            try:
+                elevator_spec(**vars(elevator))
+            except Fail:
+                print(f"BAD! {state} : ({event} ,{floor}) -> {elevator}")
+
+```
+
+## 漏洞分析和复现
+
+程序最后运行的结果，仔细分析可以看到[elevator.py](./code/puzzle/elevator.py)的漏洞bug
+
+```sh
+BAD! {'mode': 'LOADINGDOWN', 'floor': 2, 'destinations': (), 'up_requests': (2,), 'down_requests': ()} : (doors_close ,2) -> Elevator(LOADINGUP, 2, set(), {2}, set())
+BAD! {'mode': 'LOADINGDOWN', 'floor': 3, 'destinations': (), 'up_requests': (3,), 'down_requests': ()} : (doors_close ,3) -> Elevator(LOADINGUP, 3, set(), {3}, set())
+BAD! {'mode': 'LOADINGDOWN', 'floor': 4, 'destinations': (), 'up_requests': (4,), 'down_requests': ()} : (doors_close ,4) -> Elevator(LOADINGUP, 4, set(), {4}, set())
+BAD! {'mode': 'LOADINGUP', 'floor': 2, 'destinations': (), 'up_requests': (), 'down_requests': (2,)} : (doors_close ,2) -> Elevator(LOADINGDOWN, 2, set(), set(), {2})
+BAD! {'mode': 'LOADINGUP', 'floor': 3, 'destinations': (), 'up_requests': (), 'down_requests': (3,)} : (doors_close ,3) -> Elevator(LOADINGDOWN, 3, set(), set(), {3})
+BAD! {'mode': 'LOADINGUP', 'floor': 4, 'destinations': (), 'up_requests': (), 'down_requests': (4,)} : (doors_close ,4) -> Elevator(LOADINGDOWN, 4, set(), set(), {4})
+```
+
+
+
+漏洞行为复现，比如深夜有人在第二层的走廊同时按下了上和下，然后就不做任何动作了。
+
+```python
+>>> # 深夜电梯停止1楼
+>>> elev = Elevator('IDLE',1,(),(),())
+>>> elev
+Elevator(IDLE, 1, set(), set(), set())
+>>> # 此时在2楼有人同时按下up和down
+>>> elev.handle_event("up_request",2)
+'MOVINGUP'
+>>> elev.handle_event("down_request",2)
+'MOVINGUP'
+>>> # 此时的电梯状态
+>>> elev
+Elevator(MOVINGUP, 1, set(), {2}, {2})
+>>> # 此时电梯开始从1楼移动到2楼,并在二楼打开电梯门
+>>> elev.handle_event("floor_sensor",2)
+'LOADINGUP'
+>>> # 注意此时已经清除了up_requests中的2
+>>> elev
+Elevator(LOADINGUP, 2, set(), set(), {2})
+>>> # 开始上人，电梯关闭，但是不按电梯里面的按键
+>>> elev.handle_event('doors_close',2)
+'LOADINGDOWN'
+>>> # 可以看到没有被清除down_request
+>>> elev
+Elevator(LOADINGDOWN, 2, set(), set(), {2})
+```
+
+
+电梯不断地循环关闭和打开
+
+```python
+>>> # 如果没有其他的事件发生，就会出现LOADINGUP与LOADINGDOWN不断交替
+>>> # 电梯不断地开关
+>>> elev.handle_event('doors_close',2)
+'LOADINGUP'
+>>> elev.handle_event('doors_close',2)
+'LOADINGDOWN'
+>>> elev.handle_event('doors_close',2)
+'LOADINGUP'
+>>> elev.handle_event('doors_close',2)
+'LOADINGDOWN'
+```
