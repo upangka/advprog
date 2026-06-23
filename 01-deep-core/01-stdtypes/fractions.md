@@ -312,4 +312,80 @@ from typing import NamedTuple
 class Fraction(NamedTuple):
     numerator : int
     denominator : int
+
+def make_frac(numer, denom):
+    ... # You define
+
+def numerator(f):
+    ... # You define
+
+def denominator(f):
+    ... # You define
+```
+
+[exercise_04.py](./code/fractions/exercise_04.py)
+
+```python
+def make_frac(numer, denom):
+    d = gcd(numer, denom)
+    return Fraction(numer // d, denom // d)
+
+
+def numerator(f):
+    return f.numerator
+
+
+def denominator(f):
+    return f.denominator
+```
+
+# Duck Type
+
+Did you know that the math functions can now also work with normal 
+integers if you implement the accessor functions so that they use
+the dot (.) for attribute access? Try this:
+
+```python
+def numerator(a):
+    return a.numerator
+
+def denominator(a):
+    return a.denominator
+```
+Verify that it works:
+
+```python
+>>> a = make_frac(2, 3)
+>>> b = add_frac(a, 1)
+>>> b
+Fraction(numerator=5, denominator=3)
+>>>
+```
+
+Can you explain why this works?
+
+这其实是 Python 鸭子类型（Duck Typing） 的一个精妙应用。
+
+`add_frac(a, 1)` 中的 1 是一个普通的 int 对象。在 Python 中，int 类型本身就有 `numerator` 和 `denominator` 属性吗？
+
+让我们在 Python 中验证一下：
+
+```python
+>>> (1).numerator
+1
+>>> (1).denominator
+1
+```
+
+在 Python 中，整数对象自带了 `numerator` 和 `denominator` 属性（因为 int 继承自 `numbers.Rational`），它们分别返回整数本身和 1
+
+`1.numerator` 报错是因为解析器把 1. 误认为浮点数前缀，而不是整数加属性访问。加括号 `(1)` 或加空格 `1 .` 可以消除歧义。
+
+```sh
+>>> 1.numerator
+  File "<stdin>", line 1
+    1.numerator
+>>> # 加上空格
+>>> 1 .numerator
+1
 ```
