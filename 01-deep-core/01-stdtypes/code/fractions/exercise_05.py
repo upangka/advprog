@@ -1,9 +1,39 @@
 from typing import NamedTuple
 
+# class Fraction(NamedTuple):
+#     numerator: int
+#     denominator: int
 
-class Fraction(NamedTuple):
+#     # You'll need to make modifications to pass the test below. Logically,
+#     # you'll want to make it so the numerator/denominator are reduced to
+#     # lowest terms as you might have done in an __init__() method. Sadly,
+#     # doing that does NOT work (can you figure out why?)
+#     # DOES NOT WORK! Can you think of an alternative that achieves the same
+#     # effect?
+#     def __new__(cls, numerator, denominator):
+#         d = gcd(numerator, denominator)
+#         numerator = numerator // d
+#         denominator = denominator // d
+#         # AttributeError: Cannot overwrite NamedTuple attribute __new__
+#         return super().__new__(cls, numerator, denominator)
+
+#     def __init__(self, numerator, denominator):
+#         d = gcd(numerator, denominator)
+#         self.numerator = numerator // d  # Would not work ever
+#         self.denominator = denominator // d  # Would not work ever
+
+
+class _Fraction(NamedTuple):
     numerator: int
     denominator: int
+
+
+class Fraction(_Fraction):
+    def __new__(cls, numerator, denominator):
+        d = gcd(numerator, denominator)
+        numerator = numerator // d
+        denominator = denominator // d
+        return super().__new__(cls, numerator, denominator)
 
 
 def gcd(a, b):

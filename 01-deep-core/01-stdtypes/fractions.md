@@ -422,3 +422,124 @@ Disclaimer: This is hard and not obvious. But, it points to deeper
 problems. Maybe `NamedTuple` is not the solution we seek.
 
 - Disclaimer /dɪsˈkleɪ.mər/ n. 免责声明；声明（指用来澄清意图、说明特定条件或排除责任的声明。在上下文中，"Disclaimer: This is hard and not obvious." 的意思是：声明：这很难且不显然。
+
+
+
+```python
+class Fraction(NamedTuple):
+    numerator: int
+    denominator: int
+
+    # You'll need to make modifications to pass the test below. Logically,
+    # you'll want to make it so the numerator/denominator are reduced to
+    # lowest terms as you might have done in an __init__() method. Sadly,
+    # doing that does NOT work (can you figure out why?)
+    # DOES NOT WORK! Can you think of an alternative that achieves the same
+    # effect?
+    def __new__(cls, numerator, denominator):
+        d = gcd(numerator, denominator)
+        numerator = numerator // d
+        denominator = denominator // d
+        # AttributeError: Cannot overwrite NamedTuple attribute __new__
+        return super().__new__(cls, numerator, denominator)
+
+    def __init__(self, numerator, denominator):
+        d = gcd(numerator, denominator)
+        self.numerator = numerator // d  # Would not work ever
+        self.denominator = denominator // d  # Would not work ever
+```
+
+因为 `NamedTuple` 的构造函数 `__new__` 在你传入参数时直接就把值存进去了，中间没有任何可以插入逻辑的地方。你没办法重写 `__init__` 或 `__new__` 来“拦截”参数并修改它们，因为 NamedTuple 在底层定义时，会生成一个不可修改的类，它的行为已经固定了
+
+关于`__new__`
+
+```python
+>>> class Point:
+...     def __init__(self,x,y):
+...         self.x = x
+...         self.y = y
+>>> # 创建实例，但是并没有初始化
+>>> p = Point.__new__(Point)
+>>> p = Point.__new__(Point,2,3)
+>>> p.__dict__
+{}
+>>> p.__init__(2,3)
+>>> p.__dict__
+{'x': 2, 'y': 3}
+```
+
+解决方案[exercise_05.py](./code/fractions/exercise_05.py)
+
+```python
+class _Fraction(NamedTuple):
+    numerator: int
+    denominator: int
+
+
+class Fraction(_Fraction):
+    def __new__(cls, numerator, denominator):
+        d = gcd(numerator, denominator)
+        numerator = numerator // d
+        denominator = denominator // d
+        return super().__new__(cls, numerator, denominator)
+```
+
+# Exercise 6
+
+Modeling fractions as a data structure with a collection of standalone functions isn't very "Pythonic." Python has a protocol for manipulating numbers via operators such as `+`, `-`, `*`, and `/`. These operators are mapped to methods such as `__add__()` and `__mul__()`.
+
+Pythonic 是 Python 社区里的一个核心概念，指“符合 Python 语言设计哲学和惯用风格的代码”。
+
+Pythonic 代码的特点是：
+
+1. 简洁、优雅、易读
+2. 充分利用 Python 的语言特性（如魔法方法、鸭子类型、上下文管理器等）
+3. 让代码看起来“自然”，而不是把其他语言的风格硬搬到 Python 里
+
+| 当前写法（不够 Pythonic） | Pythonic 写法 |
+|---------------------------|---------------|
+| `add_frac(a, b)`          | `a + b`       |
+| `sub_frac(a, b)`          | `a - b`       |
+| `mul_frac(a, b)`          | `a * b`       |
+| `div_frac(a, b)`          | `a / b`       |
+
+In this exercise, we're going to write a Fraction class that works like a proper Python number. To do this, you'll need to implement a variety of so-called "magic" methods such as __add__, __sub__, __mul__, etc. Some later stages of the exercise have you make it a bit nicer to work with by implementing a few other methods.
+
+However, as a twist of fate, you are going to be required to continue supporting the "old" programming interface. As often is the case in a project, you've to support both old and new code at the same time. So, we've got to think about that.
+
+- twist /twɪst/ n. 转折；扭曲；意外变化（指事物发展方向的突然改变，带有出乎意料的意味）
+- fate /feɪt/ n. 命运；天数（指注定的、无法改变的发展方向或结局）
+- as a twist of fate = 偏偏命运就是这样安排的，用来引出一种意想不到的、带有戏剧性的局面。
+
+There are various test functions in this file that need to pass. Read ahead and comment them out as you work.
+
+```python
+def gcd(a, b):
+    # Greatest common divisor
+    while b:
+        a, b = b, a % b
+    return a
+
+# We will define a proper class
+class Fraction:
+    def __init__(self, numerator, denominator):
+        d = gcd(numerator, denominator)
+        self.numerator = numerator // d
+        self.denominator = denominator // d
+
+    # Define various magic methods for Python operators
+    def __add__(self, other):
+        ...
+
+    def __sub__(self, other):
+        ...
+
+    ...
+```
+
+Legacy interface. We'll continue to support it for backwards compatibility
+
+```python
+def make_frac(numerator, denominator):
+    return Fraction(numerator, denominator)
+```
