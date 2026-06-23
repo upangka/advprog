@@ -230,3 +230,73 @@ def numerator(f):
 def denominator(f):
     return f["denominator"]
 ```
+
+
+# Exercise 3
+
+During your coffee break, you decide to show your fraction code to a
+Lisp programmer at the office.
+
+"You know, you could really shatter 5th grade minds if you
+represented fractions entirely as a function. Here, something like
+this:"
+
+- shatter /ˈʃæt.ər/ v. 粉碎；摧毁；使震惊（指彻底击碎或破坏某物，在上下文中，"shatter 5th grade minds" 的意思是：摧毁五年级学生的认知/让他们彻底震惊。这里的语气是幽默夸张的，表示如果用函数来表示分数（而不是用元组或字典这种直观的数据结构），会完全颠覆小学生的理解方式。这是 Lisp 程序员在调侃函数式编程的抽象方式——用函数来表示数据（闭包）是一种极其高级但又非常“奇怪”的做法
+
+```python
+# 生产分数
+def make_frac(numer, denom):
+    d = gcd(numer, denom)
+    numer = numer // d
+    denom = denom // d
+    def frac(s):
+        return numer if s else denom
+    return frac
+
+# access funcs
+def numerator(f):
+    return f(True)
+
+def denominator(f):
+    return f(False)
+```
+
+What is this madness? Paste your implementation of `add_frac()`,
+`sub_frac()`, `mul_frac()`, and `div_frac()` here. MAKE NO CHANGES.
+Verify that it still passes all of the unit tests--somehow.
+
+- madness /ˈmæd.nəs/ n. 疯狂；荒唐；荒谬的行为（指某种想法或做法极其奇怪、不合常理，让人难以理解或接受。在上下文中，“What is this madness?” 的意思是：这到底是什么疯狂的东西？ 这是 Peter 在看到 Lisp 程序员用函数来表示分数时的反应——因为这种用闭包来存储数据的方式完全违背了常规直觉，在传统的命令式编程思维看来简直是“疯了”。这个词在这里带有幽默和夸张的色彩，表达对函数式编程抽象方式的震惊和不理解）
+
+[exercise_03.py](./code/fractions/exercise_03.py) 一模一样的复制，根本不做任何更改，尽管使用函数式的分数，但是仍然正常工作。
+
+```python
+def add_frac(a, b):
+    return make_frac(
+        numerator(a) * denominator(b) + denominator(a) * numerator(b),
+        denominator(a) * denominator(b),
+    )
+
+
+def sub_frac(a, b):
+    return make_frac(
+        numerator(a) * denominator(b) - denominator(a) * numerator(b),
+        denominator(a) * denominator(b),
+    )
+
+
+def mul_frac(a, b):
+    return make_frac(numerator(a) * numerator(b), denominator(a) * denominator(b))
+
+
+def div_frac(a, b):
+    return make_frac(numerator(a) * denominator(b), denominator(a) * numerator(b))
+```
+
+As you collect the pieces of your brain, ponder the fact that those
+top level functions `make_frac()`, `numerator()`, and `denominator()`
+really saved you a lot of hassle here. Yes, **the underlying
+representation changed into something else, but none of the
+higher level code had to change**.
+
+- ponder /ˈpɑːn.dər/ v. 沉思；仔细思考（指对某个问题进行认真、深入的思考，通常带有哲学性或探索性，不是简单的随便想想。
+- hassle /ˈhæs.əl/ n. 麻烦；困难；争论（指令人不愉快或费时费力的麻烦事。在上下文中，"saved you a lot of hassle" 的意思是：帮你省去了很多麻烦。

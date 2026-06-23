@@ -6,20 +6,27 @@ def gcd(a, b):
     return a
 
 
+# 生产分数
 def make_frac(numer, denom):
     d = gcd(numer, denom)
-    return {"numerator": numer // d, "denominator": denom // d}
+    numer = numer // d
+    denom = denom // d
+
+    def frac(s):
+        return numer if s else denom
+
+    return frac
 
 
+# access funcs
 def numerator(f):
-    return f["numerator"]
+    return f(True)
 
 
 def denominator(f):
-    return f["denominator"]
+    return f(False)
 
 
-# This is the same as before. NO CHANGES MADE.
 def add_frac(a, b):
     return make_frac(
         numerator(a) * denominator(b) + denominator(a) * numerator(b),
