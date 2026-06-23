@@ -193,3 +193,23 @@ def div_frac(a, b):
     return make_frac(numerator(a) * denominator(b), denominator(a) * numerator(b))
 ```
 
+# Exercise 2 
+
+"Dad? Tuples? Accessor functions? Really? What is this?"
+
+Grumbling, Peter starts thinking about the general design problem of
+**data abstraction**. Despite his use of tuples, the functionality of
+his code is still fairly well organized into layers. For example,
+none of the core math functions (add_frac, sub_frac, mul_frac, etc.)
+know anything about tuples. Instead, they use the **accessor
+functions** such as `numerator(r)` and `denominator(r)`. Fractions are
+always constructed using `make_frac()`. Abstraction is good.
+
+"I'll show her!"
+
+Peter decides that he can easily change his code to use dictionaries
+without breaking anything else. All he needs to do is change the
+`make_frac()`, `numerator()`, and `denominator()` functions. Nothing else
+needs to change, including the tests.
+
+- grumbling /ˈɡrʌm.bəl.ɪŋ/ v. 咕哝；抱怨；嘟囔（指低声表达不满或牢骚，通常不是大声抗议，而是带着不满情绪的小声嘀咕。

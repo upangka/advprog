@@ -64,3 +64,6 @@ def test_frac():
     assert (numerator(g), denominator(g)) == (8, 9)
 
     print("Good fractions")
+
+if __name__ == '__main__':
+    test_frac()
