@@ -339,7 +339,7 @@ def denominator(f):
     return f.denominator
 ```
 
-# Duck Type
+## Duck Type
 
 Did you know that the math functions can now also work with normal 
 integers if you implement the accessor functions so that they use
@@ -389,3 +389,36 @@ Can you explain why this works?
 >>> 1 .numerator
 1
 ```
+
+
+# Exercise 5
+
+The function `make_frac()` is used to construct fractions. One feature
+of `make_frac()` is that it puts a fraction number into lowest terms and
+normalizes the sign to always appear in the numerator. For example:
+
+```python
+>>> a = make_frac(4, -6)
+>>> a.numerator
+-2
+>>> a.denominator
+3
+>>>
+```
+
+How would you modify the Fraction namedtuple class to have the same
+behavior if you used it's normal constructor?
+
+```python
+>>> a = Fraction(4, -6)
+>>> a.numerator
+-2
+>>> a.denominator
+3
+>>>
+```
+
+Disclaimer: This is hard and not obvious. But, it points to deeper
+problems. Maybe `NamedTuple` is not the solution we seek.
+
+- Disclaimer /dɪsˈkleɪ.mər/ n. 免责声明；声明（指用来澄清意图、说明特定条件或排除责任的声明。在上下文中，"Disclaimer: This is hard and not obvious." 的意思是：声明：这很难且不显然。
