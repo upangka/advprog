@@ -65,5 +65,6 @@ def test_frac():
 
     print("Good fractions")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_frac()

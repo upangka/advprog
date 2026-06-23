@@ -213,3 +213,20 @@ without breaking anything else. All he needs to do is change the
 needs to change, including the tests.
 
 - grumbling /ˈɡrʌm.bəl.ɪŋ/ v. 咕哝；抱怨；嘟囔（指低声表达不满或牢骚，通常不是大声抗议，而是带着不满情绪的小声嘀咕。
+
+
+[exercise_02.py](./code/fractions/exercise_02.py)
+
+```python
+def make_frac(numer, denom):
+    d = gcd(numer, denom)
+    return {"numerator": numer // d, "denominator": denom // d}
+
+
+def numerator(f):
+    return f["numerator"]
+
+
+def denominator(f):
+    return f["denominator"]
+```
