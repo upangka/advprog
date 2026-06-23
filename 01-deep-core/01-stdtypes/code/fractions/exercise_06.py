@@ -96,5 +96,33 @@ def test_frac():
     print("Good fractions In old version")
 
 
+def test_math():
+    a = Fraction(4, 6)
+    assert (a.numerator, a.denominator) == (2, 3)
+
+    b = Fraction(-3, -4)
+    assert (b.numerator, b.denominator) == (3, 4)
+
+    # Requires the __add__() method
+    c = a + b
+    assert (c.numerator, c.denominator) == (17, 12)
+
+    # Requires the __sub__() method
+    d = a - b
+    assert (d.numerator, d.denominator) == (-1, 12)
+
+    # Requires the __mul__() method
+    e = a * b
+    assert (e.numerator, e.denominator) == (1, 2)
+
+    # Requires the __truediv__() method
+    f = a / b
+    assert (f.numerator, f.denominator) == (8, 9)
+
+    # Mixed type operations. Note: Python integers
+    print("Good fractions In new version")
+
+
 if __name__ == "__main__":
     test_frac()
+    test_math()
