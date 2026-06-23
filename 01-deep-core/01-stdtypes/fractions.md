@@ -78,3 +78,118 @@ Fractions, but in different ways and with different aspects of design.
 Be aware, you may have to copy/paste code between exercises.  They
 also get progressively more advanced as you go.  Expect discussion
 as we work on it.
+
+
+# Exercise 1 - The requirements
+
+"Dad, I used the code in frac.py and I lost all sorts of points. For
+example, I produced one answer of (6, 12). The teacher wanted (1, 2)
+instead. Can you change the code to put answers in lowest terms?"
+
+"Also, the teacher told us to never put a negative number in the
+denominator. So, you'd never write (2, -3). Instead you'd write
+(-2, 3). Also, (-2, -3) should just be written as (2, 3)."
+
+"And last, but not least, what is with that code you wrote? I can
+hardly read anything that's going on in there with all of that tuple
+indexing."
+
+To fix all of these problems, you decide to introduce a few helper
+functions. A make_frac() function will be used to construct the
+tuples and put things in lowest terms. To hide tuple indexing,
+you'll use numerator() and denominator() functions.
+
+- numerator /ˈnuː.mə.reɪ.t̬ɚ/ n. 分子
+- denominator /dɪˈnɑː.mə.neɪ.t̬ɚ/ n. 分母（分数中位于分数线下方的数字，表示将整体分成的总份数
+
+
+欧几里得算法的核心公式是：
+
+`gcd(a, b) = gcd(b, a % b)`
+
+```python
+def gcd(a, b):
+    # Greatest common divisor
+    # a, b = abs(a), abs(b) 需要符号
+    while b:
+        a, b = b, a % b
+    return a
+```
+
+不断把 `(a, b)` 替换为 `(b, a % b)`，直到余数为 0，此时 `a` 就是最大公约数。
+
+| 步骤 | 示例 |
+|------|------|
+| 1 | `gcd(12, 18) = gcd(18, 12)` |
+| 2 | `gcd(18, 12) = gcd(12, 6)` |
+| 3 | `gcd(12, 6) = gcd(6, 0)` |
+| 4 | `gcd(6, 0) = 6` |
+
+
+
+```python
+def make_frac(numer, denom):
+    d = gcd(numer, denom)
+    return (numer // d, denom // d)
+
+def numerator(f):
+    return f[0]
+
+def denominator(f):
+    return f[1]
+```
+
+Your task. Rewrite the `add_frac()`, `sub_frac()`, `mul_frac()`, and
+`div_frac()` functions to ONLY use the above functions. Then, make
+sure the unit tests below pass.
+
+```python
+def add_frac(a, b):
+    pass
+
+def sub_frac(a, b):
+    pass
+
+def mul_frac(a, b):
+    pass
+
+def div_frac(a, b):
+    pass
+
+def test_frac():
+    a = make_frac(4, 6)
+    assert (numerator(a), denominator(a)) == (2, 3)
+
+    b = make_frac(-3, -4)
+    assert (numerator(b), denominator(b)) == (3, 4)
+
+    c = make_frac(3, -4)
+    assert (numerator(c), denominator(c)) == (-3, 4)
+
+    d = add_frac(a, b)
+    assert (numerator(d), denominator(d)) == (17, 12)
+
+    ...
+```
+
+[exercise_01.py](./code/fractions/exercise_01.py) 可读性一下就增强了很多
+```python
+def add_frac(a, b):
+    return make_frac(
+        numerator(a) * denominator(b) + denominator(a) * numerator(b),
+        denominator(a) * denominator(b),
+    )
+
+def sub_frac(a, b):
+    return make_frac(
+        numerator(a) * denominator(b) - denominator(a) * numerator(b),
+        denominator(a) * denominator(b),
+    )
+
+def mul_frac(a, b):
+    return make_frac(numerator(a) * numerator(b), denominator(a) * denominator(b))
+
+def div_frac(a, b):
+    return make_frac(numerator(a) * denominator(b), denominator(a) * numerator(b))
+```
+
