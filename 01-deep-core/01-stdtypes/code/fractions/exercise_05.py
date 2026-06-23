@@ -45,8 +45,8 @@ def gcd(a, b):
 
 
 def make_frac(numer, denom):
-    d = gcd(numer, denom)
-    return Fraction(numer // d, denom // d)
+    # d = gcd(numer, denom)
+    return Fraction(numer, denom)
 
 
 def numerator(f):
