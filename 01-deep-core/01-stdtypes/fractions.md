@@ -300,3 +300,16 @@ higher level code had to change**.
 
 - ponder /ˈpɑːn.dər/ v. 沉思；仔细思考（指对某个问题进行认真、深入的思考，通常带有哲学性或探索性，不是简单的随便想想。
 - hassle /ˈhæs.əl/ n. 麻烦；困难；争论（指令人不愉快或费时费力的麻烦事。在上下文中，"saved you a lot of hassle" 的意思是：帮你省去了很多麻烦。
+
+
+# Exercise 4
+
+"Dad, have you ever considered using a named tuple?"  For example:
+
+```python
+from typing import NamedTuple
+
+class Fraction(NamedTuple):
+    numerator : int
+    denominator : int
+```
