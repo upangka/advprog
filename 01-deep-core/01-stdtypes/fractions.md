@@ -543,3 +543,19 @@ Legacy interface. We'll continue to support it for backwards compatibility
 def make_frac(numerator, denominator):
     return Fraction(numerator, denominator)
 ```
+
+Note: The following are details about redefining Python magic methods.
+
+| 运算符/函数 | 对应的魔法方法 |
+|-------------|----------------|
+| `a + b`     | `a.__add__(b)` |
+| `a - b`     | `a.__sub__(b)` |
+| `a * b`     | `a.__mul__(b)` |
+| `a / b`     | `a.__truediv__(b)` |
+| `a == b`    | `a.__eq__(b)` |
+| `a <= b`    | `a.__le__(b)` |
+| `a < b`     | `a.__lt__(b)` |
+| `a >= b`    | `a.__ge__(b)` |
+| `a > b`     | `a.__gt__(b)` |
+| `repr(a)`   | `a.__repr__()` |
+| `hash(a)`   | `a.__hash__()` |
