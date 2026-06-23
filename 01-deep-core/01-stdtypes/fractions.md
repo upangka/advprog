@@ -559,3 +559,98 @@ Note: The following are details about redefining Python magic methods.
 | `a > b`     | `a.__gt__(b)` |
 | `repr(a)`   | `a.__repr__()` |
 | `hash(a)`   | `a.__hash__()` |
+
+```python
+def numerator(f):
+    return f.numerator
+
+def denominator(f):
+    return f.denominator
+```
+
+Design discussion. This is the old interface of the fraction operations.
+Should the new interface be implemented using these functions? For example:
+
+```python
+class Fraction:
+    ...
+    def __add__(self, other):
+        return add_frac(self, other)
+```
+
+Or should the old interface be supported in terms of the new interface?
+For example:
+
+```python
+def add_frac(a, b):
+    return a + b
+
+def add_frac(a, b):
+    ...
+def sub_frac(a, b):
+    ...
+def mul_frac(a, b):
+    ...
+def div_frac(a, b):
+    ...
+```
+
+
+The old unit tests must still pass (legacy code)
+
+```python
+def test_frac():
+    a = make_frac(4, 6)
+    assert (numerator(a), denominator(a)) == (2, 3)
+
+    b = make_frac(-3, -4)
+    assert (numerator(b), denominator(b)) == (3, 4)
+
+    c = make_frac(3, -4)
+    assert (numerator(c), denominator(c)) == (-3, 4)
+
+    d = add_frac(a, b)
+    assert (numerator(d), denominator(d)) == (17, 12)
+
+    e = sub_frac(a, b)
+    assert (numerator(e), denominator(e)) == (-1, 12)
+
+    f = mul_frac(a, b)
+    assert (numerator(f), denominator(f)) == (1, 2)
+
+    g = div_frac(a, b)
+    assert (numerator(g), denominator(g)) == (8, 9)
+
+    print("Good fractions")
+
+test_frac()
+```
+
+New unit tests. These manipulate fractions as proper Python numbers.
+
+```python
+def test_math():
+    a = Fraction(4, 6)
+    assert (a.numerator, a.denominator) == (2, 3)
+
+    b = Fraction(-3, -4)
+    assert (b.numerator, b.denominator) == (3, 4)
+
+    # Requires the __add__() method
+    c = a + b
+    assert (c.numerator, c.denominator) == (17, 12)
+
+    # Requires the __sub__() method
+    d = a - b
+    assert (d.numerator, d.denominator) == (-1, 12)
+
+    # Requires the __mul__() method
+    e = a * b
+    assert (e.numerator, e.denominator) == (1, 2)
+
+    # Requires the __truediv__() method
+    f = a / b
+    assert (f.numerator, f.denominator) == (8, 9)
+
+    # Mixed type operations. Note: Python integers
+```
