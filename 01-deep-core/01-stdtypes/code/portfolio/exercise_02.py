@@ -24,7 +24,7 @@ def read_portfolio(file_name: str = "portfolio.csv") -> Portfolio:
     """
     holdings: list[Holding] = []
 
-    # python交换环境中没有__file__
+    # python交互环境中没有__file__
     if "__file__" in globals():
         file_path = Path(__file__).parent / file_name
     else:
