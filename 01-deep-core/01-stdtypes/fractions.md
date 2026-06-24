@@ -747,7 +747,7 @@ def test_nice():
 
 ## 实现
 
-实现[exercise_06.py](./code/fractions/exercise_06.py)
+[exercise_06.py](./code/fractions/exercise_06.py)
 
 ```python
 from typing import Union, overload
@@ -804,8 +804,23 @@ class Fraction:
             self.denominator * other.numerator, self.numerator * other.denominator
         )
 
+    def __str__(self) -> str:
+        if not self.numerator:
+            return "0"
+        return (
+            f"{self.numerator}/{self.denominator}"
+            if self.denominator != 1
+            else f"{self.numerator}"
+        )
+
+    def __float__(self):
+        return self.numerator / self.denominator
+
+    def __int__(self):
+        return self.numerator // self.denominator
+
     def __repr__(self) -> str:
-        return f"Fraction(numerator={self.numerator},denominator={self.denominator})"
+        return f"Fraction({self.numerator}, {self.denominator})"
 
     def __eq__(self, other: Fraction | int) -> bool:
         return self.numerator * other.denominator == self.denominator * other.numerator
