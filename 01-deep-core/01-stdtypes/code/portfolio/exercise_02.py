@@ -18,6 +18,7 @@ class Portfolio:
         "change from property to method"
         return sum(h.shares * h.price for h in self)
 
+
 def read_portfolio(file_name: str = "portfolio.csv") -> Portfolio:
     """
     Read a CSV file of name, shares, price data into a list of dicts.

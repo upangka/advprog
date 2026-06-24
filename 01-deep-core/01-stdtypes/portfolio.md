@@ -364,7 +364,20 @@ Can you use the modified Portfolio class with the `report.py` program *WITHOUT* 
 Note: For this exercise, it make might sense to make a separate class `PandasPortfolio`. Keep in mind that an instance of this class would be provided to the `make_report()` function in `report.py`.
 
 ```python
+class Portfolio:、
+    def __iter__(self):
+        ...
+
+    def total_value(self):
+        ...
+
+
 class PandasPortfolio:
     ...
     # Same interface as Portfolio,but internal data stored in pandas
+    def __iter__(self):
+        ...
+
+    def total_value(self):
+        ...
 ```
