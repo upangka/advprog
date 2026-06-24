@@ -18,6 +18,9 @@
   - [生成器](./11-coroutine/01-generator.md)
   - [动态分派Dynamic-dispatch](./07-high-order-functions/dynamic-dispatch-getattr.md)
 
+- OOP
+  - [关于私有属性](./12-oop/关于私有属性.md)
+
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/TypeDict.md)
   - [Tuple Type](./04-tuple/tuple.md)

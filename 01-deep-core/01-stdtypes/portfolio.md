@@ -243,3 +243,27 @@ def make_report(portfolio: list[Holding]):
     print(" " + "-" * (WIDTH * 4 + 3))
     print(f"\nTotal value: {total_value:.2f}")
 ```
+
+
+# Exercise 2: Classes vs. Containers
+
+In this code, a Python list is being used to represent a "Portfolio"
+of stock holdings. Does it make any sense to use a custom Portfolio
+class for this instead? If so, what would that class look like and
+what features should it support?
+
+Your task is as follows:
+
+1. Define a Portfolio class that takes the place of a Python list.
+2. Write a new version of `read_portfolio()` that creates this class.
+3. Modify report.py as necessary to work with the data.
+
+Are there any parts of the `report.py` program could be better
+organized as features of the `Portfolio` class instead? Note:
+we're going to keep the `make_report()` function separate. That
+should NOT turn into a method.
+
+```python
+class Portfolio:
+    # What goes here? Any benefit over a list?
+```
