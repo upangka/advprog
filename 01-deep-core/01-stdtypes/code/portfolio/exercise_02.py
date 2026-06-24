@@ -13,23 +13,10 @@ class Portfolio:
     def __iter__(self):  # 用于支持sorted
         return iter(self._holdings)
 
-    # What is the boundary between a property and method? One danger
-    # with properties that perform computation is that it might be
-    # unclear to a user that accessing some attribute like `port.total_value`
-    # is actually performing a for-loop over all of the data each time.
-    # This can be a way to accidentally introduce a lot of extra computation.
-    # As an example, consider this loop that prints out the portion of
-    # each holding as a percent:
-    #       for h in portfolio:
-    #           print(f'{h.name} : {h.value*100/portfolio.total_value}%')
-    @property
+    # @property
     def total_value(self):
-        "封装为属性"
+        "change from property to method"
         return sum(h.shares * h.price for h in self)
-
-
-# sorted(Portfolio([]),key=lambda h: h.value)
-
 
 def read_portfolio(file_name: str = "portfolio.csv") -> Portfolio:
     """
@@ -71,7 +58,7 @@ def make_report(portfolio: Portfolio):
             f"|{holding.name:^{WIDTH}s}|{holding.shares:^{WIDTH}d}|{holding.price:^{WIDTH}.2f}|{value:^{WIDTH}.2f}|"
         )
     print(" " + "-" * (WIDTH * 4 + 3))
-    print(f"\nTotal value: {portfolio.total_value:.2f}")
+    print(f"\nTotal value: {portfolio.total_value():.2f}")
 
 
 def main():

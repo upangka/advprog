@@ -282,16 +282,6 @@ class Portfolio:
 
     def __iter__(self):  # 用于支持sorted
         return iter(self._holdings)
-
-    # What is the boundary between a property and method? One danger
-    # with properties that perform computation is that it might be
-    # unclear to a user that accessing some attribute like `port.total_value`
-    # is actually performing a for-loop over all of the data each time.
-    # This can be a way to accidentally introduce a lot of extra computation.
-    # As an example, consider this loop that prints out the portion of
-    # each holding as a percent:
-    #       for h in portfolio:
-    #           print(f'{h.name} : {h.value*100/portfolio.total_value}%')
     @property
     def total_value(self):
         "封装为属性"
@@ -302,6 +292,40 @@ def make_report(portfolio: Portfolio):
     for holding in sorted(portfolio, key=lambda h: h.value, reverse=True):
         ...
 ```
+
+---
+
+> 属性`total_value`的分析
+
+What is the boundary between a property and method? One danger
+with properties that perform computation is that it might be
+unclear to a user that accessing some attribute like `port.total_value`
+is actually performing a for-loop over all of the data each time.
+This can be a way to accidentally introduce a lot of extra computation.
+As an example, consider this loop that prints out the portion of
+each holding as a percent:
+```python
+for h in portfolio:
+    print(f'{h.name} : {h.value*100/portfolio.total_value}%')
+```
+`portfolio.total_value` in that loop is not an attribute, but it's a computation over the data involving its own for-loop.
+
+为了避免混淆，因为`total_value`是一个计算过程，所以改为方法
+
+```python
+class Portfolio:
+    def __init__(self, holdings: list[Holding]):
+        self._holdings = holdings
+
+    def __iter__(self):  # 用于支持sorted
+        return iter(self._holdings)
+
+    def total_value(self):
+        "change from property to method"
+        return sum(h.shares * h.price for h in self)
+```
+
+---
 
 `sorted`内置函数的操作Portfile
 
