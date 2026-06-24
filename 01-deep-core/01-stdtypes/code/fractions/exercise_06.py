@@ -75,8 +75,23 @@ class Fraction:
             self.denominator * other.numerator, self.numerator * other.denominator
         )
 
+    def __str__(self) -> str:
+        if not self.numerator:
+            return "0"
+        return (
+            f"{self.numerator}/{self.denominator}"
+            if self.denominator != 1
+            else f"{self.numerator}"
+        )
+
+    def __float__(self):
+        return self.numerator / self.denominator
+
+    def __int__(self):
+        return self.numerator // self.denominator
+
     def __repr__(self) -> str:
-        return f"Fraction(numerator={self.numerator},denominator={self.denominator})"
+        return f"Fraction({self.numerator}, {self.denominator})"
 
     def __eq__(self, other: Fraction | int) -> bool:
         return self.numerator * other.denominator == self.denominator * other.numerator
@@ -191,6 +206,25 @@ def test_math():
     print("Good fractions In new version")
 
 
+def test_nice():
+    a = Fraction(3, 2)
+
+    assert str(a) == "3/2"  # Requires the __str__() method
+    assert repr(a) == "Fraction(3, 2)"  # Requires the __repr__() method
+    assert float(a) == 1.5  # Requires the __float__() method
+    assert int(a) == 1  # Requires the __int__() method
+
+    # Special cases of nice output
+    b = Fraction(2, 1)
+    assert str(b) == "2"
+
+    c = Fraction(0, 2)
+    assert str(c) == "0"
+
+    print("Nice fractions")
+
+
 if __name__ == "__main__":
     test_frac()
     test_math()
+    test_nice()

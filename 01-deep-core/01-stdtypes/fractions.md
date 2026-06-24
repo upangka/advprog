@@ -718,6 +718,34 @@ def test_math():
     print("Good fractions In new version")
 ```
 
+## Niceties
+
+There are certain things you can do to make your objects play nicer
+with the rest of Python. These include nice printing, debugging,
+and numeric conversions.
+
+Modify your Fraction class so that it additionally passes the following tests
+
+```python
+def test_nice():
+    a = Fraction(3, 2)
+
+    assert str(a) == '3/2'    # Requires the __str__() method
+    assert repr(a) == 'Fraction(3, 2)'    # Requires the __repr__() method
+    assert float(a) == 1.5    # Requires the __float__() method
+    assert int(a) == 1    # Requires the __int__() method
+
+    # Special cases of nice output
+    b = Fraction(2, 1)
+    assert str(b) == '2'
+
+    c = Fraction(0, 2)
+    assert str(c) == '0'
+
+    print('Nice fractions')
+```
+
+## 实现
 
 实现[exercise_06.py](./code/fractions/exercise_06.py)
 
