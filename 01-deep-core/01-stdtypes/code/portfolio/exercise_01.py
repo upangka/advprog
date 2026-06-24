@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from operator import methodcaller
+from operator import attrgetter, methodcaller
 from pathlib import Path
 
 WIDTH = 15
@@ -12,6 +12,8 @@ class Holding:
     shares: int
     price: Decimal
 
+    # method or property
+    @property
     def value(self):
         return self.shares * self.price
 
@@ -44,9 +46,14 @@ def make_report(portfolio: list[Holding]):
     """
     Print a report
     """
+    # value is method
     # portfolio.sort(key=lambda h: h.value(), reverse=True)
-    call_value = methodcaller("value")
-    portfolio.sort(key=call_value, reverse=True)
+    # call_value = methodcaller("value")
+    # portfolio.sort(key=call_value, reverse=True)
+
+    # value is property
+    portfolio.sort(key=lambda h: h.value, reverse=True)
+
     print(" " + "-" * (WIDTH * 4 + 3))
     print(
         f"|{'name':^{WIDTH}}|{'shares':^{WIDTH}}|{'price':^{WIDTH}}|{'value':^{WIDTH}}|"
@@ -55,7 +62,7 @@ def make_report(portfolio: list[Holding]):
 
     total_value = 0
     for holding in portfolio:
-        value = holding.value()
+        value = holding.value
         total_value += value
         print(
             f"|{holding.name:^{WIDTH}s}|{holding.shares:^{WIDTH}d}|{holding.price:^{WIDTH}.2f}|{value:^{WIDTH}.2f}|"
