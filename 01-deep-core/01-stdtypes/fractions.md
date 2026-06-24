@@ -724,6 +724,8 @@ There are certain things you can do to make your objects play nicer
 with the rest of Python. These include nice printing, debugging,
 and numeric conversions.
 
+- conversions /kənˈvɜːr.ʃənz/ n. 转换；换算（指将一种类型或形式转换为另一种类型或形式。在上下文中，"numeric conversions" 指的是数值类型转换，即将 Fraction 对象转换为 Python 内置的数值类型，如 `float()` 和 `int()`
+
 Modify your Fraction class so that it additionally passes the following tests
 
 ```python
