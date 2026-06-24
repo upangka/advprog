@@ -680,5 +680,130 @@ def test_math():
     assert (f.numerator, f.denominator) == (8, 9)
 
     # Mixed type operations. Note: Python integers
+    print("Good fractions In new version")
+    g = a + 1
+    assert (g.numerator, g.denominator) == (5, 3)
+
+    h = 1 + a
+    assert (h.numerator, h.denominator) == (5, 3)
+
+    i = a - 1
+    assert (i.numerator, i.denominator) == (-1, 3)
+
+    j = 1 - a
+    assert (j.numerator, j.denominator) == (1, 3)
+
+    k = a * 2
+    assert (k.numerator, k.denominator) == (4, 3)
+
+    l = 2 * a
+    assert (l.numerator, l.denominator) == (4, 3)
+
+    m = a / 2
+    assert (m.numerator, m.denominator) == (1, 3)
+
+    n = 2 / a
+    assert (n.numerator, n.denominator) == (3, 1)
 ```
 
+
+实现[exercise_06.py](./code/fractions/exercise_06.py)
+
+```python
+from typing import Union, overload
+
+# We will define a proper class
+class Fraction:
+    def __init__(self, numerator, denominator):
+        d = gcd(numerator, denominator)
+        self.numerator = numerator // d
+        self.denominator = denominator // d
+
+    @overload
+    def __add__(self, other: Fraction) -> Fraction: ...
+    @overload
+    def __add__(self, other: int) -> Fraction: ...
+    def __add__(self, other):
+        return Fraction(
+            self.numerator * other.denominator + self.denominator * other.numerator,
+            self.denominator * other.denominator,
+        )
+
+    __radd__ = __add__
+
+    # 相比使用overload使用Union更加方便
+    def __sub__(self, other: Union[Fraction, int]) -> Fraction:
+        return Fraction(
+            self.numerator * other.denominator - self.denominator * other.numerator,
+            self.denominator * other.denominator,
+        )
+
+    def __rsub__(self, other: Union[Fraction, int]):
+        return Fraction(
+            other.numerator * self.denominator - other.denominator * self.numerator,
+            other.denominator * self.denominator,
+        )
+
+    def __mul__(self, other: Union[Fraction, int]) -> Fraction:
+        return Fraction(
+            self.numerator * other.numerator,
+            self.denominator * other.denominator,
+        )
+
+    __rmul__ = __mul__
+
+    def __truediv__(self, other: Union[Fraction, int]) -> Fraction:
+        return Fraction(
+            self.numerator * other.denominator, self.denominator * other.numerator
+        )
+
+    def __rtruediv__(self, other):
+        return Fraction(
+            self.denominator * other.numerator, self.numerator * other.denominator
+        )
+
+    def __repr__(self) -> str:
+        return f"Fraction(numerator={self.numerator},denominator={self.denominator})"
+
+
+def add_frac(a, b):
+    return a + b
+
+
+def sub_frac(a, b):
+    return a - b
+
+
+def mul_frac(a, b):
+    return a * b
+
+
+def div_frac(a, b):
+    return a / b
+```
+
+测试
+
+```python
+>>> a = Fraction(4,6)
+>>> a
+Fraction(numerator=2,denominator=3)
+>>> 1 + a
+Fraction(numerator=5,denominator=3)
+>>> a + 1
+Fraction(numerator=5,denominator=3)
+>>> 1 - a
+Fraction(numerator=1,denominator=3)
+>>> a - 1
+Fraction(numerator=-1,denominator=3)
+>>> a * 3
+Fraction(numerator=2,denominator=1)
+>>> 3 * a
+Fraction(numerator=2,denominator=1)
+>>> a / 2
+Fraction(numerator=1,denominator=3)
+>>> 2 / a
+Fraction(numerator=3,denominator=1)
+>>> a / a
+Fraction(numerator=1,denominator=1)
+```

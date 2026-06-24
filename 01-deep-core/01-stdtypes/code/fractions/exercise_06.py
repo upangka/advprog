@@ -44,13 +44,6 @@ class Fraction:
 
     __radd__ = __add__
 
-    # @overload
-    # def __radd__(self, other: Fraction) -> Fraction: ...
-    # @overload
-    # def __radd__(self, other: int) -> Fraction: ...
-    # def __radd__(self,other):
-    #     return self.__add__(other)
-
     # 相比使用overload使用Union更加方便
     def __sub__(self, other: Union[Fraction, int]) -> Fraction:
         return Fraction(
