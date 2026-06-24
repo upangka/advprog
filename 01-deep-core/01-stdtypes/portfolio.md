@@ -310,3 +310,27 @@ True
 >>> holdings: list[Holding] = sorted(port,key=lambda h: h.value,reverse=True)
 ```
 
+# Exercise 3: Data Abstraction
+
+A core tenant of data abstraction is that applications are written to
+a specific programming interface and that internal implementation details
+don't matter so much. Think about all of the different ways that
+fractions were implemented in [Project 1 fractions](./fractions.md).
+
+Suppose that you wanted to change the internal representation of data
+inside your Portfolio class to use pandas. Pandas has a helpful function
+for reading a CSV file:
+
+```python
+import pandas
+data = pandas.read_csv('portfolio.csv')
+```
+
+What modifications would you make to the Portfolio class to use pandas dataframe as an internal data representation format?
+Can you use the modified Portfolio class with the `report.py` program *WITHOUT* making any changes to the code in that file?
+Note: For this exercise, it make might sense to make a separate class `PandasPortfolio`. Keep in mind that an instance of this class would be provided to the `make_report()` function in `report.py`.
+
+```python
+class PandasPortfolio:
+    ...
+```
