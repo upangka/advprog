@@ -12,3 +12,8 @@ dependencies = [
 ]
 [tool.black]
 target-version = ['py313']
+
+[tool.uv.workspace]
+members = [
+    "01-deep-core/01-stdtypes/code/portfolio/help",
+]
