@@ -2,6 +2,7 @@ import portfolio
 
 WIDTH = 15
 
+
 def make_report(portfolio: list):
     """
     Print a report

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
+from operator import methodcaller
 from pathlib import Path
 
 WIDTH = 15
@@ -43,7 +44,11 @@ def make_report(portfolio: list[Holding]):
     """
     Print a report
     """
-    portfolio.sort(key=lambda h: h.value(), reverse=True)
+
+    call_value = methodcaller("value")
+
+    # portfolio.sort(key=lambda h: h.value(), reverse=True)
+    portfolio.sort(key=call_value, reverse=True)
     print(" " + "-" * (WIDTH * 4 + 3))
     print(
         f"|{'name':^{WIDTH}}|{'shares':^{WIDTH}}|{'price':^{WIDTH}}|{'value':^{WIDTH}}|"
@@ -60,9 +65,11 @@ def make_report(portfolio: list[Holding]):
     print(" " + "-" * (WIDTH * 4 + 3))
     print(f"\nTotal value: {total_value:.2f}")
 
+
 def main():
     port = read_portfolio()
     make_report(port)
+
 
 if __name__ == "__main__":
     main()
