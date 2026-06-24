@@ -33,12 +33,17 @@ class Fraction:
             self.numerator * other.denominator + self.denominator * other.numerator,
             self.denominator * other.denominator,
         )
+        
+    __radd__ = __add__
 
     def __sub__(self, other: Fraction) -> Fraction:
         return Fraction(
             self.numerator * other.denominator - self.denominator * other.numerator,
             self.denominator * other.denominator,
         )
+
+    def __rsub__(self, other):
+        return other.__sub__(self)
 
     def __mul__(self, other: Fraction) -> Fraction:
         return Fraction(

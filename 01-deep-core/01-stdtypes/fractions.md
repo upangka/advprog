@@ -550,6 +550,8 @@ Note: The following are details about redefining Python magic methods.
 |-------------|----------------|
 | `a + b`     | `a.__add__(b)` |
 | `a - b`     | `a.__sub__(b)` |
+| `b + a`     | `a.__radd__(b)` |
+| `b - a`     | `a.__rsub__(b)` |
 | `a * b`     | `a.__mul__(b)` |
 | `a / b`     | `a.__truediv__(b)` |
 | `a == b`    | `a.__eq__(b)` |
@@ -559,6 +561,31 @@ Note: The following are details about redefining Python magic methods.
 | `a > b`     | `a.__gt__(b)` |
 | `repr(a)`   | `a.__repr__()` |
 | `hash(a)`   | `a.__hash__()` |
+
+
+> 关于`__radd__`与`__rsub__`
+
+```python
+>>> 2 + 0.2
+2.2
+>>> 0.2 + 2
+2.2
+>>> (2).__add__(0.2)
+NotImplemented
+>>> (2).__radd__(0.2)
+NotImplemented
+>>> (0.2).__add__(2)
+2.2
+>>> (0.2).__radd__(2)
+2.2
+>>> 2 - 0.2
+1.8
+>>> (2).__sub__(0.2)
+NotImplemented
+>>> (0.2).__rsub__(2)
+1.8
+```
+
 
 ```python
 def numerator(f):
@@ -654,3 +681,4 @@ def test_math():
 
     # Mixed type operations. Note: Python integers
 ```
+
