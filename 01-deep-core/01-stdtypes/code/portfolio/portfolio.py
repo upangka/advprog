@@ -19,7 +19,7 @@ def read_portfolio(file_name: str = "portfolio.csv") -> list[dict[str, Any]]:
         next(f)
         for line in f:
             name, shares, price = (item.strip() for item in line.split(","))
-            portfolio.append(dict(name=name, shares=shares, price=price))
+            portfolio.append(dict(name=name, shares=int(shares), price=float(price)))
 
     return portfolio
 

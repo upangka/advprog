@@ -90,3 +90,57 @@ this file should keep its original organization (i.e., you'll keep
 the `make_report()` and `main()` functions).
 
 [report.py](./code/portfolio/report.py)
+
+```python
+import portfolio
+
+WIDTH = 15
+
+def make_report(portfolio: list):
+    """
+    Print a report
+    """
+    portfolio.sort(key=lambda h: h["shares"] * h["price"], reverse=True)
+    print(" " + "-" * (WIDTH * 4 + 3))
+    print(
+        f"|{'name':^{WIDTH}}|{'shares':^{WIDTH}}|{'price':^{WIDTH}}|{'value':^{WIDTH}}|"
+    )
+    print("|" + ("-" * WIDTH + "|") * 4)
+
+    total_value = 0
+    for holding in portfolio:
+        value = holding["shares"] * holding["price"]
+        total_value += value
+        name, shares, price = holding["name"], holding["shares"], holding["price"]
+        print(
+            f"|{name:^{WIDTH}s}|{shares:^{WIDTH}d}|{price:^{WIDTH}.2f}|{value:^{WIDTH}.2f}|"
+        )
+    print(" " + "-" * (WIDTH * 4 + 3))
+    print(f"\nTotal value: {total_value:.2f}")
+
+
+def main():
+    port = portfolio.read_portfolio()
+    make_report(port)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+输出
+```sh
+ ---------------------------------------------------------------
+|     name      |    shares     |     price     |     value     |
+|---------------|---------------|---------------|---------------|
+|      CAT      |      150      |     83.44     |   12516.00    |
+|     MSFT      |      200      |     51.23     |   10246.00    |
+|      YOW      |      100      |     70.44     |    7044.00    |
+|      IBM      |      50       |     91.10     |    4555.00    |
+|      GE       |      95       |     40.37     |    3835.15    |
+|     ACME      |      50       |     65.10     |    3255.00    |
+|      AA       |      100      |     32.20     |    3220.00    |
+ ---------------------------------------------------------------
+
+Total value: 44671.15
+```
