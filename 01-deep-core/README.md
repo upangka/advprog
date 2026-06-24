@@ -4,6 +4,7 @@
 
 - [内置标准类型](./01-stdtypes/README.md)
   - [str](./01-stdtypes/01-str.md)
+  - [f-str格式显示](./01-stdtypes/f-string显示.md)
   - [match case](./01-stdtypes/02-match-case.md)
   - [bytes](./01-stdtypes/03-bytes.md)
 
