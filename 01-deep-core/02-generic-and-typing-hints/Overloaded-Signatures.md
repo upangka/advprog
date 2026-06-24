@@ -248,3 +248,24 @@ public class MySum {
 ```
 
 测试文件[TestMySum.java](./code/override/TestMySum.java)
+
+
+
+
+## 内置sorted类型分析
+
+[portfolio排序案例](../01-stdtypes/portfolio.md#exercise-2-classes-vs-containers)
+
+
+1. 没有key的时候，要求元素要可比较
+2. 有key，元素可以是任意类型
+
+```python
+@overload
+def sorted(
+    iterable: Iterable[SupportsRichComparisonT], /, *, key: None = None, reverse: bool = False
+) -> list[SupportsRichComparisonT]: ...
+@overload
+def sorted(iterable: Iterable[_T], /, *, key: Callable[[_T], SupportsRichComparison], reverse: bool = False) -> list[_T]: ...
+
+```
