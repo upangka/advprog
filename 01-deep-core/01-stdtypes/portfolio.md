@@ -263,7 +263,42 @@ organized as features of the `Portfolio` class instead? Note:
 we're going to keep the `make_report()` function separate. That
 should NOT turn into a method.
 
+数据容器
 ```python
+# container
+from dataclasses import dataclass
+@dataclass
 class Portfolio:
+    holdings: list[Holding]
     # What goes here? Any benefit over a list?
 ```
+
+封装成类，隐藏属性[exercise_02.py](./code/portfolio/exercise_02.py)
+
+```python
+class Portfolio:
+    def __init__(self, holds: list[Holding]):
+        self._holdings = holds
+
+    def __iter__(self): # 用于支持sorted
+        return iter(self._holdings)
+
+def make_report(portfolio: Portfolio):
+    ...
+    for holding in sorted(portfolio, key=lambda h: h.value, reverse=True):
+        ...
+```
+
+`sorted`内置函数的操作Portfile
+
+```python
+>>> port = read_portfolio()
+>>> port
+<__main__.Portfolio object at 0x7f4848b54e10>
+>>> from typing import Iterable
+>>> isinstance(port,Iterable)
+True
+>>> sorted(port,key=lambda h: h.value,reverse=True)
+[Holding(name='CAT', shares=150, price=Decimal('83.44')), Holding(name='MSFT', shares=200, price=Decimal('51.23')), Holding(name='YOW', shares=100, price=Decimal('70.44')), Holding(name='IBM', shares=50, price=Decimal('91.10')), Holding(name='GE', shares=95, price=Decimal('40.37')), Holding(name='ACME', shares=50, price=Decimal('65.10')), Holding(name='AA', shares=100, price=Decimal('32.20'))]
+```
+
