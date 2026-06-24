@@ -283,6 +283,11 @@ class Portfolio:
     def __iter__(self):  # 用于支持sorted
         return iter(self._holdings)
 
+    @property
+    def total_value(self):
+        "封装为属性"
+        return sum(h.shares * h.price for h in self)
+
 def make_report(portfolio: Portfolio):
     ...
     for holding in sorted(portfolio, key=lambda h: h.value, reverse=True):
@@ -295,10 +300,13 @@ def make_report(portfolio: Portfolio):
 >>> port = read_portfolio()
 >>> port
 <__main__.Portfolio object at 0x7f4848b54e10>
+>>> # total_value属性
+>>> port.total_value
+Decimal('44671.15')
+>>> # 排序
 >>> from typing import Iterable
 >>> isinstance(port,Iterable)
 True
->>> sorted(port,key=lambda h: h.value,reverse=True)
-[Holding(name='CAT', shares=150, price=Decimal('83.44')), Holding(name='MSFT', shares=200, price=Decimal('51.23')), Holding(name='YOW', shares=100, price=Decimal('70.44')), Holding(name='IBM', shares=50, price=Decimal('91.10')), Holding(name='GE', shares=95, price=Decimal('40.37')), Holding(name='ACME', shares=50, price=Decimal('65.10')), Holding(name='AA', shares=100, price=Decimal('32.20'))]
+>>> holdings: list[Holding] = sorted(port,key=lambda h: h.value,reverse=True)
 ```
 

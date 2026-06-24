@@ -4,7 +4,7 @@
 1. Day 01
     1. [Theater max profit](./01-deep-core/01-stdtypes/theater.md)
     2. [Interface fractions: Data Abstractions](./01-deep-core/01-stdtypes/fractions.md)
-    3. [Portfolio](./01-deep-core/01-stdtypes/portfolio.md)
+    3. [Class: Portfolio](./01-deep-core/01-stdtypes/portfolio.md)
 2. Day 05
     1. [message protocol network](./01-deep-core/08-network/network-protocol.md)
     1. [puzzle elevator](./01-deep-core/08-network/puzzle.md)

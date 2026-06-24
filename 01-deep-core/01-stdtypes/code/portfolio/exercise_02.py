@@ -13,6 +13,11 @@ class Portfolio:
     def __iter__(self):  # 用于支持sorted
         return iter(self._holdings)
 
+    @property
+    def total_value(self):
+        "封装为属性"
+        return sum(h.shares * h.price for h in self)
+
 
 # sorted(Portfolio([]),key=lambda h: h.value)
 
@@ -51,15 +56,13 @@ def make_report(portfolio: Portfolio):
     )
     print("|" + ("-" * WIDTH + "|") * 4)
 
-    total_value = 0
     for holding in sorted(portfolio, key=lambda h: h.value, reverse=True):
         value = holding.value
-        total_value += value
         print(
             f"|{holding.name:^{WIDTH}s}|{holding.shares:^{WIDTH}d}|{holding.price:^{WIDTH}.2f}|{value:^{WIDTH}.2f}|"
         )
     print(" " + "-" * (WIDTH * 4 + 3))
-    print(f"\nTotal value: {total_value:.2f}")
+    print(f"\nTotal value: {portfolio.total_value:.2f}")
 
 
 def main():
