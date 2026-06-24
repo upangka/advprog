@@ -277,10 +277,10 @@ class Portfolio:
 
 ```python
 class Portfolio:
-    def __init__(self, holds: list[Holding]):
-        self._holdings = holds
+    def __init__(self, holdings: list[Holding]):
+        self._holdings = holdings
 
-    def __iter__(self): # 用于支持sorted
+    def __iter__(self):  # 用于支持sorted
         return iter(self._holdings)
 
 def make_report(portfolio: Portfolio):
