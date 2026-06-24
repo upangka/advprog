@@ -144,3 +144,33 @@ if __name__ == "__main__":
 
 Total value: 44671.15
 ```
+
+# Exercise 1: Classes vs. Dicts
+
+In the above code, a dictionary is used to represent a single record of
+data. For example, in the line:
+
+```python
+holding = { 'name': name, 'shares': shares, 'price': price }
+```
+
+Instead of using a dictionary, what if you used a class instance?
+What core features would you give this new class?
+
+You first task is as follows:
+
+1. Define a class to replace the holding dictionary.
+2. Write a new version of `read_portfolio()` that uses this class.
+3. Modify `report.py` as necessary to work with instances.
+
+Are there any parts of the `report.py` program that could be better
+organized as features of this newly defined class instead? For example,
+should the class have any methods added to it?
+
+Some thoughts:
+1. Gives the concept of stock holding a name (Holding)
+2. Potentially useful if one were to include it in type hints
+3. Less "fiddly" syntax. `h.name` vs `h['name']`
+4. Could also include common functionality (e.g. value computation)
+
+- fiddly /ˈfɪd.li/ adj. 需要精细操作的；繁琐的；需要费心处理的（指某个操作需要小心、精确地处理，或者因为细节琐碎而让人感到麻烦。
