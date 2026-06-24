@@ -24,6 +24,9 @@
 >>> name, language, num = ('pkmer','Python','666')
 >>> print(f"|{name:^10}|{language:^10}|{num:^10}|")
 |  pkmer   |  Python  |   666    |
+>>> # 等价
+>>> print(f"|{'pkmer':^10}|{'Python':^10}|{'666':^10}|")
+|  pkmer   |  Python  |   666    |
 ```
 
 ```sh
