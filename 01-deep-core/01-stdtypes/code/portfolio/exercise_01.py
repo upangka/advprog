@@ -44,10 +44,8 @@ def make_report(portfolio: list[Holding]):
     """
     Print a report
     """
-
-    call_value = methodcaller("value")
-
     # portfolio.sort(key=lambda h: h.value(), reverse=True)
+    call_value = methodcaller("value")
     portfolio.sort(key=call_value, reverse=True)
     print(" " + "-" * (WIDTH * 4 + 3))
     print(
