@@ -78,6 +78,15 @@ class Fraction:
     def __repr__(self) -> str:
         return f"Fraction(numerator={self.numerator},denominator={self.denominator})"
 
+    def __eq__(self, other: Fraction | int) -> bool:
+        return self.numerator * other.denominator == self.denominator * other.numerator
+
+    def __lt__(self, other: Fraction | int) -> bool:
+        return self.numerator * other.denominator < self.denominator * other.numerator
+
+    def __le__(self, other: Fraction | int) -> bool:
+        return self.numerator * other.denominator <= self.denominator * other.numerator
+
 
 def add_frac(a, b):
     return a + b
@@ -144,30 +153,43 @@ def test_math():
     assert (f.numerator, f.denominator) == (8, 9)
 
     # Mixed type operations. Note: Python integers
-    print("Good fractions In new version")
     g = a + 1
     assert (g.numerator, g.denominator) == (5, 3)
 
-    h = 1 + a
-    assert (h.numerator, h.denominator) == (5, 3)
+    # Requires the __radd__() method
+    g = 1 + a
+    assert (g.numerator, g.denominator) == (5, 3)
 
-    i = a - 1
-    assert (i.numerator, i.denominator) == (-1, 3)
+    # Requires the __rsub__() method
+    g = 1 - a
+    assert (g.numerator, g.denominator) == (1, 3)
 
-    j = 1 - a
-    assert (j.numerator, j.denominator) == (1, 3)
+    h = a * 10
+    assert (h.numerator, h.denominator) == (20, 3)
 
-    k = a * 2
-    assert (k.numerator, k.denominator) == (4, 3)
+    # Requires the __rmul__() method
+    h = 10 * a
+    assert (h.numerator, h.denominator) == (20, 3)
 
-    l = 2 * a
-    assert (l.numerator, l.denominator) == (4, 3)
+    # Comparisons. For these, you'll need to implement
+    # methods such as __eq__(), __ne__(), __lt__(), __le__(),
+    # __gt__(), and __ge__().
 
-    m = a / 2
-    assert (m.numerator, m.denominator) == (1, 3)
+    # To compare fractions you can perform comparisons like this:
 
-    n = 2 / a
-    assert (n.numerator, n.denominator) == (3, 1)
+    a = Fraction(2, 3)
+    b = Fraction(4, 5)
+
+    # a < b ==> a.numerator * b.denominator < a.denominator * b.numerator
+
+    
+    assert a != b  # 只实现了__eq__ 就支持 == 和 !=
+    assert a == Fraction(2, 3)
+    assert a < b   # 只实现了__lt__和__le__ 支持 <,<=,>,>=
+    assert a <= b
+    assert b > a
+    assert b >= a
+    print("Good fractions In new version")
 
 
 if __name__ == "__main__":
