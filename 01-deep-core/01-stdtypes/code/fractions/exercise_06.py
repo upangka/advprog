@@ -42,7 +42,7 @@ class Fraction:
             self.denominator * other.denominator,
         )
 
-    __radd__ = __add__
+    __radd__ = __add__  # a + b = b + a
 
     # 相比使用overload使用Union更加方便
     def __sub__(self, other: Union[Fraction, int]) -> Fraction:
@@ -63,7 +63,7 @@ class Fraction:
             self.denominator * other.denominator,
         )
 
-    __rmul__ = __mul__
+    __rmul__ = __mul__  # a * b = b * a
 
     def __truediv__(self, other: Union[Fraction, int]) -> Fraction:
         return Fraction(
@@ -182,10 +182,9 @@ def test_math():
 
     # a < b ==> a.numerator * b.denominator < a.denominator * b.numerator
 
-    
     assert a != b  # 只实现了__eq__ 就支持 == 和 !=
     assert a == Fraction(2, 3)
-    assert a < b   # 只实现了__lt__和__le__ 支持 <,<=,>,>=
+    assert a < b  # 只实现了__lt__和__le__ 支持 <,<=,>,>=
     assert a <= b
     assert b > a
     assert b >= a
