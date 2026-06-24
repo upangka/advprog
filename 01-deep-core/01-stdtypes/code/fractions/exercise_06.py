@@ -20,6 +20,9 @@ def denominator(f):
     return f.denominator
 
 
+from typing import Union, overload
+
+
 # We will define a proper class
 class Fraction:
     def __init__(self, numerator, denominator):
@@ -28,32 +31,55 @@ class Fraction:
         self.denominator = denominator // d
 
     # Define various magic methods for Python operators
-    def __add__(self, other: Fraction) -> Fraction:
+
+    @overload
+    def __add__(self, other: Fraction) -> Fraction: ...
+    @overload
+    def __add__(self, other: int) -> Fraction: ...
+    def __add__(self, other):
         return Fraction(
             self.numerator * other.denominator + self.denominator * other.numerator,
             self.denominator * other.denominator,
         )
-        
+
     __radd__ = __add__
 
-    def __sub__(self, other: Fraction) -> Fraction:
+    # @overload
+    # def __radd__(self, other: Fraction) -> Fraction: ...
+    # @overload
+    # def __radd__(self, other: int) -> Fraction: ...
+    # def __radd__(self,other):
+    #     return self.__add__(other)
+
+    # 相比使用overload使用Union更加方便
+    def __sub__(self, other: Union[Fraction, int]) -> Fraction:
         return Fraction(
             self.numerator * other.denominator - self.denominator * other.numerator,
             self.denominator * other.denominator,
         )
 
-    def __rsub__(self, other):
-        return other.__sub__(self)
+    def __rsub__(self, other: Union[Fraction, int]):
+        return Fraction(
+            other.numerator * self.denominator - other.denominator * self.numerator,
+            other.denominator * self.denominator,
+        )
 
-    def __mul__(self, other: Fraction) -> Fraction:
+    def __mul__(self, other: Union[Fraction, int]) -> Fraction:
         return Fraction(
             self.numerator * other.numerator,
             self.denominator * other.denominator,
         )
 
-    def __truediv__(self, other: Fraction) -> Fraction:
+    __rmul__ = __mul__
+
+    def __truediv__(self, other: Union[Fraction, int]) -> Fraction:
         return Fraction(
             self.numerator * other.denominator, self.denominator * other.numerator
+        )
+
+    def __rtruediv__(self, other):
+        return Fraction(
+            self.denominator * other.numerator, self.numerator * other.denominator
         )
 
     def __repr__(self) -> str:
@@ -126,6 +152,29 @@ def test_math():
 
     # Mixed type operations. Note: Python integers
     print("Good fractions In new version")
+    g = a + 1
+    assert (g.numerator, g.denominator) == (5, 3)
+
+    h = 1 + a
+    assert (h.numerator, h.denominator) == (5, 3)
+
+    i = a - 1
+    assert (i.numerator, i.denominator) == (-1, 3)
+
+    j = 1 - a
+    assert (j.numerator, j.denominator) == (1, 3)
+
+    k = a * 2
+    assert (k.numerator, k.denominator) == (4, 3)
+
+    l = 2 * a
+    assert (l.numerator, l.denominator) == (4, 3)
+
+    m = a / 2
+    assert (m.numerator, m.denominator) == (1, 3)
+
+    n = 2 / a
+    assert (n.numerator, n.denominator) == (3, 1)
 
 
 if __name__ == "__main__":
