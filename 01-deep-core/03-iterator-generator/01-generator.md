@@ -240,3 +240,85 @@ def func(filename):
         yield from f
         ...
 ```
+
+
+# 设计可重启的生成器
+
+相当于用生成器实现迭代器
+
+[exercise_03.py](./code/exercise_03.py)
+
+```python
+# 有意思的是这里我们将类命名为小写就像函数一样
+# 在用户看来好像和之前的接口一样
+class countdown:
+    def __init__(self,n):
+        self.n = n
+
+    def __iter__(self):
+        # copy every time
+        n = self.n
+        while n > 0:
+            yield n
+            n -= 1
+```
+
+```sh
+>>> c = countdown(3)
+>>> # for 会获得迭代器，相当于每次都
+>>> # 调用了__iter__
+>>> for x in c:
+...     print(x)
+...
+3
+2
+1
+>>> for x in c:
+...     print(x)
+...
+3
+2
+1
+```
+
+# yield from 生成器委托
+
+可以将`yield from iterable`看成`for i in iterable: yield i`
+
+```python
+def countup(stop):
+    n = 1
+    while n <= stop:
+        yield n
+        n += 1
+
+def countdown(start):
+    n = start
+    while n > 0:
+        yield n
+        n -= 1
+
+
+def up_and_down_v1(n):
+    for x in countup(n):
+        yield x
+    for x in countdown(n):
+        yield x
+
+def up_and_down_v2(n):
+    """相当于语法糖，简化写法"""
+    yield from countup(n)
+    yield from countdown(n)
+```
+
+运行效果是一样的
+```sh
+>>> for x in up_and_down_v1(3):
+...     print(x, end=" ")
+...
+1 2 3 3 2 1 
+>>> for x in up_and_down_v2(3):
+...     print(x, end=" ")
+...
+1 2 3 3 2 1 
+```
