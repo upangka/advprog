@@ -19,7 +19,6 @@ class PandasPortfolio:
             )
 
     def total_value(self):
-        # self._df[]
         return self._df["value"].sum()
 
 
