@@ -326,6 +326,41 @@ def up_and_down_v2(n):
 ## yield from 性能快于for...yield
 
 《Effective Python》第33条建议，有对比性能
+[exercise_08.py](./code/exercise_08.py)
+```python
+import timeit
+
+
+def child():
+    for i in range(1_000_000):
+        yield i
+
+
+def slow():
+    for i in child():
+        yield i
+
+
+def fast():
+    yield from child()
+
+
+baseline = timeit.timeit(stmt="for _ in slow(): pass", globals=globals(), number=50)
+print(f"Manual nesting {baseline:.2f}s")
+
+comparison = timeit.timeit(stmt="for _ in fast(): pass", globals=globals(), number=50)
+
+print(f"Composed nesting {comparison:.2f}s")
+
+reduction = -(comparison - baseline) / baseline
+print(f"{reduction:.1%} less time")
+
+"""output
+Manual nesting 2.05s
+Composed nesting 1.92s
+6.7% less tim
+"""
+```
 
 
 # 生成器实践
