@@ -1,4 +1,4 @@
-name(股票代码), shares(持股数量), price(每股价格-美元)
+name          ,           shares,                price
 AA            ,              100,                32.20
 IBM           ,               50,                91.10
 CAT           ,              150,                83.44

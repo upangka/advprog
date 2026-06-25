@@ -5,6 +5,13 @@ from exercise_01 import Holding
 
 WIDTH = 15
 
+from typing import Protocol,Iterator
+
+class SupportPortfolio(Protocol):
+    def __iter__(self) -> Iterator[Holding]: ...
+    
+    def total_value(self) -> Decimal: ...
+    
 
 class Portfolio:
     def __init__(self, holdings: list[Holding]):
@@ -16,7 +23,7 @@ class Portfolio:
     # @property
     def total_value(self):
         "change from property to method"
-        return sum(h.shares * h.price for h in self)
+        return sum((h.shares * h.price for h in self),Decimal('0'))
 
 
 def read_portfolio(file_name: str = "portfolio.csv") -> Portfolio:
@@ -43,7 +50,7 @@ def read_portfolio(file_name: str = "portfolio.csv") -> Portfolio:
     return Portfolio(holdings)
 
 
-def make_report(portfolio: Portfolio):
+def make_report(portfolio: SupportPortfolio):
     """
     Print a report
     """
