@@ -157,3 +157,86 @@ StopIteration: 42
 | **存储内容**  | 所有位置参数的完整列表                    | 专门存储“生成器返回值”                    |
 | **是否总是存在** | 总是存在 (至少是空元组 `()`)            | 仅 `StopIteration` 有                     |
 | **典型用途**  | 通用错误信息、调试                        | 被 `yield from` 或生成器协程接收          |
+
+```python
+class StopIteration(Exception):
+    value: Any
+```
+
+# for...break只消费生成器部分内容
+
+由于for循环的break,生成器的部分内容只被消费了，代表这个生成器永远不会运行完成。如果生成器函数执行某种清楚操作很重要，那么就不会得到执行。`finally`**里的代码将在python回收这个生成器的时候执行**
+
+[exercise_02.py](./code/exercise_02.py)
+
+```python
+def countdown_bug(n):
+    """如果有清理操作，验证不会执行"""
+    print(f"Count down from {n}")
+
+    while n > 0:
+        yield n
+        n -= 1
+    print("Do some clean work")
+
+
+def countdown(n):
+    print(f"Count down from {n}")
+
+    try:
+        while n > 0:
+            yield n
+            n -= 1
+    except Exception:
+        # 只是消耗部分生成器，不代表异常
+        print("Run here???")
+    finally:
+        # do some clear up operation
+        print(f"Only made it to {n}")
+```
+
+```sh
+>>> c = countdown_bug(3)
+>>> # 生成器只有部分被消耗，break发生的时候，
+>>> # clean并没有被执行
+>>> for x in c:
+...     if x == 2:
+...         break
+...     print(x)
+...
+Count down from 3
+3
+>>> # 继续消耗直到生成器结束
+>>> sum(c)
+Do some clearn work
+1
+
+>>> for x in countdown(3):
+...     print(x)
+...
+Count down from 3
+3
+2
+1
+Only made it to 0
+>>>
+>>> # break 只消耗迭代器部分
+>>> for x in countdown(3):
+...     if x == 2:
+...         break
+...     print(x)
+...
+Count down from 3
+3
+Only made it to 2
+```
+
+同样的，上下文管理器也能保证生成器的清理操作被执行
+
+```python
+def func(filename):
+    with open(filename) as f:
+        ...
+        yield from f
+        ...
+```
