@@ -323,6 +323,11 @@ def up_and_down_v2(n):
 1 2 3 3 2 1 
 ```
 
+## yield from 性能快于for...yield
+
+《Effective Python》第33条建议，有对比性能
+
+
 # 生成器实践
 
 ## 打平嵌套列表
