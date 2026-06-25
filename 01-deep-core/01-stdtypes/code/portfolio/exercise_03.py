@@ -2,7 +2,6 @@ from decimal import Decimal
 from pathlib import Path
 
 import pandas
-
 from exercise_02 import Holding, make_report
 
 
