@@ -372,3 +372,110 @@ if __name__ == "__main__":
     test(flatten_v1)
     test(flatten_v2)
 ```
+
+## 处理管道和工作流的数据
+
+**处理多层嵌套控制流**
+
+这是多层嵌套控制流[exercise_06.py](./code/exercise_06.py)
+
+```python
+# 单行注释中有 spam
+# 干扰选项
+
+import re
+from pathlib import Path
+
+for path in Path(".").rglob("*.py"):
+    if path.exists():
+        with path.open("rt", encoding="utf-8") as f:
+            for line in f:
+                m = re.match(".*(#.*)$", line)
+                if m:
+                    comment = m.group(1)
+                    if "spam" in comment:
+                        print(comment)  # spam在代码一行的后面
+```
+
+接下来进行优化，使用yield进行`打平代码`, [exercise_07.py](./code/exercise_07.py)
+
+```python
+import re
+from pathlib import Path
+
+
+def get_paths(topdir, pattern):
+    for path in Path(topdir).rglob(pattern):
+        if path.exists():
+            yield path
+
+
+def get_files(paths):
+    for path in paths:
+        with path.open("rt", encoding="utf-8") as f:
+            yield f
+
+
+def get_lines(files):
+    for file in files:
+        # 一个文件有多行，这里使用yield from委托的机制
+        # yield from Iterable 也是可以的
+        yield from file
+
+
+def get_comments(lines):
+    for line in lines:
+        m = re.match(".*(#.*)$", line)
+        if m:
+            yield m.group(1)
+
+
+def print_matching(comments, substring):
+    for comment in comments:
+        if substring in comment:
+            print(comment)
+
+
+if __name__ == "__main__":
+    """这样的打平看起来就非常舒服"""
+    paths = get_paths(".", "*.py")
+    files = get_files(paths)
+    lines = get_lines(files)
+    comments = get_comments(lines)
+    print_matching(comments, "spam")
+```
+
+
+### 正则解释
+
+```python
+re.match('.*(#.*)$',line)
+
+行内容：print("hello")  # 这是一个注释
+         └─.*─┘ └─(#.*)─┘
+         匹配   捕获这个部分
+                (注释)
+```
+
+| 符号 | 含义 | 在这段代码中的作用 |
+| :--- | :--- | :--- |
+| `.` | 任意字符（除换行符外） | 匹配行开头到 `#` 之间的任意字符 |
+| `*` | 前面的字符出现 0 次或多次 | 配合 `.` 使用，匹配 `#` 前的内容（可以是0个或多个字符） |
+| `()` | 分组捕获 | 将注释内容（`#` 及其后面的文字）捕获为一个分组 |
+| `#` | 匹配字面意义的井号 | 匹配注释符号 `#` 本身 |
+| `.*` | 任意字符出现 0 次或多次 | 匹配 `#` 后面的所有字符（直到行尾） |
+| `$` | 匹配行尾 | 确保 `#.*` 一直到行尾才结束 |
+
+---
+
+| 组成部分 | 含义 |
+| :--- | :--- |
+| `.*` | 匹配 `#` 前面的任意内容（可以是空） |
+| `(#.*)` | 捕获组：从 `#` 开始到行尾的所有内容 |
+| `$` | 锚定行尾，确保匹配到行末 |
+
+---
+
+- `m.group(0)` = 整个匹配的文本（整行）
+- `m.group(1)` = 第一个括号捕获的内容（即注释部分 `# 这是一个注释`）
+- `m.group(2)` = 第二个括号捕获的内容（如果有）
