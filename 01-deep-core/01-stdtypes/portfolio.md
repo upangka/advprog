@@ -381,3 +381,19 @@ class PandasPortfolio:
     def total_value(self):
         ...
 ```
+
+为了规范接口鸭子类型，我在[exercise_02.py](./code/portfolio/exercise_02.py)中添加了，并且为`make_portfolio`方法参数添加了类型。因为在[exercise_03.py](./code/portfolio/exercise_03.py)中，我们会复用`make_portfolio`方法
+
+使用static duck typing来解决
+
+```python
+class SupportPortfolio(Protocol):
+    def __iter__(self) -> Iterator[Holding]: ...
+
+    def total_value(self) -> Decimal: ...
+
+def make_report(portfolio: SupportPortfolio):
+    ...
+```
+
+
