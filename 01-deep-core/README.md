@@ -8,6 +8,7 @@
   - [match case](./01-stdtypes/02-match-case.md)
   - [bytes](./01-stdtypes/03-bytes.md)
   - [tuple](./01-stdtypes/tuple.md)
+  - [dict](./01-stdtypes/dict.md)
 
 
 - [函数](./07-high-order-functions/README.md)

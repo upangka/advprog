@@ -23,7 +23,7 @@
 
 # Pattern Matching
 
-[01_pm_dict.py](./01_pm_dict.py)
+[exercise_01.py](./code/dict/exercise_01.py)
 
 > List Matching
 
@@ -78,4 +78,32 @@ False
 {'a': 2}
 >>> all([dict(a=2) == vars(a),dict(a=2) == a.__dict__])
 True
+```
+
+# dict(dict)
+
+```python
+>>> a = dict(author='dabeaz',book='Python精粹')
+>>> b = dict(a)
+>>> a == b
+True
+>>> a is b
+False
+>>> a
+{'author': 'dabeaz', 'book': 'Python精粹'}
+>>> b
+{'author': 'dabeaz', 'book': 'Python精粹'}
+```
+
+# update
+
+```sh
+>>> # update 方法
+>>> a.update(oop='Greate OOP')
+>>> a
+{'author': 'dabeaz', 'book': 'Python精粹', 'oop': 'Greate OOP'}
+>>> # 直接定义新的key和value
+>>> b['func']="High order function"
+>>> b
+{'author': 'dabeaz', 'book': 'Python精粹', 'func': 'High order function'}
 ```
