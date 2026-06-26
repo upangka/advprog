@@ -26,6 +26,7 @@ def test_cotainer(container=None):
 
 
 if __name__ == "__main__":
+    # 切换三种不同的容器
     test_cotainer()
     test_cotainer(array("i"))
     test_cotainer(deque())

@@ -7,11 +7,8 @@
   - [f-str格式显示](./01-stdtypes/f-string显示.md)
   - [match case](./01-stdtypes/02-match-case.md)
   - [bytes](./01-stdtypes/03-bytes.md)
+  - [tuple](./01-stdtypes/tuple.md)
 
-- [内置标准库]()
-  - [time](./10-stdlib/01-time.md)
-  - [itertools](./10-stdlib/02-itertools.md)
-  - [array](./10-stdlib/03-array.md)
 
 - [函数](./07-high-order-functions/README.md)
   - [高阶函数](./07-high-order-functions/high-order-function.md)
@@ -20,8 +17,8 @@
   - [动态分派Dynamic-dispatch](./07-high-order-functions/dynamic-dispatch-getattr.md)
 
 - OOP
+  - [面向对象编程](./12-oop/面向对象编程.md)
   - [关于私有属性](./12-oop/关于私有属性.md)
-  - [类与实例](./12-oop/类与实例.md)
 
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/TypeDict.md)
@@ -29,6 +26,12 @@
   - [Type Hints In Function](./02-generic-and-typing-hints/Type-Hints-In-Function.md)
   - [Interface Protocol ABCs](./05-interface-protocal-abcs/Interface-protocol-ABCs.md)
   - [@overload](./02-generic-and-typing-hints/Overloaded-Signatures.md)
+
+- [内置标准库]()
+  - [time](./10-stdlib/01-time.md)
+  - [itertools](./10-stdlib/02-itertools.md)
+  - [array](./10-stdlib/03-array.md)
+
 
 - 网络与协议
   - [Socket Basic](./08-network/socket-basic.md)

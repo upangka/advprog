@@ -1,6 +1,6 @@
 # Tuple Types
 
-[01_tuple_types.py](./code/01_tuple_types.py)
+[exercise_01.py](./code/tuple/exercise_01.py)
 
 Tuple从语义上的三种角度：
 
@@ -50,7 +50,7 @@ def display2(lat_lon: Coordinate) -> str:
 print(display2((22.5431, 114.0579)))
 ```
 
-![](./attachments/01_not_consistent.png)
+![](./images/01_not_consistent.png)
 
 ## Tuple as Immutable Sequence
 
@@ -111,6 +111,54 @@ Card(rank='Q', suit='diamonds')
 ```
 
 
+# Linked Tuple
+
+[Stack的实现](../12-oop/类与实例.md#数据抽象与隐藏细节)
+
+```python
+class Stack:
+    def __init__(self):
+        self._items: tuple = ()
+        self._size = 0
+
+    def push(self, item):
+        self._items = (item, self._items)
+        self._size += 1
+
+    def pop(self):
+        if self._size <= 0:
+            raise LookupError(f"pop from empty {type(self).__name__}")
+        item, self._items = self._items
+        self._size -= 1
+        return item
+
+    def __len__(self):
+        return self._size
+
+
+def test_link_tuple():
+    s = Stack()
+    s.push(1)
+    s.push(2)
+    s.push(3)
+
+    r = [s.pop() for _ in range(3)]
+    assert r == [3, 2, 1]
+
+    try:
+        s.pop()
+        print("Error!!! Why I'm here")
+    except Exception as e:
+        assert type(e) == LookupError
+    print("Good test")
+
+
+if __name__ == "__main__":
+    test_link_tuple()
+```
+
+
 # 参考
 
 - 《Fluent Python: Chapter 8: Type Hints In Functions》
+- 《Python Distilled》(《Python精粹》)
