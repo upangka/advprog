@@ -28,9 +28,13 @@ class Account:
 
 class EvilAccount(Account):
 
+    # 重写覆盖 相当于Java的@override
     def inquire(self):
         if random.randint(0, 4) == 1:
             return self.balance * 1.10
         else:
+            # 报错不能这样写
             # return super().balance
+            # super()的含义不是像Java父类一样
+            # super()是解决mro方法查找机制的
             return super().inquiry()

@@ -20,6 +20,7 @@
 
 - OOP
   - [关于私有属性](./12-oop/关于私有属性.md)
+  - [类与实例](./12-oop/类与实例.md)
 
 - 类型提示与泛型
   - [TypeDict](./02-generic-and-typing-hints/TypeDict.md)
