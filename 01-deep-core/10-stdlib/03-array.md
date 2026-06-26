@@ -6,6 +6,8 @@
 
 大量数值存储，内存敏感
 
+[exercise_01.py](./code/arraylib/exercise_01.py)
+
 ```python
 """list 占内存大
 List:  7.63 MB (8,000,056 字节)
