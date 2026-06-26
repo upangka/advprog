@@ -3,7 +3,6 @@ from array import array
 
 DATA_SIZE = 1_000_000
 
-# list 占内存大
 lst = list(range(DATA_SIZE))
 arr = array("I", range(DATA_SIZE))
 
