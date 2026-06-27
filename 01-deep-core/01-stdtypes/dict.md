@@ -97,6 +97,33 @@ False
 
 # update
 
+[Userdict](../12-oop/面向对象编程.md#userdict)
+
+区别：
+1. `update`方法由C语言实现，直接操作字典数据
+2. `['key']=value`的形式会走 `__setitem__`
+
+```python
+>>> class udict(dict):
+...     def __setitem__(self,key,value):
+...         print(f"Yes I can see {key} -> {value}")
+...         super().__setitem__(key,value)
+...
+>>> # 没有触发__setitem__,直接操作的底层
+>>> a = udict(year=2026)
+>>> # 同上，也没有触发__setitem__,直接操作的底层
+>>> a.update(author='dabeaz')
+>>> a
+{'year': 2026, 'author': 'dabeaz'}
+>>> # 触发
+>>> a['book'] = 'Python精粹'
+Yes I can see book -> Python精粹
+>>> a
+{'year': 2026, 'author': 'dabeaz', 'book': 'Python精粹'}
+```
+
+---
+
 ```sh
 >>> # update 方法
 >>> a.update(oop='Greate OOP')
@@ -107,3 +134,9 @@ False
 >>> b
 {'author': 'dabeaz', 'book': 'Python精粹', 'func': 'High order function'}
 ```
+
+
+# Other
+
+- [TypeDict](../02-generic-and-typing-hints/TypeDict.md)
+- [UserDict](../12-oop/面向对象编程.md#userdict)
