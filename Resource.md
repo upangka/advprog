@@ -4,6 +4,7 @@
 - [jackfrued/Python-100-Days](https://github.com/jackfrued/Python-100-Days)
 - [ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch)
 - [python3 cookbook](https://python3-cookbook.readthedocs.io/zh-cn/latest/index.html)
+- [dabeaz tutorials](https://www.dabeaz.com/tutorials.html)
 
 # Videos
 
