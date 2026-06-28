@@ -99,7 +99,19 @@ if __name__ == "__main__":
 Use your stack class to make a simple 4-function calculator. You need to support four operations(`add`,`sub`,`mul`,`div`) in addition to push/pop. For exmaple:
 
 ```python
-
+class Calculator:
+    def push(self): 
+        ...
+    def pop(self): 
+        ...
+    def add(self): 
+        ...
+    def sub(self): 
+        ...
+    def mul(self): 
+        ...
+    def truediv(self): 
+        ...
 ```
 
 ```sh
@@ -153,7 +165,7 @@ class Calculator:
         self.push(r)
         return r
 
-    def div(self):
+    def truediv(self):
         b = self.pop()
         a = self.pop()
         r = a / b
@@ -193,6 +205,6 @@ class Calculator:
     def mul(self):
         return self._do_cal(operator.mul)
 
-    def div(self):
+    def truediv(self):
         return self._do_cal(operator.truediv)
 ```
