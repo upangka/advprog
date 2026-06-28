@@ -288,12 +288,12 @@ Although Peter and Arjoon, have created custom Stack classes, they're now both p
 
 - perplexed /pərˈplekst/ 困惑的、迷惑不解的、不知所措的 指因事情复杂或难以理解而感到困惑和不确定，不知道该怎么办。
 
+
 ```python
 # An implementation of a Stack with debugging
 class DebugStack(Stack):
     def push(self,item):
         print("PUSHING:",item)
-        # 注意这里，super不一定就是指这里继承的Stack
         super().push(item)
         
     def pop(self):
@@ -319,8 +319,23 @@ test_stack(NumericStack())
 
 Figure out some way to use either one of these stacks with your calculator. Make sure you can run the `test_calculator` test and that it works without modification.
 
+[exercise_04.py](./code/stacks/exercise_04.py)
 
+```python
+# Approach 1: Monkey patching
+calc = Calculator()
+calc._stack = DebugStack()
+test_calculator(calc)
 
+# Approach 2: Some kind of more controlled way of accomplishing the same thing
+calc = Calculator()
+calc.with_stack(DebugStack())
+test_calculator(calc)
+
+# Approach 3: Make this part of the object constructor instead.
+calc = Calculator(stack=DebugStack())
+test_calculator(calc)
+```
 
 
 # Exercise 5 - The conflict
