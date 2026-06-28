@@ -15,6 +15,7 @@ class Calculator:
         self._stack.push(r)
         return r
 
+    # 必须要有push和pop方法，因为后面的练习，monkey patching会用到
     def push(self, item):
         self._stack.push(item)
 

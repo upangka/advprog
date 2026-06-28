@@ -397,3 +397,161 @@ PUSHED: 1
 POPPED: 1
 1
 ```
+
+# Exercise 06 The Monkey Patching 
+
+Instead of defining debugging and type checking features as classes,Ben has proposed an approach involving code patching.  The functions below have been written.  Show how you could use these functions to add debugging and type-checking to the calculator at the same time.
+
+Note: These functions can be used as **class decorators**, but they don't necessarily have to be used exactly in that way.
+
+- proposed /prəˈpoʊzd/ 提出的、提议的 指提出某个建议、方案或观点供他人考虑
+
+## 装饰器
+
+装饰器从逻辑上来说可以分为类装饰器和方法装饰器，但是从技术上讲它们都是同一个东西
+
+```sh
+>>> def m_decorator(cls_or_func):
+...     """
+...     - 如果作用在类上参数取名为cls
+...     - 如果作用在方法上参数取名为func
+...     """
+...     print("<<<<<",cls_or_func,">>>>>")
+...
+>>>
+>>> @m_decorator
+... class A: ...
+...
+<<<<< <class '__main__.A'> >>>>>
+>>>
+>>> @m_decorator
+... def f(): ...
+...
+<<<<< <function f at 0x7fd16d9d7380> >>>>>
+
+>>> # 主要这里方法装饰器先生效
+>>> @m_decorator
+... class A:
+...     @m_decorator
+...     def f(): ...
+...
+<<<<< <function A.f at 0x7f904c2e3920> >>>>>>
+<<<<< <class '__main__.A'> >>>>>>
+```
+
+## 获得类的方法
+
+另外一个点是，虽然类的方法要实例化才能调用，但是我们却可以访问的
+
+```sh
+>>> class A:
+...     def f(self): ...
+...
+>>> A.f
+<function A.f at 0x7fd16d9d76a0>
+>>> A().f
+<bound method A.f of <__main__.A object at 0x7fd16d97de80>>
+>>>
+>>> A.f()
+Traceback (most recent call last):
+  File "<python-input-34>", line 1, in <module>
+    A.f()
+    ~~~^^
+TypeError: A.f() missing 1 required positional argument: 'self'
+>>> A().f()
+>>>
+```
+
+## 动态打补丁
+
+```python
+>>> class A:
+...     def __init__(self,x):
+...         self._x = x
+...
+>>> a = A(3)
+>>> # 此时没有twice方法，调用会失败
+>>> a.twice()
+Traceback (most recent call last):
+  File "<python-input-7>", line 1, in <module>
+    a.twice()
+    ^^^^^^^
+AttributeError: 'A' object has no attribute 'twice'
+>>>
+>>> # 动态打补丁
+>>> def twice(self):
+...     return self._x * 2
+...
+>>> A.twice = twice
+>>> a.twice()
+6
+>>> # 也可以这样调用
+>>> A.twice(a)
+6
+>>> twice(a)
+6
+```
+
+## 实现
+
+这里采用的是类装饰器，在类中统一处理了方法`push`和`pop`
+
+实现[exercise_06.py](./code/stacks/exercise_06.py)，采用装饰器和`monkey patching`动态打补丁的方式,
+
+```python
+def add_stack_debug(cls):
+    orig_push = cls.push
+    def push(self, item):
+        print("PUSHED:", item)
+        orig_push(self, item)
+    cls.push = push
+
+    orig_pop = cls.pop
+    def pop(self):
+        item = orig_pop(self)
+        print("POPPED:", item)
+        return item
+    cls.pop = pop
+
+    return cls
+
+
+def add_stack_checking(cls):
+    orig_push = cls.push
+
+    def push(self, item):
+        if not isinstance(item, (int, float)):
+            raise TypeError("Require a number")
+        orig_push(self, item)
+
+    cls.push = push
+    return cls
+
+
+@add_stack_debug
+@add_stack_checking
+class MyCalculator(Calculator):
+    pass
+```
+
+```sh
+>>> calc = MyCalculator()
+>>> calc.push(2)
+PUSHED: 2
+>>> calc.push("2")
+PUSHED: 2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    calc.push("2")
+    ~~~~~~~~~^^^^^
+  File "/home/pkmer/projects/advprog/01-deep-core/12-oop/code/stacks/exercise_06.py", line 9, in push
+    orig_push(self,item)
+    ~~~~~~~~~^^^^^^^^^^^
+  File "/home/pkmer/projects/advprog/01-deep-core/12-oop/code/stacks/exercise_06.py", line 27, in push
+    raise TypeError("Require a number")
+TypeError: Require a number
+>>> calc.pop()
+POPPED: 2
+2
+```
+
