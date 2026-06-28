@@ -2,8 +2,10 @@ import operator
 
 from exercise_01 import Stack
 
+
 class NotEnoughValues(Exception):
     pass
+
 
 class Calculator:
     def __init__(self) -> None:
@@ -33,7 +35,7 @@ class Calculator:
     def mul(self):
         return self._do_cal(operator.mul)
 
-    def truediv(self):
+    def div(self):
         return self._do_cal(operator.truediv)
 
 

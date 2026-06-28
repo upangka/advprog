@@ -30,7 +30,7 @@ class Calculator:
     def mul(self):
         return self._do_cal(operator.mul)
 
-    def truediv(self):
+    def div(self):
         return self._do_cal(operator.truediv)
 
 

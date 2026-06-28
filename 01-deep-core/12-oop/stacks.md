@@ -110,7 +110,7 @@ class Calculator:
         ...
     def mul(self): 
         ...
-    def truediv(self): 
+    def div(self): 
         ...
 ```
 
@@ -165,7 +165,7 @@ class Calculator:
         self.push(r)
         return r
 
-    def truediv(self):
+    def div(self):
         b = self.pop()
         a = self.pop()
         r = a / b
@@ -205,7 +205,7 @@ class Calculator:
     def mul(self):
         return self._do_cal(operator.mul)
 
-    def truediv(self):
+    def div(self):
         return self._do_cal(operator.truediv)
 ```
 
@@ -265,3 +265,64 @@ class Calculator:
 
 **DISCUSSION**: What are the pros and cons of this design?
 - pros and cons /proʊz ænd kɑːnz/ 优缺点 pro = 优点（正面），con = 缺点（负面），固定搭配
+
+
+# Exercise 4 - The Debugged and the Defended
+
+Perter is working on some code that involves the calculator class. However, it's broken and he's trying to figure out why. To help dedug it,he'e written a customized `Stack` class with some print statements added to it.
+
+Similarly, Arjoon has decided that the calculator should do a better job of type-checking. "Why is this allowed?" he asks:
+
+```python
+>>> s = Stack()
+>>> s.push("hello")
+>>> s.push(4)
+>>> s.mul()
+>>> s.pop()
+'hellohellohellohello'
+```
+
+To address this, he's created a custom Stack with some type-checking added to it.
+
+Although Peter and Arjoon, have created custom Stack classes, they're now both perplexed about how to use them with the Caculator class.How would you modify the Calculator class to allow alternative Stack implementations to be used?
+
+- perplexed /pərˈplekst/ 困惑的、迷惑不解的、不知所措的 指因事情复杂或难以理解而感到困惑和不确定，不知道该怎么办。
+
+```python
+# An implementation of a Stack with debugging
+class DebugStack(Stack):
+    def push(self,item):
+        print("PUSHING:",item)
+        # 注意这里，super不一定就是指这里继承的Stack
+        super().push(item)
+        
+    def pop(self):
+        item = super().pop()
+        print("POPPED:",item)
+        return item
+    
+class NumericStack(Stack):
+    def push(self,item):
+        if not isinstance(item,(int,float)):
+            raise TypeError("A number is required")
+        super().push(item)
+```
+
+Verify that these Stacks pass the test.
+
+```python
+test_stack(DebugStack())
+test_stack(NumericStack())
+```
+
+> **Note: This is a perfectly reasonable use of inheritance -- using it to create a modified stack.**
+
+Figure out some way to use either one of these stacks with your calculator. Make sure you can run the `test_calculator` test and that it works without modification.
+
+
+
+
+
+# Exercise 5 - The conflict
+
+Both Peter and Arjoon have created alternative Stack implementations.
