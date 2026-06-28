@@ -51,6 +51,37 @@ def test_stack(s):
 
 [exercise_01.py](./code/stacks/exercise_01.py)
 
+```python
+class Stack:
+    def __init__(self, *, container=None):
+        self._items = container if container else []
+
+    def pop(self):
+        return self._items.pop()
+
+    def push(self, item):
+        self._items.append(item)
+
+    def __len__(self):
+        return len(self._items)
+
+
+def test_stack(s):
+    s.push(23)
+    s.push(45)
+    assert len(s) == 2
+    assert s.pop() == 45
+    assert s.pop() == 23
+    assert len(s) == 0
+    print("Good stack!")
+
+
+if __name__ == "__main__":
+    test_stack(Stack())
+    from array import array
+
+    test_stack(Stack(container=array("i")))
+```
 
 
 # Exercise 2 - A Calculator
@@ -75,4 +106,65 @@ All math operations consume the top two items on the stack and replace them with
 >>> s.mul()
 >>> s.pop()
 14
+```
+
+```python
+class Calculator(Stack):
+
+    def __init__(self) -> None:
+        super().__init__(container=[])
+
+    def add(self):
+        r = self.pop() + self.pop()
+        self.push(r)
+        return r
+
+    def sub(self):
+        b = self.pop()
+        a = self.pop()
+        r = a - b
+        self.push(r)
+        return r
+
+    def mul(self):
+        r = self.pop() * self.pop()
+        self.push(r)
+        return r
+
+    def div(self):
+        b = self.pop()
+        a = self.pop()
+        r = a / b
+        self.push(r)
+        return r
+```
+
+使用operator模块优化一下：
+
+```python
+import operator
+
+class Calculator(Stack):
+
+    def __init__(self) -> None:
+        super().__init__(container=[])
+
+    def _do_cal(self, op):
+        first_top = self.pop()
+        second_top = self.pop()
+        r = op(second_top, first_top)
+        self.push(r)
+        return r
+
+    def add(self):
+        return self._do_cal(operator.add)
+
+    def sub(self):
+        return self._do_cal(operator.sub)
+
+    def mul(self):
+        return self._do_cal(operator.mul)
+
+    def div(self):
+        return self._do_cal(operator.truediv)
 ```
