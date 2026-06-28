@@ -264,3 +264,4 @@ class Calculator:
 ```
 
 **DISCUSSION**: What are the pros and cons of this design?
+- pros and cons /proʊz ænd kɑːnz/ 优缺点 pro = 优点（正面），con = 缺点（负面），固定搭配
