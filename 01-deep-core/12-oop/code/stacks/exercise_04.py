@@ -24,7 +24,16 @@ class NumericStack(Stack):
 
 
 if __name__ == "__main__":
-    # Approch 1: Monkey patching
+    # Approach 1: Monkey patching
     calc = Calculator()
     calc._stack = DebugStack()
+    test_calculator(calc)
+    
+    # Approach 2: Some kind of more controlled way of accomplishing the same thing
+    calc = Calculator()
+    calc.with_stack(DebugStack())
+    test_calculator(calc)
+    
+    # Approach 3: Make this part of the object constructor instead.
+    calc = Calculator(stack = DebugStack())
     test_calculator(calc)

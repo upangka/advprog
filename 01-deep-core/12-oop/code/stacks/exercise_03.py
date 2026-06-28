@@ -8,8 +8,8 @@ class NotEnoughValues(Exception):
 
 
 class Calculator:
-    def __init__(self) -> None:
-        self._stack = Stack(container=[])
+    def __init__(self,*,stack = Stack()) -> None:
+        self._stack = stack
 
     def _do_cal(self, op):
         if len(self._stack) < 2:
@@ -37,6 +37,9 @@ class Calculator:
 
     def div(self):
         return self._do_cal(operator.truediv)
+    
+    def with_stack(self,stack: Stack):
+        self._stack = stack
 
 
 def test_failure(calc):
