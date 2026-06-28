@@ -1,18 +1,18 @@
-
 class StackEmptyError(Exception):
     pass
+
 
 class Stack:
     def __init__(self, *, container=None):
         self._items = container if container else []
 
     def pop(self):
-        
+
         if not self._items:
-            raise StackEmptyError('pop from empty stack')
-        
+            raise StackEmptyError("pop from empty stack")
+
         return self._items.pop()
-        
+
     def push(self, item):
         self._items.append(item)
 

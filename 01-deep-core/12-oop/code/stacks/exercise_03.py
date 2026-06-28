@@ -2,13 +2,16 @@ import operator
 
 from exercise_01 import Stack
 
+class NotEnoughValues(Exception):
+    pass
 
 class Calculator:
-
     def __init__(self) -> None:
         self._stack = Stack(container=[])
 
     def _do_cal(self, op):
+        if len(self._stack) < 2:
+            raise NotEnoughValues(f"Not enough elements to support {op.__name__}")
         right = self.pop()
         left = self.pop()
         r = op(left, right)
@@ -34,30 +37,20 @@ class Calculator:
         return self._do_cal(operator.truediv)
 
 
-def test_calculator(calc):
+def test_failure(calc):
     calc.push(23)
+    try:
+        calc.add()  # should fail. Not enough values were pushed
+    except Exception as err:
+        pass
+    else:
+        raise AssertionError("Why didn't I fail???")
+    # What happens if you resume using the calculator after a failure?
     calc.push(45)
-    calc.add()
-    assert calc.pop() == 68
-
-    calc.push(2)
-    calc.push(3)
-    calc.push(4)
-    calc.add()
-    calc.mul()
-    assert calc.pop() == 14
-
-    calc.push(10)
-    calc.push(3)
-    calc.sub()
-    assert calc.pop() == 7
-
-    calc.push(10)
-    calc.push(5)
-    calc.div()
-    assert calc.pop() == 2.0
-    print("Good calculator!")
+    calc.add()  # Does this work?
+    assert calc.pop() == 68  # Does this work?
+    print("Good test")
 
 
 if __name__ == "__main__":
-    test_calculator(Calculator())
+    test_failure(Calculator())

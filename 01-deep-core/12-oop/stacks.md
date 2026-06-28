@@ -208,3 +208,59 @@ class Calculator:
     def truediv(self):
         return self._do_cal(operator.truediv)
 ```
+
+# Exercise 3 - The Mutable
+
+A central idea of object-oriented programming is that it is often focused on behavior and mutation. You create an object. You execute methods on the object. Those methods tend to modify the state of the object.
+
+However, what happens when a method fails? Consider the following test involving a calculator.
+
+本次练习的目标是，当对象的行为发生错误的时候，对象本身的内部状态保持不变
+
+```python
+def test_failure(calc):
+    calc.push(23)
+    try:
+        calc.add()  # should fail. Not enough values were pushed
+    except Exception as err:
+        pass
+    else:
+        raise AssertionError("Why didn't I fail???")
+    # What happens if you resume using the calculator after a failure?
+    calc.push(45)
+    calc.add()               # Does this work?
+    assert calc.pop() == 68  # Does this work?
+```
+
+Your Task: Modify the calculator class so that its method either work entirely or fail entirely. **Methods that fail should leave the calculator state unchanged**.
+
+
+原子性操作。保持状态的一致性:
+1. 操作成功(如: add) → 所有修改生效
+2. 操作失败(如: add) → 回滚到操作前的状态，没有任何残留变化(恢复之前的数值23)
+
+
+[exercise_03.py](./code/stacks/exercise_03.py)
+
+```python
+class NotEnoughValues(Exception):
+    pass
+
+class Calculator:
+    def __init__(self) -> None:
+        self._stack = Stack(container=[])
+
+    def _do_cal(self, op):
+        if len(self._stack) < 2:
+            raise NotEnoughValues(f"Not enough elements to support {op.__name__}")
+        right = self.pop()
+        left = self.pop()
+        r = op(left, right)
+        self._stack.push(r)
+        return r
+    
+    # 其他保持不变
+    ...
+```
+
+**DISCUSSION**: What are the pros and cons of this design?
