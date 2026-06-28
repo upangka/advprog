@@ -3,17 +3,23 @@ import operator
 from exercise_01 import Stack
 
 
-class Calculator(Stack):
+class Calculator:
 
     def __init__(self) -> None:
-        super().__init__(container=[])
+        self._stack = Stack(container=[])
 
     def _do_cal(self, op):
-        first_top = self.pop()
-        second_top = self.pop()
-        r = op(second_top, first_top)
-        self.push(r)
+        right = self.pop()
+        left = self.pop()
+        r = op(left, right)
+        self._stack.push(r)
         return r
+
+    def push(self,item):
+        self._stack.push(item)
+        
+    def pop(self):
+        return self._stack.pop()
 
     def add(self):
         return self._do_cal(operator.add)

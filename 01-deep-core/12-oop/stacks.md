@@ -37,7 +37,17 @@ Define a Stack data structure. It should support `push()` and `pop()` operations
 ```
 
 ```python
-class Stack: ... # You define
+class Stack: # You define here
+    
+    # Must have
+    # 相当于统一操作接口了，至于内部的实现细节，随便你怎么实现
+    def push(self,item): 
+        ...
+    def pop(self): 
+        ...
+    def __len__(self): 
+        ...
+
 
 def test_stack(s):
     s.push(23)
@@ -88,6 +98,10 @@ if __name__ == "__main__":
 
 Use your stack class to make a simple 4-function calculator. You need to support four operations(`add`,`sub`,`mul`,`div`) in addition to push/pop. For exmaple:
 
+```python
+
+```
+
 ```sh
 >>> s.push(23)
 >>> s.push(45)
@@ -108,11 +122,19 @@ All math operations consume the top two items on the stack and replace them with
 14
 ```
 
-```python
-class Calculator(Stack):
+[exercise_02.py](./code/stacks/exercise_02.py)
 
-    def __init__(self) -> None:
-        super().__init__(container=[])
+```python
+class Calculator:
+
+    def __init__(self):
+        self._stack = Stack(container=[])
+
+    def push(self,item):
+        self._stack.push(item)
+        
+    def pop(self):
+        return self._stack.pop()
 
     def add(self):
         r = self.pop() + self.pop()
@@ -144,17 +166,23 @@ class Calculator(Stack):
 ```python
 import operator
 
-class Calculator(Stack):
+class Calculator:
 
     def __init__(self) -> None:
-        super().__init__(container=[])
+        self._stack = Stack(container=[])
 
     def _do_cal(self, op):
-        first_top = self.pop()
-        second_top = self.pop()
-        r = op(second_top, first_top)
-        self.push(r)
+        right = self.pop()
+        left = self.pop()
+        r = op(left, right)
+        self._stack.push(r)
         return r
+
+    def push(self,item):
+        self._stack.push(item)
+        
+    def pop(self):
+        return self._stack.pop()
 
     def add(self):
         return self._do_cal(operator.add)
