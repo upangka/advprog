@@ -7,7 +7,6 @@ from exercise_03 import Calculator
 class DebugStack(Stack):
     def push(self, item):
         print("PUSHING:", item)
-        # 注意这里，super不一定就是指这里继承的Stack
         super().push(item)
 
     def pop(self):
@@ -28,12 +27,12 @@ if __name__ == "__main__":
     calc = Calculator()
     calc._stack = DebugStack()
     test_calculator(calc)
-    
+
     # Approach 2: Some kind of more controlled way of accomplishing the same thing
     calc = Calculator()
     calc.with_stack(DebugStack())
     test_calculator(calc)
-    
+
     # Approach 3: Make this part of the object constructor instead.
-    calc = Calculator(stack = DebugStack())
+    calc = Calculator(stack=DebugStack())
     test_calculator(calc)

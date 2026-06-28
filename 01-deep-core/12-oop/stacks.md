@@ -325,4 +325,60 @@ Figure out some way to use either one of these stacks with your calculator. Make
 
 # Exercise 5 - The conflict
 
-Both Peter and Arjoon have created alternative Stack implementations.
+Both Peter and Arjoon have created alternative Stack implementations. However, a debate has now erupted about how to enable the functionality of *both* classes at the same time (that is, to have both type-checking and debugging turned on all at once).
+
+There seems to be no obviously "great" way to use two stacks at once. However, Mary observes that both of these features could be implemented as an "add-on" instead.
+
+To illustrate, she's written the following classes below. Your task: figure how theses classes are supposed to be used with either the Stack or Calculator class to enable debugging and type checking at the same time.
+
+[exercise_05.py](./code/stacks/exercise_05.py)
+
+```python
+class DebugStackOps:
+    """注意这里没有继承Stack"""
+    def push(self, item):
+        print("PUSHED:", item)
+        super().push(item)
+
+    def pop(self):
+        item = super().pop()
+        print("POPPED:", item)
+        return item
+
+
+class NumericPush:
+    """同样的这里也没有继承"""
+    def push(self, item):
+        if not isinstance(item, (int, float)):
+            raise TypeError("Require a number")
+        super().push(item)
+
+
+class MyCalculator(DebugStackOps, NumericPush, Calculator):
+    """
+    当调用pop的时候，顺着链去找，DebugStackOps.pop -> NumericPush X没找到
+    -> 继续到Calculator中找pop,直到找到为止
+    """
+    pass
+```
+
+```sh
+>>> calc = MyCalculator()
+>>> calc.push('hello')
+PUSHED: hello
+Traceback (most recent call last):
+  File "<python-input-3>", line 1, in <module>
+    calc.push('hello')
+    ~~~~~~~~~^^^^^^^^^
+  File "/home/pkmer/projects/advprog/01-deep-core/12-oop/code/stacks/exercise_05.py", line 9, in push
+    super().push(item)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/pkmer/projects/advprog/01-deep-core/12-oop/code/stacks/exercise_05.py", line 22, in push
+    raise TypeError("Require a number")
+TypeError: Require a number
+>>> calc.push(1)
+PUSHED: 1
+>>> calc.pop()
+POPPED: 1
+1
+```
