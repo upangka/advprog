@@ -629,7 +629,7 @@ class Calculator:
 
 现在的任务是 把 Stack 类的代码合并进 Calculator，不再单独定义 Stack 类
 
-[exercise_07.py](./code/exercise_07.py)
+[exercise_07.py](./code/stacks/exercise_07.py)
 
 ```python
 class OptMember(NamedTuple):
@@ -743,3 +743,19 @@ Mel wants to know if common calculations can be "scripted" or memorized in some 
 ```
 
 Mel has written out a list of "instructions" that carry out this operation, assuming that the values of "x" and "y" have already been entered.  Could you give the `Calculator` class a "run" method that executes the instructions one after the other?  That is your task.
+
+
+核心原理`getattr`
+
+```python
+>>> calc = Calculator()
+>>> getattr(calc,'push')
+<bound method add_stack_checking.<locals>.push of Calculator([])>
+>>>
+>>> getattr(calc,'push')(3)
+>>> calc
+Calculator([3])
+>>> getattr(calc,'push')(2)
+>>> calc
+Calculator([3, 2])
+```

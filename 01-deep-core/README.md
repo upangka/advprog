@@ -9,6 +9,7 @@
   - [bytes](./01-stdtypes/03-bytes.md)
   - [tuple](./01-stdtypes/tuple.md)
   - [dict](./01-stdtypes/dict.md)
+  - [解构](./01-stdtypes/解构.md)
 
 
 - [函数](./07-high-order-functions/README.md)
