@@ -366,8 +366,10 @@ The only allowed way to refer to an Actor is by its address--a string.  One way 
 
 - circumvent /ˌsɜːr.kəmˈvent/ v. 绕过；规避；设法克服（指避开某个规则、限制或障碍，找到绕过它的方法。
 
+```python
     p = Printer('Bob')      # Direct reference      (NO!)
     p.name = 'Bobby'        # Access to internals   (NO!)
+```
 
 Your first task is to modify the Actor class to prevent this by
 raising a RuntimeError if an actor is ever created in this way.  If
@@ -375,3 +377,55 @@ you can't even create an actor, then clearly you can't look inside
 or modify it!
 
 The following test verifies the correct behavior.
+
+```python
+def test_instantiation():
+    # This should fail
+    try:
+        p = Printer("Bob")
+        assert False, "FAIL: Should not be here!!!"
+    except RuntimeError as err:
+        print("Good Actor")
+```
+
+[exercise_04.py](./code/actors/exercise_04.py)
+
+```python
+class Actor(ABC):
+
+    def __new__(cls, *args, **kwargs):
+        """阻止用户实例化"""
+        raise RuntimeError("Can't create instance")
+
+    def __del__(self):
+        print(f"{self} is going away")
+
+    @abstractmethod
+    def handle_message(self, message: Message): ...
+
+
+class Manager:
+    def __init__(self):
+        """
+        address (str) -> actor(Actor)
+        """
+        self._actors = {}
+
+    def send(self, msg: Message):
+        if msg.dest in self._actors:
+            self._actors[msg.dest].handle_message(msg)
+
+    def _get_actor(self, address: str):
+        """逃生出口，方便内部测试
+        Create actor via Manager, but provide an escape hatch(逃生出口)
+        for getting instance for testing,debugging
+        """
+        return self._actors[address]
+
+    def spawn(self, address: str, actor_cls: type[Actor], *args):
+        # Python底层机制，使用父类object的__new__
+        actor = object.__new__(actor_cls, *args)
+        actor.__init__(*args)
+        self._actors[address] = actor
+        return address
+```

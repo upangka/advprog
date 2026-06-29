@@ -36,7 +36,7 @@ class Manager:
 
     def spawn(self, address: str, actor_cls: type[Actor], *args):
         # Python底层机制，使用父类object的__new__
-        actor = object.__new__(actor_cls, *args)
+        actor = object.__new__(actor_cls)
         actor.__init__(*args)
         self._actors[address] = actor
         return address
