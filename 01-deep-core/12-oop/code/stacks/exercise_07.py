@@ -3,13 +3,14 @@ import operator
 from typing import Any, NamedTuple
 
 from exercise_03 import NotEnoughValues
-
+from exercise_06 import add_stack_checking
 
 class OptMember(NamedTuple):
     left: Any
     right: Any
 
 
+@add_stack_checking
 class Calculator:
 
     def __init__(self):
@@ -33,7 +34,7 @@ class Calculator:
         self.push(r)
         return r
 
-    def _apply_uanry(self, opt):
+    def _apply_unary(self, opt):
         """处理一元运算"""
         r = opt(self.pop())
         self.push(r)
@@ -116,5 +117,4 @@ def test_calculator(calc):
 
 
 if __name__ == "__main__":
-    pass
-    # test_calculator(Calculator())
+    test_calculator(Calculator())
