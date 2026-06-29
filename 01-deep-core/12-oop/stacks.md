@@ -555,3 +555,30 @@ POPPED: 2
 2
 ```
 
+---
+
+# Exercise 7 - Only a Calculator
+
+Define a Calculator class that has the same functionality as before, but which doesn't bother with all of the extra stack class code. 
+
+While we're at it, we might as well give the calculator a few extra functions like square roots, powers, swapping stack items and so forth.  
+
+Your class should pass the tests below.
+
+```python
+```
+
+之前的版本:
+```python
+# 之前可能有两个类
+class Stack:
+    ...  # 专门管理栈的类
+
+class Calculator:
+    def __init__(self,stack = Stack()):
+        self._stack = stack  # 组合方式
+    ...
+```
+
+现在的任务是 把 Stack 类的代码合并进 Calculator，不再单独定义 Stack 类
+
