@@ -334,3 +334,26 @@ Move to: (2, 15)
 Boosted to: 125
 <__main__.Player object at 0x7fc2c7d7e510> is going way
 ```
+
+
+# Actor
+
+Actors are a lot like objects in that they have internal state and
+they respond to received messages (which are analogous to methods).
+However, an important feature of actors is that they are only
+referenced by their address.  In our system, these addresses are
+encoded as strings such as "bob" or "alice".
+
+Encapsulation is a critical part of the system.  The internal
+state of an Actor is never meant to be exposed or accessed in
+any way.  Again, the *ONLY* allowed operation is sending a message.
+Much of this is handled by the Manager.  All actors live inside
+an environment created by the manager.
+
+In this exercise, your goal is to strongly enforce these
+encapsulation rules in the implementation.  Basically making it
+impossible (or at least rather difficult) to violate the desired
+rules of encapsulation and usage.
+
+
+用 `__new__` 阻止用户直接实例化 `Actor`，同时用 `object.__new__` 作为“逃生出口”从而可以合法的从 `Manager` 中获得 `Actor`主要用于内部测试，从而强制实现 Actor 模型的封装规则。
