@@ -1,7 +1,10 @@
-from exercise_07 import OptMember
+import math
+import operator
+
 from exercise_03 import NotEnoughValues
 from exercise_06 import add_stack_checking
-import operator
+from exercise_07 import OptMember
+
 
 class Calculator:
 
@@ -58,10 +61,22 @@ class Calculator:
     def __repr__(self):
         return f"Calculator({self._items})"
 
-    def run(commands: list[tuple[str,] | tuple[str,int]]):
-        for cmd in commands:
-            ...
-            
+    def run(self, commands: list[tuple[str,] | tuple[str, int]]):
+        """
+        问题的参数个数不同，怎么处理???
+        """
+        for cmd, *args in commands:
+            getattr(self, cmd)(*args)
 
 
 hypot = [("push", 2), ("pow",), ("swap",), ("push", 2), ("pow",), ("add",), ("sqrt",)]
+
+
+def test_hypot():
+    calc = Calculator()
+    calc.push(3)
+    calc.push(4)
+
+    calc.run(hypot)
+    assert calc.pop() == 5.0
+    print("Good Script!")

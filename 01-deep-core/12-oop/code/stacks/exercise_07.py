@@ -5,6 +5,7 @@ from typing import Any, NamedTuple
 from exercise_03 import NotEnoughValues
 from exercise_06 import add_stack_checking
 
+
 class OptMember(NamedTuple):
     left: Any
     right: Any

@@ -759,3 +759,25 @@ Calculator([3])
 >>> calc
 Calculator([3, 2])
 ```
+
+其实也可以methodcaller
+
+```
+>>> class A:
+...     def f(self,msg):
+...         return f"{msg=}"
+...
+>>>
+>>> import operator
+>>> f = operator.methodcaller('f','hi')
+>>> f
+operator.methodcaller('f', 'hi')
+>>> f(A())
+"msg='hi'"
+>>>
+>>> f = getattr(A(),'f')
+>>> f
+<bound method A.f of <__main__.A object at 0x7fdfd9fb0550>>
+>>> f('hi')
+"msg='hi'"
+```
