@@ -103,3 +103,46 @@ def printer_example():
         Message(source="example", dest="printer", content="Are you still there World?")
     )
 ```
+
+# Exercise 02 Understanding the Manager
+
+The purpose of the `Manager` class is to create a managed environment for the `Actor` instances and to handle all of the associated messaging. Actors are always associated with an enclosing Manager. When the Manager goes away, the Actors contained within it should also go away. Verify that this seems to happen by
+trying this example:
+
+验证 Manager 与 Actor 之间的生命周期绑定关系。
+当 Manager 对象被销毁（或不再被引用）时，它所管理的所有 Actor 是否也一同被销毁？Yes
+
+[exercise_02.py](./code/actors/exercise_02.py)
+
+```python
+from actors import Actor, Manager, Message
+from exercise_01 import Printer
+
+
+def manager_example():
+    m = Manager()
+    # Create a few actors
+    m.spawn("GuangZhou", Printer())
+    m.spawn("ShenZhen", Printer())
+
+    # Send a few messages
+    m.send(
+        Message(source="GuangZhou", dest="ShenZhen", content="想你的风还是吹到了广州")
+    )
+    m.send(Message(source="ShenZhen", dest="GuangZhou", content="我在深圳也很想你"))
+
+    # Delete the manager
+    # This should produce two messages about Printer actor going away
+    print("About to delete manager")
+    del m
+    print("Manager deleted")
+```
+
+```sh
+From GuangZhou to ShenZhen said: 想你的风还是吹到了广州
+From ShenZhen to GuangZhou said: 我在深圳也很想你
+About to delete manager
+<exercise_01.Printer object at 0x7f86116d6cf0> is going way
+<exercise_01.Printer object at 0x7f861195fc50> is going way
+Manager deleted
+```

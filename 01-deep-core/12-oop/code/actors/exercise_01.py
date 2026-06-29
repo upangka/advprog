@@ -3,7 +3,7 @@ from actors import Actor, Manager, Message
 
 class Printer(Actor):
     def handle_message(self, msg: Message):
-        print(f"{msg.dest}: {msg.source} said: {msg.content}")
+        print(f"From {msg.source} to {msg.dest} said: {msg.content}")
 
 
 def printer_example():
