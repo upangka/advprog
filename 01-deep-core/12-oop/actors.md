@@ -463,3 +463,29 @@ def spawn_example():
     assert isinstance(address, str), "spawn should return an address string"
     m.send(Message("spawn-example", address, "你是药也是毒,爱你是一场赌注"))
 ```
+
+##  Exercise 06 The Test
+
+Eva has pointed out that being able to write isolated unit tests on Actors might be a good thing.  For this, she would like to write simple tests that deliver a message and examine the internal state
+of an Actor afterwards.
+
+The following example shows what she wants to do, but it currently appears to be impossible.
+
+Given the modifications made in the last two exercises, how would you propose that she go about doing this?  Is it even a good idea?
+
+- propose /prəˈpoʊz/ v. 提议；建议；提出（指提出一个想法、计划或方案供他人考虑。
+
+[exercise_06.py](./code/actors/exercise_06.py)
+```python
+def test_example():
+    """
+    One approach: create via manager, but expose via
+    special method, here is `_get_actor`
+    """
+    m = Manager()
+    address = m.spawn("alice", Printer, "Alice")
+    actor = m._get_actor(address)
+    actor.handle_message(Message("test-example", "alice", "Sales and Press Contact"))
+    assert actor.count == 1
+    print("Good Test")
+```
