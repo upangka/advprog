@@ -1,5 +1,7 @@
+import abc
 from dataclasses import dataclass
-from collections import abc
+
+
 @dataclass
 class Message:
     source: str
@@ -22,13 +24,10 @@ class Manager:
         # address: str -> actor: Actor:
         self._actors = {}
 
-    def send(self,msg: Message):
+    def send(self, msg: Message):
         if msg.dest in self._actors:
             self._actors[msg.dest].handle_message(msg)
 
-
-    def spawn(self,address: str, actor:Actor):
+    def spawn(self, address: str, actor: Actor):
         self._actors[address] = actor
         return address
-
-        
