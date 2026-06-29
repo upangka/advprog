@@ -744,8 +744,52 @@ Mel wants to know if common calculations can be "scripted" or memorized in some 
 
 Mel has written out a list of "instructions" that carry out this operation, assuming that the values of "x" and "y" have already been entered.  Could you give the `Calculator` class a "run" method that executes the instructions one after the other?  That is your task.
 
+```python
+hypot = [("push", 2), ("pow",), ("swap",), ("push", 2), ("pow",), ("add",), ("sqrt",)]
 
-核心原理`getattr`
+
+def test_hypot():
+    calc = Calculator()
+    calc.push(3)
+    calc.push(4)
+
+    calc.run(hypot)
+    assert calc.pop() == 5.0
+    print("Good Script!")
+```
+
+## 实现
+
+[exercise_08.py](./code/stacks/exercise_08.py)
+
+```python
+def run(self, commands: list[tuple[str,] | tuple[str, int]]):
+        """
+        问题的参数个数不同，怎么处理???
+        """
+
+        # 使用*接收和*解构
+        for cmd, *args in commands:
+           getattr(self, cmd)(*args)
+
+        # 使用序列的切片，因为切片不会出现IndexError越界
+        for cmd in commands:
+           getattr(self, cmd[0])(*cmd[1:])
+
+
+        # 使用methodcaller实现
+        # methodcaller(name, /, *args, **kwargs)
+        for cmd in commands:
+            operator.methodcaller(*cmd)(self)
+
+```
+
+
+## 补充知识：核心字符串变方法
+
+核心原理`getattr`或者`operator.methodcaller`:
+1. `getattr` 是“绑定到特定对象的属性”，`methodcaller` 是“准备在任意对象上调用的方法”。前者锁定对象，后者锁定方法签名。
+2. `methodcaller` 的灵活性在于它适合作为高阶函数的参数（如 `map`、`sorted` 的 `key`），因为它不需要提前确定目标对象。
 
 ```python
 >>> calc = Calculator()
@@ -760,9 +804,9 @@ Calculator([3])
 Calculator([3, 2])
 ```
 
-其实也可以methodcaller
+其实也可以`methodcaller`
 
-```
+```sh
 >>> class A:
 ...     def f(self,msg):
 ...         return f"{msg=}"

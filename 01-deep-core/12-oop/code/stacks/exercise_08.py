@@ -6,6 +6,7 @@ from exercise_06 import add_stack_checking
 from exercise_07 import OptMember
 
 
+@add_stack_checking
 class Calculator:
 
     def __init__(self):
@@ -65,8 +66,19 @@ class Calculator:
         """
         问题的参数个数不同，怎么处理???
         """
-        for cmd, *args in commands:
-            getattr(self, cmd)(*args)
+
+        # 使用*接收和*解构
+        # for cmd, *args in commands:
+        #    getattr(self, cmd)(*args)
+
+        # 使用序列的切片，因为切片不会出现IndexError越界
+        # for cmd in commands:
+        #    getattr(self, cmd[0])(*cmd[1:])
+
+        # 使用methodcaller实现
+        # methodcaller(name, /, *args, **kwargs)
+        for cmd in commands:
+            operator.methodcaller(*cmd)(self)
 
 
 hypot = [("push", 2), ("pow",), ("swap",), ("push", 2), ("pow",), ("add",), ("sqrt",)]
@@ -80,3 +92,7 @@ def test_hypot():
     calc.run(hypot)
     assert calc.pop() == 5.0
     print("Good Script!")
+
+
+if __name__ == "__main__":
+    test_hypot()
