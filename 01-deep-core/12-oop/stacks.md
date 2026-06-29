@@ -722,3 +722,24 @@ Calculator([1, 1.7320508075688772])
 Calculator([])
 ```
 
+
+# Exercise 08 The Script
+
+Mel wants to know if common calculations can be "scripted" or memorized in some way. For example, a common task in math class is to compute the length of the hypotenuse of a triangle.
+
+- hypotenuse /haɪˈpɑː.tən.uːs/ n. 斜边（直角三角形中最长的那条边，即直角所对的边）
+
+```txt
+      |\
+      | \
+      |  \
+      |   \
+  x   |    \   hypot = sqrt(x**2 + y**2)
+      |     \
+      |      \
+      |       \
+      |________\
+          y
+```
+
+Mel has written out a list of "instructions" that carry out this operation, assuming that the values of "x" and "y" have already been entered.  Could you give the `Calculator` class a "run" method that executes the instructions one after the other?  That is your task.
