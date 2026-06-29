@@ -1,4 +1,5 @@
-from actors import Actor,Message,Manager
+from actors import Actor, Manager, Message
+
 
 class Printer(Actor):
     def handle_message(self, msg: Message):
@@ -23,5 +24,5 @@ def printer_example():
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     printer_example()
