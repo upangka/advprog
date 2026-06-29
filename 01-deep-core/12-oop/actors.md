@@ -429,3 +429,37 @@ class Manager:
         self._actors[address] = actor
         return address
 ```
+
+## Exercise 05  Enabling the Manager
+
+The manager is a critical part of the actor system.  Not only does it deliver messages to actors, it also provides a `spawn()` method for creating new actors. Your task is to modify the Manager class so that it, and it alone, can create Actor instances (via spawn). **References to these instances are held internally, but are never otherwise returned or exposed**.
+
+The following example should work without errors!
+
+Note: This exercise presents a bit of puzzler in that the previous exercise made it an error to directly create instances!  Somehow you are going to have to reconcile THAT with this exercise.  Also, there is the problem of the Actor `__init__()` method which receives arguments and initializes the actor when it's created.
+
+How is that method going to get called?
+
+[exercise_05.py](./code/actors/exercise_05.py)
+
+```python
+def spawn_example():
+    try:
+        p = Printer("Bob")
+        assert False, "FAIL: Should not be here"
+    except RuntimeError as err:
+        # Good
+        pass
+
+    m = Manager()
+    try:
+        m.spawn("alice", Printer("Alice"))
+        assert False, "FAIL,Why am I here???"
+    except RuntimeError as err:
+        # Good
+        pass
+
+    address = m.spawn("alice", Printer, "Alice")
+    assert isinstance(address, str), "spawn should return an address string"
+    m.send(Message("spawn-example", address, "你是药也是毒,爱你是一场赌注"))
+```
