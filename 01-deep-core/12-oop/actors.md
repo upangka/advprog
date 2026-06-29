@@ -208,6 +208,14 @@ def old_example():
     del m
 ```
 
+输出
+
+```sh
+Move to: (5, 10)
+Move to: (2, 15)
+Boosted to: 125
+<__main__.Player object at 0x7f70fd3ba3c0> is going way
+```
 
 ## Exercise 03
 
@@ -256,3 +264,73 @@ be prepared to justify your approach.  Why did you choose to
 organize the code in "that" way?  Note: parts of the problem
 involve performance.  You might try to make some performance
 measurements to justify your choices.
+
+
+[exercise_03.py](./code/actors/exercise_03.py)
+
+```python
+from dataclasses import dataclass
+
+from actors import Actor, Manager, Message
+
+@dataclass
+class Message:
+    source: str
+    dest: str
+
+
+@dataclass
+class Move(Message):
+    """继承dataclass生成的__init__参数签名
+    >>> import inspect
+    >>> inspect.signature(Move)
+    <Signature (source: str, dest: str, dx: int, dy: int) -> None>
+    """
+    dx: int
+    dy: int
+
+
+@dataclass
+class Boost(Message):
+    """
+    <Signature (source: str, dest: str, amount: int) -> None>
+    """
+    amount: int
+
+
+class Player(Actor):
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.energy = 100
+
+    def handle_message(self, msg: Message):
+        if isinstance(msg, Move):
+            self.x += msg.dx
+            self.y += msg.dy
+            print(f"Move to: ({self.x}, {self.y})")
+        elif isinstance(msg, Boost):
+            self.energy += msg.amount
+            print(f"Boosted to: {self.energy}")
+        else:
+            # Unrecognized message
+            pass
+
+
+def example():
+    m = Manager()
+    m.spawn("bob", Player())
+    m.send(Move("example", "bob", 5, 10))
+    m.send(Move("example", "bob", -3, 5))
+    m.send(Boost("example", "bob", 25))
+    del m
+```
+
+输出
+
+```python
+Move to: (5, 10)
+Move to: (2, 15)
+Boosted to: 125
+<__main__.Player object at 0x7fc2c7d7e510> is going way
+```
