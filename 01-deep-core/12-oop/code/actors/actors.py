@@ -20,6 +20,11 @@ class Actor(abc.ABC):
 
 
 class Manager:
+    """
+    - The Manager provides a runtime enviroment for actors
+    - Everything goes way when the Manager goes away
+    """
+
     def __init__(self):
         # address: str -> actor: Actor:
         self._actors = {}

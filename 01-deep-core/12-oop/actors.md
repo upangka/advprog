@@ -146,3 +146,64 @@ About to delete manager
 <exercise_01.Printer object at 0x7f861195fc50> is going way
 Manager deleted
 ```
+
+# Message
+
+A key part of the actor system is the concept of a message.  A
+message minimally contains information about the sender and
+recipient.  This is encoded in the `source` and `dest` fields.
+However, a message also contains some kind of content that is to be
+interpreted by the receiver.
+
+A debate has erupted about the interpretation of the content.  As
+currently written, the content is encoded as a string.  Any
+interpretation is based on string processing.  The following code
+shows an example:
+
+> **核心问题是**:
+> 
+> 如何让消息内容更加结构化？
+
+| 方式 | 示例 | 问题 |
+|---|---|---|
+| 字符串 | `"move 5 10"` | 需要手动 `split()`，参数类型转换（`int`），容易出错 |
+| 更结构化的方式 | `{"action": "move", "x": 5, "y": 10}` 或 `MoveCommand(5, 10)` | 更清晰、类型安全、可扩展 |
+
+
+[messages.py](./code/actors/messages.py)
+
+```python
+from actors import Actor, Manager, Message
+
+class Player(Actor):
+
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.energy = 100
+
+    def handle_message(self, msg: Message):
+        parts = msg.content.split()
+
+        if parts[0] == "move":
+            self.x += int(parts[1])
+            self.y += int(parts[2])
+            print(f"Move to: ({self.x}, {self.y})")
+        elif parts[0] == "boost":
+            self.energy += int(parts[1])
+            print(f"Boosted to: {self.energy}")
+        else:
+            # Unrecognized message
+            pass
+
+
+def old_example():
+    m = Manager()
+    m.spawn("bob", Player())
+
+    # Need more structure on this
+    m.send(Message("example", "bob", "move 5 10"))
+    m.send(Message("example", "bob", "move -3 5"))
+    m.send(Message("example", "bob", "boost 25"))
+    del m
+```
