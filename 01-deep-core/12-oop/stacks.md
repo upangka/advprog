@@ -566,6 +566,53 @@ While we're at it, we might as well give the calculator a few extra functions li
 Your class should pass the tests below.
 
 ```python
+def test_calculator(calc):
+
+    calc.push(23)
+    calc.push(45)
+    calc.add()
+    assert calc.pop() == 68
+
+    calc.push(2)
+    calc.push(3)
+    calc.push(4)
+    calc.add()
+    calc.mul()
+    assert calc.pop() == 14
+
+    calc.push(10)
+    calc.push(3)
+    calc.sub()
+    assert calc.pop() == 7
+
+    calc.push(10)
+    calc.push(5)
+    calc.div()
+    assert calc.pop() == 2.0
+
+    calc.push(10)
+    calc.push(2)
+    calc.pow()
+    assert calc.pop() == 100
+
+    calc.push(100)
+    calc.sqrt()
+    assert calc.pop() == 10.0
+
+    calc.push(2)
+    calc.push(3)
+    calc.swap()
+    assert calc.pop() == 2
+    assert calc.pop() == 3
+
+    # make sure that only numeric values can be pushed
+    try:
+        calc.push("two")
+    except TypeError as err:
+        pass
+    else:
+        assert False, "Bad Calculator!"
+    print("Good Calculator")
 ```
 
 之前的版本:
@@ -646,3 +693,32 @@ class Calculator:
     def __repr__(self):
         return f"Calculator({self._items})"
 ```
+
+---
+
+```python
+>>> calc = Calculator()
+>>> calc.push(1)
+>>> calc.push(2)
+>>> calc
+Calculator([1, 2])
+>>> calc.swap()
+>>> calc
+Calculator([2, 1])
+>>> calc.sub()
+1
+>>> calc.push(3)
+>>> calc
+Calculator([1, 3])
+>>> calc.sqrt()
+1.7320508075688772
+>>> calc
+Calculator([1, 1.7320508075688772])
+>>> calc.add()
+2.732050807568877
+>>> calc.pop()
+2.732050807568877
+>>> calc
+Calculator([])
+```
+
