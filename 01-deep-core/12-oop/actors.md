@@ -356,4 +356,22 @@ impossible (or at least rather difficult) to violate the desired
 rules of encapsulation and usage.
 
 
-用 `__new__` 阻止用户直接实例化 `Actor`，同时用 `object.__new__` 作为“逃生出口”从而可以合法的从 `Manager` 中获得 `Actor`主要用于内部测试，从而强制实现 Actor 模型的封装规则。
+1. 用 `__new__` 阻止用户直接实例化 `Actor`，用户端根本接触不到Actor. 只能用address(Manager._actors.key)逻辑操作Actor
+2. Manager提供`_get_actor`“逃生出口”从而可以合法的从 `Manager` 中获得 `Actor`,主要用于内部测试，从而强制实现 Actor 模型的封装规则。
+
+
+## Exercise 04  Preventing Direct Instantiation
+
+The only allowed way to refer to an Actor is by its address--a string.  One way to circumvent this would be to create an Actor instance directly in Python, outside of the manager.  Here is an example:
+
+- circumvent /ˌsɜːr.kəmˈvent/ v. 绕过；规避；设法克服（指避开某个规则、限制或障碍，找到绕过它的方法。
+
+    p = Printer('Bob')      # Direct reference      (NO!)
+    p.name = 'Bobby'        # Access to internals   (NO!)
+
+Your first task is to modify the Actor class to prevent this by
+raising a RuntimeError if an actor is ever created in this way.  If
+you can't even create an actor, then clearly you can't look inside
+or modify it!
+
+The following test verifies the correct behavior.

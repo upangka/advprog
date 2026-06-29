@@ -43,11 +43,25 @@ class Manager:
 
 
 class Printer(Actor):
-    def __init__(self,name):
+    def __init__(self, name):
         self.name = name
         self.count = 0
 
-    def handle_message(self,msg: Message):
+    def handle_message(self, msg: Message):
         self.count += 1
-        print(f"{self.name}[{self.count}]  From {msg.source} to {msg.dest}: {msg.content}")
+        print(
+            f"{self.name}[{self.count}]  From {msg.source} to {msg.dest}: {msg.content}"
+        )
 
+
+def test_instantiation():
+    # This should fail
+    try:
+        p = Printer("Bob")
+        assert False, "FAIL: Should not be here!!!"
+    except RuntimeError as err:
+        print("Good Actor")
+
+
+if __name__ == "__main__":
+    test_instantiation()
