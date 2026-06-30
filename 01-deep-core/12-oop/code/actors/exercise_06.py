@@ -1,5 +1,5 @@
-from exercise_04 import Manager, Printer
 from exercise_01 import Message
+from exercise_04 import Manager, Printer
 
 
 def test_example():
