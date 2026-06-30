@@ -37,6 +37,7 @@ class Point:
     x: int
     y: int
 
+
 """
 $ uv run python -i exercise_01.py
 def __init__(self, x: int, y: int):
