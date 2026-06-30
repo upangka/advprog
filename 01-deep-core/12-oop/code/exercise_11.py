@@ -11,13 +11,11 @@ class BaseDecoder(abc.ABC):
     mimetypes: ClassVar[list[str]]
 
     def __init_subclass__(cls):
-        # 防御性编程,强制子类必须要有mimetypes 类变量
         if "mimetypes" not in vars(cls):
             raise TypeError(f"{cls.__name__} must define 'mimetypes' class variable")
 
         BaseDecoder._registry.update({mt: cls for mt in cls.mimetypes})
 
-    # 通过abc强制子类实现
     @abc.abstractmethod
     def decode(self, data): ...
 

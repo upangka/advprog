@@ -17,3 +17,5 @@
   - [advance_python](https://github.com/Kohdz/advance_python)
   - [advprog_2020_07](https://github.com/raymondworkshop/programming/tree/043f9402c9c74e59ee712cddc2884d8047196dcc/advprog_2020_07)
   - [advanced-python_2021_04](https://github.com/willgoldby/advanced-python/tree/1017b3bb6d2df855f4de665197bf11b68c6c227d/advprog_2021_04)
+
+- [Dabeaz practical-python](https://github.com/dabeaz-course/practical-python)
