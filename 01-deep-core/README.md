@@ -11,6 +11,7 @@
   - [dict](./01-stdtypes/dict.md)
   - [解构](./01-stdtypes/解构.md)
   - [exec](./01-stdtypes/exec.md)
+  - [dataclass](./01-stdtypes/dataclass.md)
 
 
 - [函数](./07-high-order-functions/README.md)
