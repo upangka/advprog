@@ -1,7 +1,7 @@
 bounce_height = 100
 bounce_ratio = 3 / 5
 
-for i in range(1,11):
+for i in range(1, 11):
     bounce_height *= bounce_ratio
     # print(bounce_height)
 
