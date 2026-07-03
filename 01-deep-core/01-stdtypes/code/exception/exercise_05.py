@@ -20,12 +20,14 @@ def spam():
 
 
 def main():
+    import traceback
+
     try:
         spam()
     except ApplicationError as err:
-        print("It's Failed. Reason: ", err.__cause__)
-        print("__context__", type(err.__context__), err.__context__)
-        print("__suppress_context__", err.__suppress_context__)
+        tblines = traceback.format_exception(type(err), err, err.__traceback__)
+        for i, v in enumerate(tblines, 1):
+            print(i, "=>", v)
 
 
 if __name__ == "__main__":

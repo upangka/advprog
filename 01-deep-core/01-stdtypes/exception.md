@@ -95,13 +95,81 @@ __suppress_context__ True
 
 `__suppress_context__` 的核心作用就是：告诉 Python 在打印异常回溯信息（Traceback）时，不要显示 `__context__` 中的原始异常
 
-这也是,下面两种方式的区别
+这也是,下面两种方式的区别，在[异常回溯](#异常回溯traceback)表现的特别明显
 ```python
 raise ApplicationError(1, "It failed") from None # __suppress_context 为 True
 raise ApplicationError(1,"It failed") # __suppress_context__ 为False
 ```
 
+## 异常回溯traceback
 
+[exercise_05.py](./code/exception/exercise_05.py)
+```python
+def spam():
+    try:
+        do_something()
+    except ValueError as err:
+        # raise from 将None封装到ApplicationError的__cause__属性
+        # 但是注意仍然能够通过__context__属性访问到原始异常
+        raise ApplicationError(1, "It failed") from None
+        # raise ApplicationError(1,"It failed")
+
+
+def main():
+    import traceback
+
+    try:
+        spam()
+    except ApplicationError as err:
+        tblines = traceback.format_exception(type(err), err, err.__traceback__)
+        for i, v in enumerate(tblines, 1):
+            print(i, "=>", v)
+```
+
+`raise ApplicationError(1, "It failed") from None`输出，没有输出context的信息
+
+```sh
+1 => Traceback (most recent call last):
+
+2 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 25, in main
+    spam()
+    ~~~~^^
+
+3 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 18, in spam
+    raise ApplicationError(1, "It failed") from None
+
+4 => ApplicationError: (1, 'It failed')
+```
+
+`raise ApplicationError(1, "It failed")`输出，输出了包含context的信息
+
+```python
+1 => Traceback (most recent call last):
+
+2 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 14, in spam
+    do_something()
+    ~~~~~~~~~~~~^^
+
+3 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 9, in do_something
+    x = int("N/A")
+
+4 => ValueError: invalid literal for int() with base 10: 'N/A'
+
+5 =>
+During handling of the above exception, another exception occurred:
+
+
+6 => Traceback (most recent call last):
+
+7 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 26, in main
+    spam()
+    ~~~~^^
+
+8 =>   File "/home/pkmer/projects/advprog/01-deep-core/01-stdtypes/code/exception/exercise_05.py", line 19, in spam
+    raise ApplicationError(1,"It failed")
+
+9 => ApplicationError: (1, 'It failed')
+```
 
 # 异常层次
 
