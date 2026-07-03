@@ -40,6 +40,8 @@ class ImageDecoder(BaseDecoder):
     def decode(self, data):
         pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     from pprint import pprint
+
     pprint(BaseDecoder._registry)
