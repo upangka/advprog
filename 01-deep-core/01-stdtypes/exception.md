@@ -1,6 +1,6 @@
 # 重新抛出异常
 
-当except捕获异常后，可以有多种方式重新抛出异常
+当except捕获异常后，可以有多种方式重新抛出异常,其中涉及到**异常链**
 
 ## 1. 原原本本的重新抛出异常
 
@@ -17,15 +17,6 @@ except FileNotFoundError:
 [exercise_03.py](./code/exception/exercise_03.py)
 
 ```python
-class ApplicationError(Exception):
-    def __init__(self, errno, msg):
-        self.args = (errno, msg)
-        self.errno = errno
-        self.msg = msg
-
-def do_something():
-    x = int("N/A")
-
 def spam():
     try:
         do_something()
@@ -38,11 +29,12 @@ def main():
         spam()
     except ApplicationError as err:
         print("It's Failed. Reason: ", err.__cause__)
-
-if __name__ == "__main__":
-    main()
 ```
 
+输出
+```python
+It's Failed. Reason:  invalid literal for int() with base 10: 'N/A'
+```
 
 交互的方式，如果是`raise X from y`，那么X的实例此时`__cause__`，属性就会有值，而不是None
 
@@ -66,6 +58,47 @@ True
 <class 'ValueError'>
 invalid literal for int() with base 10: 'N/A'
 ("invalid literal for int() with base 10: 'N/A'",)
+```
+
+## raise X from None 抛出全新的异常
+
+不包含其他异常链
+
+[exercise_04.py](./code/exception/exercise_04.py)
+
+```python
+def spam():
+    try:
+        do_something()
+    except ValueError as err:
+        # raise from 将None封装到ApplicationError的__cause__属性
+        # 但是注意仍然能够通过__context__属性访问到原始异常
+        raise ApplicationError(1, "It failed") from None
+        # raise ApplicationError(1,"It failed")
+
+
+def main():
+    try:
+        spam()
+    except ApplicationError as err:
+        print("It's Failed. Reason: ", err.__cause__)
+        print("__context__",type(err.__context__),err.__context__)
+        print("__suppress_context__",err.__suppress_context__)
+```
+
+输出
+```sh
+It's Failed. Reason:  None
+__context__ <class 'ValueError'> invalid literal for int() with base 10: 'N/A'
+__suppress_context__ True
+```
+
+`__suppress_context__` 的核心作用就是：告诉 Python 在打印异常回溯信息（Traceback）时，不要显示 `__context__` 中的原始异常
+
+这也是,下面两种方式的区别
+```python
+raise ApplicationError(1, "It failed") from None # __suppress_context 为 True
+raise ApplicationError(1,"It failed") # __suppress_context__ 为False
 ```
 
 
