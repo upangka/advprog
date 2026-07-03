@@ -13,6 +13,7 @@
   - [exec](./01-stdtypes/exec.md)
   - [dataclass](./01-stdtypes/dataclass.md)
   - [异常](./01-stdtypes/exception.md)
+  - [with上下文管理器](./01-stdtypes/context.md)
 
 
 - [函数](./07-high-order-functions/README.md)
