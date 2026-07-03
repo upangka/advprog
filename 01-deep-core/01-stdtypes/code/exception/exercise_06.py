@@ -40,6 +40,7 @@ def demo2():
     except ExitLoopError as err:
         print("42 * a + 17 * b + c = 5096")
         a, b, c = err.a, err.b, err.c
+        print(f"{a=} {b=} {c=}")
         # args 已经被我组织成了字符串a= b= c=的形式
         print(err)  # a=79 b=99 c=95
         print(*err.args)  # a=79 b=99 c=95

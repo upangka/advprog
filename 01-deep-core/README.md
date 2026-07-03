@@ -12,6 +12,7 @@
   - [解构](./01-stdtypes/解构.md)
   - [exec](./01-stdtypes/exec.md)
   - [dataclass](./01-stdtypes/dataclass.md)
+  - [异常](./01-stdtypes/exception.md)
 
 
 - [函数](./07-high-order-functions/README.md)
