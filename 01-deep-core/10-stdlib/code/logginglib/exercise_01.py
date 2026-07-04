@@ -11,3 +11,6 @@ print(logging.root.name)
 print(logging.root.handlers)
 
 
+root = logging.getLogger()
+logger = logging.getLogger(__name__)
+print("logger.parent is root:", logger.parent is root)
