@@ -37,6 +37,7 @@
   - [time](./10-stdlib/01-time.md)
   - [itertools](./10-stdlib/02-itertools.md)
   - [array](./10-stdlib/03-array.md)
+  - [logging](./10-stdlib/04-logging.md)
 
 
 - 网络与协议
