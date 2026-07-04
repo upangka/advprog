@@ -110,7 +110,23 @@ ERROR:__main__:Oops bad...
 07/04/2026 08:17:54 __main__ Oops bad...
 ```
 
+---
 
+# isEnabledFor
+
+```python
+>>> logger = logging.getLogger(__name__)
+>>> targets = ['DEBUG','INFO','WARNING','ERROR','CRITICAL']
+>>> for level in targets:
+...     l = getattr(logging,level)
+...     print(f"logging.{level}","=>",logger.isEnabledFor(l))
+...
+logging.DEBUG => False
+logging.INFO => False
+logging.WARNING => True
+logging.ERROR => True
+logging.CRITICAL => True
+```
 
 
 
@@ -118,3 +134,4 @@ ERROR:__main__:Oops bad...
 
 - [Python Doc: basic logging tutorial](https://docs.python.org/3/howto/logging.html#basic-logging-tutorial)
 
+- [loguru](https://github.com/delgan/loguru)
