@@ -30,6 +30,7 @@ dict_keys(['a', 'a.b', 'a.b.c'])
 
 1. logging模块内部有一个`root`(RootLogger的实例，`name="root"`)
 2. logging模块的函数`info`,`error`等，都是委托root这个**模块单例**进行操作的。
+3. root默认的handler是StreamHandler
 
 ```python
 >>> import logging
@@ -78,3 +79,18 @@ def info(msg, *args, **kwargs):
         basicConfig() # 在这里配置了handle
     root.info(msg, *args, **kwargs)
 ```
+
+# Logging Flow
+
+![loggingflow](./images/logflow.png)
+
+
+
+
+
+
+
+# 参考
+
+- [Python Doc: basic logging tutorial](https://docs.python.org/3/howto/logging.html#basic-logging-tutorial)
+
