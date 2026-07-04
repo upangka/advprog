@@ -84,7 +84,31 @@ def info(msg, *args, **kwargs):
 
 ![loggingflow](./images/logflow.png)
 
-
+```python
+>>> import logging
+>>> logging.error("Oops something bad happens")
+ERROR:root:Oops something bad happens
+>>> logger = logging.getLogger(__name__)
+>>> logger.error("Oops ...")
+ERROR:__main__:Oops ...
+>>> # 目前使用的root的handlers
+>>> logger.handlers
+[]
+>>> logger.parent.handlers
+[<StreamHandler <stderr> (NOTSET)>]
+>>> # 添加自己自己的handler
+>>> ch = logging.StreamHandler()
+>>> fmt = logging.Formatter('%(asctime)s %(name)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S')
+>>> ch.setFormatter(fmt)
+>>> logger.addHandler(ch)
+>>> logger.error("Oops bad...")
+07/04/2026 08:17:26 __main__ Oops bad...
+ERROR:__main__:Oops bad...
+>>> # 关掉传播
+>>> logger.propagate = False
+>>> logger.error("Oops bad...")
+07/04/2026 08:17:54 __main__ Oops bad...
+```
 
 
 
