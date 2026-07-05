@@ -384,7 +384,26 @@ else:
     print("answer")
 ```
 
-使用函数抛出异常的方式进行打平
+或者有人这么写：
+```python
+d1 = int(input())
+d2 = int(input())
+d3 = int(input())
+d4 = int(input())
+
+if d1 == 8 or d1 == 9:
+    if d2 == d3:
+        if d4 == 8 or d4 == 9:
+            print("ignore")
+        else:
+            print("answer")
+    else:
+        print("answer")                        
+else:
+     print("answer")
+```
+
+**优化**: 使用函数抛出异常的方式进行打平
 
 ```python
 # Get four last digits of the telephone number
