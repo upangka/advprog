@@ -3,6 +3,7 @@
 > 目标: 理解并使用Python高级语言特性，能够熟练看懂生态中开源的设计以及自己将来能够设计框架的能力, 是基础到高阶的核心知识点。
 
 - [内置标准类型](./01-stdtypes/README.md)
+  - [input and print](./01-stdtypes/输入输出.md)
   - [str](./01-stdtypes/01-str.md)
   - [f-str格式显示](./01-stdtypes/f-string显示.md)
   - [match case](./01-stdtypes/02-match-case.md)
