@@ -1,3 +1,9 @@
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG,force=True)
+
 chapters = [
     "01_getting_started",
     "02_making_decisions",
@@ -10,3 +16,15 @@ chapters = [
     "09_designing_algorithms_with_complete_search",
     "10_big_o_and_program_efficiency",
 ]
+
+for folder in chapters:
+    fold_path = Path(__file__).parent / folder
+
+    if not fold_path.exists():
+        fold_path.mkdir()
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"create {folder = }")
+
+
+
+
