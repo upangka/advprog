@@ -2,7 +2,7 @@ from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG,force=True)
+logging.basicConfig(level=logging.DEBUG, force=True)
 
 chapters = [
     "01_getting_started",
@@ -24,7 +24,3 @@ for folder in chapters:
         fold_path.mkdir()
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f"create {folder = }")
-
-
-
-
