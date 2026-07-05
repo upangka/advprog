@@ -22,13 +22,6 @@ Run:
 import argparse
 import logging
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--log", default="WARNING", help="日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL"
-)
-args = parser.parse_args()
-loglevel = getattr(logging, args.log.upper())
-logging.basicConfig(level=loglevel, encoding="utf-8")
 logger = logging.getLogger(__name__)
 
 # 定义菜单
@@ -63,19 +56,43 @@ menus = [
     },
 ]
 
-# 读取4个选择：汉堡 → 配菜 → 饮料 → 甜点
-choices = [int(input()) for _ in range(4)]
 
-# 计算总热量
-total = 0
-for choice, menu in zip(choices, menus):
-    if logger.isEnabledFor(logging.DEBUG):
-        logger.debug(f"{choice} => {menu[choice]}")
-    total += menu[choice][1]
+def main():
+    # 读取4个选择：汉堡 → 配菜 → 饮料 → 甜点
+    choices = [int(input()) for _ in range(4)]
 
-print(f"Your total Calorie count is {total}.")
+    # 计算总热量
+    total = 0
+    for choice, menu in zip(choices, menus):
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"{choice} => {menu[choice]}")
+        total += menu[choice][1]
+
+    print(f"Your total Calorie count is {total}.")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--log",
+        default="WARNING",
+        help="日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL",
+    )
+    args = parser.parse_args()
+    loglevel = getattr(logging, args.log.upper())
+    logging.basicConfig(level=loglevel, encoding="utf-8", force=True)
+
+    main()
 
 """Running
+$ uv run python ccc06j1_calorie.py --help
+usage: ccc06j1_calorie.py [-h] [--log LOG]
+
+options:
+  -h, --help  show this help message and exit
+  --log LOG   日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+
 $ uv run python ccc06j1_calorie.py --log=debug
 2
 1
