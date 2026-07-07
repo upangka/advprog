@@ -1,6 +1,7 @@
 """
 递推问题
 """
+
 press_times = int(input())
 
 a_nums = 1

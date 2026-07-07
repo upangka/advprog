@@ -11,6 +11,7 @@ for _ in range(press_times):
     container = []
     for letter in letters:
         if "A" == letter:
+            # container.append("B")
             container.append("B")
         elif "B" == letter:
             container.append("BA")
@@ -18,3 +19,5 @@ for _ in range(press_times):
     letters = "".join(container)
 
 print(letters.count("A"), letters.count("B"))
+
+
