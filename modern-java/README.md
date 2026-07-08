@@ -30,3 +30,8 @@ Listening for transport dt_socket at address: 4004
     "port": 4004
 }
 ```
+
+
+# 资料
+
+- [JDK25](https://docs.oracle.com/en/java/javase/25/language/text-blocks.html)

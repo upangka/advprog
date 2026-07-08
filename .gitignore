@@ -9,3 +9,15 @@ wheels/
 # Virtual environments
 .venv
 *.class
+
+# 编译生成的可执行文件
+hello
+*.exe
+*.out
+
+# VS Code 本地配置（可选，根据你的需求）
+.vscode/
+
+# 其他可能的编译中间文件
+*.o
+*.obj
