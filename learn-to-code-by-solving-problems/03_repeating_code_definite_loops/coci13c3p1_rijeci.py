@@ -19,5 +19,3 @@ for _ in range(press_times):
     letters = "".join(container)
 
 print(letters.count("A"), letters.count("B"))
-
-
