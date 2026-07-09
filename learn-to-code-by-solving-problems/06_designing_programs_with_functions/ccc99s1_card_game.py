@@ -22,7 +22,7 @@ class HighCardEngine:
         self.remaining: int = 0
         self.scoring_player: Optional[Player] = None
 
-    def handle_card(self, card: str, player) -> Optional[tuple[int, Player]]:
+    def feed(self, card: str, player) -> Optional[tuple[int, Player]]:
         """
         喂一张牌给引擎。
         返回 (得分, 玩家) 如果触发了得分，否则返回 None。
@@ -65,7 +65,7 @@ def main():
     for _ in range(NUMS_CARD):
         card = input()
         player = player_a if turn_a else player_b
-        if result := engine.handle_card(card, player):
+        if result := engine.feed(card, player):
             score, player = result
             print(f"Player {player.name} scores {score} point(s).")
             player.score += score
