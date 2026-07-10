@@ -265,6 +265,10 @@ g == e ? 1
 
 `%g`：自动选择 `%f` 或 `%e` 中较短的那种形式输出（比如 123.456 就用 `%f`，1234567.0 就用 `%e`）
 
+## 练习
+
+- [calc rectangle](./variables/exercise_06.c)
+
 # enum枚举
 
 1. 枚举的本质是整数常量
@@ -331,3 +335,10 @@ enum Color s1,s2;
 typedef enum {RED,GREEN,YELLOW} Color;
 Color s1,s2
 ```
+
+# CommandLine argumentsV
+
+When `main()` is called by the runtime system, two arguments are actually passed to the function
+
+1. the first argument (`argc` for argument count) is an integer value that specifies the number of arguments typed on the command line
+2. the second argument (`argv` for argument vector) is an array of character pointers (strings)
