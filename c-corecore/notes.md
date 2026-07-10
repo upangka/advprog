@@ -180,3 +180,71 @@ int main()
 3. `*p` 是“解引用”（去地址里取东西的动作）。
 
 通常我们说的“指针”，指的是 `p` 这个变量本身，而不是 `*p`。
+
+
+# enum枚举
+
+1. 枚举的本质是整数常量
+2. 它不是一个“命名空间”或“类”。编译器在处理枚举时，只是把枚举值当作普通的常量符号（类似于 `#define` 定义的宏）直接放在当前作用域里。
+
+```c
+#define BAIDU 0
+#define GOOGLE 1
+#define MICROSOFT 2
+```
+
+所以不像Java那样`Company.GOOGLE`进行访问
+
+[exercise_04.c](./variables/exercise_04.c)
+```c
+#include <stdio.h>
+
+int main()
+{
+    // 定义枚举
+    typedef enum
+    {
+        BeiJing,      // 默认0开始
+        ShenZhen,     // 值比前一个大一
+        ShangHai = 5, // 可以自定义整数值
+        GuangZhou,    // 值比前一个大一
+        GuiLin = 5    // 允许重复，因为C语言中，枚举本质是整数常量
+    } City;
+
+    // 声明变量,枚举直接在当前作用域，直接获取赋值
+    City bj = BeiJing;
+    City sz = ShenZhen;
+    City sh = ShangHai;
+    City gz = GuangZhou;
+    City gl = GuiLin;
+
+    printf("bj is %d\n", bj);
+    printf("sz is %d\n", sz);
+    printf("sh is %d\n", sh);
+    printf("gz is %d\n", gz);
+    printf("gl is %d\n", gl);
+}
+
+/*output:
+bj is 0
+sz is 1
+sh is 5
+gz is 6
+gl is 5
+*/
+```
+
+定义枚举，让变量只能具有少量的赋值，有多种方式
+
+```c
+// 方式1: 匿名枚举 + 变量列表
+enum {RED,GREEN,YELLOW} s1,s2;
+
+// 方式2: 命名枚举 + 独立变量声明
+enum Color {RED,GREEN,YELLOW}；
+enum Color s1,s2;
+
+// 方式3: typedef 别名
+typedef enum {RED,GREEN,YELLOW} Color;
+Color s1,s2
+```
