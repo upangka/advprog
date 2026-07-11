@@ -22,3 +22,8 @@ Given LLM capabilities, you may ask: Why are we bothering to learn to write code
 - 把AI生成的东西整合到一个大系统里
 
 你学的是**工程思维**，不是**打字速度**。如果你只会“让AI帮你写代码”，但看不懂它在写什么，那你就不是工程师——你是AI的测试员。
+
+
+# Reference Type And Instance
+
+![alt text](./images/reference_type_address.png)
