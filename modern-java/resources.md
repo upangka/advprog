@@ -11,3 +11,10 @@
 - [Oracle Java 25规范](https://docs.oracle.com/javase/specs/jls/se25/html/index.html)
 
 - [dev.java](https://dev.java/)
+
+
+# 在线可视化
+
+- [cscircles-python](https://cscircles.cemc.uwaterloo.ca/)
+
+- [cscircles-java](https://cscircles.cemc.uwaterloo.ca/java_visualize/)
