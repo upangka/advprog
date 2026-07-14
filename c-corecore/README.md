@@ -4,6 +4,14 @@
     - [wsl](https://code.visualstudio.com/docs/cpp/config-wsl)
 
 
+
+## 文档目录
+
+1. [流程控制](./controll_flow/README.md)
+
+[random](./libs/random/README.md)
+
+
 ## 资料
 
 - [Lec01 Introduction to System Programming (Arif Butt @ PUCIT)](https://www.youtube.com/watch?v=qThI-U34KYs&list=PL7B2bn3G_wfC-mRpG7cxJMnGWdPAQTViW)
