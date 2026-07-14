@@ -14,7 +14,7 @@ void run_game(int ans)
     int guess;
     for (int i = TRIES; i > 0; i--)
     {
-        printf("You have %d tries left.\n", i);
+        printf("\nYou have %d tries left.\n", i);
         printf("Enter a guess: ");
         scanf("%d", &guess);
 
@@ -39,13 +39,13 @@ int main()
 {
 
     printf("This is a guessing game.\n");
-    printf("I have chosen a number between %d and %d which you must guess.\n\n", LOW, HIGH);
+    printf("I have chosen a number between %d and %d which you must guess.\n", LOW, HIGH);
 
     // set random generator
     time_t t;
     srand(time(&t));
     int answer = rand() % (HIGH + 1);
-    printf("-----------cheat (%d)---------------\n", answer);
+    // printf("-----------cheat (%d)---------------\n", answer);
 
     run_game(answer);
 
