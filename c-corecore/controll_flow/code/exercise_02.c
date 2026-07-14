@@ -30,14 +30,14 @@ void run_game(int ans)
         else
         {
             printf("Congratulations. You guessed it!\n");
-            break;
+            return;
         }
     }
+    printf("Game over! The number was %d.\nBetter luck next time!", ans);
 }
 
 int main()
 {
-
     printf("This is a guessing game.\n");
     printf("I have chosen a number between %d and %d which you must guess.\n", LOW, HIGH);
 
@@ -46,8 +46,6 @@ int main()
     srand(time(&t));
     int answer = rand() % (HIGH + 1);
     // printf("-----------cheat (%d)---------------\n", answer);
-
     run_game(answer);
-
     return 0;
 }
