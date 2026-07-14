@@ -15,6 +15,8 @@ int main()
     perimeter = 2 * (width + height);
     area = width * height;
 
+    sizeof(&area);
+
     printf("perimeter = %g\n", perimeter);
     printf("area = %g\n", area);
     printf("width = %g\n", width);
