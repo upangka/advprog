@@ -8,6 +8,7 @@
 ## 文档目录
 
 1. [流程控制](./controll_flow/README.md)
+2. [数组](./arrays/README.md)
 
 [random](./libs/random/README.md)
 
