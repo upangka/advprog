@@ -13,17 +13,19 @@ int main()
         {7.6, 5.6, 3.8, 2.8, 3.8, 0.2, 0.0, 0.0, 0.0, 1.3, 2.6, 5.2}  // 第5年
     };
 
-    int year,month;
-    double subtot = 0.0,total = 0.0;
+    int year, month;
+    double subtot = 0.0, total = 0.0;
 
     // print year
     printf("YEAR\t\tRAINFALL (inches)\n");
-    for(total = 0.0,year = 0;year < 5; year++){
+    for (total = 0.0, year = 0; year < 5; year++)
+    {
         subtot = 0.0;
-        for(subtot = 0.0,month = 0; month < 12;month++){
+        for (subtot = 0.0, month = 0; month < 12; month++)
+        {
             subtot += RAIN[year][month];
         }
-        printf("%4d\t\t%-6.1f\n",year+YEARBASE,subtot);
+        printf("%4d\t\t%-6.1f\n", year + YEARBASE, subtot);
         total += subtot;
     }
     printf("\nThe yearly average is %.2f inches.\n", total / 5);
@@ -31,17 +33,18 @@ int main()
 
     // 每个月近5年的平均数
     printf("%-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s\n",
-       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+           "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 
-    for(month=0; month < 12; month++){
-        
-        for(subtot=0.0,year = 0; year < 5; year++){
+    for (month = 0; month < 12; month++)
+    {
+
+        for (subtot = 0.0, year = 0; year < 5; year++)
+        {
             subtot += RAIN[year][month];
         }
 
-        printf("%-5.1f ",subtot / 5);
-
+        printf("%-5.1f ", subtot / 5);
     }
     return 0;
 }
