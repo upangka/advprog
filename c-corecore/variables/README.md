@@ -333,6 +333,10 @@ typedef enum {RED,GREEN,YELLOW} Color;
 Color s1,s2
 ```
 
+
+## 类型定义
+
+
 # CommandLine argumentsV
 
 When `main()` is called by the runtime system, two arguments are actually passed to the function
