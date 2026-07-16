@@ -36,7 +36,7 @@ double average(double,double);
 
 ## 变长数组形式参数
 
-`int a[n]` 在形参中根本不是数组，它是指针！
+`int a[n]` 在形参中根本不是数组，它是**指针**！
 
 ```c
 int sum_array(int n, int a[n]) { ... }
@@ -70,3 +70,60 @@ int sum_array(int,int arr[*]);
 ```c
 int concatenate(int m,int n,int a[m],int b[n],int c[m+n]);
 ```
+
+### 形参数组是指针的实验验证
+
+```c
+#include <stdio.h>
+
+int tst_f(int n, int arr[n]);
+
+int main()
+{
+
+    int arr[100] = {1, 2, 3};
+    printf("arr大小: %zu\n", sizeof(arr));
+
+    tst_f(3, arr);
+}
+
+int tst_f(int n, int arr[n])
+{
+    printf("arr大小: %zu\n", sizeof(arr));
+}
+```
+
+`gcc`编译警告`warning`:
+
+```sh
+warning: ‘sizeof’ on array function parameter ‘arr’ will return size of ‘int *’ [-Wsizeof-array-argument]
+```
+
+"你在 tst_f 函数里对 arr 用 sizeof，但 arr 是形参，它实际上是指针。所以 sizeof(arr) 返回 8，不是你想的 400。我警告你一下，免得你搞错。"
+
+实际输出：
+
+```c
+arr大小: 400
+arr大小: 8
+```
+
+很明显形参中数组的外壳，实际上已经是一个指针。这里指针占据8字节。
+
+> **补充**: 在64位系统上占8字节，在32位系统上占4字节
+
+
+
+
+
+## static修饰数组形参
+
+`static 3` 告诉编译器：调用者传入的数组 `a`必须至少有`3`个元素。
+
+```c
+int sum_array(int a[static 3], int n) {
+    // ...
+}
+```
+
+`static`的存在只不过是一个"提示"，C编译器可以据此生成更快的指令来访问数组。（如果编译器知道数组总是具有某个最小值，那么它可以在函数调用时预先从内存中取出这些元素值，而不是在遇到函数内部需要用到这些元素的语句时才取出响应的值）
