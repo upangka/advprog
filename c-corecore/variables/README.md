@@ -20,9 +20,6 @@ Preprocessor预处理器处理Preprocessor directive预处理指令
 用途三：#ifdef / #ifndef → 条件编译（跨平台或调试用）
 ```
 
-![alt text](t1.png)
-
-
 
 # Variables And Data Type
 
