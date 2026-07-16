@@ -57,3 +57,16 @@ int sum_array(int n, int *a) { ... }
 | :--- | :--- | :--- | :--- |
 | `int a[100];`（局部变量） | ✅ 分配 | 栈（stack） | `100 * sizeof(int)` = 400 字节（64位系统） |
 | `void f(int a[100]) {}`（函数形参） | ❌ 不分配 | 不分配任何数组内存 | 形参 `a` 本身是一个指针变量，在栈上占 8 字节（64位系统），但**不分配** 400 字节的数组内存 |
+
+使用变长数组形式参数时，顺序很重要，长度在数组之前.
+
+```c
+int sum_array(int n,int arr[n]);
+int sum_array(int n,int arr[*]);
+int sum_array(int,int arr[*]);
+```
+`*` 表示一个占位符，取代数组长度。尽管函数声明时形式参数名称是可以省略的，但是如果不是像上面那样简单的参数，建议直接声明形式参数名称，表明关系。
+
+```c
+int concatenate(int m,int n,int a[m],int b[n],int c[m+n]);
+```
