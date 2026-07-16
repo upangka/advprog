@@ -11,6 +11,7 @@
 2. [数组](./arrays/README.md)
 3. [格式化输出](./格式化.md)
 4. [函数](./functions/README.md)
+    - [main函数](./functions/main函数.md)
 
 [random](./libs/random/README.md)
 

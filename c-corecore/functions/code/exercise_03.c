@@ -4,14 +4,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void cleanup(){
+void cleanup()
+{
     printf("在退出之前执行的清理操作");
 }
 
-int main(void){
+int main(void)
+{
     atexit(cleanup);
     printf("RUNNING ...\n");
-    
-    //exit(EXIT_SUCCESS);
+
+    // exit(EXIT_SUCCESS);
     return 0;
 }
