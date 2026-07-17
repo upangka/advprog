@@ -36,3 +36,7 @@
 
 
 - [C语言](https://beej.us/guide/bgc/html/split/)
+
+## 视频
+
+- [Udemy - Master CMake for Cross-Platform C++ Project Building](https://www.bilibili.com/video/BV1jpGtzsERm?spm_id_from=333.788.player.switch&vd_source=f9745f81b4981bb1eca8c2d80be33ff9&p=9)
