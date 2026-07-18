@@ -336,6 +336,14 @@ Color s1,s2
 
 ## 类型定义
 
+```c
+// 相比使用 #define 标识符 替换列表
+#define BOOL int
+
+# 更加推荐使用typedef
+typedef int Bool;
+```
+
 
 # CommandLine argumentsV
 

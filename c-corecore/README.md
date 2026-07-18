@@ -13,7 +13,7 @@
 3. [格式化输出](./格式化.md)
 4. [函数](./functions/README.md)
     - [main函数](./functions/main函数.md)
-
+5. [预处理指令](./preprocessor/预处理指令.md)
 5. [random](./libs/random/README.md)
 
 
