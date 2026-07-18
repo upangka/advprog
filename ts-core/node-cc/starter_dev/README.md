@@ -42,7 +42,7 @@ Connection: keep-alive
 Keep-Alive: timeout=5
 Transfer-Encoding: chunked
 
-Hello World from Node.jss
+Hello World from Node.js
 ```
 
 # 类型提示
@@ -93,9 +93,47 @@ v26.3.0
 
 [Node.js 官方Type stripping](https://nodejs.org/api/typescript.html#type-stripping)推荐一份 `tsconfig.json` 配置，用于让 `tsc` 的类型检查行为与 `Node.js` 的`(Type stripping)类型剥离`行为完全对齐。其中的 `"erasableSyntaxOnly": true` 是关键，它会禁止使用 `enum`、`参数属性`等无法被剥离的语法，从而在编辑阶段就防止运行时错误。但学习初期可以跳过此配置，专注于 `Node.js` 核心模块本身。
 
+```json
+{
+  "compilerOptions": {
+    "noEmit": true, // Optional - see note below
+    "target": "esnext",
+    "module": "nodenext",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
+  }
+}
+```
+
+| 配置项                              | 作用                                                 | 对你当前学习的影响                                                                                                                       |
+| ----------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `"noEmit": true`                    | 告诉 tsc 不要生成任何 .js 输出文件。                 | 你使用 `node hello.ts` 直接运行，不需要 tsc 生成文件，开启此项可以节省编译时间。                                                         |
+| `"target": "esnext"`                | 编译目标为最新的 ECMAScript 版本。                   | 让 tsc 假设你的代码运行在支持最新 JS 特性的环境中，与 Node.js 的现代支持对齐。                                                           |
+| `"module": "nodenext"`              | 使用 Node.js 最新的模块解析规则。                    | 告诉 tsc 如何解析 `import` 和 `export`，与 Node.js 原生 ESM 支持一致。                                                                   |
+| `"rewriteRelativeImportExtensions"` | 允许在导入时省略或改写文件扩展名。                   | 比如你写 `import "./utils"`，Node.js 会尝试 `utils.js` 或 `utils.ts`，此项让 tsc 同样理解这种行为。                                      |
+| `"erasableSyntaxOnly": true`        | **核心限制**：只允许“可剥离”的 TypeScript 语法。     | 如果代码中使用了 `enum`、参数属性、`namespace` 等需要生成运行时代码的语法，tsc 会直接报错，告诉你这些语法在 Node.js 原生运行中不受支持。 |
+| `"verbatimModuleSyntax": true`      | 强制保持 `import` 和 `export` 语法原样，不进行转换。 | 确保 tsc 不会把 `import` 重写为 `require`，与 Node.js 的 ESM 行为保持一致。                                                              |
+
+---
+
+- 如果你不配置：VSCode 可能不会对 enum 或 namespace 报错，但 Node.js 运行时会失败，你会陷入“编辑器说没问题，但跑起来就报错”的困惑中。
+
+- 如果你配置了：VSCode 会直接在你的代码中对这些不支持的语法标红，在编写阶段就拦截问题，避免运行时报错。
+
+> **建议**
+>
+> 对于学习阶段，完全可以暂不创建 `tsconfig.json`，因为：
+>
+> 1. 在学习 `Node.js` 核心概念，重点在 `http`、`fs`、`stream` 等模块的使用，暂时不会遇到 `enum` 或 `namespace` 这些复杂的`TS`语法
+> 2. 追求**最快反馈**，多一个配置文件就需要多一步理解和维护。
+
 ## 关于tsconfig.json
 
 `tsconfig.json` 里的配置，本质上就是 `tsc` 命令后面那些参数的“配置文件版本”。
+
+- 命令行参数：灵活，适合临时调整或脚本化。
+- `tsconfig.json`：持久化，适合项目根目录统一管理，让所有开发者（和 CI 环境）使用相同配置。
 
 | 方式            | 形式                                | 适用场景                                       |
 | --------------- | ----------------------------------- | ---------------------------------------------- |
