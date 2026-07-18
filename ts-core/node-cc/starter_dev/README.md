@@ -103,3 +103,13 @@ v26.3.0
 | `tsconfig.json` | 将 `--noEmit` 写成 `"noEmit": true` | 项目级固定配置、团队协作、避免每次输入长串命令 |
 
 它们是等价的。`tsc` 命令会读取 `tsconfig.json` 中的设置作为默认值，而命令行上显式传入的参数会覆盖配置文件中的同名设置。
+
+更多的对应关系
+
+| 配置项                   | 命令行写法                 | tsconfig.json 写法               |
+| ------------------------ | -------------------------- | -------------------------------- |
+| 禁止输出编译文件         | `tsc --noEmit`             | `"noEmit": true`                 |
+| 指定 ECMAScript 目标版本 | `tsc --target esnext`      | `"target": "esnext"`             |
+| 指定模块系统             | `tsc --module nodenext`    | `"module": "nodenext"`           |
+| 仅允许可擦除语法         | `tsc --erasableSyntaxOnly` | `"erasableSyntaxOnly": true`     |
+| 指定项目配置文件         | `tsc --project ./src`      | 指定配置文件路径，不在命令行体现 |
