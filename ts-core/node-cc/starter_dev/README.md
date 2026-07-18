@@ -1,3 +1,5 @@
+# 测试案例
+
 [hello.ts](./code/hello.ts)使用http模块搭建http服务，并通过读取文件内容进行返回，运行容器为node.js
 
 ```ts
@@ -20,6 +22,27 @@ server.listen(4080, "localhost", () => {
   // console.log(`Server has started on: ${JSON.stringify(server.address())}`);
   console.log(`Server has started on:`, server.address());
 });
+```
+
+运行:
+
+```ts
+$ node hello.ts
+Server has started on: { address: '127.0.0.1', family: 'IPv4', port: 4080 }
+```
+
+访问:
+
+```sh
+$ curl -i http://localhost:4080
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Date: Sat, 18 Jul 2026 15:00:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+Hello World from Node.jss
 ```
 
 # 类型提示
@@ -57,23 +80,26 @@ cluster.d.ts        ffi.d.ts                  inspector.d.ts            punycode
 console.d.ts        fs                        inspector.generated.d.ts  querystring.d.ts  test                 util
 ```
 
-运行:
+# node直接运行ts
 
-```ts
-$ node hello.ts
-Server has started on: { address: '127.0.0.1', family: 'IPv4', port: 4080 }
-```
+**Node.js 原生支持 TypeScript**
 
-访问:
+`Node.js v22.18.0` 或更高版本，能够直接运行 `TypeScript` 文件而不需要任何标志,目前我的node版本
 
 ```sh
-$ curl -i http://localhost:4080
-HTTP/1.1 200 OK
-Content-Type: text/plain
-Date: Sat, 18 Jul 2026 15:00:19 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Transfer-Encoding: chunked
-
-Hello World from Node.jss
+$ node -v
+v26.3.0
 ```
+
+[Node.js 官方Type stripping](https://nodejs.org/api/typescript.html#type-stripping)推荐一份 `tsconfig.json` 配置，用于让 `tsc` 的类型检查行为与 `Node.js` 的`(Type stripping)类型剥离`行为完全对齐。其中的 `"erasableSyntaxOnly": true` 是关键，它会禁止使用 `enum`、`参数属性`等无法被剥离的语法，从而在编辑阶段就防止运行时错误。但学习初期可以跳过此配置，专注于 `Node.js` 核心模块本身。
+
+## 关于tsconfig.json
+
+`tsconfig.json` 里的配置，本质上就是 `tsc` 命令后面那些参数的“配置文件版本”。
+
+| 方式            | 形式                                | 适用场景                                       |
+| --------------- | ----------------------------------- | ---------------------------------------------- |
+| 命令行参数      | `tsc --noEmit --target esnext`      | 临时覆盖、CI/CD 脚本、快速测试单个配置         |
+| `tsconfig.json` | 将 `--noEmit` 写成 `"noEmit": true` | 项目级固定配置、团队协作、避免每次输入长串命令 |
+
+它们是等价的。`tsc` 命令会读取 `tsconfig.json` 中的设置作为默认值，而命令行上显式传入的参数会覆盖配置文件中的同名设置。
