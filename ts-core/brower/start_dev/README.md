@@ -115,6 +115,85 @@ export {};
 
 上面虽然使用了`tsc -w`能够自动将typescript转化为javascript,但是在浏览器端还是要自己手动更新，现在引入前端的构建工具[web with vite](./code/web_with_vite/)，来简化开发，自动处理成js，以及自动刷新浏览器。
 
+调试模式还是没有什么变化
+
+![](./images/vite_debugger.png)
+
+只不过，这次生成的source map,vite给处理成了内联的形式。以Base64进行了加密。
+
+```js
+const run = (msg) => {
+  console.log(msg);
+};
+run("Hello World from Browser.TS-work :-)");
+
+//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IkFBQUEsTUFBTSxPQUFPLFFBQWdCO0NBQzNCLFFBQVEsSUFBSSxHQUFHO0FBQ2pCO0FBRUEsSUFBSSxzQ0FBc0MiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsibWFpbi50cyJdLCJ2ZXJzaW9uIjozLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBydW4gPSAobXNnOiBzdHJpbmcpID0+IHtcbiAgY29uc29sZS5sb2cobXNnKTtcbn07XG5cbnJ1bihcIkhlbGxvIFdvcmxkIGZyb20gQnJvd3Nlci5UUy13b3JrIDotKVwiKTtcbiJdfQ==
 ```
 
+atob(encodedData)：你把一个 base64 编码的字符串 传进去，它返回 解码后的 ASCII 文本。所以它是“接收 base64，输出 ASCII”，是 解码器。
+这里可能会让人有点绕，因为 atob 虽然名字叫 “ASCII to Base64”，但实际用途却是 解码 base64。记忆的关键在于：**数据流向是从参数到返回值**
+
+[decode-sourcemap.js](./code/web_with_vite/decode-sourcemap.js)
+
+```js
+const base64String = `eyJtYXBwaW5ncyI6IkFBQUEsTUFBTSxPQUFPLFFBQWdCO0NBQzNCLFFBQVEsSUFBSSxHQUFHO0FBQ2pCO0FBRUEsSUFBSSxzQ0FBc0MiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsibWFpbi50cyJdLCJ2ZXJzaW9uIjozLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBydW4gPSAobXNnOiBzdHJpbmcpID0+IHtcbiAgY29uc29sZS5sb2cobXNnKTtcbn07XG5cbnJ1bihcIkhlbGxvIFdvcmxkIGZyb20gQnJvd3Nlci5UUy13b3JrIDotKVwiKTtcbiJdfQ==`;
+
+// 步骤1: base64 解码，得到 JSON 字符串
+const decodedJsonString = atob(base64String);
+console.log("📄 解码后的 JSON 字符串:");
+console.log(decodedJsonString);
+console.log("\n---\n");
+
+// 步骤2: 将 JSON 字符串解析为 JavaScript 对象
+const sourceMapObject = JSON.parse(decodedJsonString);
+console.log("📦 解析后的 Source Map 对象:");
+console.log(JSON.stringify(sourceMapObject, null, 2));
+console.log("\n---\n");
+
+// 步骤3: 提取原始源代码
+console.log("📝 原始源代码 (sourcesContent):");
+console.log(sourceMapObject.sourcesContent[0]);
+console.log("\n---\n");
+
+// 步骤4: 查看其他字段
+console.log("📂 源文件名 (sources):");
+console.log(sourceMapObject.sources);
+```
+
+输出
+
+```js
+$ node decode-sourcemap.js
+📄 解码后的 JSON 字符串:
+{"mappings":"AAAA,MAAM,OAAO,QAAgB;CAC3B,QAAQ,IAAI,GAAG;AACjB;AAEA,IAAI,sCAAsC","names":[],"sources":["main.ts"],"version":3,"sourcesContent":["const run = (msg: string) => {\n  console.log(msg);\n};\n\nrun(\"Hello World from Browser.TS-work :-)\");\n"]}
+
+---
+
+📦 解析后的 Source Map 对象:
+{
+  "mappings": "AAAA,MAAM,OAAO,QAAgB;CAC3B,QAAQ,IAAI,GAAG;AACjB;AAEA,IAAI,sCAAsC",
+  "names": [],
+  "sources": [
+    "main.ts"
+  ],
+  "version": 3,
+  "sourcesContent": [
+    "const run = (msg: string) => {\n  console.log(msg);\n};\n\nrun(\"Hello World from Browser.TS-work :-)\");\n"
+  ]
+}
+
+---
+
+📝 原始源代码 (sourcesContent):
+const run = (msg: string) => {
+  console.log(msg);
+};
+
+run("Hello World from Browser.TS-work :-)");
+
+
+---
+
+📂 源文件名 (sources):
+[ 'main.ts' ]
 ```
