@@ -56,6 +56,8 @@ export {};
 └── index.js.map
 ```
 
+## Source Map
+
 `Source Map`是一个映射文件，它的作用是建立**“编译/转换后的代码”与“原始源代码”之间的对应关系**。
 
 在 `HTML + TypeScript` 这种开发模式下，我们直接编写 `.ts` 文件，但浏览器实际运行的是由 `tsc` 编译生成的 `.js` 文件。当我们在浏览器开发者工具中调试时，直接看编译后的 `.js` 代码会非常困难——它丢失了类型、可能被转换，而且与我们实际编写的代码不一致。
@@ -70,7 +72,48 @@ export {};
 
 `sourceMappingURL` 就是浏览器识别 `Source Map` 的标志。当浏览器执行 `JavaScript` 时，如果检测到这个注释，就会自动尝试加载对应的 `.map` 文件，并利用其中的映射信息，在开发者工具的`Sources 面板`中还原出原始的 `index.ts` 文件。
 
+在浏览器中进行调试原来的typescript代码
+
+![](./images/brower_debugger.png)
+
+与`gbd`,`jbd`调试一样，也可以在vscode进行调试，原理还是一样的通过协议通信，本质上的调试还是在浏览器端
+
+**VS Code 调试浏览器的完整架构**：
+
+1. `Chrome DevTools Protocol (CDP)`：浏览器提供的底层调试接口，允许外部工具控制页面执行、获取运行时信息。
+2. VS Code 调试扩展（如 Chrome Debugger）：作为“翻译官”，将 `VS Code 的统一调试指令（DAP）`翻译成 Chrome 能理解的 CDP 指令。
+3. Source Map：负责在“编译后代码位置”和“原始代码位置”之间进行双向映射。
+
+三者的协作实现了“在编辑器里调试浏览器代码”的体验。
+
+```sh
++-------------+      Debug Adapter Protocol (DAP)      +-------------------+
+|             | <-----------------------------------> |                   |
+|  VS Code    |                                       |  Chrome Debugger  |
+|   (界面)    |                                       |   Adapter (扩展)   |
+|             | <-----------------------------------> |                   |
++-------------+                                       +-------------------+
+                                                              |
+                                                     Chrome DevTools
+                                                      Protocol (CDP)
+                                                              |
+                                                          +--------+
+                                                          | Chrome |
+                                                          |  浏览器 |
+                                                          +--------+
+```
+
+准备工作
+
+![](./images/vscode_debugger.png)
+
+实际操作效果,可以看到vscode与浏览器中调试的时候是同步更新的。
+
+![](./images/brower.png)
+
 # vite构建工具
+
+上面虽然使用了`tsc -w`能够自动将typescript转化为javascript,但是在浏览器端还是要自己手动更新，现在引入前端的构建工具[web with vite](./code/web_with_vite/)，来简化开发，自动处理成js，以及自动刷新浏览器。
 
 ```
 
