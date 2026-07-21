@@ -1,3 +1,28 @@
+# ascii码
+
+linux下通过`man ascii`查看
+
+![](./images/man_ascii.png)
+
+[exercise_01.ts](./code/exercise_01.ts)
+
+```ts
+// 字符H二进制的表示形式
+let H_binary = 0b01001000;
+console.log(H_binary); // 72
+
+let H_hex = 0x48;
+console.log(H_hex); // 72
+
+// 对应为ascii码表 man ascii
+const H_char = String.fromCharCode(H_binary);
+console.log(H_char); // H
+
+// 获得'H'的ascii码
+const H_ascii = "H".charCodeAt(0);
+console.log(H_ascii); // 72
+```
+
 # Buffer属于堆外内存
 
 避免 V8 GC 压力：大型二进制数据（如图片、文件、网络数据包）如果放在 V8 堆中，会频繁触发垃圾回收，影响性能。堆外内存不受 GC 直接影响。
@@ -23,3 +48,7 @@
 |   (由 C++ 管理)    |  <- 通过 `malloc` 或 `alloc` 分配
 +-------------------+
 ```
+
+# 编码解码
+
+用Buffer
