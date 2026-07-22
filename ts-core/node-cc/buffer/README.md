@@ -26,7 +26,7 @@
 
 # 编码解码
 
-看看存储的二进制数据。主要是解决中文存储的UTF-8编码后的字节。
+看看存储的二进制数据。主要是解决中文存储的UTF-8编码后的字节。[exercise_03.ts](./code/exercise_03.ts)
 
 ```ts
 import { Buffer } from "node:buffer";
