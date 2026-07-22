@@ -49,3 +49,30 @@ fs.copyFile("./resources/poem.txt", "./resources/poem_callback.txt", (err) => {
 // ********************Synchronous API********************************
 fs.copyFileSync("./resources/poem.txt", "./resources/poem_sync.txt");
 ```
+
+# 监听文件变化
+
+[exercise_03.ts](./code/exercise_03.ts)
+
+通过编辑[command.txt](./code/command.txt)程序会一直监听这个文件的变化
+
+```ts
+import fs from "node:fs/promises";
+
+async function monitorFileChanges(path: string) {
+  const watcher = fs.watch(path);
+  // 会在这个循环中监听事件
+  for await (const event of watcher) {
+    if (event.eventType === "change") {
+      console.log(event);
+    }
+  }
+
+  console.log("File watcher closed.");
+
+  //   保持程序一直运行
+  //   await new Promise(() => {});
+}
+
+monitorFileChanges("./command.txt");
+```
