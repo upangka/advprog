@@ -14,3 +14,38 @@ console.log(content.toString("utf-8")); // Can you hear me.
 ```
 
 ![](./images/sys_file.png)
+
+# node操作文件的三种方式
+
+1. **Callback API**：最原始的非阻塞 I/O 方式，实现简单，但容易造成“回调地狱”。
+2. **Synchronous API**：阻塞式 I/O，代码线性，适合简单脚本，但会阻塞事件循环。
+3. **Promises API**：基于 `async/await` 的现代异步方式，代码风格优雅，错误处理统一，是当前推荐的实践。
+
+[exercise_02.ts](./code/exercise_02.ts)
+
+```ts
+// ********************Promises API********************************
+import * as fs_promises from "node:fs/promises";
+
+(async () => {
+  try {
+    await fs_promises.copyFile(
+      "./resources/poem.txt",
+      "./resources/poem_promises.txt",
+    );
+  } catch (err) {
+    console.error(err);
+  }
+})();
+
+// ********************Callback API********************************
+import * as fs from "node:fs";
+
+fs.copyFile("./resources/poem.txt", "./resources/poem_callback.txt", (err) => {
+  if (err) {
+    console.log(err);
+  }
+});
+// ********************Synchronous API********************************
+fs.copyFileSync("./resources/poem.txt", "./resources/poem_sync.txt");
+```
