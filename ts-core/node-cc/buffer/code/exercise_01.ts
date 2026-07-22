@@ -10,4 +10,5 @@ console.log(H_char); // H
 
 // 获得'H'的ascii码
 const H_ascii = "H".charCodeAt(0);
+
 console.log(H_ascii); // 72
