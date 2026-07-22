@@ -9,3 +9,6 @@
 
 - [宿主环境Node.js](./node-cc/starter_dev/README.md)
 - [宿主环境brower](./brower/start_dev/)
+
+- [字符集与编码](./node-cc/buffer/字符集与编码.md)
+- [Buffer](./node-cc/buffer/README.md)
