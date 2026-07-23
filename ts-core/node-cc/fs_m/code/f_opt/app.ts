@@ -2,10 +2,20 @@ import { Buffer } from "node:buffer";
 import fs from "node:fs/promises";
 import EventEmitter from "node:events";
 
+function debounce(fn: Function, delay: number = 200) {
+  let timer: NodeJS.Timeout | null = null;
+  return (...args: any[]) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args);
+      timer = null;
+    }, delay);
+  };
+}
+
 (async () => {
   const TARGET_FILE = "command.txt";
   const eventEmitter = new EventEmitter();
-  const fsHandler = await fs.open(TARGET_FILE, "r");
 
   const CREATE = "Create a file";
   const DELETE = "Delete the file";
@@ -26,7 +36,7 @@ import EventEmitter from "node:events";
     let f: fs.FileHandle | undefined;
     try {
       f = await fs.open(path, "r");
-      console.log(`The File ${path} is exists`);
+      console.log(`⚠️ 文件 ${path} 已经存在，无需创建`);
     } catch (error: unknown) {
       // Not exist create
       if (error instanceof Error && "code" in error) {
@@ -40,7 +50,6 @@ import EventEmitter from "node:events";
       }
 
       // 其他错误重新抛出
-      console.error(`❌ 删除文件失败:`, error);
       throw error;
     } finally {
       if (f) await f.close();
@@ -70,10 +79,7 @@ import EventEmitter from "node:events";
       if (error instanceof Error && "code" in error) {
         if (error.code === "ENOENT") {
           console.error(`❌ 源文件或目录不存在: ${oldPath}`);
-        } else if (error.code === "EXDEV") {
-          console.error("❌ 不能跨文件系统移动，请使用复制+删除");
-        } else {
-          console.error(`❌ 重命名失败:`, error);
+          return;
         }
       }
       throw error;
@@ -103,39 +109,46 @@ import EventEmitter from "node:events";
   };
 
   eventEmitter.on("change", async () => {
+    // 复用同一个文件句柄可能读取到旧数据（内核缓存问题）。
+    // 每次都重新打开，能确保我们读到的是磁盘上最新的内容。
+    const fsHandler = await fs.open(TARGET_FILE, "r");
     const f_stat = await fsHandler.stat();
     const buffer = Buffer.alloc(f_stat.size);
-    fsHandler.read(buffer, 0, f_stat.size, 0);
-    // console.log(buffer);
-    // console.log(buffer.toString("utf-8"));
+    await fsHandler.read(buffer, 0, f_stat.size, 0);
     const content = buffer.toString("utf-8");
+    console.log(buffer);
+    console.log("=>", content);
 
     if (content.includes(CREATE)) {
       // Create a file <path>
       const path = content.substring(CREATE.length + 1);
-      createFile(path);
+      createFile(path.trim());
     } else if (content.includes(DELETE)) {
-      // Delete a file <path>
+      // Delete the file <path>
       const path = content.substring(DELETE.length + 1);
-      deleteFile(path);
+      deleteFile(path.trim());
     } else if (content.includes(RENAME)) {
       // Rename the file <path> to <newPath>
       const _idx = content.indexOf(" to ");
       const oldPath = content.substring(RENAME.length + 1, _idx);
       const newPath = content.substring(_idx + 4);
-      renameFile(oldPath, newPath);
+      renameFile(oldPath.trim(), newPath.trim());
     } else if (content.includes(ADDTOFILE)) {
       // Add to file <path> this content: <content>
       const _idx = content.indexOf("this content:");
       const path = content.substring(ADDTOFILE.length + 1, _idx - 1);
-      const txt = content.substring(content.indexOf(":") + 2);
-      addContentFile(path, txt);
+      const txt = content.substring(content.indexOf(":") + 1);
+      addContentFile(path.trim(), txt.trimStart());
+    } else {
+      console.warn("⚠️ 命令不存在");
     }
   });
 
-  for await (const event of fs.watch("./")) {
-    if (event.filename === TARGET_FILE && event.eventType === "change") {
-      eventEmitter.emit("change");
+  // 处理watch的防抖
+  const handleChange = debounce(() => eventEmitter.emit("change"));
+  for await (const event of fs.watch("./command.txt")) {
+    if (event.filename == TARGET_FILE && event.eventType == "change") {
+      handleChange();
     }
   }
 })();
