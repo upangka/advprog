@@ -13,3 +13,4 @@
 - [字符集与编码](./node-cc/buffer/字符集与编码.md)
 - [Buffer](./node-cc/buffer/README.md)
 - [fs模块相关](./node-cc/fs_m/README.md)
+- [streams相关](./node-cc/streams/README.md)
