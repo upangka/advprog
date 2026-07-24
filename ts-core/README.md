@@ -15,3 +15,5 @@
 - [fs模块相关](./node-cc/fs_m/README.md)
 - [streams相关](./node-cc/streams/README.md)
   - [性能对比](./node-cc/streams/性能对比.md)
+
+- [node启动过程](./node-cc/event_loop/node启动过程.md)

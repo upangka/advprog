@@ -4,6 +4,7 @@ import { Buffer } from "node:buffer";
 const srcFile = await fs.open("./dist/test.txt", "r");
 const desFile = await fs.open("./dist/copy.txt", "w");
 let bytesRead = -1;
+console.time("Copy");
 while (bytesRead !== 0) {
   // 16384 也是默认值
   const result = await srcFile.read({ length: 16384 });
@@ -21,7 +22,7 @@ while (bytesRead !== 0) {
     await desFile.write(result.buffer);
   }
 }
-
+console.timeEnd("Copy");
 const srcStat = await srcFile.stat();
 const desStat = await desFile.stat();
 console.log(srcStat.size, desStat.size);

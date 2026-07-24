@@ -384,6 +384,7 @@ import { Buffer } from "node:buffer";
 const srcFile = await fs.open("./dist/test.txt", "r");
 const desFile = await fs.open("./dist/copy.txt", "w");
 let bytesRead = -1;
+
 while (bytesRead !== 0) {
   // 16384 也是默认值
   const result = await srcFile.read({ length: 16384 });
