@@ -360,12 +360,55 @@ writableStream.on("finish", async () => {
 });
 ```
 
+# 编写自己的流
+
 ### 小结
 
 | 方案                         | 原理                                           | 优点                                                     | 缺点                                                                   |
 | :--------------------------- | :--------------------------------------------- | :------------------------------------------------------- | :--------------------------------------------------------------------- |
 | **连续性方案**               | 依赖数字相邻值的连续性来判断边界。             | 代码实现简单直观。                                       | 强依赖数据特征（连续数字），通用性差，在数据不连续或存在缺失时会出错。 |
 | **通用方案（分隔符缓冲区）** | 依赖分隔符（空格）来明确边界，维护一个暂存区。 | 通用性强，只要数据有明确分隔符即可；逻辑清晰，容易理解。 | 需要维护额外状态（buffer），代码稍多。                                 |
+
+# 实现流
+
+## 手动分块读取
+
+手动分块读取的循环,实现流的核心原理.
+
+[exercise_10.ts](./code/exercise_10.ts)复制文件
+
+```ts
+import fs from "node:fs/promises";
+import { Buffer } from "node:buffer";
+
+const srcFile = await fs.open("./dist/test.txt", "r");
+const desFile = await fs.open("./dist/copy.txt", "w");
+let bytesRead = 0;
+do {
+  // 16384 也是默认值
+  const result = await srcFile.read({ length: 16384 });
+  bytesRead = result.bytesRead;
+
+  // 没有数据直接退出
+  if (bytesRead == 0) break;
+
+  // 处理未装满的
+  if (bytesRead < 16384) {
+    const newBuffer = Buffer.alloc(bytesRead);
+    result.buffer.copy(newBuffer, 0, 0, bytesRead);
+    await desFile.write(newBuffer);
+  } else {
+    await desFile.write(result.buffer);
+  }
+} while (bytesRead > 0);
+
+const srcStat = await srcFile.stat();
+const desStat = await desFile.stat();
+console.log(srcStat.size, desStat.size);
+
+await desFile.close();
+await srcFile.close();
+```
 
 # 扩展
 
