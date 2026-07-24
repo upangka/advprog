@@ -213,6 +213,160 @@ writableStream.on("finish", async () => {
 });
 ```
 
+### 分块边界问题
+
+> 添加业务，只处理偶数
+
+我们不得不面对一个问题：专业上叫**分块边界问题**
+
+[exercise_08.ts](./code/exercise_08.ts)利用了数字序列的连续性来修补边界。但它的脆弱性在于，它强依赖于数据格式本身的性质（数字连续）。如果源数据不是严格的连续数字，这个逻辑就会失效。
+
+```ts
+import fs from "node:fs/promises";
+
+const fdReader = await fs.open("./dist/test.txt", "r");
+const fdWriter = await fs.open("./dist/dest.txt", "w");
+
+const readableStream = fdReader.createReadStream();
+const writableStream = fdWriter.createWriteStream();
+
+let splitNumPart = "";
+readableStream.on("data", (chunk) => {
+  // 处理
+  const nums = chunk.toString("utf-8").split(" ");
+  const length = nums.length;
+
+  if (Number(nums[0]) !== Number(nums[1]) - 1) {
+    if (splitNumPart) {
+      // 接上上次截断的部分
+      nums[0] = splitNumPart.trim() + nums[0].trim();
+    }
+  }
+
+  if (Number(nums[length - 2]) + 1 !== Number(nums[length - 1])) {
+    // 不连续有截断
+    splitNumPart = nums.pop()!.trim()!;
+  }
+
+  nums.forEach((num) => {
+    if ((Number(num) & 1) === 0) {
+      const val = writableStream.write(`${num} `);
+      if (!val) {
+        // 读取太快，处理不过来，先停止读取
+        readableStream.pause();
+      }
+    }
+  });
+});
+
+writableStream.on("drain", () => {
+  // 写缓冲区已经清理，可以继续写了
+  // 恢复生产，继续读获取数据
+  readableStream.resume();
+});
+
+readableStream.on("end", () => {
+  // 在 readableStream.on("end", ...) 回调执行之前，
+  // 所有 data 事件的回调都已经执行完毕。
+  // 这是由 Node.js 事件循环的队列顺序保证的。
+  // 所以可以放心关闭
+  writableStream.end();
+});
+
+writableStream.on("finish", async () => {
+  console.log("✅ 所有数据已写入磁盘");
+  // 此时可以关闭文件描述符
+  await fdReader.close();
+  await fdWriter.close();
+});
+```
+
+### 暂存区通用处理方案
+
+[exercise_09.ts](./code/exercise_09.ts)
+
+1. 追加数据
+   - 将新到的 `chunk` 追加到暂存区中。
+
+2. 按分隔符切分
+   - 在暂存区中查找**最后一个分隔符**（空格），从这个位置将暂存区切分为两部分：
+     - 2.1 **完整部分**（最后一个分隔符之前）：包含的都是完整的数字，可以安全处理。
+     - 2.2 **剩余部分**（最后一个分隔符之后）：这是一个不完整的数字，保留到暂存区，等待与下一个 `chunk` 拼接。
+
+3. 处理完整部分
+   - 对分离出的完整数字字符串执行业务逻辑（如过滤偶数、写入文件等）。
+
+4. 清理暂存区
+   - 将暂存区更新为剩余的、未完成的部分，供下一次 `data` 事件使用。
+
+```ts
+import fs from "node:fs/promises";
+
+const fdReader = await fs.open("./dist/test.txt", "r");
+const fdWriter = await fs.open("./dist/dest.txt", "w");
+
+const readableStream = fdReader.createReadStream();
+const writableStream = fdWriter.createWriteStream();
+
+let buffer = ""; // 暂存区
+readableStream.on("data", (chunk) => {
+  // 处理
+  buffer += chunk.toString("utf-8");
+
+  const _idx = buffer.lastIndexOf(" ");
+
+  const completePart = buffer.substring(0, _idx + 1); // 包括括号
+  const nums = completePart.trim().split(" ");
+
+  nums.forEach((num) => {
+    if ((Number(num) & 1) === 0) {
+      const val = writableStream.write(`${num} `);
+      if (!val) {
+        // 读取太快，处理不过来，先停止读取
+        readableStream.pause();
+      }
+    }
+  });
+
+  // 更新暂存区
+  buffer = buffer.substring(_idx + 1);
+});
+
+writableStream.on("drain", () => {
+  // 写缓冲区已经清理，可以继续写了
+  // 恢复生产，继续读获取数据
+  readableStream.resume();
+});
+
+readableStream.on("end", () => {
+  // 处理剩余的buffer
+  if (buffer) {
+    // 如果 buffer 非空，说明末尾有一个不完整的数字，我们可以处理它
+    // 注意：源数据以空格结尾时，buffer 可能是空字符串
+    const num = buffer.trim();
+    if (num !== "" && (Number(num) & 1) === 0) {
+      writableStream.end(`${num} `);
+    }
+  } else {
+    writableStream.end();
+  }
+});
+
+writableStream.on("finish", async () => {
+  console.log("✅ 所有数据已写入磁盘");
+  // 此时可以关闭文件描述符
+  await fdReader.close();
+  await fdWriter.close();
+});
+```
+
+### 小结
+
+| 方案                         | 原理                                           | 优点                                                     | 缺点                                                                   |
+| :--------------------------- | :--------------------------------------------- | :------------------------------------------------------- | :--------------------------------------------------------------------- |
+| **你的方案（连续性）**       | 依赖数字相邻值的连续性来判断边界。             | 代码实现简单直观。                                       | 强依赖数据特征（连续数字），通用性差，在数据不连续或存在缺失时会出错。 |
+| **通用方案（分隔符缓冲区）** | 依赖分隔符（空格）来明确边界，维护一个暂存区。 | 通用性强，只要数据有明确分隔符即可；逻辑清晰，容易理解。 | 需要维护额外状态（buffer），代码稍多。                                 |
+
 # 扩展
 
 1. Java 是“装饰器模式”：通过层层包装类来组合功能。它的优点是很直观，你可以看到每一步的“包裹”，但代价是代码很长，类名也很长。
