@@ -411,6 +411,56 @@ await desFile.close();
 await srcFile.close();
 ```
 
+## 自定义WriteStream
+
+### callback函数
+
+```ts
+// ============================================================
+// 这是你调用的 callback 的真实内部实现（简化伪代码）
+// ============================================================
+
+function callback(err?: Error | null) {
+  // 1. 如果有错误，触发 error 事件并停止
+  if (err) {
+    this.emit("error", err);
+    this.destroy();
+    return;
+  }
+
+  // 2. 关键动作：告诉流“这块数据处理完了”
+  const state = this._writableState;
+  state.writing = false; // ← 解除“正在写入”标记
+  state.bufferSize -= chunk.length; // ← 减少队列总大小
+
+  // 3. 检查队列中是否还有数据等待处理
+  if (state.buffer.length > 0) {
+    // 有数据 → 取出下一块，调用 _write
+    this._processQueue(); // ← 这就是“继续”的本质
+    return;
+  }
+
+  // 4. 队列已空 → 检查是否需要触发 drain 或 finish
+  if (state.needDrain) {
+    state.needDrain = false;
+    this.emit("drain"); // ← 触发 drain 事件
+  }
+
+  if (state.ended && state.buffer.length === 0) {
+    // 如果调用了 end() 且队列已空 → 执行收尾
+    this._final((err) => {
+      if (err) this.emit("error", err);
+      else this.emit("finish"); // ← 触发 finish 事件
+    });
+  }
+}
+```
+
+## 自定义Readable Stream
+
+push
+Passing chunk as null signals the end of the stream (EOF), after which no more data can be written.
+
 # 扩展
 
 1. Java 是“装饰器模式”：通过层层包装类来组合功能。它的优点是很直观，你可以看到每一步的“包裹”，但代价是代码很长，类名也很长。
