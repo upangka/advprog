@@ -52,6 +52,8 @@ js代码
 [Function: bound f]
 ```
 
+python代码
+
 ```python
 >>> class User:
 ...     def f(self):
