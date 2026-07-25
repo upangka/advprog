@@ -1,3 +1,9 @@
+# Prototype Inheritance
+
+**Prototypes are JavaScript's fundamental inheritance mechanism.**
+
+Java是类式继承（class-based），你用class定义蓝图，用new创建实例，继承关系在编译时确定。而JavaScript是原型式继承（prototype-based）——没有"类"的概念（ES6的class只是语法糖，底层依然是原型）。对象直接继承自另一个原型对象，继承关系是动态的、可以在运行时修改。
+
 # Object.prototype
 
 在Java中Object是所有类的基类，但是在JS中他是一个构造函数，可以使用`new Object()`来创建一个对象，但是平常我们都使用字面量`{}`来快速创建对象。
