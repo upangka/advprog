@@ -54,3 +54,18 @@ toLocaleString  => function
 当写 `F.prototype` 时，你在语法上访问的是 `F` 对象上名为 `"prototype"` 的普通属性，而不是直接访问"原型"这个概念本身。
 
 这个属性之所以特殊，是因为它会被 `new F()` 创建的实例用作其原型（即 `obj.__proto__ === F.prototype`），但属性的本质仍然是"常规属性"。
+
+```ts
+> function F(name){
+|   this.name = name;
+| }
+> F.prototype.hi = function(){
+|   console.log(this.name,"=>","hi");
+| }
+> let a = new F("Pkmer")
+> a.hi()
+Pkmer => hi
+> let b = new F("Good jobs")
+> b.hi()
+Good jobs => hi
+```
