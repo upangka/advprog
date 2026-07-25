@@ -46,3 +46,11 @@ toLocaleString  => function
 ```
 
 `Object`是函数，`Object.prototype`是一个对象，这个对象里面有很多共享的方法，JS中的其他对象都继承这个对象，所以`animal.__proto__ === Object.prototype`为`true`
+
+# Function.prototype
+
+"prototype" 这个字符串既是一个术语（指代原型机制），也是一个属性名。
+
+当写 `F.prototype` 时，你在语法上访问的是 `F` 对象上名为 `"prototype"` 的普通属性，而不是直接访问"原型"这个概念本身。
+
+这个属性之所以特殊，是因为它会被 `new F()` 创建的实例用作其原型（即 `obj.__proto__ === F.prototype`），但属性的本质仍然是"常规属性"。
