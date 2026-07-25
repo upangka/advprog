@@ -7,4 +7,6 @@
 # 在线文档
 
 - [javascript.info](https://javascript.info/)
+- [eloquentjavascript](https://eloquentjavascript.net/)
+- [javascriptallongesix](https://leanpub.com/read/javascriptallongesix/classes)
 - [nodejs docs](https://nodejs.org/docs)
