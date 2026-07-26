@@ -93,3 +93,66 @@ User (函数对象)
 `__proto__`（dunder proto）—— 对象的原型链接，指向该对象的父级原型对象。每个对象都有这个属性（实际上是一个 getter/setter）。
 
 `prototype` —— 函数的原型对象。只有函数才有这个属性，用于设置通过该函数创建的实例的原型。
+
+# Property Descriptor属性描述符
+
+JavaScript 中的属性是"键→属性描述符（Property Descriptor）"的一对一映射。
+
+属性描述符是一个对象，它包含了属性的值以及控制该属性行为的元数据（即 `writable`、`enumerable`、`configurable`）。
+
+| 字段           | 含义             | true 时允许                             | false 时禁止                     |
+| :------------- | :--------------- | :-------------------------------------- | :------------------------------- |
+| `writable`     | 属性值是否可修改 | 可以通过赋值 `obj.prop = newValue` 修改 | 赋值操作静默失败（严格模式报错） |
+| `enumerable`   | 属性是否可枚举   | 出现在 `for...in` 和 `Object.keys()` 中 | 被上述遍历方法跳过               |
+| `configurable` | 属性是否可配置   | 可以删除属性（`delete`）、修改描述符    | 删除和修改描述符操作失败         |
+
+```js
+> let u = {
+| name: 'pkmer',
+| age: 18,}
+> u
+{ name: 'pkmer', age: 18 }
+> // 显示u的所有属性描述符
+> Object.getOwnPropertyDescriptors(u)
+{
+  name: {
+    value: 'pkmer',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  },
+  age: { value: 18, writable: true, enumerable: true, configurable: true }
+}
+> // 每次返回的都是一个副本，一个新的对象，所以比较是false
+> Object.getOwnPropertyDescriptors(u) === Object.getOwnPropertyDescriptors(u)
+false
+> // 所以修改副本对原始的数据不会生效
+> Object.getOwnPropertyDescriptors(u).name.value="Hi World"
+> u
+{ name: 'Pkmer', age: 18 }
+> // 使用Object.defineProperty
+> Object.defineProperty(u,'name',{value: 'Hi World'})
+> u
+{ name: 'Hi World', age: 18 }
+> // 或者通过批量修改的方式
+> Object.defineProperties(u,{
+|   name: {value: 'Hi World2'}
+| })
+> u
+{ name: 'Hi World2', age: 18 }
+> // 获取单个属性的描述符
+> Object.getOwnPropertyDescriptor(u,'name')
+{
+  value: 'Hi World2',
+  writable: true,
+  enumerable: true,
+  configurable: true
+}
+```
+
+| 方法名                               | 作用                             |
+| :----------------------------------- | :------------------------------- |
+| `Object.getOwnPropertyDescriptors()` | 获取对象自身所有属性的描述符对象 |
+| `Object.getOwnPropertyDescriptor()`  | 获取对象自身某个属性的描述符对象 |
+| `Object.defineProperty()`            | 定义或修改对象自身的单个属性     |
+| `Object.defineProperties()`          | 定义或修改对象自身的多个属性     |
