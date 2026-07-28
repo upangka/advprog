@@ -1,4 +1,3 @@
-
 # Berkeley-CS61B-Data-Structure
 
 - [课程主页](https://sp26.datastructur.es/)
@@ -6,12 +5,16 @@
 
 - [配套text book](https://cs61b-2.gitbook.io/cs61b-textbook-spring-2026)
 
+# 书籍
+
+[functional-programming-in-java-second-edition](https://pragprog.com/titles/vsjava2e/functional-programming-in-java-second-edition/)
+
 # Java
 
 - [Oracle Java 25规范](https://docs.oracle.com/javase/specs/jls/se25/html/index.html)
 
 - [dev.java](https://dev.java/)
-
+- [VenkatSubramaniam](https://dev.java/author/VenkatSubramaniam/)
 
 # 在线可视化
 
