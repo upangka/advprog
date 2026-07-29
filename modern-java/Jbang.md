@@ -1,3 +1,7 @@
+# 打开项目
+
+直接`code`代码项目，跳出terminal让插件生效
+
 # 运行Java代码
 
 ```sh
@@ -33,5 +37,8 @@ j! --java 25 hello.java
 //DEPS org.projectlombok:lombok:1.18.46
 //DEPS tools.jackson.core:jackson-databind:3.2.1
 //REPOS aliyun=https://maven.aliyun.com/repository/central
+// 处理lombok注解
 //JAVAC_OPTIONS -proc:full
+// assert断言
+//JAVA_OPTIONS -ea
 ```
