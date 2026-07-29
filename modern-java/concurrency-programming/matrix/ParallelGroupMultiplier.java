@@ -24,6 +24,7 @@ public class ParallelGroupMultiplier implements Multiplier {
 			GroupMultiplierTask task = new GroupMultiplierTask(
 					matrix1, matrix2, ret, startRow, endRow);
 			Thread t = new Thread(task);
+			t.start();
 			threads.add(t);
 
 			if (threads.size() == SIZE) {

@@ -13,7 +13,7 @@ public class SerialMultiplier implements Multiplier {
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				ret[i][j] = 0;
-				for (int k = 0; k < row; k++) {
+				for (int k = 0; k < column; k++) {
 					ret[i][j] += matrix1[i][k] * matrix2[k][j];
 				}
 			}

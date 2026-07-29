@@ -20,7 +20,7 @@ void main(String... args) {
 
 	List<Multiplier> multipliers = List.of(
 			new SerialMultiplier(),
-			// new ParallelIndividualMultiplier(),
+			new ParallelIndividualMultiplier(),
 			new ParallelRowMultiplier(),
 			new ParallelGroupMultiplier());
 

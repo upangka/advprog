@@ -15,7 +15,7 @@ public record GroupMultiplierTask(
 			for (int j = 0; j < matrix2[0].length; j++) {
 				ret[i][j] = 0;
 				for (int k = 0; k < matrix2.length; k++) {
-					ret[i][j] += ret[i][k] * ret[k][j];
+					ret[i][j] += matrix1[i][k] * matrix2[k][j];
 				}
 			}
 		}
