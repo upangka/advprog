@@ -2,6 +2,8 @@
 
 直接`code`代码项目，跳出terminal让插件生效。
 
+![](./images/jbang_vscode.png)
+
 # 运行Java代码
 
 ```sh
