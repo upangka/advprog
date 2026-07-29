@@ -3,6 +3,8 @@
 //REPOS aliyun=https://maven.aliyun.com/repository/central
 //JAVA 25
 /*
+1. 下载jackson-databind
+2. 尝试api
 For example, if the input list is:
 
 ["I", "love", "java", "but", "I", "love", "python", "more"]
