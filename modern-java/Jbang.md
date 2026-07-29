@@ -25,7 +25,7 @@ j! --java 25 hello.java
 
 ## 文件顶部配置
 
-注意没有空格
+**注意没有空格**
 
 ```java
 ///usr/bin/env jbang "$0" "$@" ; exit $?
