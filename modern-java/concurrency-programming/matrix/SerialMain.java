@@ -16,7 +16,7 @@ void main(String... args) {
     long duration = Duration.between(start, Instant.now()).toMillis();
     IO.println("耗时: %sms(%.2fs)".formatted(duration,duration / 1_000.0));
 
-    System.out.println(Arrays.deepToString(matrix1));
-    System.out.println(Arrays.deepToString(matrix2));
-    System.out.println(Arrays.deepToString(_ret));
+    // System.out.println(Arrays.deepToString(matrix1));
+    // System.out.println(Arrays.deepToString(matrix2));
+    // System.out.println(Arrays.deepToString(_ret));
 }
