@@ -8,14 +8,14 @@
 import model.Result;
 import serial.SerialFileSearch;
 
-/**output
+/**output  
     Handling with => README.md
     Handling with => serial
     Handling with => SerialFileSearch.java
     Handling with => model
     Handling with => FileSearch.java
     Handling with => Result.java
-    Serial Search: Path: /home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files/model/Result.java
+    Serial Search: Path: /home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files/model/Result.java 
 */
 void main(String... args) {
 	Result ret = new Result(false, "/");
