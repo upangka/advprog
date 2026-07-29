@@ -7,9 +7,10 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * SerialMultiplier 耗时: 6233ms(6.23s)
- * ParallelIndividualMultiplier 耗时: 1358324ms(1358.32s)
- * ParallelRowMultiplier 耗时: 1ms(0.00s)
+ * SerialMultiplier 耗时: 89434ms(89.43s)
+ * ParallelIndividualMultiplier 耗时: 660412ms(660.41s)
+ * ParallelRowMultiplier 耗时: 25962ms(25.96s)
+ * ParallelGroupMultiplier 耗时: 26244ms(26.24s)
  */
 final static int SIZE = 2000;
 
