@@ -1,6 +1,9 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
 
+/**
+ * 串行计算
+ */
 public class SerialMultiplier implements Multiplier {
 
 	public double[][] multiply(double[][] matrix1, double[][] matrix2) {

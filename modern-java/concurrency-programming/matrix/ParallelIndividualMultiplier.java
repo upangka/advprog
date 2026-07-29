@@ -5,9 +5,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 一个元素开一个线程进行计算
+ */
 public class ParallelIndividualMultiplier implements Multiplier {
-
-	private final static int SIZE = 13;
+	// My Computer is 12
+	private final static int SIZE = Runtime.getRuntime().availableProcessors();
 
 	@Override
 	public double[][] multiply(double[][] matrix1, double[][] matrix2) {
@@ -31,17 +34,5 @@ public class ParallelIndividualMultiplier implements Multiplier {
 		}
 
 		return ret;
-	}
-
-	private void waitForThreads(List<Thread> threads) {
-		for (Thread thread : threads) {
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		threads.clear();
 	}
 }
