@@ -1,3 +1,8 @@
+```sh
+$ jbang version
+0.139.3
+```
+
 # 打开项目
 
 直接`code`代码项目，跳出terminal让插件生效。
@@ -80,5 +85,52 @@ Listening for transport dt_socket at address: 4004
   "request": "attach",
   "hostName": "localhost",
   "port": 4004
+}
+```
+
+# 代码组织
+
+## 引入第三方库
+
+项目中拆分代码，在入口文件引入第三方库lombok,其他代码就可以使用。 注意`//SOURCES ./**/*.java`
+
+```sh
+.
+├── Main.java 入口文件
+└── model
+    └── Result.java 使用Main.java引入的lombok
+```
+
+`main.java`
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+//DEPS org.projectlombok:lombok:1.18.46
+//REPOS aliyun=https://maven.aliyun.com/repository/central
+//JAVAC_OPTIONS -proc:full
+//SOURCES ./**/*.java
+
+import model.Result;
+
+void main(String... args) {
+    Result ret = new Result(false, "/");
+    IO.println(ret);
+}
+```
+
+`Result.java`
+
+```java
+package model;
+
+import lombok.Data;
+import lombok.AllArgsConstructor;
+
+@Data
+@AllArgsConstructor
+public class Result {
+	private boolean isFound;
+	private String path;
 }
 ```

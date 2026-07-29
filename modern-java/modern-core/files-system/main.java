@@ -7,9 +7,7 @@
 
 import model.Result;
 
-public class Main {
-	public static void main(String... args) {
-		Result ret = new Result(false, "/");
-		IO.println(ret);
-	}
+void main(String... args) {
+    Result ret = new Result(false, "/");
+    IO.println(ret);
 }
