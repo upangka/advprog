@@ -9,5 +9,5 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Result {
 	private volatile boolean isFound;
-	private String path;
+	private volatile String path;
 }
