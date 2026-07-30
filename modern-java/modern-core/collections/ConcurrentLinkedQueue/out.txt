@@ -1,0 +1,28 @@
+🚀 所有线程已启动
+producer-1 生产 >>> 19
+producer-2 生产 >>> 31
+consumer-1 消费 <<< 31
+consumer-2 消费 <<< 19
+producer-1 生产 >>> 20
+producer-2 生产 >>> 39
+producer-2 生产 >>> 22
+producer-1 生产 >>> 26
+consumer-2 消费 <<< 20
+consumer-1 消费 <<< 39
+producer-2 生产 >>> 40
+producer-1 生产 >>> 14
+producer-1 生产 >>> 37
+producer-2 生产 >>> 15
+consumer-2 消费 <<< 26
+consumer-1 消费 <<< 22
+producer-1 已生产完毕
+producer-2 已生产完毕
+consumer-2 消费 <<< 14
+consumer-1 消费 <<< 40
+consumer-2 消费 <<< 15
+consumer-1 消费 <<< 37
+consumer-2 收到停止信号，共消费 5 个元素
+consumer-1 收到停止信号，共消费 5 个元素
+consumer-2 已停止
+consumer-1 已停止
+✅ 所有任务完成，程序正常退出
