@@ -37,7 +37,8 @@ public class ParallelGroupFileTask implements Runnable {
 				if (this.found) {
 					System.out.println("%s has found the file".formatted(
 							Thread.currentThread().getName()));
-					System.out.println("Parallel Search: Path: %s".formatted(
+					System.out.println("%s Parallel Search: Path: %s".formatted(
+							Thread.currentThread().getName(),
 							result.getPath()));
 					return;
 				}

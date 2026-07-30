@@ -35,6 +35,37 @@ public class ParallelFileSearch implements FileSearch {
 			thread.start();
 		}
 
+		boolean isFinished = false;
+		int numFinished = 0;
+		while (!isFinished) {
+			numFinished = 0;
+			for (int i = 0; i < numThreads; i++) {
+				if (threads[i].getState() == Thread.State.TERMINATED) {
+					numFinished++;
+					if (tasks[i].isFound()) {
+						isFinished = true;
+						System.out.println("%s 检测到 %s 线程完成".formatted(
+								Thread.currentThread().getName(),
+								threads[i].getName()));
+					}
+				}
+			}
+
+			if (numFinished == threads.length) {
+				isFinished = true;
+			}
+		}
+
+		// 中断其他线程
+		if (numFinished != threads.length) {
+			for (Thread thread : threads) {
+				System.out.println("%s 准备中断 %s".formatted(
+						Thread.currentThread().getName(),
+						thread.getName()));
+				thread.interrupt();
+			}
+		}
+
 	}
 
 	private ConcurrentLinkedQueue<Path> getQueue(Path root) {

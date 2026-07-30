@@ -5,7 +5,14 @@
 //JAVAC_OPTIONS -proc:full
 //SOURCES ./**/*.java
 
+import model.FileSearch;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
+
 import model.Result;
+import parallel.ParallelFileSearch;
 import serial.SerialFileSearch;
 
 /**output
@@ -18,11 +25,26 @@ import serial.SerialFileSearch;
     Serial Search: Path: /home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files/model/Result.java
 */
 void main(String... args) {
-	String target = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files";
-	Path targetPath = Paths.get(target);
+	final String root = "/home";
+	final String targetFileName = "Result.java";
+	Path rootPath = Paths.get(root);
 
-	Result ret = new Result(false, null);
-	SerialFileSearch serial = new SerialFileSearch();
-	serial.searchFiles(targetPath, "Result.java", ret);
-
+	List<FileSearch> demos = List.of(new SerialFileSearch(), new ParallelFileSearch());
+	for (FileSearch demo : demos) {
+		Result ret = new Result(false, null);
+		Instant start = Instant.now();
+		demo.searchFiles(rootPath, targetFileName, ret);
+		long durationMills = Duration.between(start, Instant.now()).toMillis();
+		if (ret.isFound()) {
+			System.out.println("找到: %s文件,位于: %s".formatted(
+					targetFileName,
+					ret.getPath()));
+		} else {
+			System.out.println("没有找到 %s".formatted(targetFileName));
+		}
+		System.out.println();
+		System.out.printf("%s 耗时 %sms (%.2fs)\n",
+				demo.getClass().getName(), durationMills, durationMills / 1000.0);
+		System.out.println("=".repeat(50));
+	}
 }

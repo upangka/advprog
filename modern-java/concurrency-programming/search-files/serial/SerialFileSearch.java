@@ -17,7 +17,7 @@ public class SerialFileSearch implements FileSearch {
 		try (DirectoryStream<Path> paths = Files.newDirectoryStream(path);) {
 			for (Path p : paths) {
 				var currentFileName = p.getFileName().toString();
-				System.out.println("Handling with => " + currentFileName);
+				// System.out.println("Handling with => " + currentFileName);
 				if (Files.isDirectory(p)) {
 					searchFiles(p, fileName, result);
 				} else {
