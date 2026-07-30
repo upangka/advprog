@@ -18,8 +18,11 @@ import serial.SerialFileSearch;
     Serial Search: Path: /home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files/model/Result.java
 */
 void main(String... args) {
-	Result ret = new Result(false, "/");
 	String target = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files";
+	Path targetPath = Paths.get(target);
+
+	Result ret = new Result(false, null);
 	SerialFileSearch serial = new SerialFileSearch();
-	serial.searchFiles(Paths.get(target), "Result.java", ret);
+	serial.searchFiles(targetPath, "Result.java", ret);
+
 }
