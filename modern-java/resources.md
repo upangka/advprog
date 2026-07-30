@@ -16,6 +16,12 @@
 - [dev.java](https://dev.java/)
 - [VenkatSubramaniam](https://dev.java/author/VenkatSubramaniam/)
 
+## 并发
+
+[Low-Level-Design](https://github.com/nitin-kumar-sde/Low-Level-Design/blob/main/src/main/java/concurrency/concurrent_collection/ConcurrentLinkedQueueExample.java)
+
+[java-concurrency-patterns](https://github.com/alxkm/java-concurrency-patterns/blob/master/src/main/java/org/alxkm/patterns/queue/ConcurrentLinkedQueueExample.java)
+
 # 在线可视化
 
 - [cscircles-python](https://cscircles.cemc.uwaterloo.ca/)
