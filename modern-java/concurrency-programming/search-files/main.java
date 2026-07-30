@@ -25,11 +25,12 @@ import serial.SerialFileSearch;
     Serial Search: Path: /home/pkmer/projects/advprog/modern-java/concurrency-programming/search-files/model/Result.java
 */
 void main(String... args) {
-	final String root = "/home";
-	final String targetFileName = "Result.java";
+	final String root = "/";
+	final String targetFileName = "functional-programming-in-python.md";
 	Path rootPath = Paths.get(root);
 
 	List<FileSearch> demos = List.of(new SerialFileSearch(), new ParallelFileSearch());
+	// List<FileSearch> demos = List.of(new ParallelFileSearch());
 	for (FileSearch demo : demos) {
 		Result ret = new Result(false, null);
 		Instant start = Instant.now();
