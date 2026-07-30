@@ -18,10 +18,10 @@ import model.Result;
 
 public class ParallelFileSearch implements FileSearch {
 	private final ThreadFactory threadFactory = new SearchFilesThreadFactory();
-    // IO 密集型配置
+	// IO 密集型配置
 	private final int cpuCores = Runtime.getRuntime().availableProcessors();
 	// 经验公式：IO密集型线程数 = 核心数 × 2 到 核心数 × 8
-	private final int numThreads = cpuCores * 4;  // 12核 → 48线程
+	private final int numThreads = cpuCores * 4; // 12核 → 48线程
 
 	@Override
 	public void searchFiles(Path path, String fileName, Result result) {
@@ -37,10 +37,9 @@ public class ParallelFileSearch implements FileSearch {
 			threads[i] = thread;
 		}
 
-        for (Thread thread : threads) {
-            thread.start();
-        }
-
+		for (Thread thread : threads) {
+			thread.start();
+		}
 
 		boolean isFinished = false;
 		int numFinished = 0;
@@ -73,8 +72,7 @@ public class ParallelFileSearch implements FileSearch {
 			}
 		}
 
-        
-        waitForThreads(threads);
+		waitForThreads(threads);
 
 	}
 
@@ -91,16 +89,15 @@ public class ParallelFileSearch implements FileSearch {
 		return directories;
 	}
 
+	private void waitForThreads(Thread[] threads) {
+		// 等待结束
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-    private void waitForThreads(Thread[] threads){
-        // 等待结束
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            
-        }
-    }
+		}
+	}
 }

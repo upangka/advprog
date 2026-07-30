@@ -11,7 +11,6 @@ import model.FileSearch;
 import model.Result;
 
 public class SerialFileSearch implements FileSearch {
-
 	@Override
 	public void searchFiles(Path path, String fileName, Result result) {
 		try (DirectoryStream<Path> paths = Files.newDirectoryStream(path);) {

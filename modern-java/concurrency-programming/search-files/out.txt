@@ -1,0 +1,107 @@
+Serial Search: Path: /home/pkmer/projects/advprog/ts-core/node-cc/streams/images/stream_architecture.png
+找到: stream_architecture.png文件,位于: /home/pkmer/projects/advprog/ts-core/node-cc/streams/images/stream_architecture.png
+
+serial.SerialFileSearch 耗时 291ms (0.29s)
+==================================================
+sf-6 has found the file
+sf-6 Parallel Search: Path: /home/pkmer/projects/advprog/ts-core/node-cc/streams/images/stream_architecture.png
+sf-20 结束
+sf-15 结束
+sf-10 结束
+sf-1 结束
+sf-13 结束
+sf-14 结束
+sf-2 结束
+sf-3 结束
+sf-19 结束
+sf-11 结束
+sf-18 结束
+sf-8 结束
+sf-17 结束
+sf-4 结束
+sf-21 结束
+sf-22 结束
+sf-7 结束
+sf-9 结束
+sf-5 结束
+sf-12 结束
+sf-23 结束
+sf-16 结束
+sf-24 结束
+sf-25 结束
+sf-26 结束
+sf-27 结束
+sf-29 结束
+sf-28 结束
+sf-30 结束
+sf-31 结束
+sf-34 结束
+sf-35 结束
+sf-32 结束
+sf-33 结束
+sf-36 结束
+sf-40 结束
+sf-45 结束
+sf-39 结束
+main 检测到 sf-6 线程完成
+main 准备中断 sf-1
+main 准备中断 sf-2
+main 准备中断 sf-3
+main 准备中断 sf-4
+main 准备中断 sf-5
+sf-42 结束
+sf-37 结束
+sf-38 结束
+sf-41 结束
+main 准备中断 sf-6
+sf-44 结束
+sf-46 结束
+sf-43 结束
+sf-47 结束
+main 准备中断 sf-7
+sf-48 结束
+main 准备中断 sf-8
+main 准备中断 sf-9
+main 准备中断 sf-10
+main 准备中断 sf-11
+main 准备中断 sf-12
+main 准备中断 sf-13
+main 准备中断 sf-14
+main 准备中断 sf-15
+main 准备中断 sf-16
+main 准备中断 sf-17
+main 准备中断 sf-18
+main 准备中断 sf-19
+main 准备中断 sf-20
+main 准备中断 sf-21
+main 准备中断 sf-22
+main 准备中断 sf-23
+main 准备中断 sf-24
+main 准备中断 sf-25
+main 准备中断 sf-26
+main 准备中断 sf-27
+main 准备中断 sf-28
+main 准备中断 sf-29
+main 准备中断 sf-30
+main 准备中断 sf-31
+main 准备中断 sf-32
+main 准备中断 sf-33
+main 准备中断 sf-34
+main 准备中断 sf-35
+main 准备中断 sf-36
+main 准备中断 sf-37
+main 准备中断 sf-38
+main 准备中断 sf-39
+main 准备中断 sf-40
+main 准备中断 sf-41
+main 准备中断 sf-42
+main 准备中断 sf-43
+main 准备中断 sf-44
+main 准备中断 sf-45
+main 准备中断 sf-46
+main 准备中断 sf-47
+main 准备中断 sf-48
+找到: stream_architecture.png文件,位于: /home/pkmer/projects/advprog/ts-core/node-cc/streams/images/stream_architecture.png
+
+parallel.ParallelFileSearch 耗时 244ms (0.24s)
+==================================================

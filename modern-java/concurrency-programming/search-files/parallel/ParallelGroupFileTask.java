@@ -13,7 +13,6 @@ import model.Result;
 
 @Data
 public class ParallelGroupFileTask implements Runnable {
-
 	private final String targetFileName;
 	private final ConcurrentLinkedQueue<Path> directories;
 	private final Result result;
@@ -30,6 +29,7 @@ public class ParallelGroupFileTask implements Runnable {
 
 	@Override
 	public void run() {
+		// System.out.println("%s 启动".formatted(Thread.currentThread().getName()));
 		Path dir;
 		while ((dir = directories.poll()) != null) {
 			try {
@@ -48,6 +48,7 @@ public class ParallelGroupFileTask implements Runnable {
 				break;
 			}
 		}
+		System.out.println("%s 结束".formatted(Thread.currentThread().getName()));
 	}
 
 	private void processDirectory(Path dir) throws InterruptedException {
