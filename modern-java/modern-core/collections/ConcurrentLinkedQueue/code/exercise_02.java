@@ -2,19 +2,8 @@
 //JAVA 25+
 //JAVA_OPTIONS -ea
 
-import java.util.Random;
 import java.util.PrimitiveIterator.OfInt;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * 生产者-消费者演示程序
- * - 2个生产者各生产5个随机数（每秒1个）
- * - 2个消费者消费队列中的数（每2秒消费1个）
- * - 使用毒丸(POISON_PILL)优雅停止消费者
- */
 void main(String... args) throws InterruptedException {
 	var factory = new ThreadFactoryProvider();
 	var queue = new ConcurrentLinkedQueue<Integer>();
@@ -33,7 +22,7 @@ void main(String... args) throws InterruptedException {
 	latch.await();
 	assert queue.isEmpty() : "队列应该为空，但还有 " + queue.size() + " 个元素";
 
-	System.out.println("✅ 所有任务完成，程序正常退出");
+	IO.println("✅ 所有任务完成，程序正常退出");
 }
 
 class SimpleThreadFactory implements ThreadFactory {
