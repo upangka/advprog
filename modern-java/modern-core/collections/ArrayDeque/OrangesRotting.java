@@ -5,31 +5,36 @@
 record OrangeState(int state, String desc, String flag) {
 }
 
+OrangeState EMPTY = new OrangeState(0, "空单元格", "⬜");
+OrangeState FRESH = new OrangeState(1, "新鲜橘子", "🟢");
+OrangeState ROTTEN = new OrangeState(2, "腐烂橘子", "🟠");
+
+Map<Integer, OrangeState> states = Map.of(
+        0, EMPTY,
+        1, FRESH,
+        2, ROTTEN);
+
+void main(String... args) {
+	var solution = new Solution();
+	int[][] grid1 = { { 2, 1, 1 }, { 1, 1, 0 }, { 0, 1, 1 } };
+	assert solution.orangesRotting(grid1) == 4 : "计算错误";
+
+	System.out.println("\n" + "*".repeat(30) + "\n");
+
+	int[][] grid2 = { { 2, 1, 1 }, { 0, 1, 1 }, { 1, 0, 1 } };
+	assert solution.orangesRotting(grid2) == -1 : "计算错误";
+
+}
+
 class Solution {
-
-	static final OrangeState EMPTY = new OrangeState(0, "空单元格", "⬜");
-	static final OrangeState FRESH = new OrangeState(1, "新鲜橘子", "🟢");
-	static final OrangeState ROTTEN = new OrangeState(2, "腐烂橘子", "🟠");
-
-	static final Map<Integer, OrangeState> states = Map.of(
-			0, EMPTY,
-			1, FRESH,
-			2, ROTTEN);
-
+    private static final int IMPOSSIBLE = -1;
+    private static final int[][] DIRECTIONS = {
+        {-1, 0}, {1, 0}, {0, -1}, {0, 1}
+    };
 	public int orangesRotting(int[][] grid) {
-		final int IMPOSSIABLE = -1;
 		int step = 0, emptyCount = 0, rottenCount = 0;
 		int rows = grid.length, columns = grid[0].length;
 		Queue<List<Integer>> queue = new ArrayDeque<>();
-
-		BiFunction<Integer, Integer, Integer> doOrangeRotting = (x, y) -> {
-			if (x > -1 && x < rows && y > -1 && y < columns && grid[x][y] == FRESH.state()) {
-				grid[x][y] = ROTTEN.state();
-				queue.add(List.of(x, y));
-				return 1;
-			}
-			return 0;
-		};
 
 		// init queue
 		for (int i = 0; i < rows; i++) {
@@ -48,22 +53,31 @@ class Solution {
 			printGrid(grid);
 			// 核心处理步骤
 			for (int i = queue.size(); i > 0; i--) {
-				List<Integer> element = queue.remove();
-				int x = element.get(0), y = element.get(1);
+				List<Integer> cell = queue.remove();
+				int x = cell.get(0), y = cell.get(1);
 
 				// 添加感染的橘子
 				// 上下左右
-				rottenCount += doOrangeRotting.apply(x - 1, y);
-				rottenCount += doOrangeRotting.apply(x + 1, y);
-				rottenCount += doOrangeRotting.apply(x, y - 1);
-				rottenCount += doOrangeRotting.apply(x, y + 1);
+                for(int[] direction: DIRECTIONS){
+                    int newX = x + direction[0];
+                    int newY = y + direction[1];
+                    if(isValidPosition(newX, newY, grid) && 
+                        grid[newX][newY] == FRESH.state()){
+                            grid[newX][newY] = ROTTEN.state();
+                            queue.add(List.of(newX , newY));
+							rottenCount++;
+						}
+                }
 			}
-
 			step += 1;
 		}
-
-		return rottenCount + emptyCount == rows * columns ? step - 1 : IMPOSSIABLE;
+		return rottenCount + emptyCount == rows * columns ? step - 1 : IMPOSSIBLE;
 	}
+
+    public boolean isValidPosition(int x,int y,int[][] grid){
+        return x >= 0 && x < grid.length && 
+                    y >= 0 && y < grid[0].length;
+    }
 
 	public void printGrid(int[][] grid) {
 		for (int i = 0; i < grid.length; i++) {
@@ -77,14 +91,4 @@ class Solution {
 	}
 }
 
-void main(String... args) {
-	var solution = new Solution();
-	int[][] grid1 = { { 2, 1, 1 }, { 1, 1, 0 }, { 0, 1, 1 } };
-	assert solution.orangesRotting(grid1) == 4 : "计算错误";
 
-	System.out.println("\n" + "*".repeat(30) + "\n");
-
-	int[][] grid2 = { { 2, 1, 1 }, { 0, 1, 1 }, { 1, 0, 1 } };
-	assert solution.orangesRotting(grid2) == -1 : "计算错误";
-
-}
