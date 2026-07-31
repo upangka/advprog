@@ -10,9 +10,9 @@ OrangeState FRESH = new OrangeState(1, "新鲜橘子", "🟢");
 OrangeState ROTTEN = new OrangeState(2, "腐烂橘子", "🟠");
 
 Map<Integer, OrangeState> states = Map.of(
-        0, EMPTY,
-        1, FRESH,
-        2, ROTTEN);
+		0, EMPTY,
+		1, FRESH,
+		2, ROTTEN);
 
 void main(String... args) {
 	var solution = new Solution();
@@ -27,12 +27,13 @@ void main(String... args) {
 }
 
 class Solution {
-    private static final int IMPOSSIBLE = -1;
-    private static final int[][] DIRECTIONS = {
-        {-1, 0}, {1, 0}, {0, -1}, {0, 1}
-    };
+	private static final int IMPOSSIBLE = -1;
+	private static final int[][] DIRECTIONS = {
+			{ -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 }
+	};
+
 	public int orangesRotting(int[][] grid) {
-		int step = 0, emptyCount = 0, rottenCount = 0;
+		int step = 0, freshCount = 0;
 		int rows = grid.length, columns = grid[0].length;
 		Queue<List<Integer>> queue = new ArrayDeque<>();
 
@@ -40,11 +41,9 @@ class Solution {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				if (ROTTEN.state() == grid[i][j]) {
-					rottenCount += 1;
 					queue.add(List.of(i, j));
-				}
-				if (EMPTY.state() == grid[i][j]) {
-					emptyCount++;
+				} else if (FRESH.state() == grid[i][j]) {
+					freshCount++;
 				}
 			}
 		}
@@ -58,26 +57,29 @@ class Solution {
 
 				// 添加感染的橘子
 				// 上下左右
-                for(int[] direction: DIRECTIONS){
-                    int newX = x + direction[0];
-                    int newY = y + direction[1];
-                    if(isValidPosition(newX, newY, grid) && 
-                        grid[newX][newY] == FRESH.state()){
-                            grid[newX][newY] = ROTTEN.state();
-                            queue.add(List.of(newX , newY));
-							rottenCount++;
-						}
-                }
+				for (int[] direction : DIRECTIONS) {
+					int newX = x + direction[0];
+					int newY = y + direction[1];
+					if (isValidPosition(newX, newY, grid) &&
+							grid[newX][newY] == FRESH.state()) {
+						grid[newX][newY] = ROTTEN.state();
+						queue.add(List.of(newX, newY));
+						freshCount--;
+					}
+				}
 			}
-			step += 1;
+			// 仍然有值代表感染了
+			if (!queue.isEmpty()) {
+				step += 1;
+			}
 		}
-		return rottenCount + emptyCount == rows * columns ? step - 1 : IMPOSSIBLE;
+		return freshCount == 0 ? step : IMPOSSIBLE;
 	}
 
-    public boolean isValidPosition(int x,int y,int[][] grid){
-        return x >= 0 && x < grid.length && 
-                    y >= 0 && y < grid[0].length;
-    }
+	public boolean isValidPosition(int x, int y, int[][] grid) {
+		return x >= 0 && x < grid.length &&
+				y >= 0 && y < grid[0].length;
+	}
 
 	public void printGrid(int[][] grid) {
 		for (int i = 0; i < grid.length; i++) {
@@ -90,5 +92,3 @@ class Solution {
 		System.out.println("-".repeat(30));
 	}
 }
-
-
