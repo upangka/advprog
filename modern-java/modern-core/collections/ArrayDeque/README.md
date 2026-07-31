@@ -1,7 +1,27 @@
+# [994. 腐烂的橘子🍊](https://leetcode.cn/problems/rotting-oranges/description/)
+
+```txt
+想象一个果园，有：
+    🟢 新鲜橘子 (值=1)
+    🟠 腐烂橘子 (值=2)
+    ⬜ 空单元格 (值=0)
+
+腐烂过程：每分钟，每个腐烂橘子会"感染"它上下左右相邻的新鲜橘子。
+目标：计算需要多少分钟，所有橘子都腐烂。
+```
+
+[exercise_01.java](./code/exercise_01.java)
+
+```java
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
 //JAVA_OPTIONS -ea
 
+
+/**
+ * 腐烂的橘子问题解决方案
+ * LeetCode 994: https://leetcode.cn/problems/rotting-oranges/description/
+ */
 record OrangeState(int state, String desc, String flag) {
 }
 
@@ -48,15 +68,14 @@ class Solution {
 			}
 		}
 
+		// 核心处理步骤
 		while (!queue.isEmpty()) {
 			printGrid(grid);
-			// 核心处理步骤
 			for (int i = queue.size(); i > 0; i--) {
 				List<Integer> cell = queue.remove();
 				int x = cell.get(0), y = cell.get(1);
 
 				// 添加感染的橘子
-				// 上下左右
 				for (int[] direction : DIRECTIONS) {
 					int newX = x + direction[0];
 					int newY = y + direction[1];
@@ -92,3 +111,28 @@ class Solution {
 		System.out.println("-".repeat(30));
 	}
 }
+```
+
+运行结果[exercise01_out.txt](./code/exercise01_out.txt)
+
+```txt
+🟠 🟢 🟢
+🟢 🟢 ⬜
+⬜ 🟢 🟢
+------------------------------
+🟠 🟠 🟢
+🟠 🟢 ⬜
+⬜ 🟢 🟢
+------------------------------
+🟠 🟠 🟠
+🟠 🟠 ⬜
+⬜ 🟢 🟢
+------------------------------
+🟠 🟠 🟠
+🟠 🟠 ⬜
+⬜ 🟠 🟢
+------------------------------
+🟠 🟠 🟠
+🟠 🟠 ⬜
+⬜ 🟠 🟠
+```
