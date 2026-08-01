@@ -6,7 +6,7 @@
 import edu.princeton.cs.algs4.StdIn;
 
 /**
- * 测试algs4算法书的jar包，maven正常工作
+ * algs4算法书的jar包，maven正常工作
  * @param args
  */
 void main(String... args) {
