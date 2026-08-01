@@ -62,6 +62,10 @@ j! --java 25 hello.java
 jbang -x xxx.java
 ```
 
+下载之后再vscode中也能看到。
+
+![vscode_jbang](./images/vscode_jbang.png)
+
 # jbang debug
 
 首先在命令行执行
