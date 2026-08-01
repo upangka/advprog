@@ -1,4 +1,5 @@
 - [Jbang](./devtools/Jbang.md) 现代Java快速原型验证
+- [Compact Source File](./modern-core/compact-source-file/README.md)
 - [精通Java并发编程](./concurrency-programming/README.md)
 - [ConcurrentLinkedQueue](./modern-core/collections/ConcurrentLinkedQueue/README.md)
 - [ArrayDeque](./modern-core/collections/ArrayDeque/README.md)
