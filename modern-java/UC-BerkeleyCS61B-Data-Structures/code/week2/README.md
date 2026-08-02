@@ -52,13 +52,85 @@ rowTwo[1] = -5;
 
 # 引用
 
+[References, Recursion, and Lists](https://cs61b-2.gitbook.io/cs61b-textbook-spring-2026/3.-references-recursion-and-lists#declaring-a-variable-simplified)
+
 Java 把数据类型分为两种：
 
-1. 基本类型（8 种）：`int`、`double`、`boolean` 等，变量直接存值。
-2. 引用类型：类（`Walrus`、`Dog`）、`数组`、接口等，变量存的不是对象本身，而是对象的地址。
+1. 基本类型（8 种）：`int`、`double`、`boolean` 等，**变量直接存值**。
+2. 引用类型：类（`Walrus`、`Dog`）、`数组`、接口等，变量存的不是对象本身，而是**对象的地址**。
+
+> 基本数据类型
+
+```java
+int x;
+double y;
+```
+
+int 32bit, double是64bit，分别分配对应的空间。
+
+![](./images/32_and_64_bitwise.png)
+
+```java
+x = -1431195969;
+y = 567213.112;
+```
+
+赋值直接存储值的二进制
+
+![alt text](./images/equals.png)
 
 > Reference Type Variable Declarations（引用类型变量）
 >
 > 1. 引用类型变量永远是 64 位，存的是地址，不是对象本身。
 > 2. `null` 就是 64 位全零，表示"没指向任何对象"。
 > 3. `new` 返回的是地址，这个地址被存进变量里。
+
+**box and pointer**
+
+```java
+Walrus someWalrus;
+someWalrus = new Walrus(1000, 8.3);
+```
+
+![](./images/box_and_pointer.png)
+
+```java
+Walrus someWalrus = null
+```
+
+![](./images/null_reference.png)
+
+# == vs. Arrays.equals
+
+`==`可以理解为变量存储的二进制的比较
+
+```java
+int[] x = new int[]{0, 1, 2, 95, 4};
+int[] y = new int[]{0, 1, 2, 95, 4};
+System.out.println(x == y); #false
+```
+
+使用`Arrays.equals`来比较两个数组的内容
+
+```java
+int[] x = new int[]{0, 1, 2, 95, 4};
+int[] y = new int[]{0, 1, 2, 95, 4};
+System.out.println(Arrays.equals(x, y));  // true
+```
+
+二维数组使用
+
+```java
+int[][] x = new int[][]{
+    {1},
+    {1, 1},
+    {1, 2, 1},
+    {1, 3, 3, 1}};
+
+int[][] y = new int[][]{
+    {1},
+    {1, 1},
+    {1, 2, 1},
+    {1, 3, 3, 1}};
+System.out.println(Arrays.deepEquals(x, y)); // true
+```
