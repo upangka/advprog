@@ -1,3 +1,7 @@
+# Week1
+
+- [worksheet](./code/week1/worksheet.md)
+
 # CS61B
 
 [BiliBili](bilibili.com/video/BV1PkLQ68EPW?vd_source=f9745f81b4981bb1eca8c2d80be33ff9&p=2&spm_id_from=333.788.videopod.sections)
