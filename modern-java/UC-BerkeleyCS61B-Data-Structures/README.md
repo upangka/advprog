@@ -1,5 +1,6 @@
 # CS61B
 
+[BiliBili](bilibili.com/video/BV1PkLQ68EPW?vd_source=f9745f81b4981bb1eca8c2d80be33ff9&p=2&spm_id_from=333.788.videopod.sections)
 [课程官网](https://sp26.datastructur.es/)
 [课堂代码](https://github.com/Berkeley-CS61B/lectureCode-sp26)
 [作业](https://github.com/Berkeley-CS61B/skeleton-sp26)
