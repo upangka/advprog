@@ -44,6 +44,8 @@ Below, we see the Java solution to these problems. Discuss with your group what 
 
 下面我们来看这些问题的 Java 解法。和你的小组成员讨论一下，你在 Java 代码中观察到了哪些有趣的特征。如果你组里有 Java 老手，尽管追问他们这些"奇怪"的地方，当然也可以随时问你的 TA。
 
+[main.java](./worksheet/main.java)
+
 ```java
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
