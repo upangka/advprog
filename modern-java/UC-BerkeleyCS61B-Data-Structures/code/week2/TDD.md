@@ -1,4 +1,5 @@
 [Google Truth ](https://truth.dev/)
+[junit](https://docs.junit.org/6.1.2/overview.html)
 
 ```java
 ///usr/bin/env jbang "$0" "$@" ; exit $?
