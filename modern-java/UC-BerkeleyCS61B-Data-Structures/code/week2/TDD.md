@@ -36,6 +36,8 @@ differs at index: [0]
 
 > ⚠️**重要**: `Compact Source File`现在不支持`@Test`，所以还是要以类的形式存在。但是Jbang还是可以正常使用的。
 
+这里使用的JUnit6，`org.junit.jupiter:junit-jupiter:6.1.2`
+
 [Enable testing and adding test framework JARs to your project](https://code.visualstudio.com/docs/java/java-testing#_enable-testing-and-adding-test-framework-jars-to-your-project)
 
 > Starting with Test Runner for Java version 0.34.0, you can enable a test framework for your unmanaged folder project (a project without any build tools(maven,Gradle))
@@ -44,7 +46,7 @@ Jbang这种快速开发天生适合这个，Jbang能够快速引入第三方jar�
 
 ![](./images/jbang_classpath.png)
 
-[tdd](./code/tdd/)实际测试效果
+[tdd](./code/tdd/)实际测试效果,点击右边的能够是人阅读的效果，光是字符那只是协议的输出
 
 ![](./images/tdd.png)
 
