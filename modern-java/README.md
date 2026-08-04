@@ -4,3 +4,4 @@
 - [精通Java并发编程](./concurrency-programming/README.md)
 - [ConcurrentLinkedQueue](./modern-core/collections/ConcurrentLinkedQueue/README.md)
 - [ArrayDeque](./modern-core/collections/ArrayDeque/README.md)
+- [IntList的实现，用到的递归](./UC-BerkeleyCS61B-Data-Structures/code/week2/IntList.md)
