@@ -9,6 +9,7 @@
 - [IntList](./code/week2/IntList.md)
 
 - [worksheet: Lists, Maps, Arrays, References](./code/week2/worksheet-1.md)
+- [worksheet exam level](./code/week2/worksheet-exam.md)
 
 # CS61B
 

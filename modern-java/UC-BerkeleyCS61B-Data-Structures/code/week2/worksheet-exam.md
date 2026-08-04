@@ -237,3 +237,269 @@ Player with score 500.00 : 3
 Player with score 1200.00 : 1
 Player with score 800.00 : 2
 ```
+
+---
+
+# Static Books
+
+Suppose we have the following `Book` and `Library` classes
+
+[static_books.java](./code/worksheet/static_books.java)
+
+```java
+class Book {
+    public String title;
+    public Library library;
+    public static Book last = null;
+
+    public Book(String name) {
+        title = name;
+        last = this;
+    }
+
+    public static String lastBookTitle() {
+        return last.title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+
+class Library {
+    public Book[] books;
+    public int index;
+    public static int totalBooks = 0;
+
+    public Library(int size) {
+        books = new Book[size];
+        index = 0;
+    }
+
+    public void addBook(Book book) {
+        books[index] = book;
+        index++;
+        totalBooks++;
+        book.library = this;
+    }
+}
+```
+
+## A)
+
+For each modification below, determine whether the code of the `Library` and `Book` classes will compile
+or error if we only made that modification, i.e. treat each modification independently.
+
+1. Change the `totalBooks` variable to `non static`
+   - `compile`
+
+2. Change the `lastBookTitle` method to `non static`
+   - `compile`
+
+3. Change the `addBook` method to `static`
+   - `error`
+
+4. Change the `last` variable to `non static`
+   - `error`
+
+5. Change the `library` variable to `static`
+   - `compile`
+
+---
+
+# B)
+
+Using the original `Book` and `Library` classes (i.e., without the modifications from part `A)`, write the output
+of the main method below. If a line errors, put the precise reason it errors and continue execution.
+
+[static_books_b.java](./code/worksheet/static_books_b.java)
+
+```java
+void main(String[] args) {
+        System.out.println(Library.totalBooks);  // 0
+
+        System.out.println(Book.lastBookTitle()); // error 因为last为null
+
+        // System.out.println(Book.getTitle());    // error 因为getTitle是实例方法
+
+        Book goneGirl = new Book("Gone Girl");
+        Book fightClub = new Book("Fight Club");
+
+        System.out.println(goneGirl.title);     // Gone Girl
+
+        System.out.println(Book.lastBookTitle());  // Fight Club
+
+        System.out.println(fightClub.lastBookTitle()); // Fight Club
+
+        System.out.println(goneGirl.last.title); // Fight Club
+
+        Library libraryA = new Library(1);
+        Library libraryB = new Library(2);
+        libraryA.addBook(goneGirl);
+
+        System.out.println(libraryA.index); // 1
+
+        System.out.println(libraryA.totalBooks); // 1
+
+        libraryA.totalBooks = 0;
+        libraryB.addBook(fightClub);
+        libraryB.addBook(goneGirl);
+
+        System.out.println(libraryB.index);    // 2
+
+        System.out.println(Library.totalBooks); // 2
+
+        System.out.println(goneGirl.library.books[0].title); // Gone Girl
+    }
+```
+
+---
+
+# Country Club
+
+Avik wants to keep track of the students in UC Berkeley's clubs. Each club is represented by the **Club** class below, which maps every student in that club to their home country.
+
+```java
+public class Club {
+    public Map<Student, Country> countryMap;
+    ...
+}
+
+public class Student { ... }
+public class Country { ... }
+```
+
+On the next page, implement **countByCountry**, which takes in a list of **Clubs**, and returns a map from each **Country** to the number of unique students from that country. The map should only contain countries that appear in the **countryMaps**.
+
+If a **Student** is in multiple clubs, then each of those clubs will map that student to the same **Country**. Make sure to avoid counting the same **Student** twice if they are in multiple clubs.
+
+You may assume that there is at least one club, and each club has at least one student.
+
+Here is an example with 2 clubs and 3 total students:
+
+| Club          | Country Map                                               |
+| :------------ | :-------------------------------------------------------- |
+| Chess Club    | `{ Aditya: Scotland, Natalia: Brazil, Rushil: Scotland }` |
+| Climbing Club | `{ Natalia: Brazil }`                                     |
+
+**countByCountry** should return the following map: `{ Brazil: 1, Scotland: 2 }`.
+
+---
+
+**Code Skeleton**
+
+```java
+public static Map<Country, Integer> countByCountry(List<Club> allClubs) {
+    Map<Country, Integer> counts = ______;
+    ______;
+    for (______) {
+        for (Student s : ______.keySet()) {
+            Country c = ______;
+            ______;
+        }
+    }
+    return counts;
+}
+```
+
+**Syntax Hints**
+
+- A `Set` has the operations `add` and `contains`. You can instantiate one using `new HashSet`.
+- A `Map` has the operations `put`, `containsKey`, and `get`. You can instantiate one using `new HashMap`.
+- A `List` has the operations `get` and `set`. You can instantiate one using `new ArrayList`.
+- You can iterate over a `List<Integer>` or a `Set<Integer>` using `for int x : c`.
+- `someMap.keySet()` returns the `Set` of all keys in the map `someMap`.
+
+[country_club.java](./code/worksheet/country_club.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+//DEPS tools.jackson.core:jackson-databind:3.2.1
+
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
+
+static class Club {
+	private Map<Student, Country> countryMap;
+
+	public Club() {
+		this.countryMap = new HashMap<>();
+	}
+
+	public void addStudent(Student stu, Country country) {
+		this.countryMap.put(stu, country);
+	}
+}
+
+static record Country(String name) {
+
+	@Override
+	public final String toString() {
+		return this.name;
+	}
+}
+
+static record Student(String name) {
+}
+
+static Map<Country, Integer> countByCountry(List<Club> allClubs) {
+	var counts = new HashMap<Country, Integer>();
+	var uniqueStudents = new HashSet<Student>();
+	for (Club club : allClubs) {
+		for (Map.Entry<Student, Country> entry : club.countryMap.entrySet()) {
+
+			Student stu = entry.getKey();
+			Country country = entry.getValue();
+
+			if (!uniqueStudents.contains(stu)) {
+				int count = counts.computeIfAbsent(country, k -> 0);
+				counts.put(country, count + 1);
+				uniqueStudents.add(stu);
+			}
+		}
+	}
+	return counts;
+}
+
+static List<Club> createClubs() {
+	// 创建国家
+	Country scotland = new Country("Scotland");
+	Country brazil = new Country("Brazil");
+
+	// 创建学生
+	Student aditya = new Student("Aditya");
+	Student natalia = new Student("Natalia");
+	Student rushil = new Student("Rushil");
+
+	// 俱乐部1：国际象棋俱乐部
+	Club chessClub = new Club();
+	chessClub.addStudent(aditya, scotland);
+	chessClub.addStudent(natalia, brazil);
+	chessClub.addStudent(rushil, scotland);
+
+	// 俱乐部2：攀岩俱乐部
+	Club climbingClub = new Club();
+	climbingClub.addStudent(natalia, brazil);
+
+	return List.of(chessClub, climbingClub);
+}
+
+void main(String... args) {
+	List<Club> clubs = createClubs();
+	var ret = countByCountry(clubs);
+
+	JsonMapper jsonMapper = JsonMapper.builder()
+		.enable(SerializationFeature.INDENT_OUTPUT)
+		.build();
+
+	System.out.println(jsonMapper.writeValueAsString(ret));
+}
+
+/**output
+{
+  "Brazil" : 1,
+  "Scotland" : 2
+}
+*/
+```
