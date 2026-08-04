@@ -203,7 +203,7 @@ class Player {
 	public static Map<Player, Integer> rankAbove(List<Player> players) {
 		var results = new HashMap<Player, Integer>();
 
-		// 复制一份用来排序
+		// 复制一份列表用于排序，避免修改原列表（non-destructive）
 		var sortedPlayers = new ArrayList<>(players);
 		sortedPlayers.sort((p1, p2) -> Double.compare(p2.score, p1.score));
 
