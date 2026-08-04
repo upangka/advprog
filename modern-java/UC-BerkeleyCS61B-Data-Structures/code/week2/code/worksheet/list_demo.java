@@ -2,17 +2,17 @@
 //JAVA 25+
 
 void main(String... args) {
-    var lst = new ArrayList<String>();
-    lst.add("zero");
-    lst.add("one");
+	var lst = new ArrayList<String>();
+	lst.add("zero");
+	lst.add("one");
 
-    lst.set(0, "zed");
-    System.out.println(lst.size());
+	lst.set(0, "zed");
+	System.out.println(lst.size());
 
-    if(lst.contains("one")){
-        System.out.println("one in lst");
-    }
+	if (lst.contains("one")) {
+		System.out.println("one in lst");
+	}
 
-    lst.stream().forEach(IO::println);
+	lst.stream().forEach(IO::println);
 
 }
