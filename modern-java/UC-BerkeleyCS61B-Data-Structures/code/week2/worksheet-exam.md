@@ -128,8 +128,8 @@ Fill in `rankedAbove`, which takes in a list of `Players` and returns a map from
 
 ```java
 {
-Player with score 500 : 3, Player with score 800 : 2,
-Player with score 1200 : 1, Player with score 100 : 4
+    Player with score 500 : 3, Player with score 800 : 2,
+    Player with score 1200 : 1, Player with score 100 : 4
 }
 ```
 
