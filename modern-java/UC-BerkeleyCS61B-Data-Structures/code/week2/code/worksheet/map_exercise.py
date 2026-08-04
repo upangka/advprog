@@ -1,4 +1,4 @@
-def build_less_than_map(L):
+def build_less_than_map(L: list[int]):
     result = {}
     for x in L:
         if x not in result:
