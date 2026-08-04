@@ -6,6 +6,7 @@
 
 - [Arrays,References](./code/week2/README.md)
 - [TDD](./code/week2/TDD.md)
+- [IntList](./code/week2/IntList.md)
 
 # CS61B
 
