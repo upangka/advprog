@@ -1,6 +1,10 @@
 # IntList
 
-没有完美的数据结构。IntList 虽然解决了数组‘长度固定’的痛点，但也带来了‘访问和计算长度慢’的新问题
+> "为什么需要 IntList？数组长度固定，无法动态增长。"
+
+Java中**数组长度固定，无法动态增长**。所以采用链表的方式`IntList`是能够无线递增的数据结构。
+
+IntList 虽然解决了数组‘长度固定’的痛点，但也带来了‘访问和计算长度慢’的新问题
 
 1. 好处 (The Good)
    - **长度不固定**：只要内存够，你想加多少个元素都行，不用像数组那样一开始就得定死长度。
@@ -12,7 +16,7 @@
 
    - **计算长度（`size`）也很慢**：不管是递归还是迭代的 `size()` 方法，都得把整个列表从头到尾数一遍。如果列表很长，就很耗时（也是 **O(n)**）。相比之下，数组的 `length` 属性是直接记录好的，看一眼就知道长度，瞬间完成（**O(1)**）。
 
-[IntList.java](./code/intlist/core/IntList.java)的**递归实现**很有技术含量
+[IntList.java](./code/intlist/core/IntList.java)的**递归实现**: `把一个大问题，拆解成一个更小、一模一样的子问题` 不能只看到递归，而是看到大问题拆解为小问题的背后思想
 
 1. `size`就像课堂上老师让坐在后面的学生报出自己现在是第几排
 2. `size`和`get`和`incrementRecursiveNoDestructive`都是利用`nextIntList`，并且在本方法栈中已经处理了结果，比如`get`，通过`i-1`进行变化
@@ -58,6 +62,9 @@ public class IntList {
 		return target.val;
 	}
 
+	/**
+	 * 仔细看这个递归是从后往前建节点
+	 */
 	public IntList incrementRecursiveNoDestructive() {
 
 		IntList ret = null;
@@ -124,3 +131,9 @@ public class TestInitList {
 
 }
 ```
+
+# 思想
+
+1. 把一个大问题，拆解成一个更小、一模一样的子问题
+2. NoDestructive: 非破坏性，不改变原来的数据，重新返回一个新的数据
+3. Destructive: 破坏性修改，会直接在原来的数据上进行修改

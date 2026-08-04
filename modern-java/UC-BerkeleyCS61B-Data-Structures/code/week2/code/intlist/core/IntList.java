@@ -38,8 +38,12 @@ public class IntList {
 		return target.val;
 	}
 
-	public IntList incrementRecursiveNoDestructive() {
 
+	/**
+	 * 仔细看这个递归是从后往前建节点
+	 */
+	public IntList incrementRecursiveNoDestructive() {
+		
 		IntList ret = null;
 		if (this.nextIntList != null) {
 			ret = this.nextIntList.incrementRecursiveNoDestructive();
