@@ -300,9 +300,9 @@ public class Sequence {
 }
 ```
 
-# Local Inner Class
+# Local Class
 
-InnerClass in method
+Local class in method
 
 实现一个接口或者继承一个类，但是不想将实现类公布出来，旨在解决当前的问题。就像上面[通过接口只提供功能而不暴露内部类](#通过接口只提供功能而不暴露内部类)的效果一样。
 
@@ -343,6 +343,68 @@ Now 鲨鱼のJavthon add => 13
 Now 鲨鱼のJavthon add => 2
 [53, 19, 11, 10, 13, 2]
 */
+```
+
+## final and effective final
+
+**"effectively final" 就是"虽然没有写 final 关键字，但它的值从来没有被改变过"。** 编译器会检查这个变量是否被修改过，如果没改过，就视为"实际上就是 final 的"，允许在匿名类内部使用。
+
+1. `Inner Class` → 能改外部类的成员变量
+2. `Local Class` → 不能改外部方法的局部变量.
+   原因： 局部变量存在栈上，方法结束后就销毁了。而 Local 类对象可能在方法结束后还活着（比如被返回出去），如果它持有一个"会变的"局部变量引用，就会出问题。
+
+[exercise_04.java](./code/exercise_04.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+void main(String... args) {
+	int score = 100;
+
+	// lambda 匿名local class
+	Runnable t1 = () -> {
+		// local variables referenced from a lambda expression must be final or effectively final
+		// score -= 10;
+		System.out.println(score);
+	};
+
+	// 匿名local class
+	Runnable t2 = new Runnable() {
+		private String name = "Mark";
+
+		@Override
+		public void run() {
+			// local variables referenced from an inner class must be final or effectively final
+			// score -= 10;
+			System.out.printf("%s %d\n", name, score);
+		}
+	};
+
+	// Local Class
+	class Task implements Runnable {
+		private String name = "John";
+
+		@Override
+		public void run() {
+			// local variables referenced from an inner class must be final or effectively final
+			// score -= 10;
+			System.out.printf("%s %d\n", name, score);
+		}
+	}
+
+	var t3 = new Task();
+
+	t1.run();
+	t2.run();
+	t3.run();
+}
+```
+
+```txt
+100
+Mark 100
+John 100
 ```
 
 # Challenge
