@@ -1,5 +1,9 @@
+# non-static innerclass
+
 内部类对象创建时，会"悄悄"持有外部类对象的引用（就是那个 `OuterClass.this`），通过这个引用，内部类可以访问外部类的所有成员，`private` 也不例外。(**注意：此时内部类不被static修饰**)
 
+> An inner class has a link to its enclosing class.（内部类持有指向其外部类的链接。）
+>
 > 简单的理解就是内部类持有两个this,一个`this`代表自己，一个`OuterClass.this`代表外部类
 
 下面的代码实验证明了：
@@ -94,9 +98,141 @@ I'm InnerClass
 --------------------------------------
 ```
 
+## 小结
+
+Construction of non-static the inner-class object **requires the reference to the object of the enclosing class**,
+and the compiler will complain if it cannot access that reference.
+
+构造内部类对象时，需要持有外部类对象的引用，如果编译器无法获取该引用，就会报错。
+
 ---
 
+# static innerclass
+
 内部类为`static`修饰，此时不能访问外部类实例的属性，也就是没有持有`Outer.this`的实例，可以理解为这个类只是代码结构上放在哪里，就像静态方法，静态属性一样。
+
+# private innerclass
+
+## 通过接口只提供功能而不暴露内部类
+
+private 内部类的 private 只是"类型名"不可见，但通过 public 接口暴露出去的对象，其方法仍然可以被外部调用。
+
+private 内部类隐藏的是"类型身份"，而不是"行为"。通过接口暴露行为，是 Java 内部类设计中最经典的安全封装模式——你只给外面一把钥匙（接口），但从不告诉他们这把锁是哪家工厂造的。
+
+[exercise_02.java](./code/sequence/exercise_02.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+//SOURCES ./Selector.java ./Selector.java
+
+final static int SIZE = 10;
+Random random = new Random();
+
+void main(String... args) {
+
+	Sequence sequence = new Sequence(SIZE);
+	random.ints(SIZE, 0, 10)
+		.forEach(sequence::add);
+
+	System.out.println("生成的结果 => " + Arrays.toString(sequence.getItems()));
+
+	// 通过接口抽象，底层是内部类实现的
+	Selector selector = sequence.getSelector();
+
+	while (!selector.end()) {
+		System.out.println(selector.current());
+		selector.next();
+	}
+
+}
+/**output:
+生成的结果 => [3, 5, 5, 7, 8, 0, 2, 5, 4, 5]
+3
+5
+5
+7
+8
+0
+2
+5
+4
+5
+*/
+```
+
+接口类[Selector.java](./code/sequence/Selector.java)抽象行为
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+public interface Selector {
+	boolean end();
+
+	Integer current();
+
+	void next();
+}
+```
+
+[Sequence.java](./code/sequence/Sequence.java)内部类实现了接口，而内部类又能访问外部类
+
+```java
+import java.util.Arrays;
+
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+public class Sequence {
+	// 内部类实现了接口，而内部类又能访问外部类
+	private class SequenceSelector implements Selector {
+		private int idx = 0;
+
+		@Override
+		public boolean end() {
+			return idx >= items.length;
+		}
+
+		@Override
+		public Integer current() {
+			// 一般的写法
+			// return items[idx];
+			// 原本的样子
+			return Sequence.this.items[this.idx];
+		}
+
+		@Override
+		public void next() {
+			idx++;
+		}
+
+	}
+
+	private Integer[] items;
+	private int next = 0;
+
+	public Sequence(int size) {
+		this.items = new Integer[size];
+	}
+
+	public void add(Integer item) {
+		if (next < items.length) {
+			items[next++] = item;
+		}
+	}
+
+	// 暴露出去了
+	public Selector getSelector() {
+		return new SequenceSelector();
+	}
+
+	public Integer[] getItems() {
+		return Arrays.copyOf(items, items.length);
+	}
+
+}
+```
 
 # 参考
 
