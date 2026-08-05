@@ -51,6 +51,19 @@ void main(String... args) {
 */
 ```
 
+3. 内部类让 Java 绕过了"单继承"的限制，在不改变外部类继承结构的前提下，独立继承另一个类，实现"多继承的效果"。
+
+```java
+class A extends B {
+    // 外部类已经继承了 B，不能再继承 C
+
+    class InnerA extends C {
+        // 但内部类可以独立继承 C
+        // 而且 InnerA 可以访问 A 的所有成员
+    }
+}
+```
+
 # non-static innerclass
 
 内部类对象创建时，会"悄悄"持有外部类对象的引用（就是那个 `OuterClass.this`），通过这个引用，内部类可以访问外部类的所有成员，`private` 也不例外。(**注意：此时内部类不被static修饰**)
@@ -330,6 +343,125 @@ Now 鲨鱼のJavthon add => 13
 Now 鲨鱼のJavthon add => 2
 [53, 19, 11, 10, 13, 2]
 */
+```
+
+# Challenge
+
+## A)
+
+正确实例化内部类
+
+[main.java](./code/challenge/fly/main.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+//SOURCES  ./OldLady.java
+
+/** Successfully make an instance of Fly */
+void main(String... args) {
+    var f = ((((((((new OldLady())
+            .new Horse())
+                .new Cow())
+                    .new Goat())
+                        .new Dog())
+                            .new Cat())
+                                .new Bird())
+                                    .new Spider())
+                                        .new Fly();
+
+    IO.println(f);
+    IO.println(f.getClass());
+}
+/**
+Hi,You find me. Called me deeeep f
+OldLady$Horse$Cow$Goat$Dog$Cat$Bird$Spider$Fly@74a14482
+class OldLady$Horse$Cow$Goat$Dog$Cat$Bird$Spider$Fly
+*/
+```
+
+[OldLady.java](./code/challenge/fly/OldLady.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+class OldLady {
+	class Horse {
+		class Cow {
+			class Goat {
+				class Dog {
+					class Cat {
+						class Bird {
+							class Spider {
+								class Fly {
+									Fly() {
+										IO.println("Hi,You find me. Called me deeeep f");
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+```
+
+## B)
+
+无论当内部类的属性与外部类的属性相同或者方法相同的时候使用内部类持有的`OuterClass.this`进行访问.
+
+[main.java](./code/challenge/gameconsole/main.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+//SOURCES ./GameConsole.java
+
+void main(String... args) {
+	GameConsole gameConsole = new GameConsole();
+	var controller = gameConsole.new Controller();
+	controller.showStatus();
+
+	gameConsole.isPoweredOn = true;
+	controller.showStatus();
+
+	controller.isPoweredOn = true;
+	controller.showStatus();
+
+}
+/**
+Controller[OFF] - GameConsole[OFF]
+Controller[OFF] - GameConsole[ON]
+Controller[ON] - GameConsole[ON]
+*/
+```
+
+[GameConsole.java](./code/challenge/gameconsole/GameConsole.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+public class GameConsole {
+	public boolean isPoweredOn;
+
+	public class Controller {
+		public boolean isPoweredOn;
+
+		public void showStatus() {
+
+			var status = "Controller["
+					+ (this.isPoweredOn ? "ON" : "OFF") + "] - GameConsole["
+					+ (GameConsole.this.isPoweredOn ? "ON" : "OFF") + "]";
+
+			System.out.println(status);
+		}
+	}
+
+}
 ```
 
 # 参考
