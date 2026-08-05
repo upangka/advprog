@@ -1,7 +1,15 @@
-- [Jbang](./devtools/Jbang.md) 现代Java快速原型验证
-- [TDD](./UC-BerkeleyCS61B-Data-Structures/code/week2/TDD.md)
-- [Compact Source File](./modern-core/compact-source-file/README.md)
+# Java语言特性
+
+1. [Compact Source File](./modern-core/compact-source-file/README.md)
+2. [Inner Class](./modern-core/innerclass/README.md)
+3. [static](./modern-core/static/README.md)
+4. [ConcurrentLinkedQueue](./modern-core/collections/ConcurrentLinkedQueue/README.md)
+5. [ArrayDeque](./modern-core/collections/ArrayDeque/README.md)
+
+---
+
+1. [Jbang](./devtools/Jbang.md) 现代Java快速原型验证
+2. [TDD](./UC-BerkeleyCS61B-Data-Structures/code/week2/TDD.md)
+
 - [精通Java并发编程](./concurrency-programming/README.md)
-- [ConcurrentLinkedQueue](./modern-core/collections/ConcurrentLinkedQueue/README.md)
-- [ArrayDeque](./modern-core/collections/ArrayDeque/README.md)
 - [IntList的实现，用到的递归](./UC-BerkeleyCS61B-Data-Structures/code/week2/IntList.md)

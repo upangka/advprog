@@ -5,5 +5,5 @@
 // package mypkg;
 
 void main(String... args) {
-    IO.println("Hello World");
+	IO.println("Hello World");
 }
