@@ -1,3 +1,56 @@
+# InnerClass的作用
+
+1. 代码组织
+2. An inner class provides a kind of window into the outer class.内部类是外部类的一扇"内部视角之窗"，能看见外部类的一切。就像是三体里面，从四维空间中伸向三维空间的手，毫无毫无痕迹的取出大脑
+
+[fourth_handle.java](./code/fourth_handle.java)
+
+```java
+class Human {
+
+	private class Heart {
+		String stream;
+
+		Heart(String s) {
+			stream = s;
+		}
+	}
+
+	public class FourthHand {
+		private String name;
+
+		FourthHand(String name) {
+			this.name = name;
+		}
+
+		public void takeYourHeart() {
+			System.out.println("偷偷偷走你的心");
+			heart = new Heart("在你的心里(LIU)下一滴泪 By %s".formatted(name));
+		}
+	}
+
+	private Heart heart = new Heart("寻找白晶晶");
+
+	@Override
+	public String toString() {
+		return heart.stream;
+	}
+}
+
+void main(String... args) {
+	Human zhiZunBao = new Human();
+	System.out.println(zhiZunBao);
+	Human.FourthHand fourthHand = zhiZunBao.new FourthHand("紫霞");
+	fourthHand.takeYourHeart();
+	System.out.println(zhiZunBao);
+}
+/**
+寻找白晶晶
+偷偷偷走你的心
+在你的心里(LIU)下一滴泪 By 紫
+*/
+```
+
 # non-static innerclass
 
 内部类对象创建时，会"悄悄"持有外部类对象的引用（就是那个 `OuterClass.this`），通过这个引用，内部类可以访问外部类的所有成员，`private` 也不例外。(**注意：此时内部类不被static修饰**)
