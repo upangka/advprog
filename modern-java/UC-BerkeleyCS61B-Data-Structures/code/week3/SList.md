@@ -22,6 +22,17 @@ class IntNode{
 
 ```java
 class SList {
+
+	private class IntNode {
+		private int item;
+		private IntNode next;
+
+		public IntNode(int item, IntNode next) {
+			this.item = item;
+			this.next = next;
+		}
+	}
+
 	private IntNode first;
 
 	public SList(int item) {
@@ -37,7 +48,7 @@ class SList {
 	}
 
 	public void print() {
-		// ...
+        // ...看具体文件实现...
 	}
 }
 

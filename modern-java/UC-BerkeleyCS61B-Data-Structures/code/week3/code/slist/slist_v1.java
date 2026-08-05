@@ -2,6 +2,17 @@
 //JAVA 25+
 
 class SList {
+
+	private class IntNode {
+		private int item;
+		private IntNode next;
+
+		public IntNode(int item, IntNode next) {
+			this.item = item;
+			this.next = next;
+		}
+	}
+
 	private IntNode first;
 
 	public SList(int item) {
@@ -32,15 +43,7 @@ class SList {
 	}
 }
 
-class IntNode {
-	private int item;
-	private IntNode next;
 
-	public IntNode(int item, IntNode next) {
-		this.item = item;
-		this.next = next;
-	}
-}
 
 void main(String... args) {
 	SList L1 = new SList(15);
