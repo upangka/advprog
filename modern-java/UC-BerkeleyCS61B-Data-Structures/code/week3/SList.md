@@ -13,3 +13,40 @@ class IntNode{
     }
 }
 ```
+
+# SList
+
+![](./images/slist_as_middle_man.png)
+
+[slist_v1.java](./code/slist/slist_v1.java)
+
+```java
+class SList {
+	private IntNode first;
+
+	public SList(int item) {
+		first = new IntNode(item, first);
+	}
+
+	public void addFirst(int item) {
+		first = new IntNode(item, first);
+	}
+
+	public int getFirst() {
+		return first.item;
+	}
+
+	public void print() {
+		// ...
+	}
+}
+
+void main(String... args) {
+	SList L1 = new SList(15);
+	L1.addFirst(10);
+	L1.addFirst(5);
+
+	System.out.println(L1.getFirst());
+    L1.print();
+}
+```
