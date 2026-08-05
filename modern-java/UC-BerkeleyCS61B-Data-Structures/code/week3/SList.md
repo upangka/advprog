@@ -23,7 +23,7 @@ class IntNode{
 ```java
 class SList {
 
-	private class IntNode {
+	private static class IntNode {
 		private int item;
 		private IntNode next;
 
