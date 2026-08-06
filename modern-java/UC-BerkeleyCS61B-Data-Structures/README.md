@@ -13,6 +13,10 @@
    1. [worksheet: Lists, Maps, Arrays, References](./code/week2/worksheet-1.md)
    2. [worksheet exam level](./code/week2/worksheet-exam.md)
 
+## Week3
+
+- [SList](./code/week3/SList.md)
+
 ---
 
 # Resources

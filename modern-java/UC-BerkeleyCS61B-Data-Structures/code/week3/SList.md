@@ -16,7 +16,7 @@ class IntNode{
 
 # SList
 
-SList就像是一个中介（middle man）在提供抽象方法的同时，也能提供保留一些元数据(meta infomation)，比如`size`,`maxnum`,`minnum`
+SList就像是一个中介（middle man）在提供抽象方法的同时，也能提供保留一些**元数据(meta infomation)**，比如`size`,`maxnum`,`minnum`
 
 ![](./images/slist_middle_man.png)
 
@@ -112,3 +112,5 @@ void main(String... args) {
 一共5个元素
 */
 ```
+
+![](./images/run_result.png)
