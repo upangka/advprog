@@ -113,4 +113,6 @@ void main(String... args) {
 */
 ```
 
+![](./images/link_list.png)
+
 ![](./images/run_result.png)
