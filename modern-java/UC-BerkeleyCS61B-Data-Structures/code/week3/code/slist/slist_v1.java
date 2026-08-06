@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
-
+//JAVA_OPTIONS -ea
 class SList {
 
 	private static class IntNode {
@@ -13,22 +13,45 @@ class SList {
 		}
 	}
 
-	private IntNode first;
+	private IntNode sentinel;
+	private int size;
+
+	public SList() {
+		sentinel = new IntNode(63, null);
+		this.size = 0;
+	}
 
 	public SList(int item) {
-		first = new IntNode(item, first);
+		sentinel = new IntNode(63, null);
+		this.sentinel.next = new IntNode(item, null);
+		this.size = 1;
 	}
 
 	public void addFirst(int item) {
-		first = new IntNode(item, first);
+		sentinel.next = new IntNode(item, sentinel.next);
+		this.size += 1;
 	}
 
 	public int getFirst() {
-		return first.item;
+		return sentinel.next.item;
+	}
+
+	public void addLast(int item) {
+		var current = sentinel;
+		while (current != null && current.next != null) {
+			current = current.next;
+		}
+
+		current.next = new IntNode(item, current.next);
+		size++;
+	}
+
+	public int size() {
+		return this.size;
 	}
 
 	public void print() {
-		var current = first;
+		var current = sentinel.next;
 		int i = 0;
 		while (current != null) {
 			if (i > 0) {
@@ -39,17 +62,23 @@ class SList {
 			current = current.next;
 		}
 
+		assert i == size : "内部错误";
 		System.out.printf("%n一共%d个元素%n", i);
 	}
 }
 
-
-
 void main(String... args) {
-	SList L1 = new SList(15);
+	SList L1 = new SList(86);
+	L1.addLast(20);
 	L1.addFirst(10);
 	L1.addFirst(5);
+	L1.addLast(15);
 
-	System.out.println(L1.getFirst());
-    L1.print();
+	assert L1.size() == 5 : "元素数量不对";
+	L1.print();
+
 }
+/**
+5 -> 10 -> 86 -> 20 -> 15
+一共5个元素
+*/

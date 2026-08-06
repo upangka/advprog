@@ -62,5 +62,5 @@ void main(String... args) {
 	System.out.println(L.getFirst());
 	System.out.println(L.get(1));
 	System.out.println(L.get(2));
-    L.print();
+	L.print();
 }
