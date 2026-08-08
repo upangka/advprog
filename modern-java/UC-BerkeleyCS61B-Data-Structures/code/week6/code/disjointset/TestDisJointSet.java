@@ -8,7 +8,7 @@
 import interfaces.DisjointSet;
 import quickfind.QuickFind;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test; 
 import com.google.common.truth.Truth;
 public class TestDisJointSet {
 	final static int SIZE = 7;
