@@ -8,11 +8,15 @@
 import interfaces.DisjointSet;
 import quickfind.QuickFind;
 
-import org.junit.jupiter.api.Test; 
+import java.util.Arrays;
+
+import org.junit.jupiter.api.Test;
 import com.google.common.truth.Truth;
+
 public class TestDisJointSet {
 	final static int SIZE = 7;
-	public static void doLab(DisjointSet ds){
+
+	public static void doLab(DisjointSet ds) {
 		ds.connnect(0, 1);
 		ds.connnect(1, 2);
 		ds.connnect(0, 4);
@@ -26,11 +30,10 @@ public class TestDisJointSet {
 	}
 
 	@Test
-	public void testQuickFind(){
+	public void testQuickFind() {
 		var df = new QuickFind(SIZE);
 		doLab(df);
-		IO.println(df.id);
+		IO.println(Arrays.toString(df.id));
 	}
 
 }
-

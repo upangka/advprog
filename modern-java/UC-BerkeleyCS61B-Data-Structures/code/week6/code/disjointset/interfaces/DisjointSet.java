@@ -5,6 +5,7 @@ package interfaces;
 
 public interface DisjointSet {
 
-    void connnect(int p,int q);
-    boolean isConnection(int p,int q);
+	void connnect(int p, int q);
+
+	boolean isConnection(int p, int q);
 }
