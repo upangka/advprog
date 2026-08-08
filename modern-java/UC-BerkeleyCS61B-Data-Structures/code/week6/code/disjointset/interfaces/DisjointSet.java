@@ -2,6 +2,7 @@
 //JAVA 25+
 
 package interfaces;
+
 public interface DisjointSet {
 
     void connnect(int p,int q);
