@@ -3,15 +3,17 @@
 //DEPS org.junit.jupiter:junit-jupiter:6.1.2
 //DEPS com.google.truth:truth:1.4.5
 
-//SOURCES  ./quickfind/QuickFind.java ./interfaces/DisjointSet.java
-
-import interfaces.DisjointSet;
-import quickfind.QuickFind;
+//SOURCES  ./interfaces/DisjointSet.java ./quickfind/QuickFind.java  ./quickunion/QuickUnion.java
 
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import com.google.common.truth.Truth;
+
+import interfaces.DisjointSet;
+import quickfind.QuickFind;
+import quickunion.QuickUnion;
+
 
 public class TestDisJointSet {
 	final static int SIZE = 7;
@@ -34,6 +36,13 @@ public class TestDisJointSet {
 		var df = new QuickFind(SIZE);
 		doLab(df);
 		IO.println(Arrays.toString(df.id));
+	}
+
+	@Test
+	public void testQuickUnion() {
+		var df = new QuickUnion(SIZE);
+		doLab(df);
+		IO.println(Arrays.toString(df.parent));
 	}
 
 }
