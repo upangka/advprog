@@ -15,7 +15,11 @@
 
 ## Week3
 
-- [SList](./code/week3/SList.md)
+1. [SList](./code/week3/SList.md)
+
+## Week6
+
+1. [DisJoint Set](./code/week6/README.md)
 
 ---
 
