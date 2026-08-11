@@ -5,6 +5,7 @@
 3. [static](./modern-core/static/README.md)
 4. [ConcurrentLinkedQueue](./modern-core/collections/ConcurrentLinkedQueue/README.md)
 5. [ArrayDeque](./modern-core/collections/ArrayDeque/README.md)
+6. [类与类继承执行顺序](./modern-core/classextension/README.md)
 
 ---
 
