@@ -3,6 +3,102 @@
     1. 实例代码块是在构造方法体执行之前运行的
     2. 隐式调用永远调的是无参构造`super()`
 
+# 标准的执行顺序
+
+1. 静态代码块：类加载时执行，父类先于子类
+2. 实例代码块：对象实例化时执行，在构造方法体之前执行
+3. 构造方法
+
+[fish.java](./code/fish.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+class Fish {
+
+	static {
+		System.out.println("静态方法");
+	}
+
+	{
+		System.out.println("实例方法1");
+	}
+
+	public Fish() {
+		IO.println("无参构造方法");
+	}
+
+	{
+		System.out.println("实例方法2");
+	}
+}
+
+void main(String... args) {
+	new Fish();
+}
+```
+
+输出:
+
+```txt
+静态方法
+实例方法1
+实例方法2
+无参构造方法
+```
+
+## 构造方法中调用构造方法
+
+在最后执行的构造方法中（也就是真正实例化之前）会去执行实例化方法。
+
+[apple.java](./code/apple.java)
+
+```java
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA 25+
+
+class Apple {
+
+	static {
+		System.out.println("静态方法");
+	}
+
+	{
+		System.out.println("实例方法1");
+	}
+
+	Apple() {
+		IO.println("无参构造方法1");
+		this("Iphone");
+		IO.println("无参构造方法2");
+	}
+
+	Apple(String name) {
+		// ⚠️会在这里去执行实例化方法
+		IO.println("有参构造方法");
+	}
+
+	{
+		System.out.println("实例方法2");
+	}
+}
+
+void main(String... args) {
+	new Apple();
+}
+
+```
+
+```txt
+静态方法
+无参构造方法1
+实例方法1
+实例方法2
+有参构造方法
+无参构造方法2
+```
+
 # 继承案例执行循序
 
 1. 静态代码块：类加载时执行，父类先于子类
