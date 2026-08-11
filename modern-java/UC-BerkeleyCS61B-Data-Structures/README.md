@@ -21,6 +21,10 @@
 
 1. [DisJoint Set](./code/week6/README.md)
 
+## Week7
+
+1. [binary_search](./code/week7/binary_search.md)
+
 ---
 
 # Resources

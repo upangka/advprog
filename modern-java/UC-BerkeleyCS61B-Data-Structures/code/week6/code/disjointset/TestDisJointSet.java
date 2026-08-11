@@ -14,7 +14,6 @@ import interfaces.DisjointSet;
 import quickfind.QuickFind;
 import quickunion.QuickUnion;
 
-
 public class TestDisJointSet {
 	final static int SIZE = 7;
 
