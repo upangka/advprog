@@ -6,5 +6,4 @@ package model;
 public interface Sample {
     String getTag();
     double[] getExample();
-    
 }

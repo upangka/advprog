@@ -1,9 +1,9 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
 
+package model;
 import java.util.Arrays;
 
-import model.Sample;
 
 /**
 byte age;
