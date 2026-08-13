@@ -13,7 +13,6 @@ import core.KnnI;
 import model.Distance;
 import model.Sample;
 import task.GroupDistanceTask;
-import task.IndividualDistanceTask;
 
 /**
  * KnnClassifierParallelIndividual
@@ -40,11 +39,12 @@ public class KnnClassifierParallelGroup implements KnnI {
 	@Override
 	public String classifyPredict(Sample sample) throws InterruptedException {
 		Distance[] distances = new Distance[datasets.size()];
-
-		int length = datasets.size() / this.executor.getCorePoolSize();
+		int numThreads = this.executor.getCorePoolSize();
+		int length = datasets.size() / numThreads;
 		int startIndex = 0, endIndex = length;
 
-		var endController = new CountDownLatch(length);
+		// 设置为线程的数量，因为是以每个线程为一组进行分配任务的
+		var endController = new CountDownLatch(numThreads);
 		for (int i = 0; i < length; i++) {
 			if (i == length - 1) {
 				endIndex += datasets.size();
