@@ -2,8 +2,8 @@
 //JAVA 25+
 
 package model;
-import java.util.Arrays;
 
+import java.util.Arrays;
 
 /**
 byte age;
@@ -74,31 +74,30 @@ byte age;
 	float nrEmployed;
 	String target;
  */
-public class BankMarketing implements Sample{
-    private static final int COLUMNS_NUM = 67;
-    private final double[] columns = new double[COLUMNS_NUM - 1];
-    private final String tag;
+public class BankMarketing implements Sample {
+	private static final int COLUMNS_NUM = 67;
+	private final double[] columns = new double[COLUMNS_NUM - 1];
+	private final String tag;
 
-    public BankMarketing(String[] datas){
-        if(datas.length != COLUMNS_NUM){
-            throw new IllegalArgumentException("Wrong data length: "+ datas.length);
-        }
+	public BankMarketing(String[] datas) {
+		if (datas.length != COLUMNS_NUM) {
+			throw new IllegalArgumentException("Wrong data length: " + datas.length);
+		}
 
-        for (int i = 0; i < COLUMNS_NUM - 1; i++) {
-            columns[i] = Double.parseDouble(datas[i]);
-        }
+		for (int i = 0; i < COLUMNS_NUM - 1; i++) {
+			columns[i] = Double.parseDouble(datas[i]);
+		}
 
+		this.tag = datas[COLUMNS_NUM - 1];
+	}
 
-        this.tag = datas[COLUMNS_NUM - 1];
-    }
+	@Override
+	public String getTag() {
+		return this.tag;
+	}
 
-    @Override
-    public String getTag() {
-        return this.tag;
-    }
-
-    @Override
-    public double[] getExample() {
-        return Arrays.copyOf(columns, columns.length);
-    }
+	@Override
+	public double[] getExample() {
+		return Arrays.copyOf(columns, columns.length);
+	}
 }

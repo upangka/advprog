@@ -4,6 +4,7 @@
 package model;
 
 public interface Sample {
-    String getTag();
-    double[] getExample();
+	String getTag();
+
+	double[] getExample();
 }
