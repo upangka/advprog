@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import core.KnnI;
 import model.Distance;
 import model.Sample;
+import util.EuclideanDistanceCalculator;
 
 public class KnnClassifier implements KnnI {
 	static final Comparator<Distance> comparator = new Comparator<Distance>() {
@@ -25,10 +26,14 @@ public class KnnClassifier implements KnnI {
 	}
 
 	@Override
-	public String classify(Sample sample) {
+	public String classifyPredict(Sample sample) {
 
-		// TODO
 		List<Distance> distances = new ArrayList<>(dataset.size());
+
+		for (int i = 0; i < this.dataset.size(); i++) {
+			double distance = EuclideanDistanceCalculator.calculate(this.dataset.get(i), sample);
+			distances.add(new Distance(i, distance));
+		}
 
 		distances.sort(comparator);
 

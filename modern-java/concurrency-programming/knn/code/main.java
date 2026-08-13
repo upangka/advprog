@@ -2,6 +2,10 @@
 //JAVA 25+
 //SOURCES ./**/*.java
 
+import java.time.Duration;
+import java.time.Instant;
+
+import core.KnnI;
 import core.serial.KnnClassifier;
 import loader.BankMarketingLoader;
 
@@ -14,11 +18,30 @@ void main(String... args) {
 	var trainSamples = loader.load(TRAIN_DATAS_PATH);
 	var testSamples = loader.load(TEST_DATAS_PATH);
 
-	KnnClassifier knnClassifier = new KnnClassifier(trainSamples, K);
+	var classifies = List.of(new KnnClassifier(trainSamples, K));
 
-	var sample = testSamples.get(29);
-	String tagActual = sample.getTag();
-	String tagPredict = knnClassifier.classify(sample);
-	System.out.printf("%s %s\n", tagActual, tagPredict);
+	for (KnnClassifier knnModel : classifies) {
+		Instant start = Instant.now();
+		int success = 0, mistakes = 0;
+
+		for (var testSample : testSamples) {
+			String predictTag = knnModel.classifyPredict(testSample);
+			String actualTag = testSample.getTag();
+
+			if (actualTag.equals(predictTag)) {
+				success += 1;
+			} else {
+				mistakes += 1;
+			}
+		}
+
+		long duration = Duration.between(start, Instant.now()).toMillis();
+		System.out.println("%s 耗时: %sms(%.2fs)".formatted(
+				knnModel.getClass().getSimpleName(),
+				duration, duration / 1_000.0));
+		System.out.printf("Accuracy(准确率): %.2f% , Success: %d , Mistakes: %d\n",
+				(double) success / testSamples.size() * 100, success,
+				mistakes);
+	}
 
 }
