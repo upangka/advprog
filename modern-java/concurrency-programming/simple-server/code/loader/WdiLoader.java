@@ -7,7 +7,7 @@ package loader;
  * WdiLoader
  */
 public class WdiLoader {
-	private static final int TOTAL_COLUMNS = 59;
+	public static final int TOTAL_COLUMNS = 59;
 
 	public static String[] parseLine(String line) {
 		String[] ret = new String[TOTAL_COLUMNS];
