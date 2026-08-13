@@ -3,7 +3,6 @@
 
 package util;
 
-import model.Distance;
 import model.Sample;
 
 /**
@@ -22,7 +21,7 @@ public class EuclideanDistanceCalculator {
 		double ret = 0;
 
 		for (int i = 0; i < c2.length; i++) {
-			ret += Math.pow(c1[i] + c2[i], 2);
+			ret += Math.pow(c1[i] - c2[i], 2);
 		}
 
 		return Math.sqrt(ret);

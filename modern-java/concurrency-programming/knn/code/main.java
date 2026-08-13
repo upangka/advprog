@@ -5,7 +5,6 @@
 import java.time.Duration;
 import java.time.Instant;
 
-import core.KnnI;
 import core.serial.KnnClassifier;
 import loader.BankMarketingLoader;
 
@@ -13,7 +12,7 @@ static final String TRAIN_DATAS_PATH = "/home/pkmer/projects/advprog/modern-java
 static final String TEST_DATAS_PATH = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/knn/resources/bank.test";
 static int K = 10;
 
-void main(String... args) {
+void main(String... args) throws Exception{
 	var loader = new BankMarketingLoader();
 	var trainSamples = loader.load(TRAIN_DATAS_PATH);
 	var testSamples = loader.load(TEST_DATAS_PATH);
