@@ -46,6 +46,7 @@ public class KnnClassifierParallelGroup implements KnnI {
 		// 设置为线程的数量，因为是以每个线程为一组进行分配任务的
 		var endController = new CountDownLatch(numThreads);
 		for (int i = 0; i < length; i++) {
+			// 最后一次取到直接取完
 			if (i == length - 1) {
 				endIndex += datasets.size();
 			}
