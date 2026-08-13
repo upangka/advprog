@@ -5,6 +5,8 @@
 import java.time.Duration;
 import java.time.Instant;
 
+import core.KnnI;
+import core.parallel.KnnClassifierParallelIndividual;
 import core.serial.KnnClassifier;
 import loader.BankMarketingLoader;
 
@@ -12,14 +14,16 @@ static final String TRAIN_DATAS_PATH = "/home/pkmer/projects/advprog/modern-java
 static final String TEST_DATAS_PATH = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/knn/resources/bank.test";
 static int K = 10;
 
-void main(String... args) throws Exception{
+void main(String... args) throws Exception {
 	var loader = new BankMarketingLoader();
 	var trainSamples = loader.load(TRAIN_DATAS_PATH);
 	var testSamples = loader.load(TEST_DATAS_PATH);
 
-	var classifies = List.of(new KnnClassifier(trainSamples, K));
+	// new KnnClassifier(trainSamples, K),
+	var classifies = List.of(
+			new KnnClassifierParallelIndividual(trainSamples, K));
 
-	for (KnnClassifier knnModel : classifies) {
+	for (KnnI knnModel : classifies) {
 		Instant start = Instant.now();
 		int success = 0, mistakes = 0;
 

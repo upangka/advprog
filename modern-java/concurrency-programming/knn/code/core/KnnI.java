@@ -23,7 +23,7 @@ public interface KnnI {
 		};
 	};
 
-	default String getMinTagFromKSortedDistances(List<? extends Sample> dataset,Distance[] distances,int k){
+	default String getMinTagFromKSortedDistances(List<? extends Sample> dataset, Distance[] distances, int k) {
 		var ret = new HashMap<String, Integer>();
 
 		for (int i = 0; i < k; i++) {
@@ -37,6 +37,5 @@ public interface KnnI {
 	}
 
 	String classifyPredict(Sample sample) throws Exception;
-
 
 }

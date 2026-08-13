@@ -12,7 +12,7 @@ import model.Sample;
 import util.EuclideanDistanceCalculator;
 
 public class KnnClassifier implements KnnI {
-	
+
 	final int k;
 	final List<? extends Sample> dataset;
 
@@ -22,7 +22,7 @@ public class KnnClassifier implements KnnI {
 	}
 
 	@Override
-	public String classifyPredict(Sample sample) throws Exception{
+	public String classifyPredict(Sample sample) throws Exception {
 
 		Distance[] distances = new Distance[dataset.size()];
 
@@ -31,8 +31,8 @@ public class KnnClassifier implements KnnI {
 			distances[i] = new Distance(i, distance);
 		}
 
-		Arrays.sort(distances,comparator);
+		Arrays.sort(distances, comparator);
 
-		return getMinTagFromKSortedDistances(this.dataset,distances,this.k);
+		return getMinTagFromKSortedDistances(this.dataset, distances, this.k);
 	}
 }
