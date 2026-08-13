@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import core.KnnI;
+import core.parallel.KnnClassifierParallelGroup;
 import core.parallel.KnnClassifierParallelIndividual;
 import core.serial.KnnClassifier;
 import loader.BankMarketingLoader;
@@ -20,7 +21,8 @@ void main(String... args) throws Exception {
 	var testSamples = loader.load(TEST_DATAS_PATH);
 
 	var classifies = List.of(new KnnClassifier(trainSamples, K),
-			new KnnClassifierParallelIndividual(trainSamples, K));
+			new KnnClassifierParallelIndividual(trainSamples, K),
+			new KnnClassifierParallelGroup(trainSamples, K));
 
 	for (KnnI knnModel : classifies) {
 		Instant start = Instant.now();
