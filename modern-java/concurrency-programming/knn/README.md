@@ -92,7 +92,20 @@ Accuracy(准确率): 90.97% , Success: 1873 , Mistakes: 186
 ────────────────────────────────────────────────────────────
 ```
 
+# 串行版本
+
 串型的版本基本就是按照上面的思路进行实现的
+
+[KnnClassifier.java](./code/core/serial/KnnClassifier.java)
+
+```java
+Distance[] distances = new Distance[dataset.size()];
+
+for (int i = 0; i < this.dataset.size(); i++) {
+   double distance = EuclideanDistanceCalculator.calculate(this.dataset.get(i), sample);
+   distances[i] = new Distance(i, distance);
+}
+```
 
 # 最细粒度
 
