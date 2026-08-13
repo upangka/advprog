@@ -3,11 +3,42 @@
 
 package loader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.WdiRecord;
+import model.WdiRecordFactory;
+
 /**
  * WdiLoader
  */
 public class WdiLoader {
 	public static final int TOTAL_COLUMNS = 59;
+	private static final String SPLIT_SYMBOL = ",";
+	private static final String DATA_PATH = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/simple-server/resources/WDI_Data.csv";
+
+	public static List<WdiRecord> load() {
+
+		var ret = new ArrayList<WdiRecord>();
+
+		try (var reader = Files.newBufferedReader(Path.of(DATA_PATH))) {
+			String line = reader.readLine();
+			assert line.split(SPLIT_SYMBOL).length == TOTAL_COLUMNS : "数据格式错误";
+
+			while ((line = reader.readLine()) != null) {
+				String[] columns = parseLine(line);
+				WdiRecord record = WdiRecordFactory.create(columns);
+				ret.add(record);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ret;
+	}
 
 	public static String[] parseLine(String line) {
 		String[] ret = new String[TOTAL_COLUMNS];
