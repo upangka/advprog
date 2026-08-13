@@ -21,3 +21,4 @@ hello
 # 其他可能的编译中间文件
 *.o
 *.obj
+modern-java/concurrency-programming/simple-server/resources/WDI_Data.csv
