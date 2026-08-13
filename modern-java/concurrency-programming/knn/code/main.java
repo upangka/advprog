@@ -42,6 +42,8 @@ void main(String... args) {
 		System.out.printf("Accuracy(准确率): %.2f%% , Success: %d , Mistakes: %d\n",
 				(double) success / testSamples.size() * 100, success,
 				mistakes);
+
+		System.out.println("─".repeat(60));
 	}
 
 }
