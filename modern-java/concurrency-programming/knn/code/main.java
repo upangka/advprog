@@ -39,7 +39,7 @@ void main(String... args) {
 		System.out.println("%s 耗时: %sms(%.2fs)".formatted(
 				knnModel.getClass().getSimpleName(),
 				duration, duration / 1_000.0));
-		System.out.printf("Accuracy(准确率): %.2f% , Success: %d , Mistakes: %d\n",
+		System.out.printf("Accuracy(准确率): %.2f%% , Success: %d , Mistakes: %d\n",
 				(double) success / testSamples.size() * 100, success,
 				mistakes);
 	}
