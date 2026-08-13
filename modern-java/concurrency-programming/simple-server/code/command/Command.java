@@ -2,12 +2,12 @@
 //JAVA 25+
 package command;
 
-public abstract class Command{
-    protected String[] commands;
+public abstract class Command {
+	protected String[] commands;
 
-    public Command(String[] commands){
-        this.commands = commands;
-    }
+	public Command(String[] commands) {
+		this.commands = commands;
+	}
 
-    public abstract String execute() throws Exception;
+	public abstract String execute() throws Exception;
 }

@@ -6,16 +6,16 @@ package command;
 /**
  * BadCommand
  */
-public class BadCommand extends Command{
-    private static final String msg = "ERROR;Bad Command";
+public class BadCommand extends Command {
+	private static final String msg = "ERROR;Bad Command";
 
-    public BadCommand(){
-        super(null);
-    }
+	public BadCommand() {
+		super(null);
+	}
 
-    @Override
-    public String execute() {
-        return msg;
-    }
-    
+	@Override
+	public String execute() {
+		return msg;
+	}
+
 }

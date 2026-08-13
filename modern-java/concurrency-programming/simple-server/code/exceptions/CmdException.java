@@ -6,5 +6,5 @@ package exceptions;
 /**
  * CmdException
  */
-public class CmdException extends Exception{    
+public class CmdException extends Exception {
 }
