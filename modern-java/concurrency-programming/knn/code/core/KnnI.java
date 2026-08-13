@@ -36,6 +36,9 @@ public interface KnnI {
 		return maxEntry.getKey();
 	}
 
+	default void close() {
+	}
+
 	String classifyPredict(Sample sample) throws Exception;
 
 }

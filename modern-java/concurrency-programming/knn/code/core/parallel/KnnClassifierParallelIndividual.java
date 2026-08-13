@@ -57,4 +57,9 @@ public class KnnClassifierParallelIndividual implements KnnI {
 		return getMinTagFromKSortedDistances(this.datasets, distances, this.k);
 	}
 
+	@Override
+	public void close() {
+		this.executor.shutdown();
+	}
+
 }

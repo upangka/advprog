@@ -19,8 +19,7 @@ void main(String... args) throws Exception {
 	var trainSamples = loader.load(TRAIN_DATAS_PATH);
 	var testSamples = loader.load(TEST_DATAS_PATH);
 
-	// new KnnClassifier(trainSamples, K),
-	var classifies = List.of(
+	var classifies = List.of(new KnnClassifier(trainSamples, K),
 			new KnnClassifierParallelIndividual(trainSamples, K));
 
 	for (KnnI knnModel : classifies) {
@@ -48,5 +47,7 @@ void main(String... args) throws Exception {
 
 		System.out.println("─".repeat(60));
 	}
+
+	classifies.forEach(KnnI::close);
 
 }
