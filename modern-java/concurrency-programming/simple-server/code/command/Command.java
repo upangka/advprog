@@ -9,5 +9,5 @@ public abstract class Command{
         this.commands = commands;
     }
 
-    public abstract String execute();
+    public abstract String execute() throws Exception;
 }
