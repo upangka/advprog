@@ -10,12 +10,12 @@ import java.util.List;
 
 import model.WdiRecord;
 import model.WdiRecordFactory;
+import static constants.Constants.*;
 
 /**
  * WdiLoader
  */
 public class WdiLoader {
-	public static final int TOTAL_COLUMNS = 59;
 	private static final String SPLIT_SYMBOL = ",";
 	private static final String DATA_PATH = "/home/pkmer/projects/advprog/modern-java/concurrency-programming/simple-server/resources/WDI_Data.csv";
 
@@ -32,11 +32,9 @@ public class WdiLoader {
 				WdiRecord record = WdiRecordFactory.create(columns);
 				ret.add(record);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return ret;
 	}
 

@@ -1,7 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
 //DEPS com.google.truth:truth:1.4.5
-//SOURCES ./WdiLoader.java ../loader/WdiLoader.java ../model/WdiRecord.java ../model/WdiRecordFactory.java
+//SOURCES ./WdiLoader.java ../loader/WdiLoader.java ../model/WdiRecord.java ../model/WdiRecordFactory.java ../constants/Constants.java
 
 package loader;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.common.truth.Truth;
 
 import model.WdiRecord;
+import static constants.Constants.*;
 
 /**
  * WdiLoaderTest
@@ -24,7 +25,7 @@ public class WdiLoaderTest {
 				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "1.67096700000000E+01", "", "",
 				"", "", "", "", "", "", "" };
 		String[] actual = WdiLoader.parseLine(sample);
-		Truth.assertThat(actual.length).isEqualTo(WdiLoader.TOTAL_COLUMNS);
+		Truth.assertThat(actual.length).isEqualTo(TOTAL_COLUMNS);
 		Truth.assertThat(actual).isEqualTo(expected);
 		System.out.println("Good test parse line");
 	}
