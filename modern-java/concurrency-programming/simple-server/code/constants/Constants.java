@@ -13,5 +13,6 @@ public class Constants {
 	public static final int PREFIX_STRS = 4;
 
 	public static final int SERIAL_PORT = 10_001;
+	public static final int CONCURRENCY_PORT = 10_002;
 
 }
