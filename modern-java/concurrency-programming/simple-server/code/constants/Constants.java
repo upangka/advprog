@@ -12,6 +12,6 @@ public class Constants {
 	/** 前4列都为字符串，剩下的55列要么是缺失值，要么是数值 */
 	public static final int PREFIX_STRS = 4;
 
-	public static final int SERIAL_PORT=10_001;
+	public static final int SERIAL_PORT = 10_001;
 
 }

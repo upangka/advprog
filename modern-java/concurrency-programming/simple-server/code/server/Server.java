@@ -6,7 +6,7 @@ package server;
 /**
  * Server
  */
-public interface Server extends Runnable{
+public interface Server extends Runnable {
 
-    public void stop();
+	public void stop();
 }
