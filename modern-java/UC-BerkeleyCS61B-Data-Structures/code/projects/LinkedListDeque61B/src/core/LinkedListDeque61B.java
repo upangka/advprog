@@ -34,6 +34,8 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
 	@Override
 	public void addFirst(T item) {
+		if(item == null) return;
+
 		Node<T> node = new Node<T>(item);
 
 		var tempNode = this.sentinel.next;
@@ -48,6 +50,8 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
 	@Override
 	public void addLast(T item) {
+		if(item == null) return;
+
 		Node<T> node = new Node<T>(item);
 
 		var tempNode = this.sentinel.prev;
@@ -56,6 +60,8 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
 		node.prev = tempNode;
 		tempNode.next = node;
+
+		size++;
 	}
 
 	@Override
@@ -79,43 +85,77 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
 	@Override
 	public int size() {
-
-		throw new UnsupportedOperationException("Unimplemented method 'size'");
+		return size;
 	}
 
 	@Override
 	public T getFirst() {
-
+		if(isEmpty()) return null;
 		return this.sentinel.next.item;
 	}
 
 	@Override
 	public T getLast() {
+		if(isEmpty()) return null;
 		return this.sentinel.prev.item;
 	}
 
 	@Override
 	public T removeFirst() {
+		if(isEmpty()) return null;
 
-		throw new UnsupportedOperationException("Unimplemented method 'removeFirst'");
+		var first = this.sentinel.next;
+		var candidateFirst = first.next;
+
+		this.sentinel.next = candidateFirst;
+		candidateFirst.prev = this.sentinel;
+		
+		size--;
+		return first.item;
 	}
 
 	@Override
 	public T removeLast() {
+		if(isEmpty()) return null;
 
-		throw new UnsupportedOperationException("Unimplemented method 'removeLast'");
+		var last = this.sentinel.prev;
+		var candidateLast = last.prev;
+		
+		candidateLast.next = this.sentinel;
+		this.sentinel.prev = candidateLast;
+		
+		size--;
+		return last.item;
 	}
 
 	@Override
 	public T get(int index) {
+		if(index < 0 || index > size - 1){
+			return null;
+		}
 
-		throw new UnsupportedOperationException("Unimplemented method 'get'");
+		var currentNode = this.sentinel.next;
+
+		for (int i = 0; i < index; i++) {
+			currentNode = currentNode.next;
+		}
+
+		return currentNode.item;
 	}
 
 	@Override
 	public T getRecursive(int index) {
+		if(index < 0 || index > size - 1){
+			return null;
+		}
+		return getRecursive(this.sentinel.next, index);
+	}
 
-		throw new UnsupportedOperationException("Unimplemented method 'getRecursive'");
+	private static <T> T getRecursive(Node<T> node,int index){
+		if(index == 0){
+			return node.item;
+		}
+		return getRecursive(node.next, index - 1);
 	}
 
 }

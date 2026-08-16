@@ -49,15 +49,50 @@ public class LinkedListDeque61BTest {
 	}
 
 	@Test
-	public void testIsEmpty() {
-		Deque61B<Integer> lld = new LinkedListDeque61B<>();
+	public void testIsEmptyAndRemove() {
+		Deque61B<String> lld = new LinkedListDeque61B<>();
 		Truth.assertThat(lld.isEmpty()).isTrue();
-		System.out.println("Good testIsEmpty");
+
+		lld.addFirst("Apple");
+		lld.addLast("Watermelon");
+		lld.addFirst("Strawberry");
+
+		lld.removeFirst();
+		Truth.assertThat(lld.toList()).containsExactly("Apple","Watermelon").inOrder();
+		
+		lld.removeFirst();
+		lld.removeFirst();
+
+		Truth.assertThat(lld.isEmpty()).isTrue();
+		System.out.println("Good testIsEmptyAndRemove");
+	}
+
+	@Test
+	public void testGet(){
+		Deque61B<String> lld = new LinkedListDeque61B<>();
+
+		// [Watermelon, Strawberry, Apple]
+		lld.addFirst("Apple");
+		lld.addFirst("Strawberry");
+		lld.addFirst("Watermelon");
+
+		Truth.assertThat(lld.get(0)).isEqualTo("Watermelon");
+		Truth.assertThat(lld.get(1)).isEqualTo("Strawberry");
+		Truth.assertThat(lld.get(2)).isEqualTo("Apple");
+
+		Truth.assertThat(lld.getRecursive(0)).isEqualTo("Watermelon");
+		Truth.assertThat(lld.getRecursive(1)).isEqualTo("Strawberry");
+		Truth.assertThat(lld.getRecursive(2)).isEqualTo("Apple");
+
+
+		System.out.println("Good testGet");
+
 	}
 
 	public static void main(String[] args) {
 		instance.testOneElement();
 		instance.testToList();
-		instance.testIsEmpty();
+		instance.testIsEmptyAndRemove();
+		instance.testGet();
 	}
 }
