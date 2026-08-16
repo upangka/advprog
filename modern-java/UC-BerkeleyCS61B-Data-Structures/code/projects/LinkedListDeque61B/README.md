@@ -24,3 +24,5 @@ public LinkedListDeque61B(){
     size = 0;
 }
 ```
+
+![](./images/sentinel_2.png)
