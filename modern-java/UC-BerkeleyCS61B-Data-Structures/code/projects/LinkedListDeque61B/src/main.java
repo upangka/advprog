@@ -6,12 +6,13 @@ import core.Deque61B;
 import core.LinkedListDeque61B;
 
 void main(String... args) {
-	Deque61B<Integer> lld = new LinkedListDeque61B<>();
-	lld.addFirst(3);
-	System.out.println(lld.getFirst());
-	System.out.println(lld.getLast());
+	Deque61B<String> lld = new LinkedListDeque61B<>();
 
-	// lld.addLast(0);   // [0]
-	// lld.addLast(1);   // [0, 1]
-	// lld.addFirst(-1); // [-1, 0, 1]
+	lld.addFirst("Berkely");
+	lld.addLast("CS");
+	lld.addLast("16B");
+	lld.addFirst("UC");
+
+	System.out.println(lld.toList() + " size: " + lld.size());
+
 }

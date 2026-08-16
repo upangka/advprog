@@ -58,8 +58,8 @@ public class LinkedListDeque61BTest {
 		lld.addFirst("Strawberry");
 
 		lld.removeFirst();
-		Truth.assertThat(lld.toList()).containsExactly("Apple","Watermelon").inOrder();
-		
+		Truth.assertThat(lld.toList()).containsExactly("Apple", "Watermelon").inOrder();
+
 		lld.removeFirst();
 		lld.removeFirst();
 
@@ -68,7 +68,7 @@ public class LinkedListDeque61BTest {
 	}
 
 	@Test
-	public void testGet(){
+	public void testGet() {
 		Deque61B<String> lld = new LinkedListDeque61B<>();
 
 		// [Watermelon, Strawberry, Apple]
@@ -83,7 +83,6 @@ public class LinkedListDeque61BTest {
 		Truth.assertThat(lld.getRecursive(0)).isEqualTo("Watermelon");
 		Truth.assertThat(lld.getRecursive(1)).isEqualTo("Strawberry");
 		Truth.assertThat(lld.getRecursive(2)).isEqualTo("Apple");
-
 
 		System.out.println("Good testGet");
 
