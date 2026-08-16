@@ -54,6 +54,8 @@ public void addFirst(T item) {
 }
 ```
 
+![add_first.png](./images/add_first.png)
+
 # get
 
 这里记录递归的实现
