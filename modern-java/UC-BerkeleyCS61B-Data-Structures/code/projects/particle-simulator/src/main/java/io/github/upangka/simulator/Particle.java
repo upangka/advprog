@@ -58,5 +58,12 @@ public class Particle {
 
     public void action(Map<Direction,Particle> neighbors){
 
+        // If the flavor of the current particle is EMPTY, return immediately.
+        // And if the flavor of the current particle is not BARRIER, call fall.
+        if(this.flavor == ParticleFlavor.EMPTY || flavor ==  ParticleFlavor.BARRIER){
+            return;
+        }
+
+        this.fall(neighbors);
     }
 }
