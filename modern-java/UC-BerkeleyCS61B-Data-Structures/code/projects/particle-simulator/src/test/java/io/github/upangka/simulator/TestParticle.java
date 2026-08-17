@@ -64,4 +64,31 @@ public class TestParticle {
 
         log.info("Particle `MoveInto` method: Good test");
     }
+
+
+    @Test
+    public void testFall(){
+        // Arrange: Initialize a small 2x2 simulator
+        var sim = new ParticleSimulator(2,2);
+
+        // --- Scenario 1: Fall into Empty Space ---
+        // Setup: Place SAND at (0,1) and ensure (0,0) is EMPTY
+        // Note that 0,0 is the bottom left, and 0,1 is the top left
+
+        // 坐标轴以左下角为起点，水平为x轴，纵轴为y轴
+        Particle[][] particles = sim.getParticles();
+        particles[0][1] = new Particle(SAND);
+        particles[0][0] = new Particle(EMPTY);
+
+        // Get real neighbors for the particle at (0,1)
+        var neighbors = sim.getNeighbors(0,1);
+        particles[0][1].fall(neighbors);
+
+
+        // Assert:
+        Truth.assertThat(particles[0][1].getFlavor()).isEqualTo(EMPTY);
+        Truth.assertThat(particles[0][0].getFlavor()).isEqualTo(SAND);
+
+        log.info("Particle `Fall` method: Good test");
+    }
 }

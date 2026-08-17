@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.Map;
 
 /**
  * 粒子
@@ -46,5 +47,12 @@ public class Particle {
 
     public void changeFlavor(ParticleFlavor flavor){
         this.setFlavor(flavor);
+    }
+
+    public void fall(Map<Direction,Particle> neighbors){
+        Particle other = neighbors.get(Direction.DOWN);
+        if(other.getFlavor() == ParticleFlavor.EMPTY){
+            this.moveInto(other);
+        }
     }
 }
