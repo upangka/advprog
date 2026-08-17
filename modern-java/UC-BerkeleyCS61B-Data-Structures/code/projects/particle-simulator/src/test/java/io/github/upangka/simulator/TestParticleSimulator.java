@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @version 1.0
  * @since 2026/8/17
  */
-public class ParticleSimulatorTest {
+public class TestParticleSimulator {
 
     @Test
     public void testOne(){
