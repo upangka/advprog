@@ -59,6 +59,10 @@ public class ParticleSimulator {
             }
         }
     }
+
+    public void trick(){
+
+    }
     /** 类似`毒丸` */
     public static final Particle SENTINEL = new Particle(ParticleFlavor.BARRIER);
     public Map<Direction, Particle> getNeighbors(int x, int y) {
@@ -89,6 +93,20 @@ public class ParticleSimulator {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
+
+    /**
+     * 在模拟器、游戏和动画程序里，{@code tick} 指的是模拟世界的一次“心跳”或“步进”。每发生一次 {@code tick}，
+     * 就代表整个模拟世界前进了一个时间单位。
+     *
+     * 你可以把它想象成一个时钟的滴答声——每滴答一下，所有粒子就更新一次状态
+     */
+    public void tick(){
+        traverseParticles((x, y) -> {
+            var particle = particles[x][y];
+            var neighbors = getNeighbors(x, y);
+            particle.action(neighbors);
+        });
+    }
 
     static void main() {
         var ret = new ParticleSimulator(150, 150);

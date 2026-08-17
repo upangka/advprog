@@ -55,4 +55,8 @@ public class Particle {
             this.moveInto(other);
         }
     }
+
+    public void action(Map<Direction,Particle> neighbors){
+
+    }
 }

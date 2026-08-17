@@ -46,6 +46,7 @@ public class Main {
                 log.info("点击鼠标[{},{}]",x,y);
             }
 
+            simulator.tick();
             simulator.drawParticles();
 
             // 1s 200FPS
