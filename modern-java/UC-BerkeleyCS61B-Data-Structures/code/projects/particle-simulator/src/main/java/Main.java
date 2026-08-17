@@ -34,6 +34,7 @@ public class Main {
             // 检查键盘输入
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
+                nextParticleFlavor = LETTER_TO_PARTICLE.getOrDefault(c,nextParticleFlavor);
                 log.info("检测到{}按键被按下", c);
             }
 
