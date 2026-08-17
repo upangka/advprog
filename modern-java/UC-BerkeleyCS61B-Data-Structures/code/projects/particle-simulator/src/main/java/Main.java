@@ -21,7 +21,7 @@ public class Main {
             'z', ParticleFlavor.FLOWER
     );
 
-    public static void main() {
+    static void main() {
         var simulator = new ParticleSimulator(WIDTH,HEIGHT);
         StdDraw.setXscale(0, simulator.getWidth());
         StdDraw.setYscale(0, simulator.getHeight());
@@ -51,7 +51,5 @@ public class Main {
             StdDraw.show();
             StdDraw.pause(5);
         }
-
-
     }
 }

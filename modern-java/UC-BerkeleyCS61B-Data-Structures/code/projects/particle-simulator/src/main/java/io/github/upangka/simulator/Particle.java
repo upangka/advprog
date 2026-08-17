@@ -16,11 +16,16 @@ public class Particle {
     }
 
     public Color color(){
-        if(flavor==ParticleFlavor.EMPTY){
-            return Color.BLACK;
-        }
-
-        return Color.GRAY;
+       return switch (flavor) {
+            case EMPTY-> Color.BLACK;
+            case SAND -> Color.YELLOW;
+            case BARRIER -> Color.GRAY;
+            case WATER -> Color.BLUE;
+            case FOUNTAIN -> Color.CYAN;
+            case PLANT -> new Color(0, 255, 0);
+            case FIRE -> new Color(255, 0, 0);
+            case FLOWER -> new Color(255, 141, 161);
+       };
     }
 
     public void changeFlavor(ParticleFlavor flavor){
