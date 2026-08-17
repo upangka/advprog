@@ -45,4 +45,23 @@ public class TestParticle {
 
         log.info("Color: Good test");
     }
+
+    @Test
+    public void testMoveInto(){
+        var particleA = new Particle(FIRE);
+        particleA.setLifespan(10);
+
+        var particleB = new Particle(EMPTY);
+        particleB.setLifespan(-1);
+
+        particleA.moveInto(particleB);
+
+        Truth.assertThat(particleA.getFlavor()).isEqualTo(EMPTY);
+        Truth.assertThat(particleA.getLifespan()).isEqualTo(-1);
+
+        Truth.assertThat(particleB.getFlavor()).isEqualTo(FIRE);
+        Truth.assertThat(particleB.getLifespan()).isEqualTo(10);
+
+        log.info("Particle `MoveInto` method: Good test");
+    }
 }
