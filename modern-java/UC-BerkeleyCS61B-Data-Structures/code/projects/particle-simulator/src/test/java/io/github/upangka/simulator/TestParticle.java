@@ -47,7 +47,7 @@ public class TestParticle {
     }
 
     @Test
-    public void testMoveInto(){
+    public void testMoveInto() {
         var particleA = new Particle(FIRE);
         particleA.setLifespan(10);
 
@@ -67,9 +67,9 @@ public class TestParticle {
 
 
     @Test
-    public void testFall(){
+    public void testFall() {
         // Arrange: Initialize a small 2x2 simulator
-        var sim = new ParticleSimulator(2,2);
+        var sim = new ParticleSimulator(2, 2);
 
         // --- Scenario 1: Fall into Empty Space ---
         // Setup: Place SAND at (0,1) and ensure (0,0) is EMPTY
@@ -81,7 +81,7 @@ public class TestParticle {
         particles[0][0] = new Particle(EMPTY);
 
         // Get real neighbors for the particle at (0,1)
-        var neighbors = sim.getNeighbors(0,1);
+        var neighbors = sim.getNeighbors(0, 1);
         particles[0][1].fall(neighbors);
 
 
