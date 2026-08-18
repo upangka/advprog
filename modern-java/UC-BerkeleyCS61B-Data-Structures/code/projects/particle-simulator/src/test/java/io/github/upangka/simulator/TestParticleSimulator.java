@@ -2,6 +2,7 @@ package io.github.upangka.simulator;
 
 import com.google.common.truth.Truth;
 import io.github.upangka.simulator.factory.ParticleSimulatorFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
  * @version 1.0
  * @since 2026/8/17
  */
+@Slf4j
 public class TestParticleSimulator {
 
     /**
@@ -50,7 +52,7 @@ public class TestParticleSimulator {
 
         var actualState = sim.toString().trim();
         Truth.assertThat(actualState).isEqualTo(expectBoard);
-        System.out.println("ParticleSimulator particles state to str: Good Tests");
+        log.info("ParticleSimulator particles state to str: Good Tests");
 
     }
 
@@ -66,7 +68,59 @@ public class TestParticleSimulator {
         ParticleSimulator sim = ParticleSimulatorFactory.create(expertBoard);
         Truth.assertThat(sim.toString().trim()).isEqualTo(expertBoard);
 
-        System.out.println("ParticleSimulator Factory create: Good Test");
+        log.info("ParticleSimulator Factory create: Good Test");
+    }
+
+
+    @Test
+    public void testFallVisual(){
+        // Arrange: A 3x5 grid with sand(s) suspend over empty space(.)
+        // and a barrier(b) at the bottom
+
+        String initialBoard = """
+            s.s
+            s.s
+            ...
+            ...
+            bbb
+            """.trim();
+
+        var sim = ParticleSimulatorFactory.create(initialBoard);
+
+        // Act: Run 1 tick
+        sim.tick();
+
+        String expectedAfter1Tick = """
+            ...
+            s.s
+            s.s
+            ...
+            bbb
+            """.trim();
+
+        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter1Tick);
+        log.info("visual tick 1: Good Test");
+
+        // Act: Run 2 tick
+        sim.tick();
+
+        String expectedAfter2Ticks = """
+            ...
+            ...
+            s.s
+            s.s
+            bbb
+            """.trim();
+
+        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
+        log.info("visual tick 2: Good Test");
+
+        // Act: Run 3 tick
+        sim.tick();
+        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
+        log.info("visual tick 3: Good Test");
+
+        log.info("visual tick Good Test");
     }
 
 }
