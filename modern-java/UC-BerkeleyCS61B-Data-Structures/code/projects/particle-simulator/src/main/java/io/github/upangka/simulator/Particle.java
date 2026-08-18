@@ -1,5 +1,6 @@
 package io.github.upangka.simulator;
 
+import io.github.upangka.simulator.util.RandomUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,11 +60,39 @@ public class Particle {
     public void action(Map<Direction,Particle> neighbors){
 
         // If the flavor of the current particle is EMPTY, return immediately.
-        // And if the flavor of the current particle is not BARRIER, call fall.
-        if(this.flavor == ParticleFlavor.EMPTY || flavor ==  ParticleFlavor.BARRIER){
+        if(this.flavor == ParticleFlavor.EMPTY){
             return;
         }
 
-        this.fall(neighbors);
+        // If the flavor of the current particle is not BARRIER, call fall.
+        if(this.flavor !=  ParticleFlavor.BARRIER){
+            this.fall(neighbors);
+        }
+
+        // If the flavor of the current particle is WATER, call flow.
+        if(this.flavor == ParticleFlavor.WATER){
+            flow(neighbors);
+        }
+
+
+    }
+
+    /**
+     * With 1/3 chance, don’t do anything.
+     * With 1/3 chance, if the left neighbor is empty, moveInto it.
+     * With 1/3 chance, if the right neighbor is empty, moveInto it.
+     */
+    public void flow(Map<Direction, Particle> neighbors) {
+
+        int chance = RandomUtil.nextInt(0, 2);
+        if(chance == 0){
+            return;
+        }else if(chance == 1){
+            Particle other = neighbors.get(Direction.LEFT);
+            moveInto(other);
+        }else if(chance == 2){
+            Particle other = neighbors.get(Direction.RIGHT);
+            moveInto(other);
+        }
     }
 }
