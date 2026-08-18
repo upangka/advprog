@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import static io.github.upangka.simulator.config.AppConfig.PARTICLE_TO_LETTER;
+
 /**
  *
  * @author 鲨鱼不喝Jvaa 抖音号:77283340926
@@ -41,7 +43,18 @@ public class ParticleSimulator {
         });
     }
 
-
+    /**
+     * 坐标轴
+     *          y
+     *          ^
+     *          |
+     *          |   (0,3)  (1,3)  (2,3)  (3,3)
+     *          |   (0,2)  (1,2)  (2,2)  (3,2)
+     *          |   (0,1)  (1,1)  (2,1)  (3,1)
+     *          |   (0,0)  (1,0)  (2,0)  (3,0)
+     *          |
+     *          +----------------------------------> x
+     */
     public void traverseParticles(BiConsumer<Integer, Integer> consumer) {
         for (int x = 0; x < particles.length; x++) {
             for (int y = 0; y < particles[0].length; y++) {
@@ -106,6 +119,33 @@ public class ParticleSimulator {
             var neighbors = getNeighbors(x, y);
             particle.action(neighbors);
         });
+    }
+
+    /**
+     * 坐标轴
+     *          y
+     *          ^
+     *          |
+     *          |   (0,3)  (1,3)  (2,3)  (3,3)
+     *          |   (0,2)  (1,2)  (2,2)  (3,2)
+     *          |   (0,1)  (1,1)  (2,1)  (3,1)
+     *          |   (0,0)  (1,0)  (2,0)  (3,0)
+     *          |
+     *          +----------------------------------> x
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int y = height - 1; y >= 0; y--) {
+            for (int x = 0; x < width ; x++) {
+                var particle = particles[x][y];
+                Character c = PARTICLE_TO_LETTER.get(particle.getFlavor());
+                sb.append(c);
+            }
+            sb.append('\n');
+        }
+
+        return sb.toString();
     }
 
     static void main() {

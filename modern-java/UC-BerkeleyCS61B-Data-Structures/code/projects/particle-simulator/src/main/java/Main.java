@@ -2,24 +2,14 @@ import edu.princeton.cs.algs4.StdDraw;
 import io.github.upangka.simulator.ParticleFlavor;
 import io.github.upangka.simulator.ParticleSimulator;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
+import static io.github.upangka.simulator.config.AppConfig.*;
 
 @Slf4j
 public class Main {
     public static final int WIDTH = 150;
     public static final int HEIGHT = 150;
     /** 不同的按键对应的粒子类型  */
-    public static final Map<Character, ParticleFlavor> LETTER_TO_PARTICLE = Map.of(
-            's', ParticleFlavor.SAND,
-            'b', ParticleFlavor.BARRIER,
-            'w', ParticleFlavor.WATER,
-            'p', ParticleFlavor.PLANT,
-            'f', ParticleFlavor.FIRE,
-            '.', ParticleFlavor.EMPTY,
-            'n', ParticleFlavor.FOUNTAIN,
-            'z', ParticleFlavor.FLOWER
-    );
+
 
     static void main() {
         var simulator = new ParticleSimulator(WIDTH,HEIGHT);
