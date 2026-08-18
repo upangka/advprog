@@ -20,6 +20,11 @@ y
     x=0     x=1     x=2     x=3
 ```
 
+水流动的效果
+
+
+<img src="./images/water_flow.png" width="350" height="350" alt="water_flow">
+
 # 粒子
 
 通过粒子类型(flavor)来返回不同的颜色(`java.awt.Color`),粒子就像是像素一样。每个单位为1
