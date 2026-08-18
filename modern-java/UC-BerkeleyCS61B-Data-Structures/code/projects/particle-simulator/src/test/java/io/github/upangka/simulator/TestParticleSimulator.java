@@ -1,6 +1,7 @@
 package io.github.upangka.simulator;
 
 import com.google.common.truth.Truth;
+import io.github.upangka.simulator.factory.ParticleSimulatorFactory;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,13 +26,14 @@ public class TestParticleSimulator {
      */
     @Test
     public void testVisual() {
-        String expectState = """
+        var expectBoard = """
                 bbb
                 pfz
                 fb.
                 """.trim();
 
         var sim = new ParticleSimulator(3, 3);
+
         Particle[][] particles = sim.getParticles();
         particles[0][0] = new Particle(ParticleFlavor.FIRE);
         particles[1][0] = new Particle(ParticleFlavor.BARRIER);
@@ -47,13 +49,24 @@ public class TestParticleSimulator {
 
 
         var actualState = sim.toString().trim();
-        Truth.assertThat(actualState).isEqualTo(expectState);
+        Truth.assertThat(actualState).isEqualTo(expectBoard);
         System.out.println("ParticleSimulator particles state to str: Good Tests");
 
     }
 
     @Test
-    public void testFallVisual() {
+    public void testCreateParticleSimulatorFromStringBoard(){
+        var expertBoard = """
+                ...
+                .w.
+                ...
+                bbb
+                """.trim();
 
+        ParticleSimulator sim = ParticleSimulatorFactory.create(expertBoard);
+        Truth.assertThat(sim.toString().trim()).isEqualTo(expertBoard);
+
+        System.out.println("ParticleSimulator Factory create: Good Test");
     }
+
 }
