@@ -123,4 +123,30 @@ public class TestParticleSimulator {
         log.info("visual tick Good Test");
     }
 
+    /**
+     * Task 7: Making Water Flow
+     */
+    @Test
+    public void testTickAndFlow(){
+        // Arrange:
+        // Col 0: Stacked Sand (s) on Barrier -> Should be Stable
+        // Col 2: Water (w) on Barrier -> Should Flow
+        // Col 4: Sand (s) in Air -> Should Fall
+        String initialBoard = """
+            s...s
+            s.w..
+            bbbbb
+            """.trim();
+
+        ParticleSimulator sim = ParticleSimulatorFactory.create(initialBoard);
+        sim.tick();
+
+        String expectedBoard = """
+            s...s
+            s.w..
+            bbbbb
+            """.trim();
+
+    }
+
 }

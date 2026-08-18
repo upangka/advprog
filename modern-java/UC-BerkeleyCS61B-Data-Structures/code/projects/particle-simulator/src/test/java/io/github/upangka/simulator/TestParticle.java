@@ -2,6 +2,7 @@ package io.github.upangka.simulator;
 
 import com.google.common.truth.Truth;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ import static io.github.upangka.simulator.ParticleFlavor.*;
  * @since 2026/8/17
  */
 @Slf4j
+@DisplayName("粒子行为测试")
 public class TestParticle {
 
     @Test

@@ -3,7 +3,6 @@ package io.github.upangka.simulator;
 import edu.princeton.cs.algs4.StdDraw;
 import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +28,13 @@ public class ParticleSimulator {
         this.height = h;
         this.particles = new Particle[w][h];
 
-        traverseParticles((x, y) -> particles[x][y] = new Particle(ParticleFlavor.EMPTY));
+        traverseParticlesBottomUp((x, y) -> particles[x][y] = new Particle(ParticleFlavor.EMPTY));
     }
 
 
     public void drawParticles() {
 
-        traverseParticles((x, y) -> {
+        traverseParticlesBottomUp((x, y) -> {
             var particle = particles[x][y];
             StdDraw.setPenColor(particle.color());
             // 以半边长为0.5,正方形的中心画一个正方形
@@ -54,10 +53,11 @@ public class ParticleSimulator {
      *          |   (0,0)  (1,0)  (2,0)  (3,0)
      *          |
      *          +----------------------------------> x
+     *   粒子模拟器遍历规则： 从下往上遍历，从左到右
      */
-    public void traverseParticles(BiConsumer<Integer, Integer> consumer) {
-        for (int x = 0; x < particles.length; x++) {
-            for (int y = 0; y < particles[0].length; y++) {
+    public void traverseParticlesBottomUp(BiConsumer<Integer, Integer> consumer) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 consumer.accept(x, y);
             }
         }
@@ -114,7 +114,7 @@ public class ParticleSimulator {
      * 你可以把它想象成一个时钟的滴答声——每滴答一下，所有粒子就更新一次状态
      */
     public void tick(){
-        traverseParticles((x, y) -> {
+        traverseParticlesBottomUp((x, y) -> {
             var particle = particles[x][y];
             var neighbors = getNeighbors(x, y);
             particle.action(neighbors);
@@ -149,8 +149,8 @@ public class ParticleSimulator {
     }
 
     static void main() {
-        var ret = new ParticleSimulator(150, 150);
-        System.out.println(Arrays.toString(ret.particles));
+        var sim = new ParticleSimulator(4, 4);
+
     }
 
 
