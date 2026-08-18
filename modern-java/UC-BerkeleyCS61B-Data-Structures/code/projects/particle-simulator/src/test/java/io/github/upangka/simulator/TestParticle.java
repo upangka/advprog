@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.Map;
 
 import static io.github.upangka.simulator.ParticleFlavor.*;
 
@@ -90,6 +91,65 @@ public class TestParticle {
         Truth.assertThat(particles[0][0].getFlavor()).isEqualTo(SAND);
 
         log.info("Particle `Fall` method: Good test");
+    }
+
+    @Test
+    public void testFlow() {
+        int moveLeftCount = 0, moveRightCount = 0, stayedCount = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            var center = new Particle(WATER);
+            var left = new Particle(EMPTY);
+            var right = new Particle(EMPTY);
+
+            var neighbors = Map.of(
+                    Direction.UP, new Particle(EMPTY),
+                    Direction.DOWN, new Particle(BARRIER),
+                    Direction.LEFT, left,
+                    Direction.RIGHT, right
+            );
+
+            center.flow(neighbors);
+
+            // check where the water flow
+            if (left.getFlavor() == WATER) {
+                moveLeftCount += 1;
+            } else if (right.getFlavor() == WATER) {
+                moveRightCount += 1;
+            } else if (center.getFlavor() == WATER) {
+                stayedCount += 1;
+            }
+        }
+
+        // 理想情况下，每个分支出现约 1000 / 3 ≈ 333 次。
+        // 但随机数有波动，不可能每次刚好都是 333。240 是一个宽松的下限
+        Truth.assertThat(moveLeftCount).isGreaterThan(240);
+        Truth.assertThat(moveRightCount).isGreaterThan(240);
+        Truth.assertThat(stayedCount).isGreaterThan(240);
+        log.info("1/3 flow left/center/right: Good test");
+
+        // --- Part 2: Verify Safety (Do not overwrite blocks) ---
+        // We surround water with barriers and run flow() many times.
+        // It should NEVER overwrite a barrier.
+        for (int i = 0; i < 1000; i++) {
+            var center = new Particle(WATER);
+            var left = new Particle(BARRIER);
+            var right = new Particle(BARRIER);
+
+            var neighbors = Map.of(
+                    Direction.UP, new Particle(EMPTY),
+                    Direction.DOWN, new Particle(BARRIER),
+                    Direction.LEFT, left,
+                    Direction.RIGHT, right
+            );
+
+            center.flow(neighbors);
+
+            Truth.assertThat(left.getFlavor()).isEqualTo(BARRIER);
+            Truth.assertThat(right.getFlavor()).isEqualTo(BARRIER);
+        }
+
+        log.info("Particle `Flow` method: Good test");
     }
 
 
