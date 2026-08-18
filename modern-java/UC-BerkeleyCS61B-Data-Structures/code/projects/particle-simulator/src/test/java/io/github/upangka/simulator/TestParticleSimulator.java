@@ -3,7 +3,13 @@ package io.github.upangka.simulator;
 import com.google.common.truth.Truth;
 import io.github.upangka.simulator.factory.ParticleSimulatorFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -208,4 +214,104 @@ public class TestParticleSimulator {
         log.info("Particle system move around special water particle: Good Test");
     }
 
+
+    @Test
+    @DisplayName("Task 8: Making Plants (and flowers) Grow")
+    public void testGrow() {
+        String initialState = """
+                ...
+                .p.
+                bbb
+                """.trim();
+
+
+        // The list of REQUIRED growth outcomes
+        List<String> expectedGrowthStates = new ArrayList<>();
+
+        expectedGrowthStates.add("""
+                ...
+                .p.
+                bbb
+                """.trim()); // no growth
+
+        expectedGrowthStates.add("""
+                ...
+                pp.
+                bbb
+                """.trim()); // Left
+
+        expectedGrowthStates.add("""
+                .p.
+                .p.
+                bbb
+                """.trim()); // Up
+
+        expectedGrowthStates.add("""
+                pp.
+                .p.
+                bbb
+                """.trim()); // Up + Left
+
+        expectedGrowthStates.add("""
+                ...
+                .pp
+                bbb
+                """.trim()); // Right
+
+        expectedGrowthStates.add("""
+                ..p
+                .pp
+                bbb
+                """.trim()); // Right + Up
+
+        expectedGrowthStates.add("""
+                .p.
+                .pp
+                bbb
+                """.trim()); // Up, Right (fall)
+
+        expectedGrowthStates.add("""
+                .pp
+                .pp
+                bbb
+                """.trim()); // Right, Up, Left
+
+
+        // --- ACT ---
+        Set<String> observedStates = new HashSet<>();
+
+        for (int i = 0; i < 10000; i++) {
+            ParticleSimulator sim = ParticleSimulatorFactory.create(initialState);
+            sim.tick();
+            observedStates.add(sim.toString().trim());
+        }
+
+        // --- ASSERT 1: CHECK FOR MISSING STATES ---
+        for (String expected : expectedGrowthStates) {
+            Truth.assertWithMessage("""
+                            Test Failed: A required growth state was never observed.
+                            Missing State:
+                            %s
+                            """, expected)
+                    .that(observedStates)
+                    .contains(expected);
+        }
+
+        // --- ASSERT 2: CHECK FOR UNEXPECTED (INVALID) STATES ---
+
+        // Create a "White List" of all valid outcomes (Growth + No Change)
+        Set<String> validStates = new HashSet<>(expectedGrowthStates);
+
+        for (String observed : observedStates) {
+            Truth.assertWithMessage("""
+                            Test Failed: An invalid/impossible state was generated.
+                            Unexpected State:
+                            %s
+                            """, observed)
+                    .that(validStates)
+                    .contains(observed);
+        }
+
+        log.info("Plants (and flowers) Grow: Good Test");
+    }
 }
