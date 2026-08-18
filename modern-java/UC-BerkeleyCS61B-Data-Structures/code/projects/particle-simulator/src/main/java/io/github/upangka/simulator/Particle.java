@@ -74,7 +74,6 @@ public class Particle {
         // If the flavor of the current particle is WATER, call flow.
         if(this.flavor == ParticleFlavor.WATER){
             flow(neighbors);
-            log.info("水flow");
         }
 
     }

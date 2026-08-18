@@ -57,7 +57,7 @@ public class TestParticleSimulator {
     }
 
     @Test
-    public void testCreateParticleSimulatorFromStringBoard(){
+    public void testCreateParticleSimulatorFromStringBoard() {
         var expertBoard = """
                 ...
                 .w.
@@ -73,17 +73,17 @@ public class TestParticleSimulator {
 
 
     @Test
-    public void testFallVisual(){
+    public void testFallVisual() {
         // Arrange: A 3x5 grid with sand(s) suspend over empty space(.)
         // and a barrier(b) at the bottom
 
         String initialBoard = """
-            s.s
-            s.s
-            ...
-            ...
-            bbb
-            """.trim();
+                s.s
+                s.s
+                ...
+                ...
+                bbb
+                """.trim();
 
         var sim = ParticleSimulatorFactory.create(initialBoard);
 
@@ -91,12 +91,12 @@ public class TestParticleSimulator {
         sim.tick();
 
         String expectedAfter1Tick = """
-            ...
-            s.s
-            s.s
-            ...
-            bbb
-            """.trim();
+                ...
+                s.s
+                s.s
+                ...
+                bbb
+                """.trim();
 
         Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter1Tick);
         log.info("visual tick 1: Good Test");
@@ -105,12 +105,12 @@ public class TestParticleSimulator {
         sim.tick();
 
         String expectedAfter2Ticks = """
-            ...
-            ...
-            s.s
-            s.s
-            bbb
-            """.trim();
+                ...
+                ...
+                s.s
+                s.s
+                bbb
+                """.trim();
 
         Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
         log.info("visual tick 2: Good Test");
@@ -127,26 +127,85 @@ public class TestParticleSimulator {
      * Task 7: Making Water Flow
      */
     @Test
-    public void testTickAndFlow(){
+    public void testTickAndFlow() {
         // Arrange:
         // Col 0: Stacked Sand (s) on Barrier -> Should be Stable
         // Col 2: Water (w) on Barrier -> Should Flow
         // Col 4: Sand (s) in Air -> Should Fall
         String initialBoard = """
-            s...s
-            s.w..
-            bbbbb
-            """.trim();
+                s...s
+                s.w..
+                bbbbb
+                """.trim();
 
-        ParticleSimulator sim = ParticleSimulatorFactory.create(initialBoard);
-        sim.tick();
 
-        String expectedBoard = """
-            s...s
-            s.w..
-            bbbbb
-            """.trim();
+        // Possibility 1: Water stays put (or moves Right then Left)
+        // Sand falls.
+        String expectStay = """
+                s....
+                s.w.s
+                bbbbb
+                """.trim();
 
+        // Possibility 2: Water flows Left.
+        // Sand falls.
+        String expectLeft = """
+                s....
+                sw..s
+                bbbbb
+                """.trim();
+
+        // Possibility 3: Water flows Right ONCE (Right then Stay).
+        // Sand falls.
+        String expectRightSingle = """
+                s....
+                s..ws
+                bbbbb
+                """.trim();
+
+        // Possibility 4: Water flows Right TWICE (Right then Right).
+        // Water ends up under the Sand (at 4,1), blocking the Sand at (4,2).
+        // 因为粒子系统是从下到上，从左到右遍历的
+        String expectRightDouble = """
+                s...s
+                s...w
+                bbbbb
+                """.trim();
+
+        int moveLeftCount = 0, stayedCount = 0, moveRightCount = 0, moveRightDoubleCount = 0;
+        for (int i = 0; i < 1000; i++) {
+            ParticleSimulator sim = ParticleSimulatorFactory.create(initialBoard);
+            sim.tick();
+
+            var ret = sim.toString().trim();
+
+            if (ret.equals(expectStay)) {
+                stayedCount += 1;
+            } else if (ret.equals(expectLeft)) {
+                moveLeftCount += 1;
+            } else if (ret.equals(expectRightSingle)) {
+                moveRightCount += 1;
+            } else if (ret.equals(expectRightDouble)) {
+                moveRightDoubleCount += 1;
+            }
+        }
+
+        // Assert:
+        // 1. Left (~33%): > 240 is safe.
+        Truth.assertThat(moveLeftCount).isGreaterThan(240);
+
+        // 2. Stay (~44%): 1/3 (Stay) + 1/9 (Right-then-Left) = 4/9. > 240 is safe.
+        Truth.assertThat(stayedCount).isGreaterThan(240);
+
+        // 3. Right Single (~11%): 1/3 (Right) * 1/3 (Stay) = 1/9.
+        // Expected ~111. Threshold 50 is safe.
+        Truth.assertThat(moveRightCount).isGreaterThan(50);
+
+        // 4. Right Double (~11%): 1/3 (Right) * 1/3 (Right) = 1/9.
+        // Expected ~111. Threshold 50 is safe.
+        Truth.assertThat(moveRightDoubleCount).isGreaterThan(50);
+
+        log.info("Particle system move around special water particle: Good Test");
     }
 
 }
