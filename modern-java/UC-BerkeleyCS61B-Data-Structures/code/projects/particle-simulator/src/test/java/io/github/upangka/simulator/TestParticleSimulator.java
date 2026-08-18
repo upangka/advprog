@@ -13,25 +13,25 @@ public class TestParticleSimulator {
 
     /**
      * 坐标轴
-     *          y
-     *          ^
-     *          |
-     *          |   (0,3)  (1,3)  (2,3)  (3,3)
-     *          |   (0,2)  (1,2)  (2,2)  (3,2)
-     *          |   (0,1)  (1,1)  (2,1)  (3,1)
-     *          |   (0,0)  (1,0)  (2,0)  (3,0)
-     *          |
-     *          +----------------------------------> x
+     * y
+     * ^
+     * |
+     * |   (0,3)  (1,3)  (2,3)  (3,3)
+     * |   (0,2)  (1,2)  (2,2)  (3,2)
+     * |   (0,1)  (1,1)  (2,1)  (3,1)
+     * |   (0,0)  (1,0)  (2,0)  (3,0)
+     * |
+     * +----------------------------------> x
      */
     @Test
-    public void testVisual(){
+    public void testVisual() {
         String expectState = """
-        bbb
-        pfz
-        fb.
-        """.trim();
+                bbb
+                pfz
+                fb.
+                """.trim();
 
-        var sim = new ParticleSimulator(3,3);
+        var sim = new ParticleSimulator(3, 3);
         Particle[][] particles = sim.getParticles();
         particles[0][0] = new Particle(ParticleFlavor.FIRE);
         particles[1][0] = new Particle(ParticleFlavor.BARRIER);
@@ -53,7 +53,7 @@ public class TestParticleSimulator {
     }
 
     @Test
-    public void testFallVisual(){
+    public void testFallVisual() {
 
     }
 }
