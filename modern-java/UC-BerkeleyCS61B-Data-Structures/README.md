@@ -1,33 +1,28 @@
 # UC Berkely's CS16B
 
-## Week1
+- **Week1**
+  1.  [worksheet](./code/week1/worksheet.md)
 
-1. [worksheet](./code/week1/worksheet.md)
+- **Week2**
+  1.  [Arrays,References](./code/week2/README.md)
+  2.  [TDD](./code/week2/TDD.md)
+  3.  [IntList](./code/week2/IntList.md)
+  4.  **worksheet**
+      1. [worksheet: Lists, Maps, Arrays, References](./code/week2/worksheet-1.md)
+      2. [worksheet exam level](./code/week2/worksheet-exam.md)
 
-## Week2
+- **Week3**
+  1.  [SList](./code/week3/SList.md)
 
-1. [Arrays,References](./code/week2/README.md)
-2. [TDD](./code/week2/TDD.md)
-3. [IntList](./code/week2/IntList.md)
-4. worksheet
-   1. [worksheet: Lists, Maps, Arrays, References](./code/week2/worksheet-1.md)
-   2. [worksheet exam level](./code/week2/worksheet-exam.md)
+- **Week6**
+  1.  [DisJoint Set](./code/week6/README.md)
 
-## Week3
+- **Week7**
+  1.  [binary_search](./code/week7/binary_search.md)
 
-1. [SList](./code/week3/SList.md)
-
-## Week6
-
-1. [DisJoint Set](./code/week6/README.md)
-
-## Week7
-
-1. [binary_search](./code/week7/binary_search.md)
-
-# Projects
-
-1. [LinkedListDeque61B](./code/projects/LinkedListDeque61B/)
+- **Projects**
+  1.  [LinkedListDeque61B](./code/projects/LinkedListDeque61B/)
+  2.  [Particle Simulator](./code/projects/particle-simulator/)
 
 ---
 
