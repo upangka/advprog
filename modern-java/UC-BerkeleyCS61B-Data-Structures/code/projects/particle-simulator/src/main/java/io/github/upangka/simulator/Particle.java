@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 import java.util.Map;
+import java.util.Set;
 
 import static io.github.upangka.simulator.ParticleFlavor.*;
 import static io.github.upangka.simulator.config.AppConfig.*;
@@ -104,6 +105,10 @@ public class Particle {
             grow(neighbors);
         }
 
+        if(this.flavor == FIRE){
+            burn(neighbors);
+        }
+
     }
 
     /**
@@ -160,10 +165,7 @@ public class Particle {
             }
         } else {
             // With 70% chance do none of the above.
-
         }
-
-
     }
 
     public void decrementLifespan() {
@@ -176,6 +178,26 @@ public class Particle {
             //  If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
             setLifespan(IMMORTAL);
             setFlavor(EMPTY);
+        }
+    }
+
+    /** 燃烧的概率 */
+    private static final double BURN_PROBABILITY = 0.4;
+
+    /**
+     * For each neighbor, if the neighbor is either {@code PLANT} or {@code FLOWER}, with 40% chance independently,
+     * give that flavor {@code ParticleFlavor.FIRE} and set its lifespan to {@code FIRE_LIFESPAN}.
+     */
+    public void burn(Map<Direction, Particle> neighbors) {
+
+        final var burnFlavors = Set.of(PLANT,FLOWER);
+
+        for(var entry : neighbors.entrySet()) {
+                var particle = entry.getValue();
+            if(burnFlavors.contains(particle.getFlavor())
+                    && RandomUtil.nextDouble() < BURN_PROBABILITY) {
+                particle.changeFlavor(FIRE);
+            }
         }
     }
 }

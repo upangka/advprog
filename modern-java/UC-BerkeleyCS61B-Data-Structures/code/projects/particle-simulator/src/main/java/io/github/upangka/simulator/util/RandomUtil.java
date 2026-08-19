@@ -39,6 +39,14 @@ public class RandomUtil {
 
 
     /**
+     * 生随机数[0.0,1)
+     * @return
+     */
+    public static double nextDouble() {
+        return ThreadLocalRandom.current().nextDouble();
+    }
+
+    /**
      * 从集合中随机选择一个元素
      *
      * @param collection 集合
@@ -59,4 +67,5 @@ public class RandomUtil {
         }
         return element;
     }
+
 }
