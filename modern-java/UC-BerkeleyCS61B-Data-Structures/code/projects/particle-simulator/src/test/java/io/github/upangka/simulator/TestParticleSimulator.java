@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.google.common.truth.Truth.assertThat;
+import static io.github.upangka.simulator.ParticleFlavor.*;
+import static io.github.upangka.simulator.config.AppConfig.*;
+
 /**
  *
  * @author 鲨鱼不喝Jvaa 抖音号:77283340926
@@ -43,13 +47,13 @@ public class TestParticleSimulator {
         var sim = new ParticleSimulator(3, 3);
 
         Particle[][] particles = sim.getParticles();
-        particles[0][0] = new Particle(ParticleFlavor.FIRE);
+        particles[0][0] = new Particle(FIRE);
         particles[1][0] = new Particle(ParticleFlavor.BARRIER);
         particles[2][0] = new Particle(ParticleFlavor.EMPTY);
 
-        particles[0][1] = new Particle(ParticleFlavor.PLANT);
-        particles[1][1] = new Particle(ParticleFlavor.FIRE);
-        particles[2][1] = new Particle(ParticleFlavor.FLOWER);
+        particles[0][1] = new Particle(PLANT);
+        particles[1][1] = new Particle(FIRE);
+        particles[2][1] = new Particle(FLOWER);
 
         particles[0][2] = new Particle(ParticleFlavor.BARRIER);
         particles[1][2] = new Particle(ParticleFlavor.BARRIER);
@@ -57,7 +61,7 @@ public class TestParticleSimulator {
 
 
         var actualState = sim.toString().trim();
-        Truth.assertThat(actualState).isEqualTo(expectBoard);
+        assertThat(actualState).isEqualTo(expectBoard);
         log.info("ParticleSimulator particles state to str: Good Tests");
 
     }
@@ -72,7 +76,7 @@ public class TestParticleSimulator {
                 """.trim();
 
         ParticleSimulator sim = ParticleSimulatorFactory.create(expertBoard);
-        Truth.assertThat(sim.toString().trim()).isEqualTo(expertBoard);
+        assertThat(sim.toString().trim()).isEqualTo(expertBoard);
 
         log.info("ParticleSimulator Factory create: Good Test");
     }
@@ -104,7 +108,7 @@ public class TestParticleSimulator {
                 bbb
                 """.trim();
 
-        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter1Tick);
+        assertThat(sim.toString().trim()).isEqualTo(expectedAfter1Tick);
         log.info("visual tick 1: Good Test");
 
         // Act: Run 2 tick
@@ -118,12 +122,12 @@ public class TestParticleSimulator {
                 bbb
                 """.trim();
 
-        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
+        assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
         log.info("visual tick 2: Good Test");
 
         // Act: Run 3 tick
         sim.tick();
-        Truth.assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
+        assertThat(sim.toString().trim()).isEqualTo(expectedAfter2Ticks);
         log.info("visual tick 3: Good Test");
 
         log.info("visual tick Good Test");
@@ -198,18 +202,18 @@ public class TestParticleSimulator {
 
         // Assert:
         // 1. Left (~33%): > 240 is safe.
-        Truth.assertThat(moveLeftCount).isGreaterThan(240);
+        assertThat(moveLeftCount).isGreaterThan(240);
 
         // 2. Stay (~44%): 1/3 (Stay) + 1/9 (Right-then-Left) = 4/9. > 240 is safe.
-        Truth.assertThat(stayedCount).isGreaterThan(240);
+        assertThat(stayedCount).isGreaterThan(240);
 
         // 3. Right Single (~11%): 1/3 (Right) * 1/3 (Stay) = 1/9.
         // Expected ~111. Threshold 50 is safe.
-        Truth.assertThat(moveRightCount).isGreaterThan(50);
+        assertThat(moveRightCount).isGreaterThan(50);
 
         // 4. Right Double (~11%): 1/3 (Right) * 1/3 (Right) = 1/9.
         // Expected ~111. Threshold 50 is safe.
-        Truth.assertThat(moveRightDoubleCount).isGreaterThan(50);
+        assertThat(moveRightDoubleCount).isGreaterThan(50);
 
         log.info("Particle system move around special water particle: Good Test");
     }
@@ -313,5 +317,58 @@ public class TestParticleSimulator {
         }
 
         log.info("Plants (and flowers) Grow: Good Test");
+    }
+
+
+    @Test
+    @DisplayName("Task 9: Making Lifespan Count")
+    public void testLifeSpan() {
+        // 1. Check initial lifespans
+        var fire = new Particle(FIRE);
+        var plant = new Particle(PLANT);
+        var flower = new Particle(FLOWER);
+
+        assertThat(fire.getLifespan()).isEqualTo(FIRE_LIFESPAN);
+        assertThat(plant.getLifespan()).isEqualTo(PLANT_LIFESPAN);
+        assertThat(flower.getLifespan()).isEqualTo(FLOWER_LIFESPAN);
+
+        // 2. Tick "fbpbzb" and check decreased
+        //
+        ParticleSimulator sim = ParticleSimulatorFactory.create("fbpbz");
+        Particle[][] particles = sim.getParticles();
+        // Before tick, check they are there and have full lifespan
+        assertThat(particles[0][0].getFlavor()).isEqualTo(FIRE);
+        assertThat(particles[0][0].getLifespan()).isEqualTo(FIRE_LIFESPAN);
+        assertThat(particles[2][0].getFlavor()).isEqualTo(PLANT);
+        assertThat(particles[2][0].getLifespan()).isEqualTo(PLANT_LIFESPAN);
+        assertThat(particles[4][0].getFlavor()).isEqualTo(FLOWER);
+        assertThat(particles[4][0].getLifespan()).isEqualTo(FLOWER_LIFESPAN);
+
+        sim.tick();
+
+        // Check lifespans decreased
+        assertThat(particles[0][0].getLifespan()).isEqualTo(FIRE_LIFESPAN - 1);
+        assertThat(particles[2][0].getLifespan()).isEqualTo(PLANT_LIFESPAN - 1);
+        assertThat(particles[4][0].getLifespan()).isEqualTo(FLOWER_LIFESPAN - 1);
+
+        // 3. Make sure they die after the right number of ticks
+        // Fire had 10, 1 tick -> 9. 9 more ticks -> 0 (dies).
+        for (int i = 0; i < FIRE_LIFESPAN - 1; i++) {
+            sim.tick();
+        }
+        assertThat(particles[0][0].getFlavor()).isEqualTo(EMPTY);
+
+        // Flower had 75. 10 ticks so far -> 65. 65 more ticks -> 0.
+        for (int i = 0; i < FLOWER_LIFESPAN - FIRE_LIFESPAN; i++) {
+            sim.tick();
+        }
+        assertThat(particles[4][0].getFlavor()).isEqualTo(EMPTY);
+
+        // Plant had 150. 75 ticks so far -> 75. 75 more ticks -> 0.
+        for (int i = 0; i < PLANT_LIFESPAN - FLOWER_LIFESPAN; i++) {
+            sim.tick();
+        }
+        assertThat(particles[2][0].getFlavor()).isEqualTo(EMPTY);
+        log.info("lifespan count: Good Test");
     }
 }

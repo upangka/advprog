@@ -157,7 +157,9 @@ public class Particle {
         if (this.lifespan > 0) {
             // If the lifespan of the current particle is greater than 0, subtract 1 from the lifespan.
             setLifespan(lifespan - 1);
-        } else if (this.lifespan == 0) {
+        }
+
+        if (this.lifespan == 0) {
             //  If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
             setLifespan(IMMORTAL);
             setFlavor(EMPTY);
