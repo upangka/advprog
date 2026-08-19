@@ -9,8 +9,7 @@ import java.awt.*;
 import java.util.Map;
 
 import static io.github.upangka.simulator.ParticleFlavor.*;
-import static io.github.upangka.simulator.config.AppConfig.IMMORTAL;
-import static io.github.upangka.simulator.config.AppConfig.LIFESPANS;
+import static io.github.upangka.simulator.config.AppConfig.*;
 
 /**
  * 粒子
@@ -38,9 +37,23 @@ public class Particle {
             case BARRIER -> Color.GRAY;
             case WATER -> Color.BLUE;
             case FOUNTAIN -> Color.CYAN;
-            case PLANT -> new Color(0, 255, 0);
-            case FIRE -> new Color(255, 0, 0);
-            case FLOWER -> new Color(255, 141, 161);
+            case PLANT -> {
+                double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
+                int g = 120 + (int) Math.round((255 - 120) * ratio);
+                yield  new Color(0, g, 0);
+            }
+            case FIRE -> {
+                double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
+                int r = (int) Math.round(255 * ratio);
+                yield new Color(r, 0, 0);
+            }
+            case FLOWER -> {
+                double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
+                int r = 120 + (int) Math.round((255 - 120) * ratio);
+                int g = 70 + (int) Math.round((141 - 70) * ratio);
+                int b = 80 + (int) Math.round((161 - 80) * ratio);
+                yield new Color(r, g, b);
+            }
         };
     }
 
