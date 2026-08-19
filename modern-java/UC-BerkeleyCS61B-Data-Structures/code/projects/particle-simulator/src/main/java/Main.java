@@ -2,17 +2,21 @@ import edu.princeton.cs.algs4.StdDraw;
 import io.github.upangka.simulator.ParticleFlavor;
 import io.github.upangka.simulator.ParticleSimulator;
 import lombok.extern.slf4j.Slf4j;
-import static io.github.upangka.simulator.config.AppConfig.*;
+
+import static io.github.upangka.simulator.config.AppConfig.LETTER_TO_PARTICLE;
 
 @Slf4j
 public class Main {
     public static final int WIDTH = 150;
     public static final int HEIGHT = 150;
-    /** 不同的按键对应的粒子类型  */
+
+    /**
+     * 不同的按键对应的粒子类型
+     */
 
 
     static void main() {
-        var simulator = new ParticleSimulator(WIDTH,HEIGHT);
+        var simulator = new ParticleSimulator(WIDTH, HEIGHT);
         StdDraw.setXscale(0, simulator.getWidth());
         StdDraw.setYscale(0, simulator.getHeight());
         StdDraw.enableDoubleBuffering();
@@ -24,16 +28,16 @@ public class Main {
             // 检查键盘输入
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-                nextParticleFlavor = LETTER_TO_PARTICLE.getOrDefault(c,nextParticleFlavor);
+                nextParticleFlavor = LETTER_TO_PARTICLE.getOrDefault(c, nextParticleFlavor);
                 log.info("检测到{}按键被按下", c);
             }
 
             // 检测鼠标
-            if(StdDraw.isMousePressed()){
-                var x = (int)StdDraw.mouseX();
-                var y = (int)StdDraw.mouseY();
-                simulator.changeParticleFlavor(x,y,nextParticleFlavor);
-                log.info("点击鼠标[{},{}]",x,y);
+            if (StdDraw.isMousePressed()) {
+                var x = (int) StdDraw.mouseX();
+                var y = (int) StdDraw.mouseY();
+                simulator.changeParticleFlavor(x, y, nextParticleFlavor);
+                log.info("点击鼠标[{},{}]", x, y);
             }
 
             simulator.tick();

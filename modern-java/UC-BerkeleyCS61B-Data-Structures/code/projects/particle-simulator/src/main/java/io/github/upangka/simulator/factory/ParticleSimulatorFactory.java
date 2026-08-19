@@ -14,18 +14,18 @@ import static io.github.upangka.simulator.config.AppConfig.LETTER_TO_PARTICLE;
 public class ParticleSimulatorFactory {
 
     /**
-     *       bbb
-     *       pfz
-     *       fb.
+     * bbb
+     * pfz
+     * fb.
      */
-    public static ParticleSimulator create(String board){
+    public static ParticleSimulator create(String board) {
         var lines = board.trim().split("\\n");
         var height = lines.length;
         var width = lines[0].trim().length();
 
-        var sim = new  ParticleSimulator(width, height);
+        var sim = new ParticleSimulator(width, height);
         Particle[][] particles = sim.getParticles();
-        for (int y = height - 1; y >= 0 ; y--) {
+        for (int y = height - 1; y >= 0; y--) {
             String line = lines[y].trim();
             for (int x = 0; x < width; x++) {
                 var flavor = LETTER_TO_PARTICLE.get(line.charAt(x));

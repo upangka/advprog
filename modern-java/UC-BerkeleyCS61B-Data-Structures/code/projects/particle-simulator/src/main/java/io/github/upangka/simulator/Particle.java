@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.Map;
 
 import static io.github.upangka.simulator.ParticleFlavor.*;
+import static io.github.upangka.simulator.config.AppConfig.IMMORTAL;
 import static io.github.upangka.simulator.config.AppConfig.LIFESPANS;
 
 /**
@@ -27,8 +28,7 @@ public class Particle {
     private int lifespan;
 
     public Particle(ParticleFlavor flavor) {
-        this.flavor = flavor;
-        this.lifespan = -1;
+        changeFlavor(flavor);
     }
 
     public Color color() {
@@ -54,7 +54,9 @@ public class Particle {
 
     public void changeFlavor(ParticleFlavor flavor) {
         this.setFlavor(flavor);
+        this.setLifespan(LIFESPANS.getOrDefault(flavor, IMMORTAL));
     }
+
 
     public void fall(Map<Direction, Particle> neighbors) {
         Particle other = neighbors.get(Direction.DOWN);
@@ -85,7 +87,7 @@ public class Particle {
             flow(neighbors);
         }
 
-        if(this.flavor == FLOWER || this.flavor == PLANT) {
+        if (this.flavor == FLOWER || this.flavor == PLANT) {
             grow(neighbors);
         }
 
@@ -124,22 +126,22 @@ public class Particle {
         if (num == 1) {
             // With 10% chance, if the UP neighbor has flavor EMPTY, set the flavor of the up neighbor to the same flavor as the current particle.
             var upParticle = neighbors.get(Direction.UP);
-            if(upParticle.getFlavor() == EMPTY) {
+            if (upParticle.getFlavor() == EMPTY) {
                 upParticle.setFlavor(this.flavor);
                 upParticle.setLifespan(LIFESPANS.get(this.flavor));
             }
         } else if (num == 2) {
             // With 10% chance, if the LEFT neighbor has flavor EMPTY, set the flavor of the LEFT neighbor to the same flavor as the current particle.
             var leftParticle = neighbors.get(Direction.LEFT);
-            if(leftParticle.getFlavor() == EMPTY) {
+            if (leftParticle.getFlavor() == EMPTY) {
                 leftParticle.setFlavor(this.flavor);
                 leftParticle.setLifespan(LIFESPANS.get(this.flavor));
             }
 
         } else if (num == 3) {
             // With 10% chance, if the RIGHT neighbor has flavor EMPTY, set the flavor of the RIGHT neighbor to the same flavor as the current particle.
-            var  rightParticle = neighbors.get(Direction.RIGHT);
-            if(rightParticle.getFlavor() == EMPTY) {
+            var rightParticle = neighbors.get(Direction.RIGHT);
+            if (rightParticle.getFlavor() == EMPTY) {
                 rightParticle.setFlavor(this.flavor);
                 rightParticle.setLifespan(LIFESPANS.get(this.flavor));
             }
@@ -149,5 +151,16 @@ public class Particle {
         }
 
 
+    }
+
+    public void decrementLifespan() {
+        if (this.lifespan > 0) {
+            // If the lifespan of the current particle is greater than 0, subtract 1 from the lifespan.
+            setLifespan(lifespan - 1);
+        } else if (this.lifespan == 0) {
+            //  If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
+            setLifespan(IMMORTAL);
+            setFlavor(EMPTY);
+        }
     }
 }
