@@ -371,4 +371,70 @@ public class TestParticleSimulator {
         assertThat(particles[2][0].getFlavor()).isEqualTo(EMPTY);
         log.info("lifespan count: Good Test");
     }
+
+    @Test
+    @DisplayName("Task 11: Making Fire Burn")
+    public void testBurn() {
+        // Arrange: Barriers on top and bottom to restrict growth/fall
+        var startState = """
+        bbb
+        pfz
+        bbb
+        """.trim();
+
+        var stateNeither = """
+        bbb
+        pfz
+        bbb
+        """.trim();
+
+        var statePlantOnly = """
+        bbb
+        ffz
+        bbb
+        """.trim();
+
+        var stateFlowerOnly = """
+        bbb
+        pff
+        bbb
+        """.trim();
+
+        var stateBoth = """
+        bbb
+        fff
+        bbb
+        """.trim();
+
+        int countNeither = 0,countPlantOnly = 0,countFlowerOnly = 0,countBoth = 0;
+
+        // --- ACT ---
+        // Run 1000 simulations
+        for (int i = 0; i < 1000; i++) {
+            ParticleSimulator sim = ParticleSimulatorFactory.create(startState);
+            sim.tick();
+            var result = sim.toString().trim();
+
+            if (result.equals(stateNeither)) {
+                countNeither++;
+            } else if (result.equals(statePlantOnly)) {
+                countPlantOnly++;
+            } else if (result.equals(stateFlowerOnly)) {
+                countFlowerOnly++;
+            } else if (result.equals(stateBoth)) {
+                countBoth++;
+            } else {
+                throw new AssertionError("Unexpected board state:\n" + result);
+            }
+        }
+
+        // --- ASSERT ---
+        // Probabilities: Neither (36%), PlantOnly (24%), FlowerOnly (24%), Both (16%)
+        Truth.assertWithMessage("Neither should burn ~36% (expected ~360)").that(countNeither).isAtLeast(250);
+        Truth.assertWithMessage("Only the plant should burn ~24% (expected ~240)").that(countPlantOnly).isAtLeast(150);
+        Truth.assertWithMessage("Only the flower should burn ~24% (expected ~240)").that(countFlowerOnly).isAtLeast(150);
+        Truth.assertWithMessage("Both should burn ~16% (expected ~160)").that(countBoth).isAtLeast(100);
+
+        log.info("burn plant and flow: Good Test");
+    }
 }
