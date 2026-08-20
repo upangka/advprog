@@ -8,6 +8,8 @@
 6. OOP
    1. [extends key word](./modern-core/classextension/extends关键字.md)
    2. [类与类继承执行顺序](./modern-core/classextension/README.md)
+7. interface
+   1. [Modern Java - interfaces challenges](./modern-core/interfaces/challenges.md)
 
 ---
 
