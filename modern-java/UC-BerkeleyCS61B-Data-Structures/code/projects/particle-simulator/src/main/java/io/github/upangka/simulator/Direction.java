@@ -8,8 +8,8 @@ package io.github.upangka.simulator;
  * @since 2026/8/17
  */
 public enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
 }

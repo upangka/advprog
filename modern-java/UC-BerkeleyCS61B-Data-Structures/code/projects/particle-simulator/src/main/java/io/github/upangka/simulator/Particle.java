@@ -24,180 +24,179 @@ import static io.github.upangka.simulator.config.AppConfig.*;
 @Setter
 public class Particle {
 
-    private ParticleFlavor flavor;
-    private int lifespan;
+	private ParticleFlavor flavor;
+	private int lifespan;
 
-    public Particle(ParticleFlavor flavor) {
-        changeFlavor(flavor);
-    }
+	public Particle(ParticleFlavor flavor) {
+		changeFlavor(flavor);
+	}
 
-    public Color color() {
-        return switch (flavor) {
-            case EMPTY -> Color.BLACK;
-            case SAND -> Color.YELLOW;
-            case BARRIER -> Color.GRAY;
-            case WATER -> Color.BLUE;
-            case FOUNTAIN -> Color.CYAN;
-            case PLANT -> {
-                double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
-                int g = 120 + (int) Math.round((255 - 120) * ratio);
-                yield  new Color(0, g, 0);
-            }
-            case FIRE -> {
-                double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
-                int r = (int) Math.round(255 * ratio);
-                yield new Color(r, 0, 0);
-            }
-            case FLOWER -> {
-                double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
-                int r = 120 + (int) Math.round((255 - 120) * ratio);
-                int g = 70 + (int) Math.round((141 - 70) * ratio);
-                int b = 80 + (int) Math.round((161 - 80) * ratio);
-                yield new Color(r, g, b);
-            }
-        };
-    }
+	public Color color() {
+		return switch (flavor) {
+		case EMPTY -> Color.BLACK;
+		case SAND -> Color.YELLOW;
+		case BARRIER -> Color.GRAY;
+		case WATER -> Color.BLUE;
+		case FOUNTAIN -> Color.CYAN;
+		case PLANT -> {
+			double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
+			int g = 120 + (int) Math.round((255 - 120) * ratio);
+			yield new Color(0, g, 0);
+		}
+		case FIRE -> {
+			double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
+			int r = (int) Math.round(255 * ratio);
+			yield new Color(r, 0, 0);
+		}
+		case FLOWER -> {
+			double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
+			int r = 120 + (int) Math.round((255 - 120) * ratio);
+			int g = 70 + (int) Math.round((141 - 70) * ratio);
+			int b = 80 + (int) Math.round((161 - 80) * ratio);
+			yield new Color(r, g, b);
+		}
+		};
+	}
 
-    public void moveInto(Particle other) {
-        other.lifespan = lifespan;
-        other.flavor = flavor;
+	public void moveInto(Particle other) {
+		other.lifespan = lifespan;
+		other.flavor = flavor;
 
-        this.flavor = EMPTY;
-        this.lifespan = -1;
-    }
+		this.flavor = EMPTY;
+		this.lifespan = -1;
+	}
 
-    public void changeFlavor(ParticleFlavor flavor) {
-        this.setFlavor(flavor);
-        this.setLifespan(LIFESPANS.getOrDefault(flavor, IMMORTAL));
-    }
+	public void changeFlavor(ParticleFlavor flavor) {
+		this.setFlavor(flavor);
+		this.setLifespan(LIFESPANS.getOrDefault(flavor, IMMORTAL));
+	}
 
+	public void fall(Map<Direction, Particle> neighbors) {
+		Particle other = neighbors.get(Direction.DOWN);
+		if (other.getFlavor() == EMPTY) {
+			this.moveInto(other);
+		}
+	}
 
-    public void fall(Map<Direction, Particle> neighbors) {
-        Particle other = neighbors.get(Direction.DOWN);
-        if (other.getFlavor() == EMPTY) {
-            this.moveInto(other);
-        }
-    }
+	/**
+	 * tick 会调用所有粒子的action方法，从而决定粒子在本次tick中行为
+	 *
+	 * @param neighbors
+	 */
+	public void action(Map<Direction, Particle> neighbors) {
 
-    /**
-     * tick 会调用所有粒子的action方法，从而决定粒子在本次tick中行为
-     *
-     * @param neighbors
-     */
-    public void action(Map<Direction, Particle> neighbors) {
+		// If the flavor of the current particle is EMPTY, return immediately.
+		if (this.flavor == EMPTY) {
+			return;
+		}
 
-        // If the flavor of the current particle is EMPTY, return immediately.
-        if (this.flavor == EMPTY) {
-            return;
-        }
+		// If the flavor of the current particle is not BARRIER, call fall.
+		if (this.flavor != BARRIER) {
+			this.fall(neighbors);
+		}
 
-        // If the flavor of the current particle is not BARRIER, call fall.
-        if (this.flavor != BARRIER) {
-            this.fall(neighbors);
-        }
+		// If the flavor of the current particle is WATER, call flow.
+		if (this.flavor == WATER) {
+			flow(neighbors);
+		}
 
-        // If the flavor of the current particle is WATER, call flow.
-        if (this.flavor == WATER) {
-            flow(neighbors);
-        }
+		if (this.flavor == FLOWER || this.flavor == PLANT) {
+			grow(neighbors);
+		}
 
-        if (this.flavor == FLOWER || this.flavor == PLANT) {
-            grow(neighbors);
-        }
+		if (this.flavor == FIRE) {
+			burn(neighbors);
+		}
 
-        if(this.flavor == FIRE){
-            burn(neighbors);
-        }
+	}
 
-    }
+	/**
+	 * With 1/3 chance, don’t do anything.
+	 * With 1/3 chance, if the left neighbor is empty, moveInto it.
+	 * With 1/3 chance, if the right neighbor is empty, moveInto it.
+	 */
+	public void flow(Map<Direction, Particle> neighbors) {
 
-    /**
-     * With 1/3 chance, don’t do anything.
-     * With 1/3 chance, if the left neighbor is empty, moveInto it.
-     * With 1/3 chance, if the right neighbor is empty, moveInto it.
-     */
-    public void flow(Map<Direction, Particle> neighbors) {
+		int chance = RandomUtil.nextInt(0, 2);
+		if (chance == 0) {
+			// do anything
+			return;
+		} else if (chance == 1) {
+			Particle other = neighbors.get(Direction.LEFT);
+			if (other.getFlavor() == EMPTY) {
+				moveInto(other);
+			}
+		} else if (chance == 2) {
+			Particle other = neighbors.get(Direction.RIGHT);
+			if (other.getFlavor() == EMPTY) {
+				moveInto(other);
+			}
+		}
+	}
 
-        int chance = RandomUtil.nextInt(0, 2);
-        if (chance == 0) {
-            // do anything
-            return;
-        } else if (chance == 1) {
-            Particle other = neighbors.get(Direction.LEFT);
-            if (other.getFlavor() == EMPTY) {
-                moveInto(other);
-            }
-        } else if (chance == 2) {
-            Particle other = neighbors.get(Direction.RIGHT);
-            if (other.getFlavor() == EMPTY) {
-                moveInto(other);
-            }
-        }
-    }
+	/**
+	 * Making Plants (and flowers) Grow
+	 */
+	public void grow(Map<Direction, Particle> neighbors) {
+		int num = RandomUtil.nextInt(1, 10);
 
-    /**
-     * Making Plants (and flowers) Grow
-     */
-    public void grow(Map<Direction, Particle> neighbors) {
-        int num = RandomUtil.nextInt(1, 10);
+		if (num == 1) {
+			// With 10% chance, if the UP neighbor has flavor EMPTY, set the flavor of the up neighbor to the same flavor as the current particle.
+			var upParticle = neighbors.get(Direction.UP);
+			if (upParticle.getFlavor() == EMPTY) {
+				upParticle.setFlavor(this.flavor);
+				upParticle.setLifespan(LIFESPANS.get(this.flavor));
+			}
+		} else if (num == 2) {
+			// With 10% chance, if the LEFT neighbor has flavor EMPTY, set the flavor of the LEFT neighbor to the same flavor as the current particle.
+			var leftParticle = neighbors.get(Direction.LEFT);
+			if (leftParticle.getFlavor() == EMPTY) {
+				leftParticle.setFlavor(this.flavor);
+				leftParticle.setLifespan(LIFESPANS.get(this.flavor));
+			}
 
-        if (num == 1) {
-            // With 10% chance, if the UP neighbor has flavor EMPTY, set the flavor of the up neighbor to the same flavor as the current particle.
-            var upParticle = neighbors.get(Direction.UP);
-            if (upParticle.getFlavor() == EMPTY) {
-                upParticle.setFlavor(this.flavor);
-                upParticle.setLifespan(LIFESPANS.get(this.flavor));
-            }
-        } else if (num == 2) {
-            // With 10% chance, if the LEFT neighbor has flavor EMPTY, set the flavor of the LEFT neighbor to the same flavor as the current particle.
-            var leftParticle = neighbors.get(Direction.LEFT);
-            if (leftParticle.getFlavor() == EMPTY) {
-                leftParticle.setFlavor(this.flavor);
-                leftParticle.setLifespan(LIFESPANS.get(this.flavor));
-            }
+		} else if (num == 3) {
+			// With 10% chance, if the RIGHT neighbor has flavor EMPTY, set the flavor of the RIGHT neighbor to the same flavor as the current particle.
+			var rightParticle = neighbors.get(Direction.RIGHT);
+			if (rightParticle.getFlavor() == EMPTY) {
+				rightParticle.setFlavor(this.flavor);
+				rightParticle.setLifespan(LIFESPANS.get(this.flavor));
+			}
+		} else {
+			// With 70% chance do none of the above.
+		}
+	}
 
-        } else if (num == 3) {
-            // With 10% chance, if the RIGHT neighbor has flavor EMPTY, set the flavor of the RIGHT neighbor to the same flavor as the current particle.
-            var rightParticle = neighbors.get(Direction.RIGHT);
-            if (rightParticle.getFlavor() == EMPTY) {
-                rightParticle.setFlavor(this.flavor);
-                rightParticle.setLifespan(LIFESPANS.get(this.flavor));
-            }
-        } else {
-            // With 70% chance do none of the above.
-        }
-    }
+	public void decrementLifespan() {
+		if (this.lifespan > 0) {
+			// If the lifespan of the current particle is greater than 0, subtract 1 from the lifespan.
+			setLifespan(lifespan - 1);
+		}
 
-    public void decrementLifespan() {
-        if (this.lifespan > 0) {
-            // If the lifespan of the current particle is greater than 0, subtract 1 from the lifespan.
-            setLifespan(lifespan - 1);
-        }
+		if (this.lifespan == 0) {
+			//  If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
+			setLifespan(IMMORTAL);
+			setFlavor(EMPTY);
+		}
+	}
 
-        if (this.lifespan == 0) {
-            //  If the lifespan of the current particle is zero, set its flavor to EMPTY and its lifespan to -1.
-            setLifespan(IMMORTAL);
-            setFlavor(EMPTY);
-        }
-    }
+	/** 燃烧的概率 */
+	private static final double BURN_PROBABILITY = 0.4;
 
-    /** 燃烧的概率 */
-    private static final double BURN_PROBABILITY = 0.4;
+	/**
+	 * For each neighbor, if the neighbor is either {@code PLANT} or {@code FLOWER}, with 40% chance independently,
+	 * give that flavor {@code ParticleFlavor.FIRE} and set its lifespan to {@code FIRE_LIFESPAN}.
+	 */
+	public void burn(Map<Direction, Particle> neighbors) {
 
-    /**
-     * For each neighbor, if the neighbor is either {@code PLANT} or {@code FLOWER}, with 40% chance independently,
-     * give that flavor {@code ParticleFlavor.FIRE} and set its lifespan to {@code FIRE_LIFESPAN}.
-     */
-    public void burn(Map<Direction, Particle> neighbors) {
+		final var burnFlavors = Set.of(PLANT, FLOWER);
 
-        final var burnFlavors = Set.of(PLANT,FLOWER);
-
-        for(var entry : neighbors.entrySet()) {
-                var particle = entry.getValue();
-            if(burnFlavors.contains(particle.getFlavor())
-                    && RandomUtil.nextDouble() < BURN_PROBABILITY) {
-                particle.changeFlavor(FIRE);
-            }
-        }
-    }
+		for (var entry : neighbors.entrySet()) {
+			var particle = entry.getValue();
+			if (burnFlavors.contains(particle.getFlavor())
+					&& RandomUtil.nextDouble() < BURN_PROBABILITY) {
+				particle.changeFlavor(FIRE);
+			}
+		}
+	}
 }

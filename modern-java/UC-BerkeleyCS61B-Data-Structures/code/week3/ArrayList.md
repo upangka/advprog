@@ -13,6 +13,8 @@
 
 基本实现：
 
+[AList.java](./code/alist/AList.java)
+
 ```java
 public class AList<T> {
 	private int[] items;
@@ -43,6 +45,8 @@ public class AList<T> {
 
 # Resizing (Expanding array to unlimited elements)
 
+[AList.java](./code/alist/AList.java)
+
 ```java
 private void resize(int capacity){
     int[] resized = new int[capacity];
@@ -63,4 +67,54 @@ public void addLast(int val){
 }
 ```
 
+## Tradeoffs between time and space efficiency
+
+使用率 `R = size / items.length`,避免浪费内存
+
+[AList.java](./code/alist/AList.java)
+
+```java
+public int removeLast(){
+    var ret = this.items[size - 1];
+    size = -1;
+
+    // R < 0.25 意味着 size / items.length < 0.25
+    // 即数组使用率过低，需要缩容
+    if((double)size / items.length < 0.25){
+        resize(size / 2); // 缩容：R 从 0.24 变成 0.48
+    }
+    return ret;
+}
+```
+
 # Generics: can store anything
+
+当使用泛型的时候`new T[2]`Java不允许这种语法，为了支持我们的泛型，这里使用强制类型转化`(T[])new Object[2]`，尽管有警告`warning`，但是我们可以选择忽略
+
+[AList_version2.java](./code/alist/AList_version2.java)
+
+```java
+	@SuppressWarnings("unchecked")
+    public AList(){
+		this.items = (T[])new Object[2];
+		this.size = 0;
+	}
+```
+
+使用泛型存储的是对象不再是原始的数据类型，当删除元素的时候，需要设置元素所在数组的位置为null,去掉这个引用方便Java GC
+
+```java
+	public T removeLast(){
+		var ret = this.items[size - 1];
+        // 方便Java GC
+        this.items[size - 1] = null;
+		size = -1;
+
+		// R < 0.25 意味着 size / items.length < 0.25
+        // 即数组使用率过低，需要缩容
+		if((double)size / items.length < 0.25){
+			resize(size / 2); // 缩容：R 从 0.24 变成 0.48
+		}
+		return ret;
+	}
+```

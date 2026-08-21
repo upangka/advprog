@@ -1,23 +1,25 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 25+
 
-public class AList {
-	private int[] items;
+class AList<T> {
+	private T[] items;
 	private int size;
 
+	@SuppressWarnings("unchecked")
 	public AList() {
-		this.items = new int[2];
+		this.items = (T[]) new Object[2];
 		this.size = 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void resize(int capacity) {
-		int[] resized = new int[capacity];
+		T[] resized = (T[]) new Object[capacity];
 		// copy over the array items
 		System.arraycopy(this.items, 0, resized, 0, this.size);
 		this.items = resized;
 	}
 
-	public void addLast(int val) {
+	public void addLast(T val) {
 		// When the array is too full - resize
 		if (size == this.items.length) {
 			System.out.printf("Need resize... when add %d%n", val);
@@ -29,8 +31,10 @@ public class AList {
 		this.size += 1;
 	}
 
-	public int removeLast() {
+	public T removeLast() {
 		var ret = this.items[size - 1];
+		// 方便Java GC
+		this.items[size - 1] = null;
 		size = -1;
 
 		// R < 0.25 意味着 size / items.length < 0.25
@@ -41,7 +45,7 @@ public class AList {
 		return ret;
 	}
 
-	public int get(int idx) {
+	public T get(int idx) {
 		if (idx > -1 && idx < size) {
 			return this.items[idx];
 		}
@@ -51,12 +55,8 @@ public class AList {
 	public int size() {
 		return this.size;
 	}
+}
 
-	public static void main(String[] args) {
-		var lst = new AList();
-		for (int i = 0; i < 5; i++) {
-			lst.addLast(i);
-		}
-		System.out.println(lst.size());
-	}
+void main(String... args) {
+	IO.println("Hello World");
 }

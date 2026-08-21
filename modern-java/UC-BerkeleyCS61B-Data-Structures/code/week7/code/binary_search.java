@@ -2,7 +2,6 @@
 //JAVA 25+
 //DEPS com.google.truth:truth:1.4.5
 
-
 import com.google.common.truth.Truth;
 
 public int binarySearch(int arr[], int low, int hight, int target) {
