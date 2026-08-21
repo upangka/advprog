@@ -16,7 +16,7 @@ public class ArrayDeque61BTest {
 
     @Test
     @DisplayName("Task 4: 测试getFirst和getLast")
-    public void testGetFirstAndGetLast(){
+    public void testGetFirstAndGetLast() {
         Deque61B<String> deque = new ArrayDeque61B<>();
 
         Truth.assertThat(deque.getFirst()).isEqualTo(null);
@@ -38,7 +38,7 @@ public class ArrayDeque61BTest {
 
     @Test
     @DisplayName("测试toString")
-    public void testToString(){
+    public void testToString() {
         String expected = "[Structure, _ , _ ,UCBerkeley,CS,61B,SP26,Data]";
 
         Deque61B<String> deque = new ArrayDeque61B<>();
@@ -51,5 +51,31 @@ public class ArrayDeque61BTest {
 
         Truth.assertThat(deque.toString()).isEqualTo(expected);
         log.info("toString: Good Test");
+    }
+
+    @Test
+    @DisplayName("Task 5: get")
+    public void testGet() {
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("61B");
+        deque.addLast("SP26");
+        deque.addFirst("CS");
+        deque.addFirst("UCBerkeley");
+        deque.addLast("Data");
+        deque.addLast("Structure");
+        // [Structure, _ , _ ,UCBerkeley,CS,61B,SP26,Data]
+
+        Truth.assertWithMessage("Negative index is invalid")
+                .that(deque.get(-1)).isNull();
+
+        Truth.assertWithMessage("Too Large index is invalid")
+                .that(deque.get(6)).isNull();
+
+        Truth.assertThat(deque.get(0)).isEqualTo("UCBerkeley");
+        Truth.assertThat(deque.get(1)).isEqualTo("CS");
+        Truth.assertThat(deque.get(2)).isEqualTo("61B");
+        Truth.assertThat(deque.get(3)).isEqualTo("SP26");
+        Truth.assertThat(deque.get(4)).isEqualTo("Data");
+        Truth.assertThat(deque.get(5)).isEqualTo("Structure");
     }
 }
