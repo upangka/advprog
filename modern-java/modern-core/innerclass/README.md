@@ -345,6 +345,25 @@ Now 鲨鱼のJavthon add => 2
 */
 ```
 
+### 双大括号初始化
+
+其实也是一种Local class in method
+
+```java
+Deque61B<String> deque = new ArrayDeque61B<String>() {
+    // 这是一个匿名子类
+    {
+        // 实例初始化块：在构造器执行后运行
+        addLast("a");
+        addLast("b");
+        addFirst("c");
+        addLast("d");
+        addLast("e");
+        addFirst("f");
+    }
+};
+```
+
 ## final and effective final
 
 **"effectively final" 就是"虽然没有写 final 关键字，但它的值从来没有被改变过"。** 编译器会检查这个变量是否被修改过，如果没改过，就视为"实际上就是 final 的"，允许在匿名类内部使用。
