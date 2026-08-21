@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  *
@@ -18,7 +19,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     private int nextFirst;
     private int nextLast;
     private static final int FACTOR = 2;
-    /** 使用率 */
+    /**
+     * 使用率
+     */
     private static final double USAGE_FACTOR = 0.25d;
     private static final int INITIAL_SIZE = 8;
 
@@ -78,7 +81,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @SuppressWarnings("unchecked")
     private void resizeUp() {
         final int capacity = items.length * FACTOR;
-        log.info("Resizing up from {} to {}",items.length,capacity);
+        log.info("Resizing up from {} to {}", items.length, capacity);
         doResize(capacity);
     }
 
@@ -156,19 +159,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeFirst() {
-        if (size == 0) {
-            return null;
-        }
-
-        if(shouldResizeDown()){
-            resizeDown();
-        }
-
-        nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
-        var ret = items[nextFirst];
-        items[nextFirst] = null;
-        this.size -= 1;
-        return ret;
+        return doRemove(() -> {
+            nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
+            var ret = items[nextFirst];
+            items[nextFirst] = null;
+            return ret;
+        });
     }
 
     /**
@@ -178,37 +174,48 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeLast() {
+        return doRemove(() -> {
+            nextLast = Math.floorMod(this.nextLast - 1, items.length);
+            var ret = items[nextLast];
+            items[nextLast] = null;
+            return ret;
+        });
+    }
+
+    /**
+     * 抽离公共逻辑
+     * size -= 1;
+     * 是否缩容
+     */
+    private T doRemove(Supplier<T> supplier) {
         if (size == 0) {
             return null;
         }
 
-        if(shouldResizeDown()){
+        if (shouldResizeDown()) {
             resizeDown();
         }
-
-        nextLast = Math.floorMod(this.nextLast - 1, items.length);
-        var ret = items[nextLast];
-        items[nextLast] = null;
+        var ret = supplier.get();
         this.size -= 1;
         return ret;
     }
 
-    private boolean shouldResizeDown(){
+    private boolean shouldResizeDown() {
         return items.length >= 16
-                && (double) size / items.length  <= USAGE_FACTOR;
+                && (double) size / items.length <= USAGE_FACTOR;
     }
 
     @SuppressWarnings("unchecked")
     private void resizeDown() {
         final int capacity = items.length / 2;
-        log.info("Resize down from {} to {}",items.length,capacity);
+        log.info("Resize down from {} to {}", items.length, capacity);
         doResize(capacity);
     }
 
     private void doResize(int capacity) {
-        T[]  resized = (T[]) new Object[capacity];
-        int  newNextFirst = initNextFirst(capacity);
-        int  newNextLast = newNextFirst + 1;
+        T[] resized = (T[]) new Object[capacity];
+        int newNextFirst = initNextFirst(capacity);
+        int newNextLast = newNextFirst + 1;
 
         for (int i = 0; i < size; i++) {
             T item = get(i);
