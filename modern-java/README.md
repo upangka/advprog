@@ -10,6 +10,7 @@
    2. [类与类继承执行顺序](./modern-core/classextension/README.md)
 7. interface
    1. [Modern Java - interfaces challenges](./modern-core/interfaces/challenges.md)
+   2. [Comparable vs Comparator](./modern-core/comparable/README.md)
 
 ---
 
