@@ -116,7 +116,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeFirst() {
-        return null;
+        if(size == 0){
+            return null;
+        }
+        nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
+        var ret = items[nextFirst];
+        items[nextFirst] = null;
+        this.size -= 1;
+        return ret;
     }
 
     /**
@@ -126,7 +133,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeLast() {
-        return null;
+        if(size == 0){
+            return null;
+        }
+        nextLast = Math.floorMod(this.nextLast - 1, items.length);
+        var ret = items[nextLast];
+        items[nextLast] = null;
+        this.size -= 1;
+        return ret;
     }
 
     /**

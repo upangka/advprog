@@ -118,4 +118,36 @@ public class ArrayDeque61BTest {
         Truth.assertThat(deque.toList()).isEqualTo(expected_v2);
         log.info("toList: Good Test");
     }
+
+    @Test
+    @DisplayName("Task 8: removeFirst")
+    public void testRemoveFirst(){
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("61B");
+        deque.addLast("SP26");
+        deque.addFirst("CS");
+        deque.addFirst("UCBerkeley");
+        deque.addLast("Data");
+        deque.addLast("Structure");
+
+        Truth.assertThat(deque.removeFirst()).isEqualTo("UCBerkeley");
+        Truth.assertThat(deque.getFirst()).isEqualTo("CS");
+        log.info("removeFirst: Good Test");
+    }
+
+    @Test
+    @DisplayName("Task 8: removeLast")
+    public void removeLast(){
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("61B");
+        deque.addLast("SP26");
+        deque.addFirst("CS");
+        deque.addFirst("UCBerkeley");
+        deque.addLast("Data");
+        deque.addLast("Structure");
+
+        Truth.assertThat(deque.removeLast()).isEqualTo("Structure");
+        Truth.assertThat(deque.getLast()).isEqualTo("Data");
+        log.info("removeLast: Good Test");
+    }
 }
