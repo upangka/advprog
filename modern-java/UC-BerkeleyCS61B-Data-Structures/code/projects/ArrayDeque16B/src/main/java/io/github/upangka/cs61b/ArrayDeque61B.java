@@ -8,15 +8,17 @@ import java.util.List;
  * @version 1.0
  * @since 2026/8/21
  */
-public class ArrayDeque61B<T> implements Deque61B<T>{
+public class ArrayDeque61B<T> implements Deque61B<T> {
     private T[] items;
+    private int size;
     private int nextFirst;
     private int nextLast;
 
-    public ArrayDeque61B(){
+    public ArrayDeque61B() {
         this.items = (T[]) new Object[8];
         this.nextFirst = 4;
         this.nextLast = 5;
+        this.size = 0;
     }
 
     /**
@@ -28,6 +30,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public void addFirst(T x) {
         this.items[nextFirst] = x;
         this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
+        size += 1;
     }
 
     /**
@@ -39,6 +42,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public void addLast(T x) {
         this.items[nextLast] = x;
         this.nextLast = Math.floorMod(nextLast + 1, items.length);
+        size += 1;
     }
 
     /**
@@ -58,7 +62,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -68,7 +72,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -78,7 +82,11 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T getFirst() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        int firstIdx = Math.floorMod(this.nextFirst + 1, this.items.length);
+        return items[firstIdx];
     }
 
     /**
@@ -88,7 +96,11 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public T getLast() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        int lastIdx = Math.floorMod(this.nextLast - 1, this.items.length);
+        return items[lastIdx];
     }
 
     /**
@@ -143,12 +155,12 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < this.items.length; i++) {
-            if(items[i] != null){
+            if (items[i] != null) {
                 sb.append(items[i].toString());
-            }else{
+            } else {
                 sb.append(" _ ");
             }
-            if(i != this.items.length - 1){
+            if (i != this.items.length - 1) {
                 sb.append(",");
             }
         }

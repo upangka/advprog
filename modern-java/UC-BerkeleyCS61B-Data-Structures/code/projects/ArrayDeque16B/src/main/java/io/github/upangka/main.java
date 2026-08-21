@@ -4,12 +4,12 @@ import io.github.upangka.cs61b.Deque61B;
 void main() {
     Deque61B<String> deque = new ArrayDeque61B<>();
 
-    deque.addLast("61B");
-    deque.addLast("SP26");
+    deque.addFirst("Structure");
+    deque.addFirst("Data");
+    deque.addFirst("SP26");
+    deque.addFirst("61B");
     deque.addFirst("CS");
     deque.addFirst("UCBerkeley");
-    deque.addLast("Data");
-    deque.addLast("Structure");
-
+    // [CS,61B,SP26,Data,Structure, _ , _ ,UCBerkeley]
     System.out.println(deque);
 }
