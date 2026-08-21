@@ -107,3 +107,12 @@ Deque61B<String> deque = new ArrayDeque61B<String>() {
     }
 };
 ```
+
+# Truth
+
+[ArrayDeque61BEnhancementTest.java](src/test/java/io/github/upangka/cs61b/ArrayDeque61BEnhancementTest.java)
+
+```java
+/**  The Truth library works by iterating over our object  */
+        Truth.assertThat(ad).containsExactly("front", "middle", "back");
+```
