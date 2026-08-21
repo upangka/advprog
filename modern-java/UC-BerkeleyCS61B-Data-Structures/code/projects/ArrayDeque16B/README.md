@@ -116,3 +116,26 @@ Deque61B<String> deque = new ArrayDeque61B<String>() {
 /**  The Truth library works by iterating over our object  */
         Truth.assertThat(ad).containsExactly("front", "middle", "back");
 ```
+
+# hashcode
+
+hashcode一样，equals可以不一样，因为允许hash冲突
+但是equals一样，那么hashcode一定一样。
+
+在重写equals的时候，必须重写hashcode
+
+```jshelllanguage
+jshell> public int myh(List<String> lst){
+   ...>     int ret = 1;
+   ...>     for(String itm: lst){
+   ...>         ret = 31 * ret + itm.hashCode();
+   ...>     }
+   ...>     return ret;
+   ...> }
+|  created method myh(List<String>)
+
+jshell> myh(List.of("A","B"))
+$3 ==> 3042
+
+jshell> myh(List.of("B","A"))
+```

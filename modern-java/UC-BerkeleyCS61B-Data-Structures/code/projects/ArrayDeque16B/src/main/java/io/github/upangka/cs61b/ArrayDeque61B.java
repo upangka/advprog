@@ -2,10 +2,7 @@ package io.github.upangka.cs61b;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -332,5 +329,27 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public Iterator<T> iterator() {
         return new ArrayDeque61BIterator();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayDeque61B<?> otherArrayDeque61B) {
+            return Arrays.equals(items, otherArrayDeque61B.items);
+        }
+        return false;
+    }
+
+    /**
+     * 加权求和计算hash值
+     * 1. 顺序敏感：`[A, B]` 和 `[B, A]` 会产生不同的哈希值，因为权重不同。
+     * 2. 均匀分布：质数 31 作为权重，能有效分散哈希值，减少哈希碰撞。
+     */
+    @Override
+    public int hashCode() {
+        var ret = 1;
+        for (var item : this) {
+            ret = 31 * ret + (item == null ? 0 : item.hashCode());
+        }
+        return ret;
     }
 }

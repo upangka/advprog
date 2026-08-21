@@ -222,4 +222,21 @@ public class ArrayDeque61BTest {
         // 不会缩容，仍然保持8
         Truth.assertThat(deque.capacity()).isEqualTo(8);
     }
+
+    @Test
+    @DisplayName("Task 13: equals")
+    public void testEqualDeques61B() {
+        Deque61B<String> ad = new ArrayDeque61B<>();
+        Deque61B<String> ad2 = new ArrayDeque61B<>();
+
+        ad.addLast("front");
+        ad.addLast("middle");
+        ad.addLast("back");
+
+        ad2.addLast("front");
+        ad2.addLast("middle");
+        ad2.addLast("back");
+
+        Truth.assertThat(ad).isEqualTo(ad2);
+    }
 }
