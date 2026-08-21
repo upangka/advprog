@@ -14,12 +14,18 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
+    private static final int FACTOR = 2;
+    private static final int INITIAL_SIZE = 8;
 
     public ArrayDeque61B() {
-        this.items = (T[]) new Object[8];
-        this.nextFirst = 4;
-        this.nextLast = 5;
-        this.size = 0;
+        this(INITIAL_SIZE);
+    }
+
+    public ArrayDeque61B(int capacity) {
+        items = (T[]) new Object[capacity];
+        nextFirst = initNextFirst(capacity);
+        nextLast = nextFirst + 1;
+        size = 0;
     }
 
     /**
@@ -29,6 +35,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addFirst(T x) {
+        if (size == items.length) {
+            resizeup(items.length * FACTOR);
+        }
         this.items[nextFirst] = x;
         this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
         size += 1;
@@ -41,9 +50,33 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addLast(T x) {
+        if (size == items.length) {
+            resizeup(items.length * FACTOR);
+        }
         this.items[nextLast] = x;
         this.nextLast = Math.floorMod(nextLast + 1, items.length);
         size += 1;
+    }
+
+    private void resizeup(int capacity) {
+
+        T[] resized = (T[]) new Object[capacity];
+        int newNextFirst = initNextFirst(capacity);
+        int newNextLast = newNextFirst + 1;
+        // 获取元素一直往新数组的后面添加
+        for (int i = 0; i < size; i++) {
+            T oldVal = get(i);
+            resized[newNextLast] = oldVal;
+            newNextLast = Math.floorMod(newNextLast + 1, capacity);
+        }
+
+        items = resized;
+        nextFirst = newNextFirst;
+        nextLast = newNextLast;
+    }
+
+    private int initNextFirst(int capacity) {
+        return capacity / 2;
     }
 
     /**
@@ -116,7 +149,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeFirst() {
-        if(size == 0){
+        if (size == 0) {
             return null;
         }
         nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
@@ -133,7 +166,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public T removeLast() {
-        if(size == 0){
+        if (size == 0) {
             return null;
         }
         nextLast = Math.floorMod(this.nextLast - 1, items.length);

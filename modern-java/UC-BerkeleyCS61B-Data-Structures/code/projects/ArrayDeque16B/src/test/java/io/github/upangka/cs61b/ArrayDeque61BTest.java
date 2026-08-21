@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -149,5 +150,39 @@ public class ArrayDeque61BTest {
         Truth.assertThat(deque.removeLast()).isEqualTo("Structure");
         Truth.assertThat(deque.getLast()).isEqualTo("Data");
         log.info("removeLast: Good Test");
+    }
+
+    @Test
+    @DisplayName("Task 9: Resizing Up")
+    public void testResizingUp() {
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        for (int i = 0; i < 8; i++) {
+            deque.addLast("item-%d".formatted(i));
+        }
+        // 确保扩容成功
+        log.info("Resizing before: {}",deque);
+        deque.addLast("UCBerkeley");
+        Truth.assertThat(deque.size()).isEqualTo(9);
+        log.info("Resizing after:  {}",deque);
+
+
+
+        // 确保收尾添加仍然正常
+        deque.addLast("item-last");
+        deque.addFirst("item-first");
+        Truth.assertThat(deque.size()).isEqualTo(11);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("item-first");
+        for (int i = 0; i < 8; i++) {
+            expected.add("item-%d".formatted(i));
+        }
+        expected.add("UCBerkeley");
+        expected.add("item-last");
+
+        Truth.assertThat(deque.toList()).isEqualTo(expected);
+        log.info("final backing array: {}",deque);
+        log.info("final user mental model: {}",deque.toList());
+        log.info("ResizingUp: Good Test");
     }
 }

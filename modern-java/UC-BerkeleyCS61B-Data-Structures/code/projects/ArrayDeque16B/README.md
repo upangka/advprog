@@ -46,3 +46,16 @@ nextFirst = (nextFirst - 1 + items.length) % items.length;
 Good Test nextFirst [4, 3, 2, 1, 0, 7, 6, 5]
 Good Test nextLast  [5, 6, 7, 0, 1, 2, 3, 4]
 ```
+
+
+# 底层实现与用户的思维模型（User mental model）
+
+不同视角，开发者知道的视角： 底层数组的数据的存储顺序
+用户看到数据顺序就是有顺序的添加的顺序。
+
+```python
+# 底层视角
+backing array:           [item-7,UCBerkeley,item-last, _ , _ , _ , _ , _ ,item-first,item-0,item-1,item-2,item-3,item-4,item-5,item-6]
+# 用户使用者的视角, user mental model
+final user mental model: [item-first, item-0, item-1, item-2, item-3, item-4, item-5, item-6, item-7, UCBerkeley, item-last]
+```
