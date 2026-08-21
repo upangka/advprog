@@ -333,10 +333,18 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ArrayDeque61B<?> otherArrayDeque61B) {
-            return Arrays.equals(items, otherArrayDeque61B.items);
+        if(this == obj) return true;
+
+        if(!(obj instanceof ArrayDeque61B<?> other)) return false;
+
+        if(size != other.size) return false;
+
+        for (int i = 0; i < size; i++) {
+            var thisItem = get(i);
+            var otherItem = other.get(i);
+            if(!Objects.equals(thisItem,otherItem)) return false;
         }
-        return false;
+        return true;
     }
 
     /**
