@@ -102,9 +102,9 @@ public class ArrayDeque61BTest {
 
     @Test
     @DisplayName("Task 7: toList")
-    public void testToList(){
-        var expected_v1 = List.of("UCBerkeley","CS","61B","SP26");
-        var expected_v2 = List.of("UCBerkeley","CS","61B","SP26","Data","Structure");
+    public void testToList() {
+        var expected_v1 = List.of("UCBerkeley", "CS", "61B", "SP26");
+        var expected_v2 = List.of("UCBerkeley", "CS", "61B", "SP26", "Data", "Structure");
 
         Deque61B<String> deque = new ArrayDeque61B<>();
         deque.addLast("61B");
@@ -121,7 +121,7 @@ public class ArrayDeque61BTest {
 
     @Test
     @DisplayName("Task 8: removeFirst")
-    public void testRemoveFirst(){
+    public void testRemoveFirst() {
         Deque61B<String> deque = new ArrayDeque61B<>();
         deque.addLast("61B");
         deque.addLast("SP26");
@@ -137,7 +137,7 @@ public class ArrayDeque61BTest {
 
     @Test
     @DisplayName("Task 8: removeLast")
-    public void removeLast(){
+    public void removeLast() {
         Deque61B<String> deque = new ArrayDeque61B<>();
         deque.addLast("61B");
         deque.addLast("SP26");
