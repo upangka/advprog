@@ -15,8 +15,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
 
     public ArrayDeque61B(){
         this.items = (T[]) new Object[8];
-        this.nextFirst = 3;
-        this.nextLast = 4;
+        this.nextFirst = 4;
+        this.nextLast = 5;
     }
 
     /**
@@ -26,7 +26,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addFirst(T x) {
-
+        this.items[nextFirst] = x;
+        this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
     }
 
     /**
@@ -36,7 +37,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
      */
     @Override
     public void addLast(T x) {
-
+        this.items[nextLast] = x;
+        this.nextLast = Math.floorMod(nextLast + 1, items.length);
     }
 
     /**
