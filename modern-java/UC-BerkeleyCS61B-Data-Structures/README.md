@@ -21,8 +21,9 @@
   1.  [binary_search](./code/week7/binary_search.md)
 
 - **Projects**
-  1.  [LinkedListDeque61B](./code/projects/LinkedListDeque61B/)
-  2.  [Particle Simulator](./code/projects/particle-simulator/)
+  1.  [Particle Simulator](./code/projects/particle-simulator/)
+  2.  [LinkedListDeque61B](./code/projects/LinkedListDeque61B/)
+  3.  [ArrayDeque61B](./code/projects/ArrayDeque16B/README.md)
 
 ---
 

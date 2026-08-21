@@ -124,3 +124,5 @@ public int removeLast(){
 数组实现的list，在添加首部元素的时候，效率还是与链表的实现差很多，主要是要移动元素，这里直接使用循环数组的形式进行优化
 
 ![](./images/circular_array.png)
+
+完整实现：[ArrayDeque16B](../projects/ArrayDeque16B/README.md)
