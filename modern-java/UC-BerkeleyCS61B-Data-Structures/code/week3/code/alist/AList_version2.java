@@ -22,7 +22,7 @@ class AList<T> {
 	public void addLast(T val) {
 		// When the array is too full - resize
 		if (size == this.items.length) {
-			System.out.printf("Need resize... when add %d%n", val);
+			System.out.printf("Need resize... when add %s%n", val);
 			// 简单起见，每次扩容一倍
 			resize(size * 2);
 		}
@@ -35,12 +35,12 @@ class AList<T> {
 		var ret = this.items[size - 1];
 		// 方便Java GC
 		this.items[size - 1] = null;
-		size = -1;
+		size -= 1;
 
 		// R < 0.25 意味着 size / items.length < 0.25
 		// 即数组使用率过低，需要缩容
 		if ((double) size / items.length < 0.25) {
-			resize(size / 2); // 缩容：R 从 0.24 变成 0.48
+			resize(this.items.length / 2); // 缩容：R 从 0.24 变成 0.48
 		}
 		return ret;
 	}
@@ -58,5 +58,13 @@ class AList<T> {
 }
 
 void main(String... args) {
-	IO.println("Hello World");
+	var lst = new AList<String>();
+	lst.addLast("Douyin");
+	lst.addLast("Bilibibi");
+	lst.addLast("Youtube");
+	lst.addLast("Google");
+
+	lst.removeLast();
+	lst.removeLast();
+	lst.removeLast();
 }

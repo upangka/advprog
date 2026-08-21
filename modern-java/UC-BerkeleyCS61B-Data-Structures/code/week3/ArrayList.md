@@ -76,12 +76,12 @@ public void addLast(int val){
 ```java
 public int removeLast(){
     var ret = this.items[size - 1];
-    size = -1;
+    size -= 1;
 
     // R < 0.25 意味着 size / items.length < 0.25
     // 即数组使用率过低，需要缩容
-    if((double)size / items.length < 0.25){
-        resize(size / 2); // 缩容：R 从 0.24 变成 0.48
+    if ((double) size / items.length < 0.25) {
+        resize(this.items.length / 2); // 缩容：R 从 0.24 变成 0.48
     }
     return ret;
 }
