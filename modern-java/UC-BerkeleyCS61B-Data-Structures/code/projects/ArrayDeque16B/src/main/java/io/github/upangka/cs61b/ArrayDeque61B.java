@@ -1,5 +1,6 @@
 package io.github.upangka.cs61b;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +53,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public List<T> toList() {
-        return List.of();
+        var ret = new ArrayList<T>();
+        for (int i = 0; i < size; i++) {
+            int idx = Math.floorMod(nextFirst + 1 + i, items.length);
+            ret.add(items[idx]);
+        }
+        return ret;
     }
 
     /**

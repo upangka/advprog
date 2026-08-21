@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 /**
  *
  * @author 鲨鱼不喝Jvaa 抖音号:77283340926
@@ -95,5 +97,25 @@ public class ArrayDeque61BTest {
         Truth.assertThat(deque.size()).isEqualTo(3);
 
         log.info("isEmpty and size: Good Test");
+    }
+
+
+    @Test
+    @DisplayName("Task 7: toList")
+    public void testToList(){
+        var expected_v1 = List.of("UCBerkeley","CS","61B","SP26");
+        var expected_v2 = List.of("UCBerkeley","CS","61B","SP26","Data","Structure");
+
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        deque.addLast("61B");
+        deque.addLast("SP26");
+        deque.addFirst("CS");
+        deque.addFirst("UCBerkeley");
+        Truth.assertThat(deque.toList()).isEqualTo(expected_v1);
+
+        deque.addLast("Data");
+        deque.addLast("Structure");
+        Truth.assertThat(deque.toList()).isEqualTo(expected_v2);
+        log.info("toList: Good Test");
     }
 }
