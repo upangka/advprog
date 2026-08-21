@@ -160,11 +160,10 @@ public class ArrayDeque61BTest {
             deque.addLast("item-%d".formatted(i));
         }
         // 确保扩容成功
-        log.info("Resizing before: {}",deque);
+        log.info("Resizing before: {}", deque);
         deque.addLast("UCBerkeley");
         Truth.assertThat(deque.size()).isEqualTo(9);
-        log.info("Resizing after:  {}",deque);
-
+        log.info("Resizing after:  {}", deque);
 
 
         // 确保收尾添加仍然正常
@@ -181,8 +180,46 @@ public class ArrayDeque61BTest {
         expected.add("item-last");
 
         Truth.assertThat(deque.toList()).isEqualTo(expected);
-        log.info("final backing array: {}",deque);
-        log.info("final user mental model: {}",deque.toList());
+        log.info("final backing array: {}", deque);
+        log.info("final user mental model: {}", deque.toList());
         log.info("ResizingUp: Good Test");
+    }
+
+
+    @Test
+    @DisplayName("Task 10: Resizing Down")
+    public void testResizingDown() {
+        ArrayDeque61B<String> deque = new ArrayDeque61B<>();
+
+        for (int i = 0; i < 20; i++) {
+            deque.addLast(String.valueOf(i));
+        }
+
+        System.out.println(deque.toList());
+
+        // 此时扩容了两次 capacity = 32，size = 20
+        Truth.assertThat(deque.size()).isEqualTo(20);
+        Truth.assertThat(deque.capacity()).isEqualTo(32);
+        // 32 * 0.25 = 8 剩下八个元素的时候触发缩容
+        // 先删除12个元素
+        for (int i = 0; i < 12; i++) {
+            deque.removeFirst();
+            Truth.assertWithMessage("错误触发缩容")
+                    .that(deque.capacity()).isEqualTo(32);
+        }
+        // 删除第13个: 也就是目前还是8个元素，准备删除一个，触发缩容
+        deque.removeLast();
+        Truth.assertThat(deque.capacity()).isEqualTo(16);
+        var expected = List.of("12", "13", "14", "15", "16", "17", "18");
+        Truth.assertThat(deque.toList()).isEqualTo(expected);
+
+        // 如果capacity < 16 将不会触发缩容
+        while (!deque.isEmpty()) {
+            deque.removeFirst();
+        }
+        // 此时应该删除了所有元素
+        Truth.assertThat(deque.size()).isEqualTo(0);
+        // 不会缩容，仍然保持8
+        Truth.assertThat(deque.capacity()).isEqualTo(8);
     }
 }

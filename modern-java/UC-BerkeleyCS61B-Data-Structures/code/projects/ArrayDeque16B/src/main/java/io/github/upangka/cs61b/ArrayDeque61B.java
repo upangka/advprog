@@ -1,5 +1,7 @@
 package io.github.upangka.cs61b;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +11,22 @@ import java.util.List;
  * @version 1.0
  * @since 2026/8/21
  */
+@Slf4j
 public class ArrayDeque61B<T> implements Deque61B<T> {
     private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
     private static final int FACTOR = 2;
+    /** 使用率 */
+    private static final double USAGE_FACTOR = 0.25d;
     private static final int INITIAL_SIZE = 8;
 
     public ArrayDeque61B() {
         this(INITIAL_SIZE);
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayDeque61B(int capacity) {
         items = (T[]) new Object[capacity];
         nextFirst = initNextFirst(capacity);
@@ -36,7 +42,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public void addFirst(T x) {
         if (size == items.length) {
-            resizeup(items.length * FACTOR);
+            resizeUp(items.length * FACTOR);
         }
         this.items[nextFirst] = x;
         this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
@@ -51,15 +57,16 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public void addLast(T x) {
         if (size == items.length) {
-            resizeup(items.length * FACTOR);
+            resizeUp(items.length * FACTOR);
         }
         this.items[nextLast] = x;
         this.nextLast = Math.floorMod(nextLast + 1, items.length);
         size += 1;
     }
 
-    private void resizeup(int capacity) {
-
+    @SuppressWarnings("unchecked")
+    private void resizeUp(int capacity) {
+        log.info("Resizing up from {} to {}",items.length,capacity);
         T[] resized = (T[]) new Object[capacity];
         int newNextFirst = initNextFirst(capacity);
         int newNextLast = newNextFirst + 1;
@@ -152,6 +159,11 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (size == 0) {
             return null;
         }
+
+        if(shouldResizeDown()){
+            resizeDown(items.length / 2);
+        }
+
         nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
         var ret = items[nextFirst];
         items[nextFirst] = null;
@@ -169,11 +181,40 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (size == 0) {
             return null;
         }
+
+        if(shouldResizeDown()){
+            resizeDown(items.length / 2);
+        }
+
         nextLast = Math.floorMod(this.nextLast - 1, items.length);
         var ret = items[nextLast];
         items[nextLast] = null;
         this.size -= 1;
         return ret;
+    }
+
+    private boolean shouldResizeDown(){
+        return items.length >= 16
+                && (double) size / items.length  <= USAGE_FACTOR;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resizeDown(int capacity) {
+        log.info("Resize down from {} to {}",items.length,capacity);
+        T[]  resized = (T[]) new Object[capacity];
+
+        int  newNextFirst = initNextFirst(capacity);
+        int  newNextLast = newNextFirst + 1;
+
+        for (int i = 0; i < size; i++) {
+            T item = get(i);
+            resized[newNextLast] = item;
+            newNextLast = Math.floorMod(newNextLast + 1, capacity);
+        }
+
+        items = resized;
+        nextFirst = newNextFirst;
+        nextLast = newNextLast;
     }
 
     /**
@@ -223,5 +264,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    /**
+     * 获取底层数组的最大容量
+     */
+    public int capacity() {
+        return items.length;
     }
 }
