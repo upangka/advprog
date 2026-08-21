@@ -53,9 +53,57 @@ Good Test nextLast  [5, 6, 7, 0, 1, 2, 3, 4]
 不同视角，开发者知道的视角： 底层数组的数据的存储顺序
 用户看到数据顺序就是有顺序的添加的顺序。
 
+![](./images/user_mental_model.png)
+
+
 ```python
 # 底层视角
-backing array:           [item-7,UCBerkeley,item-last, _ , _ , _ , _ , _ ,item-first,item-0,item-1,item-2,item-3,item-4,item-5,item-6]
+             nextLast  nextFirst
+                   ↓   ↓
+Backing array: [e, _ , _ ,f,c,a,b,d]
 # 用户使用者的视角, user mental model
-final user mental model: [item-first, item-0, item-1, item-2, item-3, item-4, item-5, item-6, item-7, UCBerkeley, item-last]
+User mental model: [f, c, a, b, d, e]
+```
+
+[user_mental_model.java](src/main/java/io/github/upangka/user_mental_model.java)
+
+```java
+void main() {
+    Deque61B<String> deque = new ArrayDeque61B<>() {{
+        addLast("a");
+        addLast("b");
+        addFirst("c");
+        addLast("d");
+        addLast("e");
+        addFirst("f");
+    }};
+
+    System.out.println("Backing array: %s".formatted(deque));
+    System.out.println("User mental model: %s".formatted(deque.toList()));
+}
+```
+
+输出:
+```python
+Backing array: [e, _ , _ ,f,c,a,b,d]
+User mental model: [f, c, a, b, d, e]
+```
+
+
+
+# 匿名子类的初始化
+
+```java
+Deque61B<String> deque = new ArrayDeque61B<String>() {
+    // 这是一个匿名子类
+    {
+        // 实例初始化块：在构造器执行后运行
+        addLast("a");
+        addLast("b");
+        addFirst("c");
+        addLast("d");
+        addLast("e");
+        addFirst("f");
+    }
+};
 ```
