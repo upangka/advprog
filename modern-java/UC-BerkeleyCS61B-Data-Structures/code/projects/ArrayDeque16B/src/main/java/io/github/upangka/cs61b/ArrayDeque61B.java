@@ -41,12 +41,10 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addFirst(T x) {
-        if (size == items.length) {
-            resizeUp(items.length * FACTOR);
-        }
-        this.items[nextFirst] = x;
-        this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
-        size += 1;
+        doAdd(() -> {
+            this.items[nextFirst] = x;
+            this.nextFirst = Math.floorMod(nextFirst - 1, items.length);
+        });
     }
 
     /**
@@ -56,30 +54,32 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     @Override
     public void addLast(T x) {
-        if (size == items.length) {
-            resizeUp(items.length * FACTOR);
-        }
-        this.items[nextLast] = x;
-        this.nextLast = Math.floorMod(nextLast + 1, items.length);
-        size += 1;
+        doAdd(() -> {
+            this.items[nextLast] = x;
+            this.nextLast = Math.floorMod(nextLast + 1, items.length);
+        });
     }
 
-    @SuppressWarnings("unchecked")
-    private void resizeUp(int capacity) {
-        log.info("Resizing up from {} to {}",items.length,capacity);
-        T[] resized = (T[]) new Object[capacity];
-        int newNextFirst = initNextFirst(capacity);
-        int newNextLast = newNextFirst + 1;
-        // 获取元素一直往新数组的后面添加
-        for (int i = 0; i < size; i++) {
-            T oldVal = get(i);
-            resized[newNextLast] = oldVal;
-            newNextLast = Math.floorMod(newNextLast + 1, capacity);
-        }
 
-        items = resized;
-        nextFirst = newNextFirst;
-        nextLast = newNextLast;
+    /**
+     * 抽离添加元素的公共逻辑
+     * size +1
+     * 是否需要扩容
+     */
+    private void doAdd(Runnable runnable) {
+        if (size == items.length) {
+            resizeUp();
+        }
+        size += 1;
+        runnable.run();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void resizeUp() {
+        final int capacity = items.length * FACTOR;
+        log.info("Resizing up from {} to {}",items.length,capacity);
+        doResize(capacity);
     }
 
     private int initNextFirst(int capacity) {
@@ -161,7 +161,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
 
         if(shouldResizeDown()){
-            resizeDown(items.length / 2);
+            resizeDown();
         }
 
         nextFirst = Math.floorMod(this.nextFirst + 1, items.length);
@@ -183,7 +183,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
 
         if(shouldResizeDown()){
-            resizeDown(items.length / 2);
+            resizeDown();
         }
 
         nextLast = Math.floorMod(this.nextLast - 1, items.length);
@@ -199,10 +199,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private void resizeDown(int capacity) {
+    private void resizeDown() {
+        final int capacity = items.length / 2;
         log.info("Resize down from {} to {}",items.length,capacity);
-        T[]  resized = (T[]) new Object[capacity];
+        doResize(capacity);
+    }
 
+    private void doResize(int capacity) {
+        T[]  resized = (T[]) new Object[capacity];
         int  newNextFirst = initNextFirst(capacity);
         int  newNextLast = newNextFirst + 1;
 
