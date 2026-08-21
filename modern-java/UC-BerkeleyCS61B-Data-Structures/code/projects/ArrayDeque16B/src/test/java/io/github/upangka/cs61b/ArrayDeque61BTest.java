@@ -77,5 +77,23 @@ public class ArrayDeque61BTest {
         Truth.assertThat(deque.get(3)).isEqualTo("SP26");
         Truth.assertThat(deque.get(4)).isEqualTo("Data");
         Truth.assertThat(deque.get(5)).isEqualTo("Structure");
+
+        log.info("get: Good Test");
+    }
+
+
+    @Test
+    @DisplayName("Task 6: isEmpty and size")
+    public void testIsEmptyAndSize() {
+        Deque61B<String> deque = new ArrayDeque61B<>();
+        Truth.assertThat(deque.isEmpty()).isTrue();
+        deque.addLast("61B");
+        deque.addLast("SP26");
+        deque.addFirst("CS");
+        Truth.assertThat(deque.isEmpty()).isFalse();
+
+        Truth.assertThat(deque.size()).isEqualTo(3);
+
+        log.info("isEmpty and size: Good Test");
     }
 }
