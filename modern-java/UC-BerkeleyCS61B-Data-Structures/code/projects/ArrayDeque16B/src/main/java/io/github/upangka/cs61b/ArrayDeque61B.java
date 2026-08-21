@@ -9,6 +9,16 @@ import java.util.List;
  * @since 2026/8/21
  */
 public class ArrayDeque61B<T> implements Deque61B<T>{
+    private T[] items;
+    private int nextFirst;
+    private int nextLast;
+
+    public ArrayDeque61B(){
+        this.items = (T[]) new Object[8];
+        this.nextFirst = 3;
+        this.nextLast = 4;
+    }
+
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
      *
