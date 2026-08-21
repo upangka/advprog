@@ -12,7 +12,7 @@ nextFirst = (nextFirst - 1 + items.length) % items.length;
 上面的两种方式是一样的效果,测试代码[IndexFrontBackTest.java](./src/test/java/io/github/upangka/cs61b/IndexFrontBackTest.java)
 
 ```java
-@Test
+    @Test
     public void testIndexFrontBack() {
         int size = 8;
         int nextFirst = 4, nextLast = 5;

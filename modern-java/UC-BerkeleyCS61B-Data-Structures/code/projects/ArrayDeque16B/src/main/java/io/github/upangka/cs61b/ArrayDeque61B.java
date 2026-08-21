@@ -137,4 +137,22 @@ public class ArrayDeque61B<T> implements Deque61B<T>{
     public T getRecursive(int index) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < this.items.length; i++) {
+            if(items[i] != null){
+                sb.append(items[i].toString());
+            }else{
+                sb.append(" _ ");
+            }
+            if(i != this.items.length - 1){
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
