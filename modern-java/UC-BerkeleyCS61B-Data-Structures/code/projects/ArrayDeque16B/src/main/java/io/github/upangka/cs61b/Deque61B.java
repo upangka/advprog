@@ -8,7 +8,7 @@ import java.util.List;
  * @version 1.0
  * @since 2026/8/21
  */
-public interface Deque61B<T> {
+public interface Deque61B<T> extends Iterable<T>{
 
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.

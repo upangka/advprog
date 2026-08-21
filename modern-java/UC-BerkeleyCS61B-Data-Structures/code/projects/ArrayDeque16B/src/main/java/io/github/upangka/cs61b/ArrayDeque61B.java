@@ -3,7 +3,9 @@ package io.github.upangka.cs61b;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 /**
@@ -97,10 +99,16 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public List<T> toList() {
         var ret = new ArrayList<T>();
-        for (int i = 0; i < size; i++) {
-            int idx = Math.floorMod(nextFirst + 1 + i, items.length);
-            ret.add(items[idx]);
+//        for (int i = 0; i < size; i++) {
+//            int idx = Math.floorMod(nextFirst + 1 + i, items.length);
+//            ret.add(items[idx]);
+//        }
+
+        // 优化在实现了迭代器之后
+        for (var item : this) {
+            ret.add(item);
         }
+
         return ret;
     }
 
@@ -282,5 +290,47 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
      */
     public int capacity() {
         return items.length;
+    }
+
+
+    private class ArrayDeque61BIterator implements Iterator<T> {
+        private int idx;
+
+        ArrayDeque61BIterator() {
+            this.idx = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return idx < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public T next() {
+            return get(idx++);
+        }
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDeque61BIterator();
     }
 }
