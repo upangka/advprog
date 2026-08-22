@@ -182,9 +182,20 @@ public class QuickUnion implements DisjointSet {
 
 > Always link root of **smaller** tree to **larger** tree.
 
+tracking tree height is difficult. But we can tracking tree's size. 记录树的高度是有困难的，但是通过记录size，一样可以达到同样的效果。
+
 使得树的高度保持在`log(n)`,这样find查找速度和union合并速度，有提高。
 
 ![](./images/weighquickunionandfind.png)
+
+> **tracking tree size记录size，有两种方式**：
+>
+> 1. 一种是直接在parent中记录，负数代表的是root，同时`-size`代表大小。
+> 2. 另外一种是另外创建一个size数组进行维护，普林斯顿的算法课的[WeightedQuickUnionUF](https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/WeightedQuickUnionUF.java)实现就是这种方式
+
+![](./images/tracking_size.png)
+
+---
 
 [WeightedQuickUnion.java](./code/disjointset/quickunion/WeightedQuickUnion.java)
 
@@ -323,3 +334,35 @@ public class WeightedQuickUnion implements DisjointSet {
 
 最后的压缩结果
 ![](./images/compress_3.png)
+
+> 路径压缩的核心思想是：只在访问路径时压缩，不主动访问不相关的节点。 这样一来，整体性能就能保持在接近常数时间，同时代码也更简单。
+
+- **路径减半 (Path Halving)**
+
+```java
+public int find(int p) {
+    while (p != parent[p]) {
+        parent[p] = parent[parent[p]]; // 指向祖父节点
+        p = parent[p];
+    }
+    return p;
+}
+```
+
+- **完全压缩(Full Compression)**
+
+```java
+public int find(int p) {
+    int root = p;
+    while (root != parent[root]) {
+        root = parent[root];
+    }
+    // 第二次遍历：把路径上所有节点都直接连到根
+    while (p != root) {
+        int next = parent[p];
+        parent[p] = root;
+        p = next;
+    }
+    return root;
+}
+```
