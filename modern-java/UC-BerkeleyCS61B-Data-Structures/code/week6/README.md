@@ -1,4 +1,8 @@
-# Disjoint Set(Union Find)
+> **Disjoint Set** 和 **Java 的 `Set`** 本质上是两种完全不同的数据结构，它们的**目的**和**操作**都不一样。
+
+Disjoint Set 关注的是“**连通性**”（谁和谁是一伙的），而 `Set` 关注的是“**成员身份**”（这个东西在不在这个集合里）。
+
+# Disjoint Set(Union-Find Set) 并查集
 
 A Disjoint-Sets (or Union-Find) data structure keeps track of a fixed number of elements partitioned into a number of disjoint sets. The data structure has two operations:
 
@@ -6,12 +10,19 @@ A Disjoint-Sets (or Union-Find) data structure keeps track of a fixed number of 
 >
 > 如何快速判断两个元素是否属于同一个集合，以及如何高效地把两个集合合并在一起。
 
-1. `connect(x, y)`：把 `x` 和 `y` 连接起来,也叫union
-2. `isConnected(x, y)`：判断 `x` 和 `y` 是否连通。
-
 "Connections can be transitive" 说明 `isConnected` 不要求 `x` 和 `y` 之间必须有直接的 `connect` 调用，只要它们之间存在一条经过其他节点的路径，就认为它们连通。
 
+1. Naive approach: Record every single connecting line somehow.(朴素的做法：以某种方式记录每一条连接线。)
+2. Better approach: Model connectedness in terms of sets.(更好的做法：用集合来建模连通性。)
+   1. How things are connected isn't something we need to know.(我们不需要知道具体是怎么连起来的)
+   2. Only need to keep track of which connected commponent each item belongs to.(只需要记录每个元素属于哪个连通分量)
+
+# DisjointSet的抽象表示
+
 [DisjointSet.java](./code/disjointset/interfaces/DisjointSet.java)
+
+1. `connect(x, y)`：把 `x` 和 `y` 连接起来,也叫union
+2. `isConnected(x, y)`：判断 `x` 和 `y` 是否连通。
 
 ```java
 ///usr/bin/env jbang "$0" "$@" ; exit $?
@@ -27,7 +38,21 @@ public interface DisjointSet {
 }
 ```
 
-# QuickFind
+# Data Structures to Support Tracking of Sets
+
+## ListOfSets👎
+
+> 这个数据结构选择也最能说明DisjointSet与Java的Set集合的区别
+
+`List<Set<Integer>> = [{0, 1, 2, 4}, {3, 5}, {6}]`
+
+![](./images/listofsets.png)
+
+![](./images/listofsetsbigo.png)
+
+Worst case: if nothing is connected,then need to iterate through all N sets to find anything. 最坏情况：如果没有任何连接，那么需要遍历全部 N 个集合才能找到任何元素。
+
+## QuickFind
 
 初始化的时候设置为当前的位置，连通则`id[p] = id[q]`。
 
