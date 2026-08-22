@@ -83,4 +83,40 @@ public class WeightedQuickUnionFindC61BTest {
         log.info("union find: Good Test");
     }
 
+
+    @Test
+    @DisplayName("路径压缩")
+    public void testPathCompress(){
+        DisjointSet ds = new WeightedQuickUnionFindC61B(16);
+
+        ds.connnect(8, 14);
+        ds.connnect(2, 9);
+        ds.connnect(2, 8);
+
+        ds.connnect(3, 10);
+        ds.connnect(0, 4);
+        ds.connnect(0, 3);
+
+
+        ds.connnect(11, 15);
+        ds.connnect(5, 12);
+        ds.connnect(5, 11);
+
+        ds.connnect(6, 13);
+        ds.connnect(1, 7);
+        ds.connnect(1, 6);
+
+        ds.connnect(0, 2);
+        ds.connnect(1, 5);
+        ds.connnect(0, 1);
+
+        // 未调用isConnection的时候
+        var expected = "[-16, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 5, 5, 6, 8, 11]";
+        Truth.assertThat(ds.toString()).isEqualTo(expected);
+        // 会产生路径压缩
+        Truth.assertThat(ds.isConnection(10,15)).isTrue();
+        expected = "[-16, 0, 0, 0, 0, 0, 1, 1, 2, 2, 0, 0, 5, 6, 8, 0]";
+        Truth.assertThat(ds.toString()).isEqualTo(expected);
+    }
+
 }

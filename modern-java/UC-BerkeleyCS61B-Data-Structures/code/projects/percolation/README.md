@@ -35,3 +35,43 @@ Hint:
   - In the disjoint sets object, we want M,N,O and P to be connected to the virtual bottom.
 - When checking `isFull`, we call `isConnected(virtualTop,X)` on some DisjointSets object:
   - In the disjoint sets object, we do NOT want M,N,O and P to be connected to the virtual bottom.
+
+
+# 自己实现并查集
+
+[WeightedQuickUnionFindC61B](./src/main/java/io/github/upangka/c61b/disjointset/WeightedQuickUnionFindC61B.java)底层是通过调用`findRoot`做**全路径压缩**
+
+```java
+private int findRoot(int p) {
+    validate(p);
+    List<Integer> accessEls = new ArrayList<>();
+    int root = p;
+    while (!isRoot(root)) {
+        accessEls.add(root);
+        root = parent[root];
+    }
+
+    // 完整路径压缩
+    for (Integer access : accessEls) {
+        parent[access] = root;
+    }
+
+    return root;
+}
+```
+
+压缩测试[WeightedQuickUnionFindC61BTest.java](./src/test/java/io/github/upangka/c61b/disjointset/WeightedQuickUnionFindC61BTest.java)
+
+```java
+// 未调用isConnection的时候
+var expected = "[-16, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 5, 5, 6, 8, 11]";
+Truth.assertThat(ds.toString()).isEqualTo(expected);
+// 会产生路径压缩
+Truth.assertThat(ds.isConnection(10,15)).isTrue();
+expected = "[-16, 0, 0, 0, 0, 0, 1, 1, 2, 2, 0, 0, 5, 6, 8, 0]";
+Truth.assertThat(ds.toString()).isEqualTo(expected);
+```
+
+![](./images/compress_path_1.png)
+![](./images/compress_path_2.png)
+![](./images/compress_path_3.png)

@@ -18,6 +18,8 @@ public interface DisjointSet {
 
     /**
      * 连接两个元素
+     * 总是小的rootSize连接到大的rootSize
+     * 如果p的rootSize == q的rootSize,那么以p为root
      * @param p 元素1
      * @param q 元素2
      */
