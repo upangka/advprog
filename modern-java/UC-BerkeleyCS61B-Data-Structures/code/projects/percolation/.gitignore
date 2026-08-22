@@ -1,6 +1,6 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
+!**/src/io.github.upangka.c61b.main/**/target/
 !**/src/test/**/target/
 .kotlin
 
@@ -29,7 +29,7 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
+!**/src/io.github.upangka.c61b.main/**/build/
 !**/src/test/**/build/
 
 ### VS Code ###
