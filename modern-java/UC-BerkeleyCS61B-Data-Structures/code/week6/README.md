@@ -40,6 +40,8 @@ public interface DisjointSet {
 
 # Data Structures to Support Tracking of Sets
 
+![](./images/bigo.png)
+
 ## ListOfSets👎
 
 > 这个数据结构选择也最能说明DisjointSet与Java的Set集合的区别
@@ -123,6 +125,8 @@ public class QuickFind implements DisjointSet {
 
 # Quick Union
 
+![](./images/quickunion.png) 变成了一棵树🌲的形状
+
 [QuickUnion.java](./code/disjointset/quickunion/QuickUnion.java)
 
 ```java
@@ -172,7 +176,15 @@ public class QuickUnion implements DisjointSet {
 
 # Weighted Quick Union
 
-![](./images/weighted_quickunion.png)
+解决上面[quick-union](#quick-union)的问题。
+
+![](./images/weight.png)
+
+> Always link root of **smaller** tree to **larger** tree.
+
+使得树的高度保持在`log(n)`,这样find查找速度和union合并速度，有提高。
+
+![](./images/weighquickunionandfind.png)
 
 [WeightedQuickUnion.java](./code/disjointset/quickunion/WeightedQuickUnion.java)
 
@@ -299,3 +311,15 @@ public class WeightedQuickUnion implements DisjointSet {
 
 }
 ```
+
+# 路径压缩
+
+两个set连接之后，判断`isConnected(10,15)`,走过的路径，图下的蓝色
+
+![](./images/compress_1.png)
+
+准备缩短路径
+![](./images/compress_2.png)
+
+最后的压缩结果
+![](./images/compress_3.png)
