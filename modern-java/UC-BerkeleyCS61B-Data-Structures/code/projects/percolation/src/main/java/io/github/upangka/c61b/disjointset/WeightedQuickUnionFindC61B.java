@@ -1,6 +1,8 @@
 package io.github.upangka.c61b.disjointset;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 自定实现的并查集
@@ -81,10 +83,18 @@ public class WeightedQuickUnionFindC61B implements DisjointSet {
      */
     private int findRoot(int p) {
         validate(p);
+        List<Integer> accessEls = new ArrayList<>();
         int root = p;
         while (!isRoot(root)) {
+            accessEls.add(root);
             root = parent[root];
         }
+
+        // 完整路径压缩
+        for (Integer access : accessEls) {
+            parent[access] = root;
+        }
+
         return root;
     }
 

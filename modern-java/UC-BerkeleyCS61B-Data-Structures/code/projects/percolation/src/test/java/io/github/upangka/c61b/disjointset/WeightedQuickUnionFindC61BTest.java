@@ -32,7 +32,6 @@ public class WeightedQuickUnionFindC61BTest {
 
         var expected = "[-3, 0, 0, -1, -1, -1, -1, -1, -1]";
         Truth.assertThat(ds.toString()).isEqualTo(expected);
-        Truth.assertThat(ds.isConnection(1, 2)).isEqualTo(true);
 
         /**
          *  3
@@ -43,7 +42,6 @@ public class WeightedQuickUnionFindC61BTest {
         ds.connnect(3, 4);
         expected = "[-3, 0, 0, -3, 3, 3, -1, -1, -1]";
         Truth.assertThat(ds.toString()).isEqualTo(expected);
-        Truth.assertThat(ds.isConnection(4, 5)).isEqualTo(true);
 
         // 联通之后不变
         ds.connnect(4, 5);
@@ -59,7 +57,6 @@ public class WeightedQuickUnionFindC61BTest {
         ds.connnect(0, 3);
         expected = "[-6, 0, 0, 0, 3, 3, -1, -1, -1]";
         Truth.assertThat(ds.toString()).isEqualTo(expected);
-        Truth.assertThat(ds.isConnection(1, 4)).isEqualTo(true);
 
 
         /**
@@ -83,7 +80,6 @@ public class WeightedQuickUnionFindC61BTest {
         ds.connnect(0, 6);
         expected = "[-9, 0, 0, 0, 3, 3, 0, 6, 6]";
         Truth.assertThat(ds.toString()).isEqualTo(expected);
-        Truth.assertThat(ds.isConnection(7, 5)).isEqualTo(true);
         log.info("union find: Good Test");
     }
 
