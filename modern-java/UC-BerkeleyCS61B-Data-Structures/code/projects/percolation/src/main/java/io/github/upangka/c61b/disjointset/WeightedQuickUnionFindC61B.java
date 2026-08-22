@@ -63,7 +63,6 @@ public class WeightedQuickUnionFindC61B implements DisjointSet {
 
         // Always link root of smaller tree to larger tree
         int smallRoot = pAtRoot, bigRoot = qAtRoot;
-
         if (pAtRootSize >= qAtRootSize) {
             smallRoot = qAtRoot;
             bigRoot = pAtRoot;
