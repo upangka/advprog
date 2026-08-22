@@ -182,7 +182,7 @@ public class QuickUnion implements DisjointSet {
 
 > Always link root of **smaller** tree to **larger** tree.
 
-tracking tree height is difficult. But we can tracking tree's size. 记录树的高度是有困难的，但是通过记录size，一样可以达到同样的效果。
+tracking tree height is difficult. But we can tracking tree's size. 记录树的高度是有困难的，但是通过记录`size` (一般也叫`weight`)，一样可以达到同样的效果。
 
 使得树的高度保持在`log(n)`,这样find查找速度和union合并速度，有提高。
 
