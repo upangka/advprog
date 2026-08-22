@@ -23,9 +23,9 @@ public class WeightedQuickUnionFindC61BTest {
         Truth.assertThat(ds.toString()).isEqualTo(initState);
 
         /**
-         0
-         / \
-         1   2
+         *     0
+         *    / \
+         *   1   2
          */
         ds.connnect(0, 1);
         ds.connnect(0, 2);
@@ -35,9 +35,9 @@ public class WeightedQuickUnionFindC61BTest {
         Truth.assertThat(ds.isConnection(1, 2)).isEqualTo(true);
 
         /**
-         3
-         / \
-         5   4
+         *  3
+         *  / \
+         * 5   4
          */
         ds.connnect(3, 5);
         ds.connnect(3, 4);
@@ -50,16 +50,41 @@ public class WeightedQuickUnionFindC61BTest {
         Truth.assertThat(ds.toString()).isEqualTo(expected);
 
         /**
-               0
-             / | \
-            1  2  3
-                 / \
-                5   4
+         *       0
+         *     / | \
+         *    1  2  3
+         *        / \
+         *        5   4
          */
-        ds.connnect(0,3);
+        ds.connnect(0, 3);
         expected = "[-6, 0, 0, 0, 3, 3, -1, -1, -1]";
         Truth.assertThat(ds.toString()).isEqualTo(expected);
         Truth.assertThat(ds.isConnection(1, 4)).isEqualTo(true);
+
+
+        /**
+         *     6
+         *    / \
+         *   7   8
+         */
+        ds.connnect(6, 7);
+        ds.connnect(6, 8);
+        expected = "[-6, 0, 0, 0, 3, 3, -3, 6, 6]";
+        Truth.assertThat(ds.toString()).isEqualTo(expected);
+
+
+        /**
+         *        0
+         *    / | \  \
+         *  1  2  3    6
+         *       / \  / \
+         *      5   4 7  8
+         */
+        ds.connnect(0, 6);
+        expected = "[-9, 0, 0, 0, 3, 3, 0, 6, 6]";
+        Truth.assertThat(ds.toString()).isEqualTo(expected);
+        Truth.assertThat(ds.isConnection(7, 5)).isEqualTo(true);
+        log.info("union find: Good Test");
     }
 
 }
