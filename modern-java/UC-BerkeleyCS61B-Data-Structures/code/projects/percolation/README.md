@@ -88,6 +88,48 @@ Hint:
   - In the disjoint sets object, we do NOT want M,N,O and P to be connected to the virtual bottom.
 
 
+[Percolation.java](src/main/java/io/github/upangka/c61b/core/Percolation.java)
+
+![](./images/code_backwash.png)
+
+用同一个并查集同时处理了“顶部连通”和“底部连通”两种关系。一旦系统渗透了，`virtualTop` 和 `virtualBottom` 就通过一条完整的开放路径连通了。这时，`virtualTop` 通过这条路径“间接”连接到了所有与底部连通的开放格子。因此，`isFull` 会错误地返回 `true`，认为这些底部格子也是“满的”——这就是回流。
+简单来说：用一个并查集同时回答了**是否与顶部连通**和**系统是否渗透**两个问题，而`渗透发生后，这两个问题互相干扰了`。
+
+```java
+public void open(int x, int y) {
+    sites[x][y] = true;
+
+    int p = xyTo1D(x, y);
+    
+    // 处理邻居的联通
+    getNeighbors(x, y).forEach(point -> {
+        if (sites[point.x][point.y]) {
+            int q = xyTo1D(point.x, point.y);
+            unionFinder.connnect(p, q);
+        }
+    });
+    
+    //⚠️ 这里同时处理顶部和底部
+    // 处理顶部
+    if (x == 0) {
+        unionFinder.connnect(virtualTop, p);
+    }
+    // 处理底部
+    if(x == _n - 1) {
+        unionFinder.connnect(virtualBottom, p);
+    }
+}
+```
+
+[PercolationCompletion.java](src/main/java/io/github/upangka/c61b/core/PercolationCompletion.java) 使用两个并查集:
+
+1. **`ufFull`**：只连接顶部 `virtualTop`，**不连接**底部 `virtualBottom`。专门用于 `isFull()` 的判断。**所有 `open` 操作中，与邻居的 `union` 和与 `virtualTop` 的 `union` 都在这个并查集中进行。**
+2. **`ufPercolates`**：同时连接顶部 `virtualTop` 和底部 `virtualBottom`，专门用于 `percolates()` 的判断。**所有 `open` 操作中，与邻居的 `union` 以及与顶部和底部的 `union`，都在这个并查集中进行。**
+
+这样，`isFull()` 查询的并查集不包含底部节点，就不会受到回流影响；`percolates()` 查询的并查集包含了完整的连通信息，可以正常判断是否渗透。
+
+---
+
 # 自己实现并查集
 
 [WeightedQuickUnionFindC61B](./src/main/java/io/github/upangka/c61b/disjointset/WeightedQuickUnionFindC61B.java)底层是通过调用`findRoot`做**全路径压缩**

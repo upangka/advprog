@@ -4,20 +4,18 @@ import io.github.upangka.c61b.disjointset.DisjointSet;
 import io.github.upangka.c61b.disjointset.WeightedQuickUnionFindC61B;
 
 import javax.swing.text.Position;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Percolation Model渗透模型
- * 有backwash回流 bug!!!
- * {@link PercolationCompletion}创建了两个并查集进行解决
+ * 解决了回流的问题
  *
  * @author 鲨鱼不喝Jvaa 抖音号:77283340926
  * @version 1.0
  * @since 2026/8/23
  */
-public class Percolation {
+public class PercolationCompletion {
     /**
      * 格子
      * 0 0 为底部
@@ -37,7 +35,7 @@ public class Percolation {
     private static record Point(int x, int y) {
     }
 
-    public Percolation(int n) {
+    public PercolationCompletion(int n) {
         this._n = n;
         sites = new boolean[n][n];
         int lastIdx = xyTo1D(n - 1, n - 1);
