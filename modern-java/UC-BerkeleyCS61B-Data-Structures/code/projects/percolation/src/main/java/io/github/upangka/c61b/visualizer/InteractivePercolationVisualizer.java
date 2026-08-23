@@ -6,13 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.awt.*;
 
 import static io.github.upangka.c61b.config.AppConfig.BIAS_BASE;
+import static io.github.upangka.c61b.config.AppConfig.SIZE;
 
 @Slf4j
 public class InteractivePercolationVisualizer {
     void main(String[] args) {
 
-//        int n = SIZE;
-        int n = 5;
+        int n = SIZE;
         PercolationPicture pp = new PercolationPicture(n);
 
         StdDraw.enableDoubleBuffering();
