@@ -1,5 +1,56 @@
 [Description of Project Percolation](https://sp26.datastructur.es/projects/proj3/)
 
+
+# simple board
+
+> StdDraw的基本研究：
+> 
+> 1. 左下角为坐标轴，不一定为(0,0)开始，这里设置为(-0.05*n,-0.05*n)
+> 2. StdDraw的窗口大小不能改变，所以通过setXscale，setYscale等来映射 (0,5),代表从左到右坐标为0 -> 5
+
+[SimpleBoardVisualizer.java](src/main/java/io/github/upangka/c61b/visualizer/SimpleBoardVisualizer.java)
+
+```java
+public class SimpleBoardVisualizer {
+    private static final int DEFAULT_DISPLAY = 5;
+
+    static void main() {
+        int n = DEFAULT_DISPLAY;
+        // 使用缓冲
+        StdDraw.enableDoubleBuffering();
+        // 等比例间距用乘法
+        StdDraw.setXscale(-0.05d * n, 1.05 * n);
+        StdDraw.setYscale(-0.05d * n, 1.05 * n);
+        StdDraw.clear(Color.LIGHT_GRAY);
+        var colors = List.of(Color.BLACK, Color.RED);
+        while (true) {
+
+            for (int x = 0; x < n; x++) {
+                for (int y = 0; y < n; y++) {
+                    // 方便颜色错开
+                    int pos = (x + y);
+                    StdDraw.setPenColor(colors.get(pos % 2));
+                    // 从下往上画
+                    StdDraw.filledSquare(0.5d + y, 0.5 + x, 0.49);
+                    StdDraw.setPenColor(Color.WHITE);
+
+                    // 显示文字
+                    Character c = (char) ('A' + (x * n + y));
+                    String content = c + "(%d,%d)".formatted(x, y);
+                    StdDraw.text(0.5d + y, 0.5 + x, content);
+                }
+            }
+
+            StdDraw.show();
+            // 1s 60FPS
+            StdDraw.pause(16);
+        }
+    }
+}
+```
+
+![](./images/simple_board.png)
+
 # 二维转一维
 
 ![](./images/xyTo1D.png)
@@ -75,3 +126,4 @@ Truth.assertThat(ds.toString()).isEqualTo(expected);
 ![](./images/compress_path_1.png)
 ![](./images/compress_path_2.png)
 ![](./images/compress_path_3.png)
+
