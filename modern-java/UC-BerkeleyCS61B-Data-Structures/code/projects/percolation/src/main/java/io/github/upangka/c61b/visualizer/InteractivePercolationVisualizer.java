@@ -12,13 +12,13 @@ public class InteractivePercolationVisualizer {
     void main(String[] args) {
 
 //        int n = SIZE;
-        int n = 5;
+        int n = 20;
         PercolationPicture pp = new PercolationPicture(n);
 
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(-BIAS_BASE * n, (1.0d + BIAS_BASE) * n);
         StdDraw.setYscale(-BIAS_BASE * n, (1.0d + BIAS_BASE) * n);
-        StdDraw.clear(Color.LIGHT_GRAY);
+
         pp.draw();
         // 记录上次
         int lastClickX = -1,lastClickY = -1;

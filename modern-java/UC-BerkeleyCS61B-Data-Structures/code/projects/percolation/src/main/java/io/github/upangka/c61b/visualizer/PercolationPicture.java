@@ -33,6 +33,7 @@ public class PercolationPicture {
     }
 
     public void draw() {
+        StdDraw.clear(Color.LIGHT_GRAY);
         for (int x = 0; x < n; x++) {
             for (int y = 0; y < n; y++) {
                 boolean siteOpen = percolation.isOpen(x, y);
@@ -52,7 +53,7 @@ public class PercolationPicture {
 
                 // 从底部往上画
                 StdDraw.filledSquare(0.5 + dx, 0.5 + dy, 0.49);
-                if (SHOW_POS) {
+                if (SHOW_POS && this.n <= 5) {
                     int id = percolation.xyTo1D(x, y);
                     String content = "%d(%d,%d)".formatted(id, x, y);
                     StdDraw.setPenColor(Color.orange);
