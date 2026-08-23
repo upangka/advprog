@@ -56,6 +56,10 @@ public class PercolationPicture {
                     int id = percolation.xyTo1D(x, y);
                     String content = "%d(%d,%d)".formatted(id, x, y);
                     StdDraw.setPenColor(Color.orange);
+                    // 增加视角效果，如果为open或者full，字体颜色为黑色
+                    if(siteFull || siteOpen){
+                        StdDraw.setPenColor(Color.BLACK);
+                    }
                     StdDraw.text(0.5 + dx, 0.5 + dy, content);
                 }
             }
