@@ -125,7 +125,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return isFull(virtualTop, virtualBottom);
+        return unionFinder.isConnection(virtualTop, virtualBottom);
     }
 
 }

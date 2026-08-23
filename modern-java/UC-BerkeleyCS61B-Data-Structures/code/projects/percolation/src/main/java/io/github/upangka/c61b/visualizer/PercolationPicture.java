@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
+import static io.github.upangka.c61b.config.AppConfig.BIAS_BASE;
 import static io.github.upangka.c61b.config.AppConfig.SHOW_POS;
 
 /**
@@ -54,7 +55,25 @@ public class PercolationPicture {
                 // 从底部往上画
                 StdDraw.filledSquare(0.5 + dx, 0.5 + dy, 0.49);
                 showPointXYBias(x, y, siteFull, siteOpen, dx, dy);
+
+                // 显示状态
+                showPercolationStatus();
             }
+        }
+    }
+
+    private void showPercolationStatus() {
+        int openSiteCount = percolation.numberOfOpenSites();
+        StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
+        String openContent = "%d open sites".formatted(openSiteCount);
+        StdDraw.text(0.25 * n, -BIAS_BASE / 2 * n, openContent);
+
+        if (percolation.percolates()) {
+            StdDraw.setPenColor(StdDraw.GREEN);
+            StdDraw.text(0.75 * n, -BIAS_BASE / 2 * n, "渗透成功");
+        } else {
+            StdDraw.text(0.75 * n, -BIAS_BASE / 2 * n, "渗透中...");
         }
     }
 
