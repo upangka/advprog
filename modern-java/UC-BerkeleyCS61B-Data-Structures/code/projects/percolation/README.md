@@ -9,7 +9,7 @@
 > 2. StdDraw的窗口大小不能改变，所以通过setXscale，setYscale等来映射 (0,5),代表从左到右坐标为0 -> 5
 
 [SimpleBoardVisualizer.java](src/main/java/io/github/upangka/c61b/visualizer/SimpleBoardVisualizer.java)
-
+**注意**，画布是从左下角，从下往上画，而二维数组的遍历是从上往下遍历的，这要稍微处理一下。
 ```java
 public class SimpleBoardVisualizer {
     private static final int DEFAULT_DISPLAY = 5;
