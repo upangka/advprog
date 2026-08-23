@@ -1,7 +1,8 @@
 package io.github.upangka.c61b.visualizer;
 
 import edu.princeton.cs.algs4.StdDraw;
-import io.github.upangka.c61b.core.Percolation;
+import io.github.upangka.c61b.core.IPercolation;
+import io.github.upangka.c61b.core.PercolationCompletion;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
@@ -17,11 +18,13 @@ import static io.github.upangka.c61b.config.AppConfig.SHOW_POS;
  */
 @Slf4j
 public class PercolationPicture {
-    private final Percolation percolation;
+    private final IPercolation percolation;
     private final int n;
 
     public PercolationPicture(int n) {
-        percolation = new Percolation(n);
+        // 有backwash回流问题
+//        percolation = new Percolation(n);
+        percolation = new PercolationCompletion(n);
         this.n = n;
     }
 

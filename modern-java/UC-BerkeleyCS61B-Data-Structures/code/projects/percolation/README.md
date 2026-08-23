@@ -1,5 +1,31 @@
 [Description of Project Percolation](https://sp26.datastructur.es/projects/proj3/)
 
+# 最终效果
+
+![](./images/complete_project.png)
+
+
+```txt
+─c61b
+   ├─config
+   │      AppConfig.java    # 配置文件
+   │      
+   ├─core
+   │      IPercolation.java     # 接口
+   │      Percolation.java  # 核心：渗透模型 有backwash问题
+   │      PercolationCompletion.java    # 完整版：渗透模型
+   │      
+   ├─disjointset
+   │      DisjointSet.java  # 并查集接口
+   │      WeightedQuickUnionFindC61B.java    # 自己实现的并查集带有路径压缩
+   │      
+   └─visualizer
+           InteractivePercolationVisualizer.java  # 图形化入口
+           PercolationPicture.java  # 绘制渗透系统的格子
+           SimpleBoardVisualizer.java   # StdDraw画图模拟
+
+```
+
 
 # simple board
 
@@ -127,6 +153,43 @@ public void open(int x, int y) {
 2. **`ufPercolates`**：同时连接顶部 `virtualTop` 和底部 `virtualBottom`，专门用于 `percolates()` 的判断。**所有 `open` 操作中，与邻居的 `union` 以及与顶部和底部的 `union`，都在这个并查集中进行。**
 
 这样，`isFull()` 查询的并查集不包含底部节点，就不会受到回流影响；`percolates()` 查询的并查集包含了完整的连通信息，可以正常判断是否渗透。
+
+```java
+/** 添加虚拟节点之后，需要两个并查集来分别处理渗透和full的问题 */
+/** ufPercolation 处理 是否渗透，考虑全部格子 */
+private final DisjointSet ufPercolation;
+/** ufFull只处理虚拟顶部和其他格子，不考虑虚拟底部，处理格子是否full */
+private final DisjointSet ufFull;
+
+public void open(int x, int y) {
+    sites[x][y] = true;
+
+    int p = xyTo1D(x, y);
+
+    getNeighbors(x, y).forEach(point -> {
+        if (sites[point.x][point.y]) {
+            int q = xyTo1D(point.x, point.y);
+            ufPercolation.connnect(p, q);
+            ufFull.connnect(p, q);
+        }
+    });
+
+    // 处理顶部
+    if (x == 0) {
+        ufPercolation.connnect(virtualTop, p);
+        ufFull.connnect(virtualTop, p);
+    }
+    // 处理底部
+    if(x == _n - 1) {
+        ufPercolation.connnect(virtualBottom, p);
+        // ufFull并查集不处理底部
+    }
+}
+```
+
+![](./images/fix_back_wash.png)
+
+
 
 ---
 

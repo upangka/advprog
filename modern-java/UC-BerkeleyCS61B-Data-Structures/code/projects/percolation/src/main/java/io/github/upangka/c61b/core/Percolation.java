@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0
  * @since 2026/8/23
  */
-public class Percolation {
+public class Percolation implements IPercolation{
     /**
      * 格子
      * 0 0 为底部
@@ -54,20 +54,23 @@ public class Percolation {
      * @param rowBase 每行是多少个
      * @return
      */
+    @Override
     public int xyTo1D(int x, int y) {
         return x * _n + y;
     }
 
-
+    @Override
     public boolean isOpen(int x, int y) {
         return sites[x][y];
     }
 
+    @Override
     public boolean isFull(int x, int y) {
         int p = xyTo1D(x, y);
         return unionFinder.isConnection(virtualTop, p);
     }
 
+    @Override
     public void open(int x, int y) {
         sites[x][y] = true;
 
@@ -114,6 +117,7 @@ public class Percolation {
         return p.x >= 0 && p.x < _n && p.y >= 0 && p.y < _n;
     }
 
+    @Override
     public int numberOfOpenSites() {
         int ret = 0;
         for (int row = 0; row < this.sites.length; row++) {
@@ -126,6 +130,7 @@ public class Percolation {
         return ret;
     }
 
+    @Override
     public boolean percolates() {
         return unionFinder.isConnection(virtualTop, virtualBottom);
     }

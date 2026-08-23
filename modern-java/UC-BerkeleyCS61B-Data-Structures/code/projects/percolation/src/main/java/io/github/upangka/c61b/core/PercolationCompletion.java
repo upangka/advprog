@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @since 2026/8/23
  */
-public class PercolationCompletion {
+public class PercolationCompletion implements IPercolation{
     /**
      * 格子
      * 0 0 为底部
@@ -30,7 +30,12 @@ public class PercolationCompletion {
      * 虚拟顶部节点
      */
     private final int virtualBottom;
-    private final DisjointSet unionFinder;
+
+    /** 添加虚拟节点之后，需要两个并查集来分别处理渗透和full的问题 */
+    /** ufPercolation 处理 是否渗透，考虑全部格子 */
+    private final DisjointSet ufPercolation;
+    /** ufFull只处理虚拟顶部和其他格子，不考虑虚拟底部，处理格子是否full */
+    private final DisjointSet ufFull;
 
     private static record Point(int x, int y) {
     }
@@ -41,7 +46,8 @@ public class PercolationCompletion {
         int lastIdx = xyTo1D(n - 1, n - 1);
         virtualTop = lastIdx + 1;
         virtualBottom = lastIdx + 2;
-        unionFinder = new WeightedQuickUnionFindC61B(n * n + 2);
+        ufPercolation = new WeightedQuickUnionFindC61B(n * n + 2);
+        ufFull = new WeightedQuickUnionFindC61B(n * n + 2);
     }
 
     /**
@@ -49,23 +55,26 @@ public class PercolationCompletion {
      *
      * @param x
      * @param y
-     * @param rowBase 每行是多少个
      * @return
      */
+    @Override
     public int xyTo1D(int x, int y) {
         return x * _n + y;
     }
 
 
+    @Override
     public boolean isOpen(int x, int y) {
         return sites[x][y];
     }
 
+    @Override
     public boolean isFull(int x, int y) {
         int p = xyTo1D(x, y);
-        return unionFinder.isConnection(virtualTop, p);
+        return ufFull.isConnection(virtualTop, p);
     }
 
+    @Override
     public void open(int x, int y) {
         sites[x][y] = true;
 
@@ -74,17 +83,20 @@ public class PercolationCompletion {
         getNeighbors(x, y).forEach(point -> {
             if (sites[point.x][point.y]) {
                 int q = xyTo1D(point.x, point.y);
-                unionFinder.connnect(p, q);
+                ufPercolation.connnect(p, q);
+                ufFull.connnect(p, q);
             }
         });
 
         // 处理顶部
         if (x == 0) {
-            unionFinder.connnect(virtualTop, p);
+            ufPercolation.connnect(virtualTop, p);
+            ufFull.connnect(virtualTop, p);
         }
         // 处理底部
         if(x == _n - 1) {
-            unionFinder.connnect(virtualBottom, p);
+            ufPercolation.connnect(virtualBottom, p);
+            // ufFull并查集不处理底部
         }
     }
 
@@ -112,6 +124,7 @@ public class PercolationCompletion {
         return p.x >= 0 && p.x < _n && p.y >= 0 && p.y < _n;
     }
 
+    @Override
     public int numberOfOpenSites() {
         int ret = 0;
         for (int row = 0; row < this.sites.length; row++) {
@@ -124,8 +137,9 @@ public class PercolationCompletion {
         return ret;
     }
 
+    @Override
     public boolean percolates() {
-        return unionFinder.isConnection(virtualTop, virtualBottom);
+        return ufPercolation.isConnection(virtualTop, virtualBottom);
     }
 
 }
