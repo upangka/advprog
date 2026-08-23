@@ -12,7 +12,7 @@ public class InteractivePercolationVisualizer {
     void main(String[] args) {
 
 //        int n = SIZE;
-        int n = 20;
+        int n = 5;
         PercolationPicture pp = new PercolationPicture(n);
 
         StdDraw.enableDoubleBuffering();

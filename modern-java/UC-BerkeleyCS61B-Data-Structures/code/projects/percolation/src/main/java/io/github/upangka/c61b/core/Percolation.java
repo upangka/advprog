@@ -4,6 +4,7 @@ import io.github.upangka.c61b.disjointset.DisjointSet;
 import io.github.upangka.c61b.disjointset.WeightedQuickUnionFindC61B;
 
 import javax.swing.text.Position;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class Percolation {
      */
     private final int virtualBottom;
     private final DisjointSet unionFinder;
+
+    private static record Point(int x, int y) {
+    }
 
     public Percolation(int n) {
         this._n = n;
@@ -78,10 +82,13 @@ public class Percolation {
         if (x == 0) {
             unionFinder.connnect(virtualTop, p);
         }
+        // 处理底部
+        if(x == _n - 1) {
+            unionFinder.connnect(virtualBottom, p);
+        }
     }
 
-    private static record Point(int x, int y) {
-    }
+
 
     private List<Point> getNeighbors(int x, int y) {
         List<Position> neighbors = new ArrayList<>();
@@ -103,6 +110,22 @@ public class Percolation {
 
     private boolean validate(Point p) {
         return p.x >= 0 && p.x < _n && p.y >= 0 && p.y < _n;
+    }
+
+    public int numberOfOpenSites() {
+        int ret = 0;
+        for (int row = 0; row < this.sites.length; row++) {
+            for (int col = 0; col < this.sites[row].length; col++) {
+                if (sites[row][col]) {
+                    ret += 1;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public boolean percolates() {
+        return isFull(virtualTop, virtualBottom);
     }
 
 }

@@ -53,17 +53,24 @@ public class PercolationPicture {
 
                 // 从底部往上画
                 StdDraw.filledSquare(0.5 + dx, 0.5 + dy, 0.49);
-                if (SHOW_POS && this.n <= 5) {
-                    int id = percolation.xyTo1D(x, y);
-                    String content = "%d(%d,%d)".formatted(id, x, y);
-                    StdDraw.setPenColor(Color.orange);
-                    // 增加视角效果，如果为open或者full，字体颜色为黑色
-                    if(siteFull || siteOpen){
-                        StdDraw.setPenColor(Color.BLACK);
-                    }
-                    StdDraw.text(0.5 + dx, 0.5 + dy, content);
-                }
+                showPointXYBias(x, y, siteFull, siteOpen, dx, dy);
             }
+        }
+    }
+
+    /**
+     * 显示坐标
+     */
+    private void showPointXYBias(int x, int y, boolean siteFull, boolean siteOpen, int dx, int dy) {
+        if (SHOW_POS && this.n <= 5) {
+            int id = percolation.xyTo1D(x, y);
+            String content = "%d(%d,%d)".formatted(id, x, y);
+            StdDraw.setPenColor(Color.orange);
+            // 增加视角效果，如果为open或者full，字体颜色为黑色
+            if (siteFull || siteOpen) {
+                StdDraw.setPenColor(Color.BLACK);
+            }
+            StdDraw.text(0.5 + dx, 0.5 + dy, content);
         }
     }
 }
