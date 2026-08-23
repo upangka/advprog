@@ -10,6 +10,7 @@ public int binarySearch(int arr[], int low, int hight, int target) {
 		return -1;
 	}
 
+	// 以low为base
 	int mid = low + (hight - low) / 2;
 
 	if (target == arr[mid]) {
