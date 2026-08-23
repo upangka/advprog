@@ -3,6 +3,10 @@ package io.github.upangka.c61b.core;
 import io.github.upangka.c61b.disjointset.DisjointSet;
 import io.github.upangka.c61b.disjointset.WeightedQuickUnionFindC61B;
 
+import javax.swing.text.Position;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Percolation Model渗透模型
  * @author 鲨鱼不喝Jvaa 抖音号:77283340926
@@ -10,8 +14,12 @@ import io.github.upangka.c61b.disjointset.WeightedQuickUnionFindC61B;
  * @since 2026/8/23
  */
 public class Percolation {
-    // 格子
-    private final int[][] sites;
+    /**
+     * 格子
+     * 0 0 为底部
+     */
+    private final boolean[][] sites;
+    private final int _n;
     /** 虚拟顶部节点 */
     private final int virtualTop;
     /** 虚拟顶部节点 */
@@ -19,8 +27,9 @@ public class Percolation {
     private final DisjointSet unionFinder;
 
     public Percolation(int n) {
-        sites = new int[n][n];
-        int lastIdx = xyTo1D(n-1,n-1,n);
+        this._n = n;
+        sites = new boolean[n][n];
+        int lastIdx = xyTo1D(n-1,n-1);
         virtualTop = lastIdx + 1;
         virtualBottom = lastIdx + 2;
         unionFinder = new WeightedQuickUnionFindC61B(n+2);
@@ -33,8 +42,56 @@ public class Percolation {
      * @param rowBase 每行是多少个
      * @return
      */
-    private int xyTo1D(int x,int y,int rowBase){
-        return x * rowBase + y;
+    private int xyTo1D(int x,int y){
+        return x * _n + y;
+    }
+
+
+    public boolean isOpen(int x,int y){
+        return sites[x][y];
+    }
+
+    public boolean isFull(int x,int y){
+        int p = xyTo1D(x,y);
+        return unionFinder.isConnection(virtualTop,p);
+    }
+
+    public void open(int x, int y) {
+        sites[x][y] = true;
+
+        int p = xyTo1D(x,y);
+
+        getNeighbors(x,y).forEach(point -> {
+            int q = xyTo1D(point.x,point.y);
+            unionFinder.connnect(p,q);
+        });
+
+        // 处理顶部
+        if(y == _n - 1){
+            unionFinder.connnect(virtualTop,p);
+        }
+    }
+    private  static record Point(int x, int y){}
+    private List<Point> getNeighbors(int x, int y){
+        List<Position> neighbors = new ArrayList<>();
+
+        var directions = List.of(
+                // UP
+                new Point(x, y + 1),
+                // DOWN
+                new Point(x, y - 1),
+                // LEFT
+                new Point(x - 1, y),
+                // RIGHT
+                new Point(x + 1, y)
+        );
+
+        return directions.stream().filter(this::validate).toList();
+    }
+
+
+    private boolean validate(Point p){
+        return p.x >=0 && p.x < _n && p.y >= 0 && p.y < _n;
     }
 
 }
