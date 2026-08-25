@@ -2,7 +2,7 @@
 
 > JDK中的TreeSet与TreeMap底层的实现就是BST数据结构提供的支撑。
 
-二叉搜索树：首先可以将它理解为是链表的一种变体。因为二分查找在链表上不能工作，将链表进行更改，形成二叉搜索树(Binary Search Tree-BST)
+二叉搜索树：首先可以将它理解为是链表的一种变体。因为二分查找在链表上不能工作，将链表进行更改，形成二叉搜索树(Binary Search Tree-BST),方便[二分查找(能够在数组很好工作)](./binary_search.md)的思想在链表中运行
 
 ![](./images/bst.png)
 
@@ -10,13 +10,25 @@ BST的平衡问题：如果插入顺序是有序的（比如 1, 2, 3, 4），BST
 
 TreeMap 与 HashMap 的区别：TreeMap 基于 BST，有序；HashMap 基于哈希表，无序但通常更快。
 
-## 性质
+# 性质
 
 1. 每个节点最多有两个子节点（左、右）。
 2. **BST 性质**：左子树所有节点都小于当前节点，右子树所有节点都大于当前节点,没有相等的元素。
 3. 这个性质保证了查找时每次都能排除一半，所以平衡状态下查找是 `O(log N)`。
 
 ![](./images/judege_bst.png)
+
+# 实现
+
+建模这里直接使用BST而不使用内部类Node的方式
+
+## 搜索
+
+## 插入
+
+> **We always insert at a leaf node**
+
+与`find`方法不同的是，`insert`方法在递归的过程记住了父节点
 
 ## Hibbard deletion
 
