@@ -1,4 +1,4 @@
-
+![](./images/demo.png)
 # BSTMap
 
 A BST-based implementation of Map(a basic tree-based)
@@ -120,5 +120,21 @@ Entry get(K sk){
         return null;
     }
     return next.get(sk);
+}
+```
+
+`put`方法进行更新和新增
+
+```java
+ public void put(K key, V value) {
+
+    var entry = sentinel.get(key);
+    if(entry == null){
+        sentinel.next = new Entry(key,value,sentinel.next);
+        size += 1;
+    }else{
+        entry.value = value;
+    }
+
 }
 ```
