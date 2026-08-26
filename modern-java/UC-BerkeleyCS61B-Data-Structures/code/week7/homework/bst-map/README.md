@@ -107,3 +107,18 @@ private class BSTMapIteratorV2 implements Iterator<K> {
     }
 }
 ```
+
+
+# ULLMap的递归
+
+```java
+Entry get(K sk){
+    if(sk != null && sk.equals(key)){
+        return this;
+    }
+    if(next == null){
+        return null;
+    }
+    return next.get(sk);
+}
+```

@@ -1,7 +1,6 @@
 package cs61b;
 
 import com.google.common.truth.Truth;
-import edu.princeton.cs.algs4.BST;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,6 @@ public class BSTMapTest {
         b.put("上海", "上海");
         Truth.assertThat(b.size()).isEqualTo(3);
         Truth.assertThat(b.get("广东")).isEqualTo("深圳");
-
     }
 
     //  Assumes `put`/`containsKey` is implemented properly.
