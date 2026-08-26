@@ -15,10 +15,25 @@ public class BSTMapTest {
     //  Assumes `put`/`containsKey` is implemented properly.
     @Test
     @DisplayName("containsKey")
-    public void sanityContainsKeyTest(){
-        var b = new BSTMap<String,Integer>();
+    public void sanityContainsKeyTest() {
+        var b = new BSTMap<String, Integer>();
         Truth.assertThat(b.containsKey("waterYouDoingHere")).isFalse();
         b.put("waterYouDoingHere", 10);
         Truth.assertThat(b.containsKey("waterYouDoingHere")).isTrue();
     }
+
+    @Test
+    @DisplayName("size")
+    public void sanitySizeTest() {
+        var b = new BSTMap<String, Integer>();
+        Truth.assertThat(b.size()).isEqualTo(0);
+        b.put("Java", 1);
+        Truth.assertThat(b.size()).isEqualTo(1);
+        for (int i = 0; i < 455; i++) {
+            b.put("item-" + i, i);
+        }
+        Truth.assertThat(b.size()).isEqualTo(456);
+    }
+
+
 }
