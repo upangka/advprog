@@ -1,4 +1,4 @@
-package c61b;
+package cs61b;
 
 /**
  *
