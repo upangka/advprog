@@ -25,8 +25,18 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
          * @param <V>
          */
         private static <K extends Comparable<? super K>, V> BSTNode<K,V> find(BSTNode<K,V> bstNode,K sk){
-
-            return null;
+            if(bstNode == null){
+                return null;
+            }
+            var ret = bstNode.key.compareTo(sk);
+            // 二分查找
+            if(ret == 0){
+                return bstNode;
+            }else if(ret > 0){
+                return find(bstNode.left,sk);
+            }else{
+                return find(bstNode.right,sk);
+            }
         }
     }
 
