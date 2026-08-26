@@ -1,8 +1,6 @@
 package cs61b;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -235,6 +233,58 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
         this.size = 0;
     }
 
+    private class BSTMapIterator implements Iterator<K> {
+        private K[] keys;
+        private int index;
+
+        private BSTMapIterator() {
+            this.keys = (K[]) new Comparable[size()];
+            this.index = 0;
+            inorderInit();
+        }
+
+        private void inorderInit() {
+            Deque<BSTNode<K, V>> stack = new ArrayDeque<>();
+            var current = root;
+            int idx = 0;
+            while (current != null || !stack.isEmpty()) {
+                // 一路向左遍历
+                while (current != null) {
+                    stack.push(current);
+                    current = current.left;
+                }
+                // 访问
+                current = stack.pop();
+                keys[idx++] = current.key;
+                current = current.right;
+            }
+
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return index < keys.length;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public K next() {
+            return keys[index++];
+        }
+    }
+
     /**
      * Returns an iterator over elements of type {@code T}.
      *
@@ -242,9 +292,17 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
      */
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new BSTMapIterator();
     }
 
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner(", ", "{", "}");
+        for (var k : this) {
+            sj.add(k + ":" + get(k));
+        }
+        return sj.toString();
+    }
 
     public static void main(String[] args) {
         var b = new BSTMap<String, Integer>();
@@ -276,5 +334,6 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
         keys.add(node.key);
         inorder(node.right, keys);
     }
+
 
 }
