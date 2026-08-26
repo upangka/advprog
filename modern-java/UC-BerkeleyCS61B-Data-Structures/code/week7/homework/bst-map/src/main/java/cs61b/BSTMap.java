@@ -233,11 +233,11 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
         this.size = 0;
     }
 
-    private class BSTMapIterator implements Iterator<K> {
+    private class BSTMapIteratorV1 implements Iterator<K> {
         private K[] keys;
         private int index;
 
-        private BSTMapIterator() {
+        private BSTMapIteratorV1() {
             this.keys = (K[]) new Comparable[size()];
             this.index = 0;
             inorderInit();
@@ -261,27 +261,46 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
 
         }
 
-        /**
-         * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
-         *
-         * @return {@code true} if the iteration has more elements
-         */
         @Override
         public boolean hasNext() {
             return index < keys.length;
         }
 
-        /**
-         * Returns the next element in the iteration.
-         *
-         * @return the next element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
-         */
         @Override
         public K next() {
             return keys[index++];
+        }
+    }
+
+
+    private class BSTMapIteratorV2 implements Iterator<K> {
+        private Deque<BSTNode<K, V>> stacks = new ArrayDeque<>();
+
+        private BSTMapIteratorV2() {
+            pushLeft(root);
+        }
+
+        private void pushLeft(BSTNode<K, V> node) {
+            while(node != null){
+                stacks.push(node);
+                node = node.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stacks.isEmpty();
+        }
+
+
+        @Override
+        public K next() {
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            var current = stacks.pop();
+            pushLeft(current.right);
+            return current.key;
         }
     }
 
@@ -292,7 +311,7 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
      */
     @Override
     public Iterator<K> iterator() {
-        return new BSTMapIterator();
+        return new BSTMapIteratorV2();
     }
 
     @Override
