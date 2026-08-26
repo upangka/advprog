@@ -12,6 +12,19 @@ import org.junit.jupiter.api.Test;
  */
 public class BSTMapTest {
 
+    @Test
+    @DisplayName("put")
+    public void sanityPutTest() {
+        var b = new BSTMap<String, String>();
+        b.put("北京", "北京");
+        b.put("广东", "广州");
+        b.put("广东", "深圳"); // 只是更新
+        b.put("上海", "上海");
+        Truth.assertThat(b.size()).isEqualTo(3);
+        Truth.assertThat(b.get("广东")).isEqualTo("深圳");
+
+    }
+
     //  Assumes `put`/`containsKey` is implemented properly.
     @Test
     @DisplayName("containsKey")
@@ -22,6 +35,7 @@ public class BSTMapTest {
         Truth.assertThat(b.containsKey("waterYouDoingHere")).isTrue();
     }
 
+    //  Assumes `put` is implemented properly.
     @Test
     @DisplayName("size")
     public void sanitySizeTest() {

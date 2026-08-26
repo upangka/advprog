@@ -149,7 +149,9 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
      */
     @Override
     public void clear() {
-
+        // 交给GC
+        this.root = null;
+        this.size = 0;
     }
 
     /**
