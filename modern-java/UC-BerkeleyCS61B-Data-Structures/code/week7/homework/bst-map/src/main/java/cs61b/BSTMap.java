@@ -111,7 +111,11 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
      */
     @Override
     public void put(K key, V value) {
-        root = BSTNode.insert(root,key,value);
+         var hasKey = containsKey(key);
+         root = BSTNode.insert(root,key,value);
+         if(!hasKey){
+             this.size += 1;
+         }
     }
 
 
@@ -135,7 +139,7 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
      */
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
