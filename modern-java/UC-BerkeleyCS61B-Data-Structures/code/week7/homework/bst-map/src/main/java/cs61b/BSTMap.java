@@ -16,6 +16,17 @@ public class BSTMap<K extends Comparable<? super K>, V> implements Map16B<K, V> 
         private BSTNode<K,V> left;
         private BSTNode<K,V> right;
 
+        public BSTNode(K key, V value) {
+            this(key, value, null, null);
+        }
+
+        public BSTNode(K key, V value, BSTNode<K,V> left,BSTNode<K,V> right) {
+            this.key = key;
+            this.value = value;
+            this.left = left;
+            this.right = right;
+        }
+
         /**
          *  查找节点
          * @param bstNode 当前要处理的节点
