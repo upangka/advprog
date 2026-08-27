@@ -3,7 +3,10 @@ package cs61b;
 import edu.princeton.cs.algs4.Stopwatch;
 import util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 /**
  *
@@ -26,6 +29,9 @@ public class InsertRandomSpeedTest {
             System.out.print("\nEnter # strings to insert into the maps: ");
             int numStrings = waitForPositiveInt(sc);
             timeRandomMap61B(new ULLMap<String, Integer>(), numStrings, maxLengthOfStr);
+            timeRandomMap61B(new BSTMap<String, Integer>(), numStrings, maxLengthOfStr);
+            timeRandomJDKMap(new TreeMap<String, Integer>(), numStrings, maxLengthOfStr);
+            timeRandomJDKMap(new HashMap<String, Integer>(), numStrings, maxLengthOfStr);
 
         }
 
@@ -33,13 +39,31 @@ public class InsertRandomSpeedTest {
     }
 
     public static void timeRandomMap61B(Map16B<String, Integer> map, int numStrings, int maxLengthOfStr) {
-        double elapsedSeconds = getElapsedTimeOfTask(() -> {
-            for (int i = 0; i < numStrings; i++) {
-                String key = StringUtils.randomString(maxLengthOfStr);
-                map.put(key, i);
-            }
-        });
-        System.out.println("%s: %.2f sec".formatted(map.getClass(), elapsedSeconds));
+        try {
+            double elapsedSeconds = getElapsedTimeOfTask(() -> {
+                for (int i = 0; i < numStrings; i++) {
+                    String key = StringUtils.randomString(maxLengthOfStr);
+                    map.put(key, i);
+                }
+            });
+            System.out.println("%s: %.2f sec".formatted(map.getClass().getSimpleName(), elapsedSeconds));
+        } catch (Throwable e) {
+            System.out.println("%s: %s".formatted(map.getClass().getSimpleName(), e.getClass().getSimpleName()));
+        }
+    }
+
+    public static void timeRandomJDKMap(Map<String, Integer> map, int numStrings, int maxLengthOfStr) {
+        try {
+            double elapsedSeconds = getElapsedTimeOfTask(() -> {
+                for (int i = 0; i < numStrings; i++) {
+                    String key = StringUtils.randomString(maxLengthOfStr);
+                    map.put(key, i);
+                }
+            });
+            System.out.println("%s: %.2f sec".formatted(map.getClass().getSimpleName(), elapsedSeconds));
+        } catch (Throwable e) {
+            System.out.println("%s: %s".formatted(map.getClass().getSimpleName(), e.getMessage()));
+        }
     }
 
 
