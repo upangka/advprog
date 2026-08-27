@@ -19,11 +19,15 @@
 
 - **Week7**
   1.  [binary_search](./code/week7/binary_search.md)
+  2.  [BST-binary search tree](./code/week7/README.md)
+  3.  **homework**
+      1. [BSTMap实现](./code/week7/homework/bst-map/README.md)
 
 - **Projects**
   1.  [Particle Simulator](./code/projects/particle-simulator/)
   2.  [LinkedListDeque61B](./code/projects/LinkedListDeque61B/)
   3.  [ArrayDeque61B](./code/projects/ArrayDeque16B/README.md)
+  4.  [percolation](./code/projects/percolation/README.md)
 
 ---
 
