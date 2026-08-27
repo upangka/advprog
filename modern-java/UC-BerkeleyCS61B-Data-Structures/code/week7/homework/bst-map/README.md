@@ -198,3 +198,26 @@ TreeMap: 1.03 sec
 HashMap: 0.38 sec
 Would you like to try more timed-tests? (y/n)n
 ```
+
+1. `HashMap` 确实最快`（O(1)）`
+2. `TreeMap` 和 `BSTMap` 差不多（都是 `O(log N)`）
+3. `BSTMap` 稍慢于 `TreeMap`，因为 `TreeMap` 是高度优化的红黑树
+
+HashMap 和 TreeMap 解决的是不同的问题。 HashMap 解决的是“快速查找”问题，TreeMap 解决的是“有序查找”问题。如果你只需要通过 key 快速找到 value，用 HashMap；如果你需要有序的 key 集合，或者需要区间查询等操作，用 TreeMap。
+
+`TreeMap` 的优势在于它**维护了键的顺序**，因此支持一些 `HashMap` 做不到的操作：
+
+| 操作 | 说明 |
+| :--- | :--- |
+| `firstKey()` | 获取最小的 key |
+| `lastKey()` | 获取最大的 key |
+| `headMap(key)` | 获取所有小于某个 key 的映射 |
+| `tailMap(key)` | 获取所有大于某个 key 的映射 |
+| `subMap(fromKey, toKey)` | 获取一个范围内的映射 |
+| `ceilingKey(key)` | 获取大于等于某个 key 的最小 key |
+| `floorKey(key)` | 获取小于等于某个 key 的最大 key |
+| `higherKey(key)` | 获取严格大于某个 key 的最小 key |
+| `lowerKey(key)` | 获取严格小于某个 key 的最大 key |
+
+
+[TreeMapDemo.java](src/test/java/demo/TreeMapDemo.java)
