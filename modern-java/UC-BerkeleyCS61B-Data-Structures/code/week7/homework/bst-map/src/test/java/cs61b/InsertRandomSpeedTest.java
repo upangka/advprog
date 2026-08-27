@@ -26,12 +26,18 @@ public class InsertRandomSpeedTest {
 
             int maxLengthOfStr = waitForPositiveInt(sc);
 
-            System.out.print("\nEnter # strings to insert into the maps: ");
-            int numStrings = waitForPositiveInt(sc);
-            timeRandomMap61B(new ULLMap<String, Integer>(), numStrings, maxLengthOfStr);
-            timeRandomMap61B(new BSTMap<String, Integer>(), numStrings, maxLengthOfStr);
-            timeRandomJDKMap(new TreeMap<String, Integer>(), numStrings, maxLengthOfStr);
-            timeRandomJDKMap(new HashMap<String, Integer>(), numStrings, maxLengthOfStr);
+            String repeat;
+            do {
+                System.out.print("\nEnter # strings to insert into the maps: ");
+                int numStrings = waitForPositiveInt(sc);
+                timeRandomMap61B(new ULLMap<String, Integer>(), numStrings, maxLengthOfStr);
+                timeRandomMap61B(new BSTMap<String, Integer>(), numStrings, maxLengthOfStr);
+                timeRandomJDKMap(new TreeMap<String, Integer>(), numStrings, maxLengthOfStr);
+                timeRandomJDKMap(new HashMap<String, Integer>(), numStrings, maxLengthOfStr);
+
+                System.out.print("Would you like to try more timed-tests? (y/n)");
+                repeat = sc.nextLine();
+            } while (repeat.equalsIgnoreCase("y") || repeat.equalsIgnoreCase("yes"));
 
         }
 

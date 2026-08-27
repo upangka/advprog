@@ -138,3 +138,63 @@ Entry get(K sk){
 
 }
 ```
+
+
+# 性能测试：
+
+> 要观察的目的
+
+| Map 实现  | 理论插入复杂度   | 预期表现                      |
+| :-------- | :--------------- |:--------------------------|
+| `ULLMap`  | O(N)             | 最慢，数据量大时会急剧变慢,甚至会出现栈溢出错误  |
+| `BSTMap`  | O(log N)（平均） | 中等，但可能受树平衡性影响             |
+| `TreeMap` | O(log N)         | 和 `BSTMap` 类似，但实现更优化（红黑树） |
+| `HashMap` | O(1)（平均）     | 最快，且增长最平缓                 |
+
+
+> 推荐的数据规模
+
+| 测试场景     | 字符串长度 | 插入数量  | 目的                                          |
+| :----------- | :--------- | :-------- | :-------------------------------------------- |
+| **小规模**   | 10         | 10,000    | 热身，确保程序能跑                            |
+| **中等规模** | 10         | 100,000   | 开始看到性能差异                              |
+| **大规模**   | 10         | 500,000   | 看到明显的 O(N) vs O(log N) 差异              |
+| **更大规模** | 10         | 1,000,000 | 观察 TreeMap 和 BSTMap 的差距（如果内存允许） |
+
+平衡`生成随机字符串的开销`和`比较字符串的开销（compareTo 需要逐字符比较）`
+如果字符串太短（比如 1 个字符），compareTo 很快，但随机碰撞的概率会很高，影响测试的准确性。如果太长（比如 100 个字符），生成字符串本身会成为性能瓶颈
+
+>  [InsertRandomSpeedTest.java](src/test/java/cs61b/InsertRandomSpeedTest.java)实际测试
+
+```txt
+This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+Please enter desired length of each string: 10
+
+Enter # strings to insert into the maps: 10000
+ULLMap: 0.27 sec
+BSTMap: 0.01 sec
+TreeMap: 0.01 sec
+HashMap: 0.00 sec
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into the maps: 100,000
+ULLMap: StackOverflowError
+BSTMap: 0.09 sec
+TreeMap: 0.06 sec
+HashMap: 0.03 sec
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into the maps: 500,000
+ULLMap: StackOverflowError
+BSTMap: 0.64 sec
+TreeMap: 0.46 sec
+HashMap: 0.19 sec
+Would you like to try more timed-tests? (y/n)y
+
+Enter # strings to insert into the maps: 1,000,000
+ULLMap: StackOverflowError
+BSTMap: 1.26 sec
+TreeMap: 1.03 sec
+HashMap: 0.38 sec
+Would you like to try more timed-tests? (y/n)n
+```
