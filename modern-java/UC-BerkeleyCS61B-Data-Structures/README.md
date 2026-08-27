@@ -18,10 +18,11 @@
   1.  [DisJoint Set](./code/week6/README.md)
 
 - **Week7**
-  1.  [binary_search](./code/week7/binary_search.md)
-  2.  [BST-binary search tree](./code/week7/README.md)
-  3.  **homework**
-      1. [BSTMap实现](./code/week7/homework/bst-map/README.md)
+  1.  [BST-binary search tree](./code/week7/README.md)
+      1. [binary_search](./code/week7/binary_search.md)
+      2. **homework**
+         - [BSTMap实现](./code/week7/homework/bst-map/README.md)
+  2.  [B-Trees](./code/week7/B-Trees.md)
 
 - **Projects**
   1.  [Particle Simulator](./code/projects/particle-simulator/)
