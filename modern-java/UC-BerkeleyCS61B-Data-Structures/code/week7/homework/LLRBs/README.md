@@ -55,4 +55,55 @@ private RBTreeNode<T> fixUp(RBTreeNode<T> node) {
 
 # 案例
 
+从大到小一次插入7到1,最后得到一个非常平衡的搜索二叉树
+
 ![img.png](images/two_consecutive_red_left_links.png)
+
+[LLRedBlackTreeTest.java](src/test/java/cs61b/LLRedBlackTreeTest.java)
+
+```java
+    @Test
+    @DisplayName("insert(upward propagation)")
+    public void sanityTestInsertComplex() {
+        LLRedBlackTree<Integer> rbTree = new LLRedBlackTree<>();
+        rbTree.insert(7);
+        rbTree.insert(6);
+        rbTree.insert(5);
+        rbTree.insert(4);
+        rbTree.insert(3);
+        rbTree.insert(2);
+        rbTree.insert(1);
+
+        /**
+         *            (4)
+         *             ├── (2)
+         *             │   ├── (1)
+         *             │   └── (3)
+         *             └── (6)
+         *                 ├── (5)
+         *                 └── (7)
+         */
+
+        // 中序遍历会是1,2,3,4,5,6,7 并且此时树节点都是黑色
+        Deque<LLRedBlackTree.RBTreeNode<Integer>> stack = new ArrayDeque<>();
+        var expected = List.of(1, 2, 3, 4, 5, 6, 7);
+        var actual = new ArrayList<Integer>();
+        var currentNode = rbTree.root;
+        while (currentNode != null || !stack.isEmpty()) {
+
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            currentNode = stack.pop();
+            actual.add(currentNode.item);
+            Truth.assertThat(currentNode.isBlack).isTrue();
+            currentNode = currentNode.right;
+        }
+
+        Truth.assertThat(actual).isEqualTo(expected);
+        log.info("insert 7 to 1: Good Test");
+    }
+
+```
