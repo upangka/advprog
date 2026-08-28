@@ -31,3 +31,23 @@ LL RB 树在插入后可能出现的“违规状态”。这些状态之间**有
 1. 先解决“右倾”问题：如果出现了右倾的红色链接，必须先左旋，把它转成左倾。如果不先处理右倾，后续的“连续左倾”和“双红”判断可能基于一个错误的树形结构，导致修复操作不再对应任何有效的 2-3 树状态。
 2. 再解决“连续左倾”问题：左旋后可能产生两个连续的左倾红色链接，这时需要右旋来修正它。
 3. 最后解决“双红”问题：前面的旋转修正了树形后，可能会出现一个节点有两个红色子节点的情况，这时用颜色翻转来模拟 2-3 树 4-节点的分裂。
+
+```java
+private RBTreeNode<T> fixUp(RBTreeNode<T> node) {
+    // 情况1：右倾红色链接 → 左旋
+    if (isRed(node.right) && !isRed(node.left)) {
+        node = rotateLeft(node);
+    }
+
+    // 情况2：连续左倾红色链接 → 右旋
+    if (hasTwoConsecutiveRedLeftLinks(node)) {
+        node = rotateRight(node);
+    }
+
+    // 情况3：两个红色子节点 → 颜色翻转（模拟4-节点分裂）
+    if (isRed(node.left) && isRed(node.right)) {
+        flipColors(node);
+    }
+    return node;
+}
+```

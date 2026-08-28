@@ -95,6 +95,14 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
         root.isBlack = true;
     }
 
+    /**
+     * Recursively inserts the item into the subtree rooted at {@code node}.
+     * After insertion, repairs the LLRB properties by performing rotations and color flips.
+     *
+     * @param node the current subtree root
+     * @param item the item to insert
+     * @return the new root of this subtree after insertion and repairs
+     */
     private RBTreeNode<T> insertHelper(RBTreeNode<T> node, T item) {
 
         // 1. Insert (return) new red leaf node.
@@ -118,25 +126,44 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
             // 相等则ignore不处理，因为不允许重复的元素
             return node;
         }
-        return fixTree(node);
+        return fixUp(node);
     }
 
-    private RBTreeNode<T> fixTree(RBTreeNode<T> node) {
-        // 检测三种情况
+    /**
+     * Repairs the LLRBs invariants after insertion.
+     * Checks and fixes three cases in order:
+     * 1. Right-leaning red link → rotate left
+     * 2. Two consecutive left-leaning red links → rotate right
+     * 3. Two red children of a node → color flip
+     *
+     * @param node the node to check and repair
+     * @return the new root of this subtree after repairs
+     */
+    private RBTreeNode<T> fixUp(RBTreeNode<T> node) {
+        // 情况1：右倾红色链接 → 左旋
         if (isRed(node.right) && !isRed(node.left)) {
             node = rotateLeft(node);
         }
 
+        // 情况2：连续左倾红色链接 → 右旋
         if (hasTwoConsecutiveRedLeftLinks(node)) {
             node = rotateRight(node);
         }
 
+        // 情况3：两个红色子节点 → 颜色翻转（模拟4-节点分裂）
         if (isRed(node.left) && isRed(node.right)) {
             flipColors(node);
         }
         return node;
     }
 
+    /**
+     * Returns whether the given node is red.
+     * A {@code null} node is considered black.
+     *
+     * @param node the node to check
+     * @return {@code true} if the node is non-null and red, {@code false} otherwise
+     */
     private boolean isRed(RBTreeNode<T> node) {
         // null节点为黑
         if (node == null) {
@@ -145,6 +172,13 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
         return !node.isBlack;
     }
 
+    /**
+     * Returns whether the given node has two consecutive red left links.
+     * That is, both the left child and the left-left grandchild are red.
+     *
+     * @param node the node to check
+     * @return {@code true} if there are two consecutive red left links, {@code false} otherwise
+     */
     private boolean hasTwoConsecutiveRedLeftLinks(RBTreeNode<T> node) {
         return isRed(node.left) && isRed(node.left.left);
     }
