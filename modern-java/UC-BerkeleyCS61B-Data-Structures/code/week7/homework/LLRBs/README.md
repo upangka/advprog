@@ -51,3 +51,8 @@ private RBTreeNode<T> fixUp(RBTreeNode<T> node) {
     return node;
 }
 ```
+
+
+# 案例
+
+![img.png](images/two_consecutive_red_left_links.png)

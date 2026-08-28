@@ -9,11 +9,11 @@ package cs61b;
  */
 public class LLRedBlackTree<T extends Comparable<? super T>> {
 
-    private static class RBTreeNode<T> {
-        private final T item;
-        private boolean isBlack;
-        private RBTreeNode<T> left;
-        private RBTreeNode<T> right;
+    public static class RBTreeNode<T> {
+        final T item;
+        boolean isBlack;
+        RBTreeNode<T> left;
+        RBTreeNode<T> right;
 
         public RBTreeNode(boolean isBlack, T item) {
             this(isBlack, item, null, null);
@@ -34,7 +34,7 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
      *
      * @param node
      */
-    private void flipColors(RBTreeNode<T> node) {
+    void flipColors(RBTreeNode<T> node) {
         node.isBlack = !node.isBlack;
         node.left.isBlack = !node.left.isBlack;
         node.right.isBlack = !node.right.isBlack;
@@ -48,7 +48,7 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
      * @param node
      * @return
      */
-    private RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
+    RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
         var candidate = node.left;
         node.left = candidate.right;
         candidate.right = node;
@@ -83,7 +83,7 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
         return candidate;
     }
 
-    private RBTreeNode<T> root;
+    RBTreeNode<T> root;
 
     /**
      * Inserts the item into the Red Black Tree. Colors the root of the tree black.
@@ -179,7 +179,7 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
      * @param node the node to check
      * @return {@code true} if there are two consecutive red left links, {@code false} otherwise
      */
-    private boolean hasTwoConsecutiveRedLeftLinks(RBTreeNode<T> node) {
+    boolean hasTwoConsecutiveRedLeftLinks(RBTreeNode<T> node) {
         return isRed(node.left) && isRed(node.left.left);
     }
 }
