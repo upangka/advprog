@@ -20,3 +20,8 @@ At its core, LLRBs are just a binary search tree, but there are a few additional
 color flip颜色翻转则不同于颜色交换
 
 ![img.png](images/colorflip.png)
+
+
+# Rotate Left And Right
+
+![img.png](images/rotateleftandright.png)
