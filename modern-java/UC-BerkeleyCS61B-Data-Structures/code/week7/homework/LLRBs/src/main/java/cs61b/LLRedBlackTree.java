@@ -82,4 +82,70 @@ public class LLRedBlackTree<T extends Comparable<? super T>> {
 
         return candidate;
     }
+
+    private RBTreeNode<T> root;
+
+    /**
+     * Inserts the item into the Red Black Tree. Colors the root of the tree black.
+     *
+     * @param item
+     */
+    public void insert(T item) {
+        root = insertHelper(root, item);
+        root.isBlack = true;
+    }
+
+    private RBTreeNode<T> insertHelper(RBTreeNode<T> node, T item) {
+
+        // 1. Insert (return) new red leaf node.
+        // 2. Handle normal binary search tree insertion.
+        // 3.  Rotate left operation
+        // 4.  Rotate right operation
+        // 5.  Color flip
+
+        if (node == null) {
+            return new RBTreeNode<>(false, item, null, null);
+        }
+
+        var ret = node.item.compareTo(item);
+        if (ret < 0) {
+            // 说明在右边
+            node.right = insertHelper(node.right, item);
+        } else if (ret > 0) {
+            // 说明在左边
+            node.left = insertHelper(node.left, item);
+        } else {
+            // 相等则ignore不处理，因为不允许重复的元素
+            return node;
+        }
+        return fixTree(node);
+    }
+
+    private RBTreeNode<T> fixTree(RBTreeNode<T> node) {
+        // 检测三种情况
+        if (isRed(node.right) && !isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+
+        if (hasTwoConsecutiveRedLeftLinks(node)) {
+            node = rotateRight(node);
+        }
+
+        if (isRed(node.left) && isRed(node.right)) {
+            flipColors(node);
+        }
+        return node;
+    }
+
+    private boolean isRed(RBTreeNode<T> node) {
+        // null节点为黑
+        if (node == null) {
+            return false;
+        }
+        return !node.isBlack;
+    }
+
+    private boolean hasTwoConsecutiveRedLeftLinks(RBTreeNode<T> node) {
+        return isRed(node.left) && isRed(node.left.left);
+    }
 }
