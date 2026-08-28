@@ -32,11 +32,11 @@ public class LLRedBlackTreeTest {
      * but only if the nodes are in the proper place after rotating right.
      */
     @Test
-    public void sanityTestRotateRight(){
-        LLRedBlackTree<Integer> rbTree = new  LLRedBlackTree<>();
-        var node1 = new LLRedBlackTree.RBTreeNode<Integer>(true,7,null,null);
-        var node2 = new LLRedBlackTree.RBTreeNode<Integer>(false,6,null,null);
-        var node3 = new LLRedBlackTree.RBTreeNode<Integer>(false,5,null,null);
+    public void sanityTestRotateRight() {
+        LLRedBlackTree<Integer> rbTree = new LLRedBlackTree<>();
+        var node1 = new LLRedBlackTree.RBTreeNode<Integer>(true, 7, null, null);
+        var node2 = new LLRedBlackTree.RBTreeNode<Integer>(false, 6, null, null);
+        var node3 = new LLRedBlackTree.RBTreeNode<Integer>(false, 5, null, null);
         /**
          * LLRBs representation:
          *  (7)
@@ -68,8 +68,8 @@ public class LLRedBlackTreeTest {
 
     @Test
     @DisplayName("insert(rotateRight+flip")
-    public void sanityTestInsertSimple(){
-        LLRedBlackTree<Integer> rbTree = new  LLRedBlackTree<>();
+    public void sanityTestInsertSimple() {
+        LLRedBlackTree<Integer> rbTree = new LLRedBlackTree<>();
         rbTree.insert(7);
         rbTree.insert(6);
         rbTree.insert(5);
@@ -90,25 +90,20 @@ public class LLRedBlackTreeTest {
     }
 
 
+    /**
+     * 全是左子树
+     */
     @Test
-    @DisplayName("insert(upward propergation)")
-    public void sanityTestInsertComplex(){
-        LLRedBlackTree<Integer> rbTree = new  LLRedBlackTree<>();
-//        rbTree.insert(7);
-//        rbTree.insert(6);
-//        rbTree.insert(5);
-//        rbTree.insert(4);
-//        rbTree.insert(3);
-//        rbTree.insert(2);
-//        rbTree.insert(1);
-
-        rbTree.insert(1);
-        rbTree.insert(2);
-        rbTree.insert(3);
-        rbTree.insert(4);
-        rbTree.insert(5);
-        rbTree.insert(6);
+    @DisplayName("insert(upward propagation)")
+    public void sanityTestInsertComplex() {
+        LLRedBlackTree<Integer> rbTree = new LLRedBlackTree<>();
         rbTree.insert(7);
+        rbTree.insert(6);
+        rbTree.insert(5);
+        rbTree.insert(4);
+        rbTree.insert(3);
+        rbTree.insert(2);
+        rbTree.insert(1);
 
         /**
          *            (4)
@@ -122,12 +117,12 @@ public class LLRedBlackTreeTest {
 
         // 中序遍历会是1,2,3,4,5,6,7 并且此时树节点都是黑色
         Deque<LLRedBlackTree.RBTreeNode<Integer>> stack = new ArrayDeque<>();
-        var expected = List.of(1,2,3,4,5,6,7);
+        var expected = List.of(1, 2, 3, 4, 5, 6, 7);
         var actual = new ArrayList<Integer>();
         var currentNode = rbTree.root;
-        while(currentNode != null || !stack.isEmpty()){
+        while (currentNode != null || !stack.isEmpty()) {
 
-            while(currentNode != null){
+            while (currentNode != null) {
                 stack.push(currentNode);
                 currentNode = currentNode.left;
             }
@@ -143,4 +138,46 @@ public class LLRedBlackTreeTest {
     }
 
 
+    @Test
+    @DisplayName("最全案例包含rotateLeft,rotateRight,flipcolor (upward propagation)")
+    public void testInsertUpwardPropagation() {
+        LLRedBlackTree<Integer> rbTree = new LLRedBlackTree<>();
+
+        rbTree.insert(5);
+        rbTree.insert(11);
+        rbTree.insert(3);
+        rbTree.insert(9);
+        rbTree.insert(7);
+        rbTree.insert(1);
+        rbTree.insert(2);
+
+        /**
+         *  LLRB Tree Representation:
+         *      (5)
+         *      ├── (2)
+         *      │   ├── (1)
+         *      │   └── (3)
+         *      └── (9)
+         *          ├── (7)
+         *          └── (11)
+         */
+
+        Deque<LLRedBlackTree.RBTreeNode<Integer>> stack = new ArrayDeque<>();
+        var actual = new ArrayList<Integer>();
+        var currentNode = rbTree.root;
+        while (currentNode != null || !stack.isEmpty()) {
+
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            currentNode = stack.pop();
+            actual.add(currentNode.item);
+            Truth.assertThat(currentNode.isBlack).isTrue();
+            currentNode = currentNode.right;
+            log.info("insert 5,11,3,9,7,1,2: Good Test");
+        }
+
+    }
 }
