@@ -1,5 +1,7 @@
 # B-Trees
 
+balanced search trees
+
 > Beautiful algorithms are, unfortunately, not always the most useful
 
 [BST](./README.md)的平衡性依赖插入顺序
