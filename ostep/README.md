@@ -8,3 +8,6 @@ CPU是“传令兵”和“计算器”，负责把规划师的任务算成具�
 2. [南京大学Jyy](https://jyywiki.cn/)
 3. [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
 4. [Introduction to System Programming](https://www.youtube.com/watch?v=qThI-U34KYs&t=33s)
+5. [希伯来大学【计算机组成原理实践-从逻辑门到俄罗斯方块1/2】](https://www.bilibili.com/video/BV1zfKr6vEcK?spm_id_from=333.788.videopod.sections&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
+   1. [lectuces](https://github.com/vaithak/NandToTetris)
+   2. [在线模拟器](https://nand2tetris.github.io/web-ide/chip)
