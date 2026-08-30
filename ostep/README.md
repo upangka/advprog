@@ -7,3 +7,4 @@ CPU是“传令兵”和“计算器”，负责把规划师的任务算成具�
 1. [Introduction to Operating Systems](https://www.bilibili.com/video/BV1wUzSB3Ecf/?spm_id_from=333.337.search-card.all.click&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
 2. [南京大学Jyy](https://jyywiki.cn/)
 3. [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
+4. [Introduction to System Programming](https://www.youtube.com/watch?v=qThI-U34KYs&t=33s)
