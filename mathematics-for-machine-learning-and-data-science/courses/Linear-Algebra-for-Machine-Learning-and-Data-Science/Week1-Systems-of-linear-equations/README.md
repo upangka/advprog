@@ -48,16 +48,14 @@
 - 此时矩阵**不可逆**（因为分母为 0），直接求解 $Ax = b$ 会崩溃。
 - **解决办法**：不能直接求逆，而应使用 **伪逆（Moore-Penrose 伪逆）** 或 **岭回归（Ridge Regression）**，通过引入正则化项使得矩阵可逆，从而求解。
 
----
+## 行列式(Determinant)
 
-```txt
-线性方程组（苹果、香蕉价格问题）
+行列式就是一个“数字”，这个数字能告诉你矩阵是否奇异（能不能求逆）、几何上是否发生了“压扁”或“降维”。
 
-矩阵的奇异性（Singular）与非奇异性（Non-singular）
+> 行之间没有依赖是非奇异矩阵
 
-行与行的线性相关（Linear dependence）与独立（Independence）
+![alt text](./images/singular-matrix.png)
 
-行列式（Determinant）及其与奇异性的关系
+3行3列的$\det(A)$行列式计算，各个对角线之和减去反对角线之和,其中对角线之间的元素相乘。
 
-从 2D（直线）到 3D（平面）的几何直觉
-```
+![alt text](./images/determinant.png)

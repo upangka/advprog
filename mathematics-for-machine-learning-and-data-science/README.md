@@ -1,4 +1,6 @@
-完整的系统，非奇异系统
+# linear algebra
+
+1. [Week1-奇异与非奇异](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
 
 # Resources
 
