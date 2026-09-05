@@ -3,6 +3,7 @@
 1. [Week1-奇异与非奇异](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
    - [Week1-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/README.md)
      1. [Lab-1: Introduction to numpy arrays](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_1_introduction_to_numpy_arrays.ipynb)
+     2. [Lab-2 Linear system as matrices](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_2_linear_systems_as_matrices.ipynb)
 
 # Resources
 
