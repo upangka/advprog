@@ -13,4 +13,6 @@ $ uv add numpy jupyter matplotlib
 
 ```sh
 uv run jupyter lab
+# 后台启动
+uv run jupyter lab &
 ```
