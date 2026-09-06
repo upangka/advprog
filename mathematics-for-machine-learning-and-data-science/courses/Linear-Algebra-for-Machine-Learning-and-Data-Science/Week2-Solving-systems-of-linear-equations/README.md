@@ -125,12 +125,21 @@ Rank秩与Determinat行列式的对比
 
 # 高斯消元法Gaussion Elimination
 
-先一行一行找主元pivot,从上到下，变成Row echelon form行阶梯形式。
+| 步骤                    | 操作                               | 说明                                     |
+| :---------------------- | :--------------------------------- | :--------------------------------------- |
+| **1. 创建增广矩阵**     | 将方程组写成 [A∣b][*A*∣*b*] 的形式 | 系数和常数项合并成一个矩阵               |
+| **2. 化为行阶梯形**     | 用三种行操作化简                   | 目标是让主元下方全为 0，形成阶梯状结构   |
+| **3. 回代求解**         | 从最后一行开始，依次解出变量       | 从最后一个方程开始，逐步向上代入求解     |
+| **4. 遇到全零行则停止** | 如果某行全是 0，说明系统奇异       | 此时要么无解，要么无穷多解，需进一步判断 |
+
+1. 先一行一行找主元pivot,从上到下，变成Row echelon form行阶梯形式。
 
 ![alt text](./images/gaussion-elimination.png)
 
-# 小结
+2. Back substitution反向代入，最终求值，并且得到一个单位矩阵Identity matrix
 
-1. 从上往下变成Row echelon form
-2. 从下往上变成Reduced Row echelon form
-3. 结合增广矩阵(Augmented matrix)就能求得未知数
+![alt text](./images/back-substitution.png)
+
+在高斯消元的过程中，如果发现行阶梯形式出现0，那么要么无解要么有无数解，区别在于看右边的常数
+
+![alt text](./images/row-echelon-solution-no-sols.png)
