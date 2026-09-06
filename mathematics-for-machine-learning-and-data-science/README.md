@@ -1,3 +1,5 @@
+# uv jupyter lab
+
 使用uv搭建实验环境搭建与安装相关package
 
 ```sh
@@ -28,6 +30,7 @@ uv run jupyter lab &
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/C1_W2_slides.pdf)
    2. [Week2-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/README.md)
       1. [Lab_1_solving_linear_systems_3_variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
+      2. [Lab_2_Gaussion_elimination](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_2_Gaussion_elimination.ipynb)
 
 # Resources
 
