@@ -2,11 +2,11 @@ import numpy as np
 import math
 
 """
-np.allclose(a, b)	检查两个数组的所有元素是否近似相等（允许浮点误差）
-np.isclose(a, b)	逐元素检查是否近似相等，返回布尔数组
-np.logical_not()	对布尔数组取反
-np.nonzero()	找出非零元素的索引（用于定位错误位置）
-math.isclose()	检查两个浮点数是否近似相等
+np.allclose(a, b)       检查两个数组的所有元素是否近似相等（允许浮点误差）
+np.isclose(a, b)        逐元素检查是否近似相等，返回布尔数组
+np.logical_not()        对布尔数组取反
+np.nonzero()            找出非零元素的索引（用于定位错误位置）
+math.isclose()          检查两个浮点数是否近似相等
 """
 
 def test_matrix(target_A, target_b):
@@ -246,45 +246,93 @@ def test_elementary_operations(target_MultiplyRow, target_AddRows, target_SwapRo
             assert result_MultiplyRow.shape == test_case["expected"]["A_MultiplyRow"].shape
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_MultiplyRow"].shape,
+                    "got": result_MultiplyRow.shape,
+                }
+            )
+            print(
+                f"Wrong shape of the output matrix. Check MultiplyRow function. \n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+            )
 
         try:
             assert np.allclose(result_MultiplyRow, test_case["expected"]["A_MultiplyRow"])
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_MultiplyRow"],
+                    "got": result_MultiplyRow,
+                }
+            )
+            print(
+                f"Wrong output matrix. Check MultiplyRow function. \n\tExpected: \n{failed_cases[-1].get('expected')}\n\tGot: \n{failed_cases[-1].get('got')}"
+            )
 
         # ---- 测试 AddRows ----
         try:
             assert result_AddRows.shape == test_case["expected"]["A_AddRows"].shape
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_AddRows"].shape,
+                    "got": result_AddRows.shape,
+                }
+            )
+            print(
+                f"Wrong shape of the output matrix. Check AddRows function. \n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+            )
 
         try:
             assert np.allclose(result_AddRows, test_case["expected"]["A_AddRows"])
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_AddRows"],
+                    "got": result_AddRows,
+                }
+            )
+            print(
+                f"Wrong output matrix. Check AddRows function. \n\tExpected: \n{failed_cases[-1].get('expected')}\n\tGot: \n{failed_cases[-1].get('got')}"
+            )
 
         # ---- 测试 SwapRows ----
         try:
             assert result_SwapRows.shape == test_case["expected"]["A_SwapRows"].shape
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_SwapRows"].shape,
+                    "got": result_SwapRows.shape,
+                }
+            )
+            print(
+                f"Wrong shape of the output matrix. Check SwapRows function. \n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+            )
 
         try:
             assert np.allclose(result_SwapRows, test_case["expected"]["A_SwapRows"])
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_SwapRows"],
+                    "got": result_SwapRows,
+                }
+            )
+            print(
+                f"Wrong output matrix. Check SwapRows function. \n\tExpected: \n{failed_cases[-1].get('expected')}\n\tGot: \n{failed_cases[-1].get('got')}"
+            )
 
     if len(failed_cases) == 0:
         print("\033[92m All tests passed")
@@ -351,16 +399,32 @@ def test_augmented_to_ref(target):
             assert result.shape == test_case["expected"]["A_ref"].shape
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_ref"].shape,
+                    "got": result.shape,
+                }
+            )
+            print(
+                f"Test case \"{failed_cases[-1].get('name')}\". Wrong shape of the output matrix. Check horizontal stack of matrix A and vector b. \n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+            )
 
         # ---- 测试：输出矩阵的每个元素是否正确 ----
         try:
             assert np.allclose(result, test_case["expected"]["A_ref"])
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_ref"],
+                    "got": result,
+                }
+            )
+            print(
+                f"Test case \"{failed_cases[-1].get('name')}\". Wrong output matrix. Check row reduction operations. \n\tExpected: \n{failed_cases[-1].get('expected')}\n\tGot: \n{failed_cases[-1].get('got')}"
+            )
 
     if len(failed_cases) == 0:
         print("\033[92m All tests passed")
@@ -394,8 +458,16 @@ def test_solution_elimination(target_x_1, target_x_2, target_x_3, target_x_4):
                 assert target_x_i == test_case["expected"]["x_" + str(i+1)]
                 successful_cases += 1
             except:
-                failed_cases.append(...)
-                print(f"Wrong value of x_{(i+1)}.\n\tExpected: ...\n\tGot: ...")
+                failed_cases.append(
+                    {
+                        "name": test_case["name"],
+                        "expected": test_case["expected"]["x_" + str(i+1)],
+                        "got": target_x_i,
+                    }
+                )
+                print(
+                    f"Wrong value of x_{(i+1)}.\n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+                )
 
     if len(failed_cases) == 0:
         print("\033[92m All tests passed")
@@ -467,16 +539,32 @@ def test_ref_to_diagonal(target):
             assert result.shape == test_case["expected"]["A_diag"].shape
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_diag"].shape,
+                    "got": result.shape,
+                }
+            )
+            print(
+                f"Test case \"{failed_cases[-1].get('name')}\". Wrong shape of the output matrix. \n\tExpected: {failed_cases[-1].get('expected')}.\n\tGot: {failed_cases[-1].get('got')}."
+            )
 
         # ---- 测试：输出矩阵的每个元素是否正确 ----
         try:
             assert np.allclose(result, test_case["expected"]["A_diag"])
             successful_cases += 1
         except:
-            failed_cases.append(...)
-            print(...)
+            failed_cases.append(
+                {
+                    "name": test_case["name"],
+                    "expected": test_case["expected"]["A_diag"],
+                    "got": result,
+                }
+            )
+            print(
+                f"Test case \"{failed_cases[-1].get('name')}\". Wrong output matrix. Check row reduction operations. \n\tExpected: \n{failed_cases[-1].get('expected')}\n\tGot: \n{failed_cases[-1].get('got')}"
+            )
 
     if len(failed_cases) == 0:
         print("\033[92m All tests passed")
