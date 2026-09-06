@@ -95,3 +95,42 @@ Rank秩与Determinat行列式的对比
 | 能区分“无解”和“无穷解”吗？ | ❌ 不能，行列式只知道“没有唯一解” | ✅ 能，结合增广矩阵可以区分          |
 | 能表示信息量吗？           | ❌ 不能                           | ✅ 能，秩就是“有用信息的条数”        |
 | 能用来压缩数据吗？         | ❌ 不能                           | ✅ 能（低秩近似 → SVD / PCA）        |
+
+## Row echelon form(行阶梯形)
+
+1. 矩阵的秩（Rank）= 行阶梯形中"主元（pivot）"的个数 = 非零行的个数。
+2. 在简化行阶梯形（Reduced Row Echelon Form）中，秩 = 对角线上 1 的个数。
+
+> pivot /ˈpɪv.ət/ 主元 / 枢轴 指矩阵在行阶梯形中，每一行第一个非零元素。在行化简过程中，主元是该行中从左到右第一个非零的数，其所在列称为主元列。主元的个数等于矩阵的秩（Rank），也是判断矩阵是否奇异的重要依据。在简化行阶梯形中，每个主元都会被化为 1，并且主元所在列的其他元素都化为 0。
+
+![alt text](./images/row-echelon-form-operation.png)
+
+行阶梯形与主元与秩的关系
+
+![alt text](./images/echelon-pivot-rank.png)
+
+秩与pivot主元的关系
+
+![alt text](./images/rank-and-pivot.png)
+
+## Reduced Row echelon form(简化行阶梯形)
+
+从下往上操作，可以将Row echelon form变化成Reduced row echelon form
+
+![alt text](./images/reduced-echelon-form.png)
+
+![alt text](./images/pivot-above-zero.png)
+
+![alt text](./images/reduced-divide-pivot.png)
+
+# 高斯消元法Gaussion Elimination
+
+先一行一行找主元pivot,从上到下，变成Row echelon form行阶梯形式。
+
+![alt text](./images/gaussion-elimination.png)
+
+# 小结
+
+1. 从上往下变成Row echelon form
+2. 从下往上变成Reduced Row echelon form
+3. 结合增广矩阵(Augmented matrix)就能求得未知数
