@@ -1,3 +1,22 @@
+使用uv搭建实验环境搭建与安装相关package
+
+```sh
+pkmer@DESKTOP-2368UCO:code
+$ uv init --no-workspace
+Initialized project `code`
+
+pkmer@DESKTOP-2368UCO:code
+$ uv add numpy jupyter matplotlib
+```
+
+启动
+
+```sh
+uv run jupyter lab
+# 后台启动
+uv run jupyter lab &
+```
+
 # linear algebra
 
 1. [Week1-奇异与非奇异](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
