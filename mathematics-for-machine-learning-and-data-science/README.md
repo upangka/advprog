@@ -1,3 +1,24 @@
+# uv jupyter lab
+
+使用uv搭建实验环境搭建与安装相关package
+
+```sh
+pkmer@DESKTOP-2368UCO:code
+$ uv init --no-workspace
+Initialized project `code`
+
+pkmer@DESKTOP-2368UCO:code
+$ uv add numpy jupyter matplotlib
+```
+
+启动
+
+```sh
+uv run jupyter lab
+# 后台启动
+uv run jupyter lab &
+```
+
 # linear algebra
 
 1. [Week1-奇异与非奇异](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
@@ -9,6 +30,7 @@
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/C1_W2_slides.pdf)
    2. [Week2-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/README.md)
       1. [Lab_1_solving_linear_systems_3_variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
+      2. [Lab_2_Gaussion_elimination](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_2_Gaussion_elimination.ipynb)
 
 # Resources
 
