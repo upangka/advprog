@@ -9,3 +9,4 @@
 
 1. [Bilibili 线性代数](https://www.bilibili.com/video/BV1WfagzvEXM/?spm_id_from=333.1391.0.0&p=8&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
    1. [Deeplearning.ai](https://learn.deeplearning.ai/specializations/mathematics-for-machine-learning-and-data-science/lesson/u0bve/specialization-introduction?utm_source=home&utm_medium=course-landing-page&utm_campaign=summary-cta-button)
+2. [Github 相关参考仓库](https://github.com/greyhatguy007/Mathematics-for-Machine-Learning-and-Data-Science-Specialization-Coursera)
