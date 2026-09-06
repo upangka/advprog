@@ -1,22 +1,3 @@
-使用uv搭建实验环境搭建与安装相关package
-
-```sh
-pkmer@DESKTOP-2368UCO:code
-$ uv init --no-workspace
-Initialized project `code`
-
-pkmer@DESKTOP-2368UCO:code
-$ uv add numpy jupyter matplotlib
-```
-
-启动
-
-```sh
-uv run jupyter lab
-# 后台启动
-uv run jupyter lab &
-```
-
 # np.linalg求解线性方程组3x3
 
 [Lab_1_solving_linear_systems_3_variables.ipynb](./Lab_1_solving_linear_systems_3_variables.ipynb)
