@@ -7,6 +7,8 @@
       2. [Lab-2 Linear system as matrices](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_2_linear_systems_as_matrices.ipynb)
 2. [Week2-高斯消元法求解线性方程组](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/C1_W2_slides.pdf)
+   2. [Week2-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/README.md)
+      1. [Lab_1_solving_linear_systems_3_variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
 
 # Resources
 
