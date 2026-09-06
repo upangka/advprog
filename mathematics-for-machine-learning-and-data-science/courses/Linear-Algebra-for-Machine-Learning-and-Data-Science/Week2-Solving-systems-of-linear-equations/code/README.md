@@ -38,3 +38,13 @@
 - `np.linalg.solve()` 是“黑盒”工具，方便但隐藏了细节
 - 下一个实验（Graded Lab）会让你**手写高斯消元法**，深入理解行化简的过程
 - 你需要学会**如何判断奇异矩阵**，并用 `try-except` 优雅地处理异常
+
+# Gaussion Elimination高斯消元法
+
+本[Lab_2_Gaussion_elimination.ipynb](./Lab_2_Gaussion_elimination.ipynb)实现手动模拟黑盒函数`np.linalg.solve`里面的高斯消元
+
+| 方法              | 目标形式 | 求解方式     | 对应 Exercise |
+| :---------------- | :------- | :----------- | :------------ |
+| `np.linalg.solve` | 黑盒     | 直接返回解   | Exercise 2    |
+| 行阶梯形 + 回代   | 行阶梯形 | 从下往上代入 | Exercise 5    |
+| 简化行阶梯形      | 对角形   | 直接读解     | Exercise 6    |
