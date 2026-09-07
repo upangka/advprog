@@ -46,3 +46,27 @@
 | 用矩阵乘法实现前向传播 | $Z = WX + b$，一次性计算所有样本          |
 | 理解训练过程           | 前向传播 → 计算代价 → 反向传播 → 更新参数 |
 | 扩展到多元线性回归     | 用 2 个输入节点，预测房价                 |
+
+```python
+def nn_model(X, Y, num_iterations=10, print_cost=False):
+   """
+   神经网络模型
+   """
+
+    # 初始化参数W,b
+    parameters = ...
+    # Loop
+    for i in range(0, num_iterations):
+
+        // 向前传播预测
+        Y_hat = forward_propagation(X, parameters)
+
+        // 查看损失cost
+        cost = compute_cost(Y_hat,Y)
+        if print_cost:
+            print ("Cost after iteration %i: %f" %(i, cost))
+
+        // 反向传播 继续更新参数
+        parameters = w3_tools.train_nn(parameters, Y_hat, X, Y)
+    return parameters
+```
