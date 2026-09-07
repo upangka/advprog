@@ -38,6 +38,7 @@ uv run jupyter lab &
       1. [Lab1 vector operations](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_1_vector_operations.ipynb)
       2. [Lab2 matrix multiplication](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_2_matrix_multiplication.ipynb)
       3. [Lab3 linear transformations](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_3_linear_transformations.ipynb)
+      4. [Lab4 linear transformations and neural networks](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_4_linear_transformations_and_neural_networks.ipynb)
 
 # Resources
 
