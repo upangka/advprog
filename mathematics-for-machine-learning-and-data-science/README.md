@@ -21,7 +21,7 @@ uv run jupyter lab &
 
 # linear algebra
 
-1. [Week1-奇异与非奇异](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
+1. [Week1-方程组](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/week-1-slides.pdf)
    2. [Week1-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/README.md)
       1. [Lab-1: Introduction to numpy arrays](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_1_introduction_to_numpy_arrays.ipynb)
@@ -31,6 +31,11 @@ uv run jupyter lab &
    2. [Week2-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/README.md)
       1. [Lab_1_solving_linear_systems_3_variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
       2. [Lab_2_Gaussion_elimination](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_2_Gaussion_elimination.ipynb)
+
+3. [Week3-向量与线性变换](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/README.md)
+   1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/C1_W3_slides.pdf)
+   2. [Week3-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/README.md)
+      1. [Lab1 vector operations](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_1_vector_operations.ipynb)
 
 # Resources
 
