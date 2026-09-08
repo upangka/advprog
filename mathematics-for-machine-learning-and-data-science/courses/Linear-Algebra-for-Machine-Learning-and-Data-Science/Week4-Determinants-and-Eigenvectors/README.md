@@ -36,6 +36,14 @@ $$
 
 ![alt text](./images/singular-matrix-determinant-product.png)
 
-##
+## Determinant of inverse
 
 逆矩阵的行列式
+
+$$
+\det(A^{-1}) = \frac{1}{\det(A)}
+$$
+
+"逆矩阵的行列式，等于原矩阵行列式的倒数。这是因为 $A \cdot A^{-1} = I$，两边取行列式，就得到了这个关系。"
+
+![alt text](./images/determinant-of-inverse.png)
