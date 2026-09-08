@@ -1,25 +1,8 @@
-# uv jupyter lab
+# Target
 
-使用uv搭建实验环境搭建与安装相关package
+通过可视化和代码示例理解数学的概念，建立直观的感受，而无须关心抽象的数学语言证明和讨论
 
-```sh
-pkmer@DESKTOP-2368UCO:code
-$ uv init --no-workspace
-Initialized project `code`
-
-pkmer@DESKTOP-2368UCO:code
-$ uv add numpy jupyter matplotlib
-```
-
-启动
-
-```sh
-uv run jupyter lab
-# 后台启动
-uv run jupyter lab &
-```
-
-# linear algebra
+# Linear algebra
 
 1. [Week1-方程组](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/week-1-slides.pdf)
@@ -41,6 +24,27 @@ uv run jupyter lab &
       4. [Lab4 linear transformations and neural networks](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_4_linear_transformations_and_neural_networks.ipynb)
 4. [Week4-行列式与特征向量](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/week-4-slides.pdf)
+
+# uv jupyter lab
+
+使用uv搭建实验环境搭建与安装相关package
+
+```sh
+pkmer@DESKTOP-2368UCO:code
+$ uv init --no-workspace
+Initialized project `code`
+
+pkmer@DESKTOP-2368UCO:code
+$ uv add numpy jupyter matplotlib
+```
+
+启动
+
+```sh
+uv run jupyter lab
+# 后台启动
+uv run jupyter lab &
+```
 
 # Resources
 

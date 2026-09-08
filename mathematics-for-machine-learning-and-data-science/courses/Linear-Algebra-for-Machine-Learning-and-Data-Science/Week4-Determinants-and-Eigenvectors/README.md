@@ -13,3 +13,9 @@
 3. 秩 = 变换后空间的维度。
 
 ![alt text](./images/singulartity-of-linear-transformations.png)
+
+## Determinant as area
+
+行列式的绝对值 = 一个图形经过线性变换后的面积缩放倍数。当这个面积为 0 时，变换把空间压扁了，矩阵就是奇异的。`几何缩放因子`
+
+![alt text](./images/determinant-as-area.png)
