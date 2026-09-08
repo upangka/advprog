@@ -19,3 +19,23 @@
 行列式的绝对值 = 一个图形经过线性变换后的面积缩放倍数。当这个面积为 0 时，变换把空间压扁了，矩阵就是奇异的。`几何缩放因子`
 
 ![alt text](./images/determinant-as-area.png)
+
+## Determinant of a product
+
+行列式的乘积性质
+
+$$
+\det(AB) = \det(A) \det(B)
+$$
+
+矩阵乘积的行列式 = 各自行列式的乘积，因为面积缩放是连续的、可乘的——先缩放 A 倍，再缩放 B 倍，总共缩放 A×B 倍。
+
+![alt text](./images/determinant-product.png)
+
+面积缩放倍数是可乘的。奇异矩阵就是面积缩放到 0 的矩阵，所以乘以任何矩阵，面积还是 0。
+
+![alt text](./images/singular-matrix-determinant-product.png)
+
+##
+
+逆矩阵的行列式
