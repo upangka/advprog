@@ -22,8 +22,11 @@
       2. [Lab2 matrix multiplication](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_2_matrix_multiplication.ipynb)
       3. [Lab3 linear transformations](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_3_linear_transformations.ipynb)
       4. [Lab4 linear transformations and neural networks](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/code/Lab_4_linear_transformations_and_neural_networks.ipynb)
-4. [Week4-行列式与特征向量](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/README.md)
+4. [Week4-行列式与特征向量(PCA)](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/week-4-slides.pdf)
+   2. [Week4-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/code/README.md)
+      1. [Lab1 Interpreting eigenvalues and eigenvectors](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/code/Lab_1_Interpreting_eigenvalues_and_eigenvectors.ipynb)
+      2. [Lab2 Webpage navigation model and PCA](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/code/Lab_2_Application_of_Eigenvalues_and_Eigenvectors-Webpage-navigation-model-and-PCA.ipynb)
 
 # uv jupyter lab
 
