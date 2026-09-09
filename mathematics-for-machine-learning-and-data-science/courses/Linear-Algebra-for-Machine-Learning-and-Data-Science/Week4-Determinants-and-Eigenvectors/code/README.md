@@ -14,3 +14,5 @@
 # Lab2 Application of Eigenvalues and Eigenvectors: Webpage navigation model and PCA
 
 [Lab_2_Application_of_Eigenvalues_and_Eigenvectors-Webpage-navigation-model-and-PCA.ipynb](./Lab_2_Application_of_Eigenvalues_and_Eigenvectors-Webpage-navigation-model-and-PCA.ipynb)
+
+用一个 5 页网页的随机跳转模型，演示特征值和特征向量如何让‘无限次计算’变成‘一次计算’。
