@@ -237,3 +237,21 @@ $$
 - ✅ 大部分向量只能老老实实做矩阵乘法（但可以通过其他方法降维）
 
 这样的矩阵叫 **"不可对角化矩阵"**。
+
+# Discrete Dynamical System
+
+**discrete dynamical system** /dɪˈskriːt/ 离散动力系统 / 离散动态系统：指在离散时间步长（如 $t = 0, 1, 2, \dots$）上，系统的状态按照固定的规则（通常是线性变换）从一个状态更新到下一个状态的数学模型。在实验中，网页导航模型就是一个离散动力系统：
+
+$$
+X_t = P \cdot X_{t-1}
+$$
+
+其中：
+
+- $X_t$：时间 $t$ 时浏览器在各页面上的概率分布（状态向量）
+- $P$：转移概率矩阵（每列之和为 1 的马尔可夫矩阵）
+- 系统从初始状态 $X_0$ 出发，每次导航都乘以矩阵 $P$
+
+经过很多步（$m \to \infty$）之后，状态向量会收敛到满足 $PX = X$ 的 **稳态分布**，而这个稳态分布正好是矩阵 $P$ 对应特征值 1 的特征向量。这正是 PageRank 算法的核心思想：**用特征向量代替无限次矩阵乘法**。[Lab 2 Application of Eigenvalues and Eigenvectors Webpage navigation model and PCA](./code/Lab_2_Application_of_Eigenvalues_and_Eigenvectors-Webpage-navigation-model-and-PCA.ipynb)
+
+![alt text](./images/discrete-dynamical-system.png)
