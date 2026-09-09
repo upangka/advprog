@@ -238,6 +238,16 @@ $$
 
 这样的矩阵叫 **"不可对角化矩阵"**。
 
+# PCA
+
+简单删列（特征选择）会丢失有用信息。PCA 的目标就是“瘦身”(降维)的同时，尽可能保住信息。
+
+## Dimensionality Reduction
+
+降维(减少列数)。 降维就是通过“投影”把高维数据压到低维空间；投影在数学上就是“原数据”乘以“选定的单位方向向量”。
+
+![alt text](./images/dimensionality-reduction.png)
+
 # Discrete Dynamical System
 
 **discrete dynamical system** /dɪˈskriːt/ 离散动力系统 / 离散动态系统：指在离散时间步长（如 $t = 0, 1, 2, \dots$）上，系统的状态按照固定的规则（通常是线性变换）从一个状态更新到下一个状态的数学模型。在实验中，网页导航模型就是一个离散动力系统：
