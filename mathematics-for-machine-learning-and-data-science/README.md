@@ -30,6 +30,9 @@
 
 # Calculus
 
+1. [Week1](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
+   1. [Slides](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/C2_W1.pdf)
+
 # uv jupyter lab
 
 使用uv搭建实验环境搭建与安装相关package
