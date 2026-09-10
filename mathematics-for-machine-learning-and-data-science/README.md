@@ -28,6 +28,8 @@
       1. [Lab1 Interpreting eigenvalues and eigenvectors](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/code/Lab_1_Interpreting_eigenvalues_and_eigenvectors.ipynb)
       2. [Lab2 Webpage navigation model and PCA](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week4-Determinants-and-Eigenvectors/code/Lab_2_Application_of_Eigenvalues_and_Eigenvectors-Webpage-navigation-model-and-PCA.ipynb)
 
+# Calculus
+
 # uv jupyter lab
 
 使用uv搭建实验环境搭建与安装相关package
