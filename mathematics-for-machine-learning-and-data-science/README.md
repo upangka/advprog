@@ -30,7 +30,7 @@
 
 # Calculus
 
-1. [Week1](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
+1. [Week1-导数与损失优化](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
    1. [Slides](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/C2_W1.pdf)
 
 # uv jupyter lab
