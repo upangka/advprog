@@ -7,3 +7,7 @@ Python中求导数三种方法：符号微分、数值微分、自动微分 [Lab
 | 符号微分     | SymPy   | 按数学规则推导        | 精确     | 慢（表达式膨胀）   | 简单函数、教学   |
 | 数值微分     | NumPy   | 差分近似              | 近似     | 慢（每次重新求值） | 快速估算         |
 | **自动微分** | **JAX** | **计算图 + 链式法则** | **精确** | **快**             | **神经网络训练** |
+
+# Lab2 优化单变量函数：损失最小化
+
+[Lab2_Optimizing_Functions_of_One_variables_cost_minimization.ipynb](./Lab2_Optimizing_Functions_of_One_variables_cost_minimization.ipynb)
