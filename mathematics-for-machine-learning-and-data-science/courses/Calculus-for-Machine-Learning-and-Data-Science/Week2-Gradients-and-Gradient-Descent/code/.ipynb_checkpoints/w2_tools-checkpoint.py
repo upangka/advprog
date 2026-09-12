@@ -8,22 +8,11 @@ from IPython.display import display, clear_output
 
 
 def plot_f(x_range, y_range, f, ox_position):
-    """绘制单变量函数图像的通用工具函数。
-
-    Args:
-        x_range (list): 横坐标的显示区间，形如 ``[x_min, x_max]``。
-        y_range (list): 纵坐标的显示区间，形如 ``[y_min, y_max]``。
-        f (Callable): 要绘制的函数，接收 numpy 数组，返回 numpy 数组。
-        ox_position (float): x 轴在纵向上穿过的位置（即把 x 轴画在 y = ox_position 处）。
-
-    Returns:
-        tuple[Figure, Axes]: matplotlib 的图形对象 ``fig`` 和坐标轴对象 ``ax``。
-    """
     # 在 x_range 指定的区间内均匀生成 100 个点，作为横坐标采样
     x = np.linspace(*x_range, 100)
     # 创建一张图和一个坐标轴，设置图形大小为 8×4 英寸
-    fig, ax = plt.subplots(1, 1, figsize=(8, 4))
-
+    fig, ax = plt.subplots(1,1,figsize=(8,4))
+        
     # 隐藏画布上的工具栏
     fig.canvas.toolbar_visible = False
     # 隐藏画布上的标题栏
@@ -36,27 +25,27 @@ def plot_f(x_range, y_range, f, ox_position):
     # 设置横坐标（x 轴）的显示范围
     ax.set_xlim(*x_range)
     # 设置 y 轴的标签为 f
-    ax.set_ylabel("$f$")
+    ax.set_ylabel('$f$')
     # 设置 x 轴的标签为 x
-    ax.set_xlabel("$x$")
+    ax.set_xlabel('$x$')
     # 将左侧的坐标轴脊线移动到 x=0 处（即让 y 轴穿过原点）
-    ax.spines["left"].set_position("zero")
+    ax.spines['left'].set_position('zero')
     # 将底部的坐标轴脊线移动到纵坐标为 ox_position 的位置（即让 x 轴穿过指定的 y 值）
-    ax.spines["bottom"].set_position(("data", ox_position))
+    ax.spines['bottom'].set_position(('data', ox_position))
     # 隐藏右侧的坐标轴脊线
-    ax.spines["right"].set_color("none")
+    ax.spines['right'].set_color('none')
     # 隐藏顶部的坐标轴脊线
-    ax.spines["top"].set_color("none")
+    ax.spines['top'].set_color('none')
     # 将 x 轴的刻度位置设置在底部脊线上
-    ax.xaxis.set_ticks_position("bottom")
+    ax.xaxis.set_ticks_position('bottom')
     # 将 y 轴的刻度位置设置在左侧脊线上
-    ax.yaxis.set_ticks_position("left")
+    ax.yaxis.set_ticks_position('left')
     # 关闭自动缩放，保持前面手动设置的坐标范围
     ax.autoscale(enable=False)
-
+    
     # 绘制函数曲线，'k' 表示黑色实线
-    pf = ax.plot(x, f(x), "k")
-
+    pf = ax.plot(x, f(x), 'k')
+    
     # 返回图形对象和坐标轴对象，便于后续操作
     return fig, ax
 
@@ -125,9 +114,7 @@ class gradient_descent_one_variable:
                                   xytext=(4,4), textcoords='offset points', size=10)
         
         self.p_items = [a, b, c, d, t_it, t_x_0, t_f, t_dfdx]
-        # self.fig.canvas.draw()
-        # draw_idle() 把"立即刷新"变成了"稍后刷新"，绕开了那个还没准备好的 manager。它不会改变任何计算结果，只是改变刷新时机——所以你看到的动画、路径、数值全都正常。
-        self.fig.canvas.draw_idle()
+        self.fig.canvas.draw()
             
     def run_gd(self):
         self.i = 1
@@ -334,9 +321,7 @@ class gradient_descent_two_variables:
         t_dfdy = self.axs.text(self.t_position[0], self.t_position[1], self.t_position[2]-self.t_space*4,
                              f"$f\\,'_y\\left(x_0, y_0\\right) = {self.dfdy(self.x_0, self.y_0):0.2f}$", size=10, zorder=20)
         self.p_items = [a, b, c, d, t_it, t_x_y, t_f, t_dfdx, t_dfdy]
-        # self.fig.canvas.draw()
-        # draw_idle() 把"立即刷新"变成了"稍后刷新"，绕开了那个还没准备好的 manager。它不会改变任何计算结果，只是改变刷新时机——所以你看到的动画、路径、数值全都正常。
-        self.fig.canvas.draw_idle()
+        self.fig.canvas.draw()
         
     def run_gd(self):
         self.i = 1
