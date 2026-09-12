@@ -1,3 +1,13 @@
+# 梯度下降的直观感受
+
+在桑拿房找最凉快的地方
+
+![alt text](./images/gradient-descent-intutive.png)
+
+二维的切面tangent plane
+
+![alt text](./images/tangent-plane.png)
+
 # 梯度下降的核心公式
 
 $$
