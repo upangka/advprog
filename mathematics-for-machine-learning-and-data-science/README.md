@@ -34,6 +34,7 @@
    1. [Slides](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/C2_W1.pdf)
    2. [Week1-Lab](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
       1. [Lab1 differentiation in Python Symbolic Numerical and Automatic](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/code/Lab1_differentiation_in_Python_Symbolic_Numerical_and_Automatic.ipynb)
+      2. [Lab2 Optimizing Functions of One_variables cost minimization](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/code/Lab2_Optimizing_Functions_of_One_variables_cost_minimization.ipynb)
 
 # uv jupyter lab
 
