@@ -32,6 +32,8 @@
 
 1. [Week1-导数与损失优化](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
    1. [Slides](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/C2_W1.pdf)
+   2. [Week1-Lab](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
+      1. [Lab1 differentiation in Python Symbolic Numerical and Automatic](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/code/Lab1_differentiation_in_Python_Symbolic_Numerical_and_Automatic.ipynb)
 
 # uv jupyter lab
 
