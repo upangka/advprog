@@ -391,6 +391,85 @@ $$
 
 ---
 
+## 平均值 方差和协方差
+
+| 概念       | 英文           | 含义                 |
+| ---------- | -------------- | -------------------- |
+| 平均值     | mean           | 数据中心的位置       |
+| **方差**   | **variance**   | 数据有多分散         |
+| **协方差** | **covariance** | 两个变量如何一起变化 |
+
+### 平均值mean
+
+定义：
+
+$$
+\mu_x = \frac{1}{n} \sum_{i=1}^{n} x_i
+$$
+
+含义：所有观测值的算术平均，是数据的「中心」。
+
+二维数据：
+
+- $\mu_x$: x 的平均
+- $\mu_y$: y 的平均
+- 均值点: $(\mu_x, \mu_y)$
+
+![alt text](./images/mean.png)
+
+### 方差variance
+
+定义：
+
+$$
+\text{Var}(x) = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \mu_x)^2
+$$
+
+> Variance = 平均平方距离（average squared distance from the mean）。 方差 = 数据分散spread程度
+
+![alt text](./images/variance.png)
+
+#### 计算过程以及标准差概念
+
+1. **方差：16**
+2. **标准差：** $\sqrt{16} = 4$
+
+**含义：数据平均偏离平均值约 4 个单位。**
+
+![alt text](./images/standard-variance.png)
+
+### 协方差covariance
+
+定义：
+
+$$
+\text{Cov}(x, y) = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \mu_x)(y_i - \mu_y)
+$$
+
+含义：衡量两个变量如何一起变化。
+
+![alt text](./images/covariance.png)
+
+> 方差与协方差
+
+| 维度   | 方差                   | 协方差                            |
+| ------ | ---------------------- | --------------------------------- |
+| 公式   | $\sum (x_i - \mu_x)^2$ | $\sum (x_i - \mu_x)(y_i - \mu_y)$ |
+| 变量数 | 1                      | 2                                 |
+| 衡量   | 数据分散程度           | 两变量共同变化方向                |
+| 值域   | $\geq 0$               | 可正可负可零                      |
+| 意义   | 波动大小               | 相关性方向                        |
+
+如果 $x = y$:
+
+$$
+\text{Cov}(x, x) = \text{Var}(x)
+$$
+
+**方差是协方差的特例。**
+
+---
+
 # Discrete Dynamical System
 
 **discrete dynamical system** /dɪˈskriːt/ 离散动力系统 / 离散动态系统：指在离散时间步长（如 $t = 0, 1, 2, \dots$）上，系统的状态按照固定的规则（通常是线性变换）从一个状态更新到下一个状态的数学模型。在实验中，网页导航模型就是一个离散动力系统：
