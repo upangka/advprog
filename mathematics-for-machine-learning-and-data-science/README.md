@@ -7,13 +7,13 @@
 1. [Week1-方程组](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/week-1-slides.pdf)
    2. [Week1-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/README.md)
-      1. [Lab-1: Introduction to numpy arrays](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_1_introduction_to_numpy_arrays.ipynb)
-      2. [Lab-2 Linear system as matrices](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_2_linear_systems_as_matrices.ipynb)
+      1. [Lab1 Introduction to numpy arrays](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_1_introduction_to_numpy_arrays.ipynb)
+      2. [Lab2 Linear system as matrices](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week1-Systems-of-linear-equations/code/Lab_2_linear_systems_as_matrices.ipynb)
 2. [Week2-高斯消元法求解线性方程组](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/C1_W2_slides.pdf)
    2. [Week2-Lab](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/README.md)
-      1. [Lab_1_solving_linear_systems_3_variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
-      2. [Lab_2_Gaussion_elimination](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_2_Gaussion_elimination.ipynb)
+      1. [Lab1 solving linear systems 3 variables](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_1_solving_linear_systems_3_variables.ipynb)
+      2. [Lab2 Gaussion elimination](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week2-Solving-systems-of-linear-equations/code/Lab_2_Gaussion_elimination.ipynb)
 
 3. [Week3-向量与线性变换](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/README.md)
    1. [Slides](./courses/Linear-Algebra-for-Machine-Learning-and-Data-Science/Week3-Vectors-and-Linear-Transformations/C1_W3_slides.pdf)
@@ -35,17 +35,21 @@
    2. [Week1-Lab](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/README.md)
       1. [Lab1 differentiation in Python Symbolic Numerical and Automatic](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/code/Lab1_differentiation_in_Python_Symbolic_Numerical_and_Automatic.ipynb)
       2. [Lab2 Optimizing Functions of One_variables cost minimization](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week1-Derivatives-and-Optimization/code/Lab2_Optimizing_Functions_of_One_variables_cost_minimization.ipynb)
+2. [Week2-梯度下降](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/README.md)
+   1. [Slides](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/Week_2_Slides.pdf)
+   2. [Week2-Lab](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/code/README.md)
+      1. [Lab1 Optimization Using Gradient Descent in One Variable](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/code/Lab1_Optimization_Using_Gradient_Descent_in_One_Variable.ipynb)
+      2. [Lab2 Optimization Using Gradient Descent in Two Variables](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/code/Lab2_Optimization_Using_Gradient_Descent_in_Two_Variables.ipynb)
 
 # uv jupyter lab
 
 使用uv搭建实验环境搭建与安装相关package
 
 ```sh
-pkmer@DESKTOP-2368UCO:code
+# 建立单独的workspace
 $ uv init --no-workspace
-Initialized project `code`
 
-pkmer@DESKTOP-2368UCO:code
+# 添加依赖
 $ uv add numpy jupyter matplotlib
 ```
 
