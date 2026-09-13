@@ -41,6 +41,11 @@
       1. [Lab1 Optimization Using Gradient Descent in One Variable](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/code/Lab1_Optimization_Using_Gradient_Descent_in_One_Variable.ipynb)
       2. [Lab2 Optimization Using Gradient Descent in Two Variables](./courses/Calculus-for-Machine-Learning-and-Data-Science/Week2-Gradients-and-Gradient-Descent/code/Lab2_Optimization_Using_Gradient_Descent_in_Two_Variables.ipynb)
 
+# Probability & Statistic
+
+1. [Week1-概率入门 & 概率分布](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/README.md)
+   1. [Slides](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/week-1-slides.pdf)
+
 # uv jupyter lab
 
 使用uv搭建实验环境搭建与安装相关package
@@ -65,5 +70,7 @@ uv run jupyter lab &
 
 1. [Bilibili 线性代数](https://www.bilibili.com/video/BV1WfagzvEXM/?spm_id_from=333.1391.0.0&p=8&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
    1. [Deeplearning.ai](https://learn.deeplearning.ai/specializations/mathematics-for-machine-learning-and-data-science/lesson/u0bve/specialization-introduction?utm_source=home&utm_medium=course-landing-page&utm_campaign=summary-cta-button)
-2. [Github 相关参考仓库](https://github.com/greyhatguy007/Mathematics-for-Machine-Learning-and-Data-Science-Specialization-Coursera)
-3. [慕课参考资料](https://www.bilibili.com/video/BV1Hf4y1B7Bf/?spm_id_from=333.788.recommend_more_video.2&trackid=web_related_0.router-related-2589621-dpmnd.1788674566992.976&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
+2. [Bilibi概率论和统计](https://www.bilibili.com/video/BV1WH4y1q7o6/?spm_id_from=333.337.search-card.all.click&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
+   1. [Deeplearning.ai](https://learn.deeplearning.ai/specializations/mathematics-for-machine-learning-and-data-science/lesson/eiscd/course-introduction)
+3. [Github 相关参考仓库](https://github.com/greyhatguy007/Mathematics-for-Machine-Learning-and-Data-Science-Specialization-Coursera)
+4. [慕课参考资料](https://www.bilibili.com/video/BV1Hf4y1B7Bf/?spm_id_from=333.788.recommend_more_video.2&trackid=web_related_0.router-related-2589621-dpmnd.1788674566992.976&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)

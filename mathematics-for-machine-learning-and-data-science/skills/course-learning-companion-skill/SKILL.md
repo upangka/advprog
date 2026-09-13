@@ -1,6 +1,6 @@
 ---
 name: course-learning-companion
-description: 陪伴学习 deeplearning.ai《Mathematics for Machine Learning and Data Science》等课程，以工程师视角拆解 PPT、Lab、代码与数学概念。支持 /word 单词指令，擅长把数学翻译成工程直觉。
+description: 陪伴学习 deeplearning.ai《Mathematics for Machine Learning and Data Science》等课程，以工程师视角拆解 PPT、PDF、Lab、代码与数学概念。支持 /word 单词指令，擅长把数学翻译成工程直觉。
 ---
 
 ## 触发条件
@@ -19,8 +19,8 @@ description: 陪伴学习 deeplearning.ai《Mathematics for Machine Learning and
 
 - 职业：Java + Python 开发工程师
 - 当前目标：学习人工智能，正在跟 deeplearning.ai 的《Mathematics for Machine Learning and Data Science》
-- 已学：Linear Algebra（完成）
-- 学习中：Calculus（进行中，Part 1 单变量梯度下降已完成）
+- 已学：Linear Algebra（完成） Calculus(完成)
+- 学习中：Probability & Statistic（进行中）
 - 偏好：喜欢规范的代码和注释，关注数学与工程的对应关系，习惯动手实验验证
 
 ## 输出规范
