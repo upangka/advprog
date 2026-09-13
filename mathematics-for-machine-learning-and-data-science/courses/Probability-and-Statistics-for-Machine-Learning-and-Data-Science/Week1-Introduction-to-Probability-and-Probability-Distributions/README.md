@@ -220,7 +220,7 @@ $$
 
 ![alt text](./images/nosame-birthday-probabilities.png)
 
-# 条件概率
+# Conditional Probability条件概率
 
 > 条件概率 = **缩小样本空间**。
 
@@ -252,3 +252,19 @@ $$
 独立时 $P(B \mid A) = P(B)$，`Conditional Probability`退化成`Independence`
 
 ![alt text](./images/independent-conditional.png)
+
+## 案例分析
+
+> 问题： 踢足球 **且** 穿跑鞋的孩子有多少人？
+
+![alt text](./images/quiz-soccer.png)
+
+这个 80% 是**条件概率**：$P(\text{跑鞋} \mid \text{踢足球}) = 80\%$
+
+**计算**概率：
+
+$$
+P(S \cap R) = P(S) \cdot P(R \mid S) = 0.4 \times 0.8 = 0.32
+$$
+
+答案：100 \* 0.32 = 32 人。
