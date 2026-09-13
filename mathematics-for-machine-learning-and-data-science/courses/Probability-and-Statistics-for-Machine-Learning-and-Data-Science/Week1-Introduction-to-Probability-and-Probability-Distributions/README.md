@@ -1,4 +1,4 @@
-# 概率的定义
+# 概率Probability的定义
 
 ## 古典概型
 
@@ -30,3 +30,5 @@ $$
 **实验（Experiment）**：任何产生不确定结果的过程。抛硬币、掷骰子、抽孩子都是实验。
 
 ![alt text](./images/soccer.png)
+
+#
