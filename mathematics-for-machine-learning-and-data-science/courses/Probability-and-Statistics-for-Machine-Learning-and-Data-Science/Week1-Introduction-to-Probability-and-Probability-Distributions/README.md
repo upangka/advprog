@@ -250,3 +250,5 @@ $$
 | **Conditional Probability** | $P(A \cap B) = P(A) \cdot P(B \mid A)$ | **永远成立**  |
 
 独立时 $P(B \mid A) = P(B)$，`Conditional Probability`退化成`Independence`
+
+![alt text](./images/independent-conditional.png)
