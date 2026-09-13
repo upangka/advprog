@@ -1,6 +1,4 @@
-# 概率Probability的定义
-
-## 古典概型
+# 古典概型
 
 **古典概型 = 有限样本空间 + 等可能结果 → 概率就是「数数相除」**
 
@@ -12,7 +10,7 @@ $P(HHH) = \frac{1}{8} = 0.125$。
 
 ![alt text](./images/coin.png)
 
-### 数学定义
+## 数学定义
 
 两个关键术语
 
@@ -31,7 +29,7 @@ $$
 
 ![alt text](./images/soccer.png)
 
-## Complement of Probability补集
+# Complement of Probability补集
 
 **complement** /ˈkɒmplɪmənt/ 补足物；补集；补角。概率课程语境里，complement 特指**补集**：事件 $A$ 不发生的那部分，记作 $A'$ 或 $A^c$。它和 $A$ 互斥且完备，两者合起来就是整个样本空间 $\Omega$，所以满足 $P(A') = 1 - P(A)$。
 
@@ -45,3 +43,21 @@ $A$ 和 $A'$ 是**互斥**（disjoint）且**完备**（exhaustive）的：
 所以 $P(A) + P(A') = 1$，移项就得到补集规则。
 
 ![alt text](./images/complement.png)
+
+# Sum of Probabilities
+
+两个事件「或」的概率，什么时候可以直接相加？**当它们互斥（disjoint）时**。直观感受就是**互斥 = 不重叠**
+
+求和规则不是无条件的，它的前提是「互斥」。
+
+$$
+P(A \cup B) = P(A) + P(B) \quad (\text{仅当 } A \cap B = \varnothing)
+$$
+
+![alt text](./images/disjoint.png)
+
+**ML 里的求和规则**：
+
+- 多分类 softmax：每个类别的概率加起来等于 1，因为类别互斥
+- 词袋模型：每个词出现与否，若假设互斥（朴素贝叶斯的前提），概率可加
+- 决策树的叶节点：每个叶节点对应互斥的区域
