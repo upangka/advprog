@@ -31,4 +31,17 @@ $$
 
 ![alt text](./images/soccer.png)
 
-#
+## Complement of Probability补集
+
+**complement** /ˈkɒmplɪmənt/ 补足物；补集；补角。概率课程语境里，complement 特指**补集**：事件 $A$ 不发生的那部分，记作 $A'$ 或 $A^c$。它和 $A$ 互斥且完备，两者合起来就是整个样本空间 $\Omega$，所以满足 $P(A') = 1 - P(A)$。
+
+`补集 = 1 − 事件概率`。它不需要任何前提，因为「发生」和「不发生」天然就把 100% 分完了。
+
+$A$ 和 $A'$ 是**互斥**（disjoint）且**完备**（exhaustive）的：
+
+- 互斥：$A \cap A' = \varnothing$，不可能同时发生
+- 完备：$A \cup A' = \Omega$，必有一个发生
+
+所以 $P(A) + P(A') = 1$，移项就得到补集规则。
+
+![alt text](./images/complement.png)
