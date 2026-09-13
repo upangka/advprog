@@ -74,3 +74,4 @@ uv run jupyter lab &
    1. [Deeplearning.ai](https://learn.deeplearning.ai/specializations/mathematics-for-machine-learning-and-data-science/lesson/eiscd/course-introduction)
 3. [Github 相关参考仓库](https://github.com/greyhatguy007/Mathematics-for-Machine-Learning-and-Data-Science-Specialization-Coursera)
 4. [慕课参考资料](https://www.bilibili.com/video/BV1Hf4y1B7Bf/?spm_id_from=333.788.recommend_more_video.2&trackid=web_related_0.router-related-2589621-dpmnd.1788674566992.976&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
+5. [excalidraw](https://excalidraw.com/)
