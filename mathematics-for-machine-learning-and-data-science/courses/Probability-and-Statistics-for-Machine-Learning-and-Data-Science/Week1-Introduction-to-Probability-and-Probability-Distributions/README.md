@@ -268,3 +268,7 @@ P(S \cap R) = P(S) \cdot P(R \mid S) = 0.4 \times 0.8 = 0.32
 $$
 
 答案：100 \* 0.32 = 32 人。
+
+整体条件概率树的结构：
+
+![alt text](./images/con-pro-tree.png)
