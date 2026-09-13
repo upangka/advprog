@@ -83,3 +83,9 @@ $$
 > 所以要把多算的那一次减掉。
 
 ![alt text](./images/overlap.png)
+
+---
+
+## Disjoint与Joint的直观区别
+
+![alt text](./images/disjoint-and-joint.png)
