@@ -12,3 +12,9 @@
 | 4    | **两个教室之间**有人生日相同          | **16**                  | ⭐⭐   |
 
 **变体 3 是你已经在课件里学过的经典版**。其他三个是它的变体。
+
+# Lab2 Monty Hall
+
+[Lab_2_Monty_Hall.ipynb](./Lab_2_Monty_Hall.ipynb)三门问题
+
+![](./images/monty_experiments_result.png)
