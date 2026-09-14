@@ -1,5 +1,10 @@
 # Course Content
 
+## Supervised Machine Learning: Regression and Classification
+
+1. [Week1 Introduction to Machine Learning](./courses/Supervised-Machine-Learning-Regression-and-Classification/Week1-Introduction-to-Machine-Learning/README.md)
+   1. [Slides](./courses/Supervised-Machine-Learning-Regression-and-Classification/Week1-Introduction-to-Machine-Learning/Course-1-Week-1.pdf)
+
 # Resources
 
 1. [Bilibili](https://www.bilibili.com/video/BV1owrpYKEtP/?spm_id_from=333.337.search-card.all.click&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)

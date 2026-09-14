@@ -42,8 +42,8 @@ description: 陪伴学习 DeepLearning.AI + Stanford Online 的《Machine Learni
 ## 学习者画像
 
 - 职业：Java + Python 开发工程师
-- 当前目标：系统学习机器学习，正在跟 DeepLearning.AI《Machine Learning Specialization》(Andrew Ng)
-- 已学：《Mathematics for ML & DS》
+- 当前目标：系统学习机器学习，正在跟 DeepLearning.AI《Machine Learning Specialization》(Andrew Ng) 已学：《Mathematics for machine learning and data science》
+- 当前进度 Course 1: Supervised Machine Learning: Regression and Classification - Week1
 - 偏好：喜欢规范的代码和注释，关注 ML 概念与工程实践的对应关系，习惯动手实验验证
 - 学习方式：跟课 + 跑 Lab + 手推关键公式，不追求从零重写算法
 
