@@ -335,3 +335,24 @@ $$
 用贝叶斯公式来求解
 
 ![alt text](./images/bayes-spam-email.png)
+
+## 先验与后验
+
+| 概念     | 英文      | 含义                 | 符号          |
+| -------- | --------- | -------------------- | ------------- |
+| **先验** | prior     | 什么都不知道时的概率 | $P(A)$        |
+| **事件** | event     | 给你新信息的事情     | $E$           |
+| **后验** | posterior | 有了新信息后的概率   | $P(A \mid E)$ |
+
+**核心公式：**
+
+$$
+\underbrace{P(A)}_{\text{先验}} \xrightarrow{\text{事件 } E} \underbrace{P(A \mid E)}_{\text{后验}}
+$$
+
+| 例子     | 先验 $P(A)$               | 事件 $E$   | 后验 $P(A \mid E)$                           |
+| -------- | ------------------------- | ---------- | -------------------------------------------- |
+| 垃圾邮件 | $P(\text{spam}) = 0.2$    | 含 lottery | $P(\text{spam} \mid \text{lottery}) = 0.583$ |
+| 医学检测 | $P(\text{sick}) = 0.0001$ | 检测阳性   | $P(\text{sick} \mid +) = 0.0098$             |
+
+![alt text](./images/prior-posterior.png)
