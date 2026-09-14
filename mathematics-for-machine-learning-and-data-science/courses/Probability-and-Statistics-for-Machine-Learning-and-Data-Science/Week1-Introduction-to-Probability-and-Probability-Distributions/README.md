@@ -304,3 +304,13 @@ P(\text{得病} \mid \text{阳性}) = \frac{99}{10{,}098} \approx 0.0098 = 0.98\
 $$
 
 ![alt text](./images/bayes-intuition.png)
+
+## 贝叶斯定理的数学公式
+
+$$
+P(A \mid B) = \frac{P(A)P(B \mid A)}{P(A)P(B \mid A) + P(A')P(B \mid A')}
+$$
+
+诊断案例的理解
+
+![alt text](./images/bayes-formular.png)
