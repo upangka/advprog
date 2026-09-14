@@ -17,7 +17,7 @@
 | 垃圾邮件过滤                         | 邮件          | spam / not spam    | 监督学习（二分类） |
 | 风力发电优化、医疗诊断、工厂质检     | 传感器 / 图像 | 功率 / 诊断 / 缺陷 | 监督学习           |
 
-**注意：** 这里只出现了监督学习和推荐系统，还没出现无监督学习和强化学习。下一集才会展开。
+**注意：** 这里只出现了监督学习和推荐系统，还没出现无监督学习和强化学习。
 
 ## 关于网页搜索排序
 
@@ -78,3 +78,15 @@
 - 1998~2005 左右：PageRank 是核心排序信号，确实是马尔可夫链平稳分布。
 - 2005 之后：Google 引入越来越多的 ML 信号（点击数据、查询理解、个性化），PageRank 权重逐渐下降。
 - 现在：排序主体是 Learning to Rank（监督学习），PageRank 只是特征之一。2016 年 Google 还申请了 PageRank 的替代专利，叫 **RankBrain**，是一个深度学习模型。
+
+## AI vs ML
+
+```txt
+AI (Artificial Intelligence)
+ ├── 传统 AI：搜索、规划、专家系统（写规则）
+ └── Machine Learning
+      ├── Supervised Learning
+      ├── Unsupervised Learning
+      ├── Recommender Systems
+      └── Reinforcement Learning
+```
