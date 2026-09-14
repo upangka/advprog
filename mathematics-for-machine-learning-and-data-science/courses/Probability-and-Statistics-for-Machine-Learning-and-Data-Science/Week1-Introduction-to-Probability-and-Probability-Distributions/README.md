@@ -375,3 +375,35 @@ $$
 要求一封邮件同时含 100 个词，太难了。可能数据库里根本没有这样的邮件。所以提出了**朴素假设Naive assumption**: **词与词之间相互独立**。
 
 ![alt text](./images/naive-bayes.png)
+
+# 概率在机器学习中的应用
+
+机器学习ML分为：`Generative ML`（生成式机器学习）和 `Discriminative ML`（判别式机器学习）
+
+1. **判别式**：给定输入 X，**预测**一个输出 Y。Y 可以是类别（分类）或数值（回归）。它不关心 X本身长什么样。
+2. **生成式**：学习数据本身的分布，能**生成**和训练数据相似的新样本。它关心 X 长什么样。
+
+## Discriminative ML
+
+**这两个都是判别式**——学「给定 X，Y 是多少」。
+
+| 算法     | 类型   | 学什么                    |
+| -------- | ------ | ------------------------- |
+| 线性回归 | 判别式 | $P(Y \mid X)$，$Y$ 连续   |
+| 逻辑回归 | 判别式 | $P(Y \mid X)$，$Y$ 是 0/1 |
+
+## Generative ML
+
+> In text generation, you want to maximize the probability that a bunch of words are sensical text and that it talks about a certain thing.
+
+最大化「一堆词组成有意义文本」的概率
+
+代表模型：GPT、LLaMA、Claude。
+
+---
+
+> In image generation you want to maximize the probability that a bunch of pixels form a human face
+
+最大化「一堆像素组成人脸」的概率
+![alt text](./images/probability-in-ai.png)
+代表模型：StyleGAN）、扩散模型（Stable Diffusion、DALL-E）。
