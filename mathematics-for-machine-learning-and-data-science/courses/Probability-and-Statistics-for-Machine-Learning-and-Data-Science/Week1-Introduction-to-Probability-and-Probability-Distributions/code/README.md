@@ -1,3 +1,7 @@
+# Lab1 Birthday Problems
+
+[Lab_1_Birthday_Problems.ipynb](./Lab_1_Birthday_Problems.ipynb)
+
 这个 Lab 把生日问题拆成 **4 个变体**，每个都是「至少一对匹配」的概率问题，但「匹配」的定义不同：
 
 | 变体 | 匹配定义                              | 临界 n*n*（概率 ≥ 0.5） | 难度   |
@@ -8,5 +12,3 @@
 | 4    | **两个教室之间**有人生日相同          | **16**                  | ⭐⭐   |
 
 **变体 3 是你已经在课件里学过的经典版**。其他三个是它的变体。
-
-![alt text](./images/simulate-result.png)

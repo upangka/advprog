@@ -45,6 +45,8 @@
 
 1. [Week1-概率入门 & 概率分布](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/README.md)
    1. [Slides](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/week-1-slides.pdf)
+   2. [Week1-Lab](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/code/README.md)
+      1. [Lab1 Birthday Problem](./courses/Probability-and-Statistics-for-Machine-Learning-and-Data-Science/Week1-Introduction-to-Probability-and-Probability-Distributions/code/Lab_1_Birthday_Problems.ipynb)
 
 # uv jupyter lab
 
