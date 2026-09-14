@@ -275,6 +275,8 @@ $$
 
 # Bayes Theorem贝叶斯定理
 
+> 医学检测案例
+
 ![](./images/sick-bayes.png)
 
 | 项目       | 数值      | 含义                            |
@@ -314,3 +316,22 @@ $$
 诊断案例的理解
 
 ![alt text](./images/bayes-formular.png)
+
+## 垃圾邮件案例
+
+> 用贝叶斯定理，就是在删掉所有无关的邮件，只留下符合条件的那些。
+
+具体到这个问题：
+
+- 100 封邮件里，只有 24 封含「lottery(彩票)」
+- 其余 76 封**不含 lottery**，直接删掉
+- 在剩下的 24 封里，14 封是垃圾
+- 所以 $P(\text{spam} \mid \text{lottery}) = \frac{14}{24} = 0.583$
+
+**这就是贝叶斯定理的几何直觉：缩小样本空间。**
+
+![alt text](./images/spam-email.png)
+
+用贝叶斯公式来求解
+
+![alt text](./images/bayes-spam-email.png)
