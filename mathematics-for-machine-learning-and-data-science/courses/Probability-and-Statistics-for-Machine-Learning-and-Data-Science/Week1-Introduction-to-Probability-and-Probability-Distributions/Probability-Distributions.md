@@ -193,3 +193,24 @@ $$
 $$
 
 所有可能取值的概率加起来必须等于 1。
+
+# Binomial Distribution二项分布
+
+binomial /baɪˈnəʊmiəl/ 二项式；二项分布。
+
+$$
+\boxed{p_X(x) = P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}, \quad x = 0, 1, 2, \dots, n}
+$$
+
+![alt text](./images/binomial-distribution.png)
+
+> **二项分布 = 做 $n$ 次独立的"成功/失败"试验，成功次数 $X$ 的分布。**
+
+关键词：
+
+- **$n$ 次**：固定次数
+- **独立**：每次互不影响
+- **二元结果**：成功 / 失败（H/T、1/非1、生病/健康）
+- **成功概率 $p$ 不变**：每次都是同一个 $p$
+
+只要满足这四条，成功次数 $X$ 就服从 $\text{Binomial}(n, p)$。
