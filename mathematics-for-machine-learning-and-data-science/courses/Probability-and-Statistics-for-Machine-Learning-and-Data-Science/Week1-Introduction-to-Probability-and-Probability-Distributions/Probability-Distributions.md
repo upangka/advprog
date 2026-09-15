@@ -144,7 +144,7 @@ $$
 
 **Probability Distributions（概率分布） = 把随机变量所有可能取值排成一排，看每个值对应的概率**。
 
-![alt text](image.png)
+![alt text](./images/probability-distributions.png)
 
 抛5次硬币，其中正面是3次的计算（复习上面的组合）过程
 
