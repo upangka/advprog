@@ -447,3 +447,166 @@ Uniform 分布是"区间内每个值等可能"的连续分布，只有两个参�
 > Uniform 分布可以被它的 PDF 描述，也可以被它的 CDF 描述。两者是同一个分布的两副面孔
 
 ![alt text](./images/uniform-distribution-pdf-cdf.png)
+
+# 🎉正态分布(高斯分布)Normal Distribution
+
+二项分布 $\text{Binomial}(n, p)$ 当 $n$ 很大时，形状趋近于一条钟形曲线。
+
+![alt text](./images/cion-normal-distribution.png)
+
+"Normal 的公式"就是"正态分布的 PDF"，也叫"高斯分布的 PDF"。**PDF**
+
+$$
+f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+![alt text](./images/normal-distribution-formular.png)
+
+**逐项拆解：**
+
+| 部分                               | 含义                           |
+| ---------------------------------- | ------------------------------ |
+| $\frac{1}{\sigma\sqrt{2\pi}}$      | **归一化常数**（保证面积 = 1） |
+| $e^{-\frac{(x-\mu)^2}{2\sigma^2}}$ | **钟形核心**（指数衰减）       |
+| $\mu$                              | **中心**（均值）               |
+| $\sigma$                           | **宽度**（标准差）             |
+
+**记号**
+
+$$
+X \sim \mathcal{N}(\mu, \sigma^2)
+$$
+
+**注意：第二个参数是 $\sigma^2$（方差），不是 $\sigma$。**
+
+**为什么用 $\sigma^2$ 而不是 $\sigma$**：这是历史约定。$\sigma$ 和 $\sigma^2$ 一一对应（因为 $\sigma > 0$），信息量相同，但习惯上用方差。
+
+**两个参数**
+
+| 参数     | 含义           | 影响                 |
+| -------- | -------------- | -------------------- |
+| $\mu$    | 中心（均值）   | 决定曲线**左右位置** |
+| $\sigma$ | 宽度（标准差） | 决定曲线**胖瘦**     |
+
+## Normal的公式的拟合
+
+Normal 的公式不是凭空拍出来的，而是通过"三步修补"从 $e^{-x^2/2}$ 拟合出来的。
+
+![alt text](./images/bell-change.png)
+
+**起点：$e^{-x^2/2}$**
+
+老师说：
+
+> "The curve $e^{-x^2/2}$ seems to work pretty well, because it seems to look like a bell curve."
+
+$e^{-x^2}$ 这个函数天然是钟形：中间高，两边快速衰减，对称。
+
+**问题 1：中心不对**
+
+- 数据中心在 $x = 2$（记作 $\mu$）
+- 曲线 $e^{-x^2/2}$ 中心在 $x = 0$
+
+**修正**：用 $(x - \mu)$ 替换 $x$：
+
+$$
+e^{-(x-\mu)^2/2}
+$$
+
+这一步叫"平移"。
+
+**问题 2：宽度不对**
+
+- 数据的"胖瘦"由 **标准差 $\sigma$** 决定
+- 曲线 $e^{-x^2/2}$ 的 $\sigma = 1$
+- 数据的 $\sigma = 3$（更胖）
+
+**修正**：指数除以 $\sigma^2$：
+
+$$
+e^{-(x-\mu)^2/(2\sigma^2)}
+$$
+
+这一步叫"缩放"。
+
+**问题 3：高度不对（面积不是 1）**
+
+- 概率密度必须满足"面积 = 1"
+- 缩放后的曲线面积不是 1
+
+**修正**：除以归一化常数 $\sigma\sqrt{2\pi}$：
+
+$$
+f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+**最终公式诞生。**
+
+$$
+f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## 标准正态分布
+
+**定义**
+
+$$
+\mu = 0, \quad \sigma = 1
+$$
+
+$$
+X \sim \mathcal{N}(0, 1)
+$$
+
+**PDF 简化：**
+
+$$
+f_X(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}
+$$
+
+![alt text](./images/standard-normal-distribution.png)
+
+## 标准化Standardization
+
+- magnitudes /ˈmæɡnɪtjuːdz/ 量级；大小；幅度。
+- Standardization /ˌstændədaɪˈzeɪʃn/ 标准化；规范化。
+
+![alt text](./images/standardization.png)
+
+$Z = (X - \mu)/\sigma$ 是由 $X$ 标准化后得到的新随机变量，服从 $\mathcal{N}(0, 1)$。
+它不是 $X$ 的别名，而是 $X$ 的"标准化版本"——同一个实验，不同的数值刻度。
+引入 $Z$ 的目的是统一标准，方便比较和查表。
+
+$$
+Z = \frac{X - \mu}{\sigma}
+$$
+
+$Z$ 是由 $X$ 通过"减 $\mu$、除 $\sigma$"这两个操作得到的新随机变量。
+
+- $X$：原始随机变量，$X \sim \mathcal{N}(\mu, \sigma^2)$
+- $Z$：标准化后的随机变量，$Z \sim \mathcal{N}(0, 1)$
+
+**它们的关系：$Z$ 是 $X$ 的函数（线性变换）。**
+
+1. 减 $\mu$ 是"整条数轴平移"，把中心从 $\mu$ 搬到 0。
+2. 除 $\sigma$ 是"缩放"，把宽度从 $\sigma$ 缩到 1。
+3. 合起来就是标准化：$Z = (X - \mu)/\sigma \sim \mathcal{N}(0, 1)$。
+
+---
+
+|            | 阶段 1                                                       | 阶段 2                                     |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------ |
+| 变量       | $X$                                                          | $Z = \frac{X - 2}{\sigma}$                 |
+| 变量中心   | 2                                                            | 0                                          |
+| 代入的公式 | $\frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-2)^2}{2\sigma^2}}$ | $\frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}}$ |
+| 公式中心   | 2                                                            | 0                                          |
+| 面积       | 1                                                            | 1                                          |
+| 重合位置   | 2                                                            | 0                                          |
+
+---
+
+## PDF与CDF
+
+[normal_pdf_cdf.html](./onlinedemos/normal_pdf_cdf.html)
+
+![alt text](./images/normal_pdf_cdf.png)

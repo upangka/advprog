@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Normal Distribution: PDF & CDF</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0f1720;
+    color: #e6edf3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    color: #8b98a5;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .controls {
+    display: flex;
+    gap: 24px;
+    background: #1a2432;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #2a3648;
+  }
+  .ctrl {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 180px;
+  }
+  .ctrl label {
+    font-size: 13px;
+    color: #8b98a5;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ctrl label span {
+    color: #58a6ff;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #2a3648;
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #58a6ff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #58a6ff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  canvas {
+    background: #131c28;
+    border-radius: 12px;
+    border: 1px solid #2a3648;
+    cursor: crosshair;
+  }
+  .legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #8b98a5;
+  }
+  .legend .item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .legend .swatch {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .readout {
+    margin-top: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 14px;
+    color: #8b98a5;
+    min-height: 20px;
+  }
+  .readout b {
+    color: #e6edf3;
+    font-weight: 600;
+  }
+  .readout .pdf-c { color: #ff7b72; }
+  .readout .cdf-c { color: #58a6ff; }
+</style>
+</head>
+<body>
+
+<h1>Normal Distribution</h1>
+<div class="subtitle">PDF &amp; CDF 交互可视化 · 拖动滑块调整参数 · 鼠标悬停查看数值</div>
+
+<div class="controls">
+  <div class="ctrl">
+    <label>均值 μ <span id="muVal">0.00</span></label>
+    <input type="range" id="mu" min="-5" max="5" step="0.1" value="0">
+  </div>
+  <div class="ctrl">
+    <label>标准差 σ <span id="sigmaVal">1.00</span></label>
+    <input type="range" id="sigma" min="0.3" max="3" step="0.05" value="1">
+  </div>
+</div>
+
+<canvas id="cv" width="900" height="480"></canvas>
+
+<div class="legend">
+  <div class="item">
+    <div class="swatch" style="background:#ff7b72"></div>
+    <span>PDF f(x) — 概率密度</span>
+  </div>
+  <div class="item">
+    <div class="swatch" style="background:#58a6ff"></div>
+    <span>CDF F(x) — 累积概率</span>
+  </div>
+</div>
+
+<div class="readout" id="readout">把鼠标移到图上查看数值</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const muSlider = document.getElementById('mu');
+const sigmaSlider = document.getElementById('sigma');
+const muVal = document.getElementById('muVal');
+const sigmaVal = document.getElementById('sigmaVal');
+const readout = document.getElementById('readout');
+
+// 设备像素比，保证清晰
+const dpr = window.devicePixelRatio || 1;
+const W = cv.width, H = cv.height;
+cv.width = W * dpr;
+cv.height = H * dpr;
+cv.style.width = W + 'px';
+cv.style.height = H + 'px';
+ctx.scale(dpr, dpr);
+
+// 坐标轴映射
+const PAD = { left: 60, right: 40, top: 30, bottom: 50 };
+const plotW = W - PAD.left - PAD.right;
+const plotH = H - PAD.top - PAD.bottom;
+const xMin = -10, xMax = 10;
+
+function xToPx(x) {
+  return PAD.left + (x - xMin) / (xMax - xMin) * plotW;
+}
+function pdfToPy(y) {
+  // PDF 纵轴最大值固定 0.5
+  return PAD.top + plotH - y / 0.5 * plotH;
+}
+function cdfToPy(y) {
+  return PAD.top + plotH - y * plotH;
+}
+
+// 正态 PDF
+function pdf(x, mu, sigma) {
+  return Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2)) / (sigma * Math.sqrt(2 * Math.PI));
+}
+// 正态 CDF：用 erf 近似（Abramowitz & Stegun 7.1.26）
+function erf(x) {
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  const a1 =  0.254829592,
+        a2 = -0.284496736,
+        a3 =  1.421413741,
+        a4 = -1.453152027,
+        a5 =  1.061405429,
+        p  =  0.3275911;
+  const t = 1 / (1 + p * x);
+  const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  return sign * y;
+}
+function cdf(x, mu, sigma) {
+  return 0.5 * (1 + erf((x - mu) / (sigma * Math.SQRT2)));
+}
+
+// 网格
+function drawGrid() {
+  ctx.strokeStyle = '#1e2a3a';
+  ctx.lineWidth = 1;
+  ctx.font = '11px ui-monospace, monospace';
+  ctx.fillStyle = '#5a6b7d';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+
+  // 竖线 x = -8..8
+  for (let x = -8; x <= 8; x += 2) {
+    const px = xToPx(x);
+    ctx.beginPath();
+    ctx.moveTo(px, PAD.top);
+    ctx.lineTo(px, PAD.top + plotH);
+    ctx.stroke();
+    ctx.fillText(x, px, PAD.top + plotH + 6);
+  }
+
+  // 横线 y (PDF) = 0, 0.1, 0.2, 0.3, 0.4, 0.5
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  for (let y = 0; y <= 0.5; y += 0.1) {
+    const py = pdfToPy(y);
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, py);
+    ctx.lineTo(PAD.left + plotW, py);
+    ctx.stroke();
+    ctx.fillText(y.toFixed(1), PAD.left - 8, py);
+  }
+}
+
+// 坐标轴标题
+function drawLabels() {
+  ctx.fillStyle = '#8b98a5';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'top';
+  ctx.fillText('x', PAD.left + plotW + 6, PAD.top + plotH - 6);
+
+  ctx.save();
+  ctx.translate(16, PAD.top + 10);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'top';
+  ctx.fillText('概率 / 概率密度', 0, 0);
+  ctx.restore();
+}
+
+// 高 DPI 曲线
+function drawCurve(points, color, width) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  points.forEach(([px, py], i) => {
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  });
+  ctx.stroke();
+}
+
+function draw() {
+  const mu = parseFloat(muSlider.value);
+  const sigma = parseFloat(sigmaSlider.value);
+  muVal.textContent = mu.toFixed(2);
+  sigmaVal.textContent = sigma.toFixed(2);
+
+  ctx.clearRect(0, 0, W, H);
+  drawGrid();
+
+  // PDF 曲线
+  const pdfPts = [];
+  const steps = 600;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + (xMax - xMin) * i / steps;
+    pdfPts.push([xToPx(x), pdfToPy(pdf(x, mu, sigma))]);
+  }
+  // PDF 下方填充
+  ctx.beginPath();
+  pdfPts.forEach(([px, py], i) => i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py));
+  ctx.lineTo(xToPx(xMax), pdfToPy(0));
+  ctx.lineTo(xToPx(xMin), pdfToPy(0));
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top + plotH);
+  grad.addColorStop(0, 'rgba(255,123,114,0.25)');
+  grad.addColorStop(1, 'rgba(255,123,114,0.02)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  drawCurve(pdfPts, '#ff7b72', 2.5);
+
+  // CDF 曲线
+  const cdfPts = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + (xMax - xMin) * i / steps;
+    cdfPts.push([xToPx(x), cdfToPy(cdf(x, mu, sigma))]);
+  }
+  drawCurve(cdfPts, '#58a6ff', 2.5);
+
+  // CDF 的 0 / 1 辅助线
+  ctx.setLineDash([4, 4]);
+  ctx.strokeStyle = 'rgba(88,166,255,0.25)';
+  ctx.lineWidth = 1;
+  [0, 1].forEach(y => {
+    const py = cdfToPy(y);
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, py);
+    ctx.lineTo(PAD.left + plotW, py);
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // 左侧 PDF 轴刻度颜色微调
+  ctx.fillStyle = '#ff7b72';
+  ctx.font = '11px ui-monospace, monospace';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('PDF', PAD.left + 6, PAD.top + 12);
+  ctx.fillStyle = '#58a6ff';
+  ctx.fillText('CDF', PAD.left + 6, PAD.top + 28);
+
+  drawLabels();
+}
+
+// 悬停 readout
+cv.addEventListener('mousemove', (e) => {
+  const rect = cv.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  if (mx < PAD.left || mx > PAD.left + plotW) {
+    readout.textContent = '把鼠标移到图上查看数值';
+    return;
+  }
+  const x = xMin + (mx - PAD.left) / plotW * (xMax - xMin);
+  const mu = parseFloat(muSlider.value);
+  const sigma = parseFloat(sigmaSlider.value);
+  const pdfV = pdf(x, mu, sigma);
+  const cdfV = cdf(x, mu, sigma);
+  readout.innerHTML =
+    `x = <b>${x.toFixed(3)}</b>　` +
+    `<span class="pdf-c">f(x) = ${pdfV.toFixed(5)}</span>　` +
+    `<span class="cdf-c">F(x) = P(X ≤ x) = ${cdfV.toFixed(5)}</span>`;
+});
+cv.addEventListener('mouseleave', () => {
+  readout.textContent = '把鼠标移到图上查看数值';
+});
+
+muSlider.addEventListener('input', draw);
+sigmaSlider.addEventListener('input', draw);
+
+draw();
+</script>
+
+</body>
+</html>
