@@ -202,8 +202,6 @@ $$
 \boxed{p_X(x) = P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}, \quad x = 0, 1, 2, \dots, n}
 $$
 
-![alt text](./images/binomial-distribution.png)
-
 > **二项分布 = 做 $n$ 次独立的"成功/失败"试验，成功次数 $X$ 的分布。**
 
 关键词：
@@ -214,3 +212,150 @@ $$
 - **成功概率 $p$ 不变**：每次都是同一个 $p$
 
 只要满足这四条，成功次数 $X$ 就服从 $\text{Binomial}(n, p)$。
+
+![alt text](./images/binomial-distribution.png)
+
+$$
+X \sim \text{Binomial}(n, p)
+$$
+
+- $\sim$ 读作"服从"
+- $n$ = 试验次数（number of trials）
+- $p$ = 单次成功概率（probability of success）
+
+**参数**：$n$ 和 $p$ 就叫二项分布的**参数**（parameters）。改变它们就得到不同的二项分布。
+
+![alt text](./images/binomial-demo-ex.png)
+
+# Bernoulli Distribution
+
+Bernoulli /bɜːˈnuːi/ 伯努利（人名/分布名）
+
+在机器学习中它是所有二分类任务的理论基础：逻辑回归的输出层就是在估计一个 Bernoulli 分布的参数p，训练用的 binary cross-entropy 损失就是 Bernoulli 的对数似然取负号。
+
+$$
+X \sim \text{Bernoulli}(p)
+$$
+
+只有一个**参数** $p$。`the probability of success`
+
+Bernoulli 试验 = 只有两种结果的一次试验。
+
+- 成功（success）：记 $X = 1$
+- 失败（failure）：记 $X = 0$
+
+注意这里的"成功"是**人为定义的**，不一定代表好事。
+
+"成功"只是"我们关心的那个结果"。关心生病，那生病就是成功；关心硬币正面，那正面就是成功。名字是约定，不是价值判断。
+
+只要你能把结果二分成"我关心的"和"其余"，就是 Bernoulli 试验。
+
+---
+
+## 与二项分布的关系
+
+$$
+\text{Bernoulli}(p) = \text{Binomial}(1, p)
+$$
+
+**证明**：把 $n = 1$ 代入二项分布 PMF：
+
+$$
+P(X = k) = \binom{1}{k} p^k (1-p)^{1-k}, \quad k \in \{0, 1\}
+$$
+
+- $k = 0$：$\binom{1}{0} p^0 (1-p)^1 = 1 \cdot 1 \cdot (1-p) = 1 - p$
+- $k = 1$：$\binom{1}{1} p^1 (1-p)^0 = 1 \cdot p \cdot 1 = p$
+
+# Continuous连续概率分布
+
+从离散概率分布概率到连续概率分布是从"点"转向"窗口"。
+
+- 离散概率分布中是各个点之后为1 （点概率）
+- 连续概率分布中是区间的面积为1 （窗口概率 ）
+
+![alt text](./images/continuous-distribution.png)
+
+## 积分
+
+$$
+\boxed{\lim_{n \to \infty} \sum_{i=1}^{n} f(c_i)\,\Delta x_i = \int_a^b f(x)\,dx = F(b) - F(a)}
+$$
+
+> 积分是"累积"的数学工具。它把无穷多个无穷小的贡献，按一定规则加起来，得到一个总量。
+
+导数是"变化率"——问"这一点变化得多快"。
+**积分**是反过来的——问"把每一点的贡献累积起来，总共多少"。
+
+在连续概率里：
+
+- $f_X(x)$：密度（每单位长度的概率贡献）
+- $dx$：无穷小宽度
+- $f_X(x)\,dx$：一小条无穷窄柱子的面积
+- $\int$：把这些无穷小面积全加起来
+
+$$
+P(\text{区间}) = \text{面积} = \text{把每一小条面积加起来}
+$$
+
+**积分的几何意义：面积**
+
+看一张图。函数 $f(x)$ 在 $x$ 轴上方画一条曲线。
+
+$$
+\int_a^b f(x)\,dx
+$$
+
+的几何意义：**曲线 $f(x)$ 在 $[a, b]$ 区间下方与 $x$ 轴围成的面积。**
+
+**怎么算这个面积？**
+
+方法：用矩形逼近。
+
+1. 把 $[a, b]$ 分成 $n$ 个小区间，每段宽 $\Delta x$
+2. 每个小区间上，用 $f(x_i)$ 当高度，画一个小矩形
+3. 小矩形面积 = $f(x_i) \cdot \Delta x$
+4. 把所有小矩形加起来：
+
+$$
+S_n = \sum_{i=1}^{n} f(x_i)\,\Delta x
+$$
+
+5. 让 $n \to \infty$（矩形越来越窄、越来越多），$S_n$ 的极限就是积分：
+
+$$
+\int_a^b f(x)\,dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i)\,\Delta x
+$$
+
+**这就是积分的定义：无限细分下的面积和。**
+
+**关键：$dx$ 是什么？**
+
+在积分式 $\displaystyle\int f(x)\,dx$ 里：
+
+- $f(x)$：被积函数（高度）
+- $dx$：无穷小宽度（$\Delta x \to 0$ 的极限）
+
+$f(x)\,dx$ 就是"一个无穷窄柱子的面积"。
+
+$$
+\underbrace{f(x)}_{\text{高度}} \times \underbrace{dx}_{\text{无穷小宽度}} = \text{无穷小面积}
+$$
+
+积分符号 $\int$（拉长的 S，代表 Sum）就是把这些无穷小面积全加起来。
+
+**注意**：$dx$ 不是可有可无的装饰，它本身就是积分的一部分，代表"对 $x$ 积分"。没有 $dx$ 这个积分就没有意义。
+
+**原函数求解**
+
+设 $F(x)$ 是 $f(x)$ 的原函数（即 $F'(x) = f(x)$）。
+
+算 $\int_a^b f(x)\,dx$，也就是从 $a$ 到 $b$ 的"总面积"。
+
+**微积分基本定理**:
+
+$$
+\boxed{\lim_{n \to \infty} \sum_{i=1}^{n} f(c_i)\,\Delta x_i = \int_a^b f(x)\,dx = F(b) - F(a)}
+$$
+
+它告诉你：积分（面积）等于原函数在两端点的差值。
