@@ -10,6 +10,8 @@
 
 # Random Variable
 
+**Random variables allow you to model the whole experiment at once.**（随机变量让你能一次性建模整个实验。）
+
 ![alt text](./images/random-variables.png)
 
 **蒙特卡洛估计**实验设定：
@@ -137,3 +139,57 @@ $$
 "不计顺序"精确地说，是指：**不区分"从哪些位置中选 H 时，选择的先后"**。
 
 不是"记录没有顺序"，而是"我们在数记录条数时，不把选位置的先后算作不同"。
+
+# Probability Distributions与PMF
+
+**Probability Distributions（概率分布） = 把随机变量所有可能取值排成一排，看每个值对应的概率**。
+
+![alt text](image.png)
+
+抛5次硬币，其中正面是3次的计算（复习上面的组合）过程
+
+$$
+\binom{5}{3} = \frac{5!}{3!\,(5-3)!} = \frac{5!}{3!\,2!} = \frac{120}{6 \times 2} = \frac{120}{12} = 10
+$$
+
+然后算概率：
+
+$$
+p_{X_3}(3) = \binom{5}{3} \left(\frac{1}{2}\right)^3 \left(\frac{1}{2}\right)^{5-3} = 10 \times \left(\frac{1}{2}\right)^5 = \frac{10}{32}
+$$
+
+和图上标的 $10/32$ 完全一致 ✓
+
+## 数学定义：PMF
+
+**概率质量函数（Probability Mass Function, PMF）** 是离散随机变量 $X$ 的分布函数，定义为：
+
+$$p_X(x) = P(X = x)$$
+
+- 下标 $X$ 表示"这是哪个随机变量的 PMF"
+- 自变量 $x$ 是 $X$ 可能取的某个值
+- 输出是 $X$ 恰好取到 $x$ 的概率
+
+**为什么叫"质量函数"（mass）**：想象把总概率 1 当成 1 千克的质量，分散撒在横轴的各个离散点上。每个点分到的"质量"就是 $p_X(x)$。"质量"这个词强调它是**离散的点**——对比连续情形的"密度"（density）。
+
+**两条公理**
+
+**(1) 非负性**
+
+$$
+p_X(x) \geq 0 \quad \forall x
+$$
+
+$\forall x$ 表示：不是某一个特定的 $x$，而是所有可能的 $x$ 都满足。概率不能为负。
+
+| 符号      | LaTeX     | 读法    | 含义   |
+| --------- | --------- | ------- | ------ |
+| $\forall$ | `\forall` | for all | 对所有 |
+
+**(2) 归一化**
+
+$$
+\sum_{x} p_X(x) = 1
+$$
+
+所有可能取值的概率加起来必须等于 1。
