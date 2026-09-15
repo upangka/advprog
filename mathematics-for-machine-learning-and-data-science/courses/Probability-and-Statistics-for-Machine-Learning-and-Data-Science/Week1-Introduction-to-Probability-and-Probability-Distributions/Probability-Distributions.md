@@ -428,3 +428,22 @@ $$
 | 算区间概率 | 求和           | 积分             | $F(b) - F(a)$        |
 | 形状       | 柱状           | 曲线             | 递增曲线             |
 | 单点含义   | **该点的概率** | **密度，非概率** | **累积到该点的概率** |
+
+# Uniform Distribution Model均匀分布
+
+> **Uniform 分布 = 在区间 $[a, b]$ 上，概率密度处处相等的连续分布。**
+
+三个要点：
+
+1. **连续**随机变量（不是离散）
+2. 所有值落在某个区间 $[a, b]$ 里（区间外概率为 0）
+3. 每个值出现的频率相同（PDF 是常数）
+
+Uniform 分布是"区间内每个值等可能"的连续分布，只有两个参数 $a$ 和 $b$，PDF 是高度为 $1/(b - a)$ 的矩形。
+
+![alt text](./images/uniform-distribution.png)
+
+> Uniform 是一个"具体的分布"；PDF 和 CDF 是描述"任何连续分布"的两种"通用工具"。
+> Uniform 分布可以被它的 PDF 描述，也可以被它的 CDF 描述。两者是同一个分布的两副面孔
+
+![alt text](./images/uniform-distribution-pdf-cdf.png)
