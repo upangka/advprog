@@ -2,7 +2,13 @@ AI降低的是执行门槛，而非认知门槛。
 品位
 [“一人公司”靠谱吗](https://zjrb.zjol.com.cn/html/2026-05/18/content_3903576.htm?div=-1)
 
----
+Deep Engineering and technical expertise
+broader scope
+building block
+
+More powerful software because of AI building blocks (LLMs, RAG, Agentic workflows, voice AI, Deep Learning, etc.)
+
+## Faster software engineering because of AI coding
 
 # NLP
 
