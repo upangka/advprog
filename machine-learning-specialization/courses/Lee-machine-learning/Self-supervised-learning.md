@@ -254,3 +254,31 @@ Unit 1 → Unit 2 → Unit 3 → Unit 4 → Unit 5 → Unit 6 → Unit 7 → Uni
 ---
 
 你现在想从哪个 Unit 开始？告诉我，我就按那个 Unit 的粒度给你讲。
+
+---
+
+## Fine-tune的概念
+
+BERT 预训练时已经学到了语法、语义、词性等信息，Fine-tune 只是把这些隐含信息映射到具体标签。Linear 的任务很简单，所以一点点标注数据就够了。
+
+## Resources
+
+[deepseek](https://chat.deepseek.com/a/chat/s/16be96bf-22c1-48a1-8e9e-5338c3f50b05)
+
+动手实战型（从代码出发）
+《Build a Large Language Model (From Scratch)》配套课程：如果你喜欢从零搭建，这门课非常合适。它用PyTorch一步步实现GPT模型，涵盖文本数据处理、注意力机制编码、模型预训练、分类微调和指令微调的全流程，能帮你建立最直观的工程感受。GitHub已获超10万星，配套有17小时的视频课程。
+
+Hugging Face LLM Course：这是学习使用Hugging Face生态（Transformers、Datasets、Tokenizers、Accelerate）的最佳免费资源。最新版课程重点更新了Transformer基础、微调以及推理策略等内容，并提供了认证考试，实用性很强。
+
+DeepLearning.AI 《Generative AI with Large Language Models》：这门课由吴恩达与AWS合作，会深入LLM的技术细节，包括模型训练、指令微调、微调、生成式AI项目生命周期框架，并包含在AWS环境下的实操实验，能让你接触到更贴近企业部署的工程实践。
+
+https://huggingface.co/datasets/John6666/forum1/blob/a6a531b661a299b34bb52912a825502a3c6f9175/llm_from_scratch_transformers.md
+
+https://github.com/Hsuant/TaiChu
+
+https://hcoppockno10.github.io/lecture-notes/
+https://huggingface.co/learn/llm-course/en/chapter3/1
+https://learn.deeplearning.ai/courses/fine-tuning-and-reinforcement-learning-for-llms-intro-to-post-training/lesson/rm98gb4q/conversation-between-sharon-zhou-and-andrew-ng?utm_source=home&utm_medium=course-landing-page&utm_campaign=summary-cta-button
+cs336 和 build llm from scratch
+
+https://github.com/rootchina/Fine-tuning-RL-for-LLMs-Intro-to-Post-training/tree/main
