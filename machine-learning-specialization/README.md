@@ -19,3 +19,7 @@
 1. [Bilibili](https://www.bilibili.com/video/BV1JA411c7VT/?spm_id_from=333.337.search-card.all.click&vd_source=f9745f81b4981bb1eca8c2d80be33ff9)
    1. [2021-spring.php](https://speech.ee.ntu.edu.tw/~hylee/ml/2021-spring.php)
 2. [Github: leedl-tutorial](https://github.com/datawhalechina/leedl-tutorial)
+
+## Generative AI for everyone
+
+1. []()
