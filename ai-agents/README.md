@@ -9,3 +9,17 @@
 [Self-Improving AI Agents ](https://www.youtube.com/watch?v=6YnLB0XbTnI&list=PLangBM27OtEA)
 
 [待整理的课程](https://cs.stanford.edu/people/diyiy/teaching.html#1)
+
+[SUSTech_CS324-Deep-Learning_S24_Works](https://github.com/octcarp-courses/SUSTech_CS324-Deep-Learning_S24_Works)
+[diy-llm](https://datawhalechina.github.io/diy-llm/)
+
+| 阶段 | 课程                  |               视频 | 你应该学什么                                       |
+| ---- | --------------------- | -----------------: | -------------------------------------------------- |
+| 1    | **Stanford CS229**    |                 ✅ | ML / NN / Transformer / LLM                        |
+| 2    | **Stanford CS224N**   |                 ✅ | NLP → Transformer → LLM                            |
+| 3    | **Stanford CS25**     |                 ✅ | Transformer / LLM / RAG / Alignment / Agent        |
+| 4    | **Karpathy**          |                 ✅ | 从零实现 GPT                                       |
+| 5    | **Stanford CS324**    | ❌完整公开视频不足 | LLM 理论 / Scaling / Evaluation / Safety / Systems |
+| 6    | **Agent / LangGraph** |     ✅大量公开视频 | Tool Calling / RAG / Agent / Workflow              |
+
+https://cs229.stanford.edu/index.html-fall25?utm_source=chatgpt.com
