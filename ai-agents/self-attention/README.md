@@ -71,6 +71,8 @@
 
 # resources
 
+[deepseek学习记录](https://chat.deepseek.com/a/chat/s/c351b46b-108f-4ec6-81f7-5c313af30dca)
+
 https://jalammar.github.io/illustrated-transformer/
 
 https://chat.deepseek.com/a/chat/s/19574df9-618c-49f0-bc5b-56099df1a6a8
