@@ -1,3 +1,9 @@
+# 词汇
+
+In context learning, In context RL
+
+# 大纲
+
 好的，按你的偏好，我把这一讲整理成 **Unit 大纲**。每个 Unit 都有明确的学习目标、核心内容和自测问题，你可以一个 Unit 一个 Unit 地过。
 
 ---
