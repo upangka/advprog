@@ -44,14 +44,10 @@
    注：每行是一个独立的 JSON 对象，包含 "input" (输入序列) 和 "target" (目标ID)。
 """
 import pandas as pd
-from pathlib import Path
-
-
-# 绝对路径
-RAW_DATA_PATH = Path(__file__).parent.parent / "data/raw/synthesized_.jsonl"
+from config import RAW_DATA_DIR
 
 def process():
-    df = pd.read_json(RAW_DATA_PATH,orient="records",lines=True)
+    df = pd.read_json(RAW_DATA_DIR / "synthesized_.jsonl",orient="records",lines=True)
     print(df.head())
 
 if __name__ == "__main__":
