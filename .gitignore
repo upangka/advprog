@@ -22,3 +22,5 @@ hello
 *.o
 *.obj
 modern-java/concurrency-programming/simple-server/resources/WDI_Data.csv
+machine-learning-specialization/courses/nlp/RNN/input_methods/models/test.jsonl
+machine-learning-specialization/courses/nlp/RNN/input_methods/models/train.jsonl
