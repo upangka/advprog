@@ -10,3 +10,6 @@ RAW_DATA_DIR = ROOT_DIR / "data" / "raw"
 PROCESSED_DATA_DIR = ROOT_DIR / "data" / "processed"
 LOGS_DIR = ROOT_DIR / "logs"
 MODELS_DIR = ROOT_DIR / "models"
+
+# Sequence Length（序列长度）
+SEQ_LEN = 5
