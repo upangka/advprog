@@ -1888,6 +1888,11 @@ dependencies = [
     { name = "socksio" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "ipykernel" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "datasets", specifier = ">=5.1.0" },
@@ -1899,6 +1904,9 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.18.1" },
     { name = "socksio", specifier = ">=1.0.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ipykernel", specifier = ">=7.4.0" }]
 
 [[package]]
 name = "notebook"
