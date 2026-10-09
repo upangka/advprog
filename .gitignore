@@ -30,3 +30,4 @@ machine-learning-specialization/courses/nlp/RNN/input_methods/data/processed/voc
 machine-learning-specialization/courses/nlp/RNN/input_methods/logs/2026-10-09_18-15-47/events.out.tfevents.1791540947.DESKTOP-2368UCO.8720.0
 machine-learning-specialization/courses/nlp/RNN/input_methods/logs/2026-10-09_18-16-17/events.out.tfevents.1791540977.DESKTOP-2368UCO.8904.0
 machine-learning-specialization/courses/nlp/RNN/input_methods/logs
+machine-learning-specialization/courses/nlp/RNN/input_methods/models/best.pth

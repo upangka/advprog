@@ -16,8 +16,6 @@ SEQ_LEN = 5
 BATCH_SIZE = 64
 # 词向量的维度
 EMBEDDING_DIM = 128
-# 词向量维度
-EMBEDDING_DIM = 128
 # RNN隐藏层大小
 HIDDEN_SIZE=256
 # 学习率

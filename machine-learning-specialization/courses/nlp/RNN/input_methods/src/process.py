@@ -47,12 +47,12 @@ import jieba
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
-
+from tokenizer import JiebaTokenizer
 from config import RAW_DATA_DIR,MODELS_DIR,SEQ_LEN,PROCESSED_DATA_DIR
 
 
-def build_dataset(sentences, word2Index,desc):
-    indexed_sentences = [[word2Index.get(token,0) for token in jieba.lcut(sentence)] for sentence in sentences]
+def build_dataset(sentences, tokenizer,desc):
+    indexed_sentences = [tokenizer.encode(sentence) for sentence in sentences]
         
     dataset = []
     for sentence in tqdm(indexed_sentences,desc=desc):
@@ -68,8 +68,8 @@ def build_dataset(sentences, word2Index,desc):
 def process():
     
     # 1. 读取数据
-    # df = pd.read_json(RAW_DATA_DIR / "synthesized_.jsonl",orient="records",lines=True).sample(frac=0.1)
-    df = pd.read_json(RAW_DATA_DIR / "synthesized_.jsonl",orient="records",lines=True)
+    # df = pd.read_json(RAW_DATA_DIR / "synthesized_.jsonl",orient="records",lines=True)
+    df = pd.read_json(RAW_DATA_DIR / "synthesized_.jsonl",orient="records",lines=True).sample(frac=0.1)
     
     # 2. 提取句子
     sentences = [] 
@@ -85,6 +85,9 @@ def process():
     print(f'{len(train_sentences)} + {len(test_sentences)}')
     
     # 4. 构建词汇表
+    
+    JiebaTokenizer.build_vocab(train_sentences,PROCESSED_DATA_DIR / "vocabs.txt")
+    
     vocab_set = set()
     for sentence in tqdm(train_sentences,desc="构建词表vocabs"):
         vocab_set.update(jieba.lcut(sentence))
@@ -98,14 +101,15 @@ def process():
     
     
     # 5. 构建训练集
+    tokenizer = JiebaTokenizer.from_vocab(PROCESSED_DATA_DIR / "vocabs.txt")
     word2Index = {word: index for index,word in enumerate(vocabs)}
-    train_dataset = build_dataset(train_sentences,word2Index,desc="构建训练数据集")
+    train_dataset = build_dataset(train_sentences,tokenizer,desc="构建训练数据集")
     print(train_dataset[0:3])   
     # 6. 保存训练集
     pd.DataFrame(train_dataset).to_json(PROCESSED_DATA_DIR / "train.jsonl",orient='records',lines=True)   
     
     # 7. 构建测试集
-    test_dataset = build_dataset(test_sentences,word2Index,desc="构建测试数据集")
+    test_dataset = build_dataset(test_sentences,tokenizer,desc="构建测试数据集")
     print(test_dataset[0:3])   
     # 8. 保存测试集
     pd.DataFrame(test_dataset).to_json(PROCESSED_DATA_DIR / "test.jsonl",orient='records',lines=True)       
