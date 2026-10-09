@@ -48,7 +48,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
-from config import RAW_DATA_DIR,MODELS_DIR,SEQ_LEN
+from config import RAW_DATA_DIR,MODELS_DIR,SEQ_LEN,PROCESSED_DATA_DIR
 
 
 def build_dataset(sentences, word2Index,desc):
@@ -91,7 +91,7 @@ def process():
         
     vocabs = ['<unk>'] + sorted(list(vocab_set))
     
-    with open(MODELS_DIR / "vocabs.txt",  mode="w",encoding="utf-8") as f:
+    with open(PROCESSED_DATA_DIR / "vocabs.txt",  mode="w",encoding="utf-8") as f:
         f.write("\n".join(vocabs))
     
     print(f'词表构建完成，一共{len(vocabs)}')
@@ -102,13 +102,13 @@ def process():
     train_dataset = build_dataset(train_sentences,word2Index,desc="构建训练数据集")
     print(train_dataset[0:3])   
     # 6. 保存训练集
-    pd.DataFrame(train_dataset).to_json(MODELS_DIR / "train.jsonl",orient='records',lines=True)   
+    pd.DataFrame(train_dataset).to_json(PROCESSED_DATA_DIR / "train.jsonl",orient='records',lines=True)   
     
     # 7. 构建测试集
     test_dataset = build_dataset(test_sentences,word2Index,desc="构建测试数据集")
     print(test_dataset[0:3])   
     # 8. 保存测试集
-    pd.DataFrame(test_dataset).to_json(MODELS_DIR / "test.jsonl",orient='records',lines=True)       
+    pd.DataFrame(test_dataset).to_json(PROCESSED_DATA_DIR / "test.jsonl",orient='records',lines=True)       
     
     
     
