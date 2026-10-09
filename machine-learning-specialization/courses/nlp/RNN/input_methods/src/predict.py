@@ -31,7 +31,7 @@ def predict(text, model, tokenizer, device):
 
     # 2.预测逻辑
     top5_indexes_list = predict_batch(model, input_tensor)
-    top5_tokens = [tokenizer.index2word[index] for index in top5_indexes_list[0]]
+    top5_tokens = [tokenizer.index2Word[index] for index in top5_indexes_list[0]]
     return top5_tokens
 
     
