@@ -25,3 +25,9 @@ input_method
 1. 构建词表
 2. 构建训练集
 3. 构建测试集
+
+# tensorboard
+
+```pyt
+uv run tensorboard --logdir ./RNN/input_methods/logs
+```
