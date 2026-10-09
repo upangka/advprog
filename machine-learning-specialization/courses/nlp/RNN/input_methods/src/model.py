@@ -2,7 +2,7 @@
 from torch import nn
 import config
 
-class InputMethodModel(nn.Model):
+class InputMethodModel(nn.Module):
     
     def __init__(self,vocab_size):
         super().__init__()
