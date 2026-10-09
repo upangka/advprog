@@ -13,3 +13,5 @@ MODELS_DIR = ROOT_DIR / "models"
 
 # Sequence Length（序列长度）
 SEQ_LEN = 5
+
+BATCH_SIZE = 64
