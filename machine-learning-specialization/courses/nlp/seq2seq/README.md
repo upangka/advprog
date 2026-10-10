@@ -1,3 +1,7 @@
+# Seq2Seq结构
+
+> 以预测的视角来看seq2seq结构
+
 encoder与decoder的中间联系是包含语义信息的最后一个时间步的隐藏状态。
 ![alt text](./images/encoder-seq2seq.png)
 ![alt text](./images/decoder-seq2seq.png)
@@ -8,3 +12,7 @@ decoder在生成开始时，循环神经网络以`上下文向量`作为`初始�
 生成过程会持续进行，直到模型生成了一个特殊的结束标记 `<eos>`（end of sentence），表示句子生成完成。
 
 > 说明：起始标记和结束标记会在训练数据中显式添加，模型会在训练中学会何时开始、如何续写，以及何时结束，从而掌握完整的生成流程。
+
+# 训练流程
+
+# 预测流程
